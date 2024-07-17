@@ -4,6 +4,8 @@ A-level Computer Science programming project
 
 ## Problem definition
 
+A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads.
+
 Modern routing engines use geographic data of roads to 
 <!-- TODO -->
 
