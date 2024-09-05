@@ -32,11 +32,17 @@ Its goal is to provide the user with a real-world path that they can follow on f
 * Prefer well-marked paths to difficult-to-spot ones
 * Avoid obstructions that may pose an issue for pedestrians (e.g. fallen trees)
 
-In addition to the points above, the most desirable route for a user will depend on their own preferences and physical abilities. To accommodate this, the engine will be configurable to prioritise routes that are suitable for the specific user. Examples of preferences that might want to be specified are:
+In addition to the points above, the most desirable route for a user will depend on their own preferences and physical abilities. To accommodate this, the engine will be configurable to prioritise routes that are suitable for the specific user. Goals that should be configurable are:
 
 * Avoid high kerbs, and prefer crossings with flush kerbs
 * Prefer crossings with tactile paving
-* Perfer
+* Prefer paths that are lit at night
+* Avoid steps
+* Avoid large numbers of steps
+* Prefer steps where a handrail is available
+* Prefer paths wide enough for a wheelchair
+* Prefer crossings with audible indicators
+* Prefer crossings with tactile indicators
 
 ### Clear inputs and outputs
 
