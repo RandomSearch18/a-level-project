@@ -23,12 +23,12 @@ The routing engine is provided with coordinates for a starting point, and coordi
 
 ### Clear goal
 
-Its goal is to provide the user with a real-world path that they can follow on foot to navigate from the start to the end point, as well as a series of steps that describe the route in text. The route should follow walkable map objects to ensure it makes sense as a route. The engine should generate routes that are desirable to a user looking to travel safely and efficiently (i.e. minimising the effort required to follow the route).<!-- Planing walks for leisure (e.g. circular path walks through woods) --> Ensuring a route is desirable will include
+Its goal is to provide the user with a real-world path that they can follow on foot to navigate from the start to the end point, as well as a series of steps that describe the route in text. The route should follow walkable map objects to ensure it makes sense as a route. The engine should generate routes that are desirable to a user looking to travel safely and efficiently (i.e. minimising the effort required to follow the route).<!-- Planing walks for leisure (e.g. circular path walks through woods) --> To achieve this, the engine will follow the following principles:
 
-* Preferring a shorter-distance route, all else being equal
-* Preferring pavements over roads without pavements
-* Preferring paved paths over unpaved ones
-* Preferring signalled crossings to unsignalled ones, especially if crossing a busy road
+* Prefer a shorter-distance route, all else being equal
+* Prefer pavements over roads without pavements
+* Prefer paved paths over unpaved ones
+* Prefer signalled crossings to unsignalled ones, especially if crossing a busy road
 
 ### Clear inputs and outputs
 
