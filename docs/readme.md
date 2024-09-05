@@ -29,6 +29,14 @@ Its goal is to provide the user with a real-world path that they can follow on f
 * Prefer pavements over roads without pavements
 * Prefer paved paths over unpaved ones
 * Prefer signalled crossings to unsignalled ones, especially if crossing a busy road
+* Prefer well-marked paths to difficult-to-spot ones
+* Avoid obstructions that may pose an issue for pedestrians (e.g. fallen trees)
+
+In addition to the points above, the most desirable route for a user will depend on their own preferences and physical abilities. To accommodate this, the engine will be configurable to prioritise routes that are suitable for the specific user. Examples of preferences that might want to be specified are:
+
+* Avoid high kerbs, and prefer crossings with flush kerbs
+* Prefer crossings with tactile paving
+* Perfer
 
 ### Clear inputs and outputs
 
