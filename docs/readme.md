@@ -4,6 +4,18 @@ A-level Computer Science programming project
 
 ## Analysis
 
+### Stakeholders
+
+#### James
+
+James is a member of my computing class and is interested in using OpenStreetMap (OSM) data for navigation, but needs a program that can reliably do this. He has already tried a few apps that use OSM, so he will be able to provide insights to how my engine compares to results from other programs, as well as suggest areas where other engines fall short.
+
+#### Andrew
+
+Andrew wants to find out the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
+
+<!-- Ili?? -->
+
 ### Problem definition
 
 A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads. Routing engines first became commonly used with satnavs that provide live directions for driving. Nowadays, mobile apps perform the same task, and can be used for driving as well as walking or cycling.
