@@ -13,7 +13,7 @@ Modern routing engines use geographic data of roads to
 
 ### Justification of computational approach
 
-The task of finding an efficient route between two geographic locations has some complexities, such as the need for an algorithm to chose which paths to explore without knowing for sure which ones will be optimal. However, these challenges have successfully been overcome by a variety of programs that incorporate routing engines. The four <!--points--> that make this task solvable with an algorithm are an initial situation, clear inputs and outputs, clearly defined logic, and a clear goal. These will be discussed in detail below.
+The task of finding an efficient route between two geographic locations has some complexities, such as the need for an algorithm to chose which paths to explore without knowing for sure which ones will be optimal. However, these challenges have successfully been overcome by a variety of programs that incorporate routing engines. This task is solvable with an algorithm because it of four characteristics: an initial situation, clear inputs and outputs, clearly defined logic, and a clear goal. These will be discussed in detail below.
 
 #### Initial situation
 
