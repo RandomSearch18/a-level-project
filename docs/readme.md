@@ -72,4 +72,8 @@ While I have a general mental idea of what the routing engine should accomplish,
 
 #### Similar solutions
 
-As part of my research, I will investigate other programs that provide pedestrian routing.
+As part of my research, I will investigate other programs that provide pedestrian routing. This will include programs that are solely routing engines, as well as map-viewer apps that have routing features built in.
+
+##### OsmAnd
+
+OsmAnd ([website](https://osmand.net/)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
