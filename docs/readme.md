@@ -65,3 +65,11 @@ Its outputs would be a list of directions that the user can follow to navigate f
 #### Clearly defined logic
 
 It will use this graph to find the optimal route between the two points using a pathfinding algorithm such as A*.
+
+### Problem research
+
+While I have a general mental idea of what the routing engine should accomplish, it's essential to research similar programs, as well as stakeholders, to gain a well-rounded idea of what features are most important for my program, as well as how to make the user interface as intuitive as possible for my target audience.
+
+#### Similar solutions
+
+As part of my research, I will investigate other programs that provide pedestrian routing.
