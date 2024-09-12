@@ -75,14 +75,36 @@ While I have a general mental idea of what the routing engine should accomplish,
 
 I will interview each of my stakeholders to gain an understanding of what they would like from a routing engine, and accompanying GUI. I plan to ask the following questions:
 
-| Question                                                                        | Justification                                                                                                                                                                             |
-| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| How often do you use an app or website to get directions?                       | An idea of how frequently my app will guide my UI design, e.g. I may prioritise/deprioritise being able to quickly get directions                                                         |
-| How often do you use an app or website to get directions for walking?           | To confirm or deny my hypothesis that predict that navigation apps will be used for pedestrian navigation much less frequently than for other modes of transport                          |
-| In what situations are you more likely to use an app for pedestrian navigation? | Tells me the specific situations that my app will likely be used in, so that I can optimise the features and UI accordingly. I hypothesise unknown city centres to be one such situation. |
-| What apps do you use to get directions?                                         | This could indicate other projects that would be useful to research                                                                                                                       |
-| What are your main issues with the currently-available apps for routing?        | Identifying pain points in similar apps will provide ideas for areas to focus on to give my app unique appeal.                                                                            |
-|                                                                                 |                                                                                                                                                                                           |
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Justification</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>How often do you use an app or website to get directions?</td>
+      <td>An idea of how frequently my app will guide my UI design, e.g. I may prioritise/deprioritise being able to quickly get directions</td>
+    </tr>
+    <tr>
+      <td>How often do you use an app or website to get directions for walking?</td>
+      <td>To confirm or deny my hypothesis that predict that navigation apps will be used for pedestrian navigation much less frequently than for other modes of transport</td>
+    </tr>
+    <tr>
+      <td>In what situations are you more likely to use an app for pedestrian navigation?</td>
+      <td>Tells me the specific situations that my app will likely be used in, so that I can optimise the features and UI accordingly. I hypothesise unknown city centres to be one such situation.</td>
+    </tr>
+    <tr>
+      <td>What apps do you use to get directions?</td>
+      <td>This could indicate other projects that would be useful to research</td>
+    </tr>
+    <tr>
+      <td>What are your main issues with the currently-available apps for routing?</td>
+      <td>Identifying pain points in similar apps will provide ideas for areas to focus on to give my app unique appeal.</td>
+    </tr>
+  </tbody>
+</table>
 
 #### Similar solutions
 
