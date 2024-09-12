@@ -70,6 +70,12 @@ It will use this graph to find the optimal route between the two points using a 
 
 While I have a general mental idea of what the routing engine should accomplish, it's essential to research similar programs, as well as stakeholders, to gain a well-rounded idea of what features are most important for my program, as well as how to make the user interface as intuitive as possible for my target audience.
 
+#### Stakeholder interviews
+
+I will interview each of my stakeholders to gain an understanding of what they would like from a routing engine, and accompanying GUI. I plan to ask the following questions:
+
+* How often do you use an app or website to get directions or plan a route?
+
 #### Similar solutions
 
 As part of my research, I will investigate other programs that provide pedestrian routing. This will include programs that are solely routing engines, as well as map-viewer apps that have routing features built in.
