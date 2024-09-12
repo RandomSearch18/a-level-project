@@ -20,7 +20,8 @@ Andrew wants to find out the optimal route to get to the local bakery from schoo
 
 A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads. Routing engines first became commonly used with satnavs that provide live directions for driving. Nowadays, mobile apps perform the same task, and can be used for driving as well as walking or cycling.
 
-Modern routing engines use geographic data of roads to 
+Modern routing engines use geographic data of roads to
+
 <!-- TODO -->
 
 ### Justification of computational approach
@@ -39,24 +40,24 @@ The routing engine is provided with coordinates for a starting point, and coordi
 
 Its goal is to provide the user with a real-world path that they can follow on foot to navigate from the start to the end point, as well as a series of steps that describe the route in text. The route should follow walkable map objects to ensure it makes sense as a route. The engine should generate routes that are desirable to a user looking to travel safely and efficiently (i.e. minimising the effort required to follow the route).<!-- Planing walks for leisure (e.g. circular path walks through woods) --> To achieve this, the engine will follow the following principles:
 
-* Prefer a shorter-distance route, all else being equal
-* Prefer pavements over roads without pavements
-* Prefer paved paths over unpaved ones
-* Prefer signalled crossings to unsignalled ones, especially if crossing a busy road
-* Prefer well-marked paths to difficult-to-spot ones
-* Avoid obstructions that may pose an issue for pedestrians (e.g. fallen trees)
+- Prefer a shorter-distance route, all else being equal
+- Prefer pavements over roads without pavements
+- Prefer paved paths over unpaved ones
+- Prefer signalled crossings to unsignalled ones, especially if crossing a busy road
+- Prefer well-marked paths to difficult-to-spot ones
+- Avoid obstructions that may pose an issue for pedestrians (e.g. fallen trees)
 
 In addition to the points above, the most desirable route for a user will depend on their own preferences and physical abilities. To accommodate this, the engine will be configurable to prioritise routes that are suitable for the specific user. Goals that should be configurable are:
 
-* Avoid high kerbs, and prefer crossings with flush kerbs
-* Prefer crossings with tactile paving
-* Prefer paths that are lit at night
-* Avoid steps
-* Avoid large numbers of steps
-* Prefer steps where a handrail is available
-* Prefer paths wide enough for a wheelchair
-* Prefer crossings with audible indicators
-* Prefer crossings with tactile indicators
+- Avoid high kerbs, and prefer crossings with flush kerbs
+- Prefer crossings with tactile paving
+- Prefer paths that are lit at night
+- Avoid steps
+- Avoid large numbers of steps
+- Prefer steps where a handrail is available
+- Prefer paths wide enough for a wheelchair
+- Prefer crossings with audible indicators
+- Prefer crossings with tactile indicators
 
 #### Clear inputs and outputs
 
@@ -64,7 +65,7 @@ Its outputs would be a list of directions that the user can follow to navigate f
 
 #### Clearly defined logic
 
-It will use this graph to find the optimal route between the two points using a pathfinding algorithm such as A*.
+It will use this graph to find the optimal route between the two points using a pathfinding algorithm such as A\*.
 
 ### Problem research
 
@@ -74,7 +75,13 @@ While I have a general mental idea of what the routing engine should accomplish,
 
 I will interview each of my stakeholders to gain an understanding of what they would like from a routing engine, and accompanying GUI. I plan to ask the following questions:
 
-* How often do you use an app or website to get directions or plan a route?
+| Question                                                                 | Justification                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| How often do you use an app or website to get directions?                | An idea of how frequently my app may be used will guide my UI design, e.g. I may prioritise/deprioritise being able to quickly get directions                                                                                   |
+| How often do you use an app or website to get directions for walking?    | Could hint at a disparity in how often navigation apps are used for walking vs. other transport modes. I predict that navigation apps will be used for pedestrian navigation much less frequently than other modes of transport |
+| What apps do you use to get directions?                                  | This could indicate other projects that would be useful to research                                                                                                                                                             |
+| What are your main issues with the currently-available apps for routing? | Identifying pain points in similar apps will provide ideas for areas to focus on to give my app unique appeal.                                                                                                                  |
+|                                                                          |                                                                                                                                                                                                                                 |
 
 #### Similar solutions
 
