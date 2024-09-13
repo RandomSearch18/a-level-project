@@ -119,3 +119,7 @@ OsmAnd ([website](https://osmand.net/)) is a mobile map app that uses OSM data a
 ##### Magic Earth (map app)
 
 Magic Earth ([website](https://www.magicearth.com/)) is a similar mobile map app, suggested by my stakeholder James.
+
+##### Google Maps (map app)
+
+Google Maps ([website](https://www.google.co.uk/maps/about), [Wikipedia](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
