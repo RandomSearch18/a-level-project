@@ -19,7 +19,8 @@ Andrew wants to find out the optimal route to get to the local bakery from schoo
 ### Problem definition
 
 A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads. Routing engines first became commonly used with satnavs and similar automotive navigation systems ([Wikipedia](https://en.wikipedia.org/wiki/Automotive_navigation)) that provide live directions for driving.
-Nowadays, apps are available that have the features of a routing engine built in, along with a graphical interface that lets users enter a starting point and destination, from which a route will be calculated and plotted on a map.
+
+Nowadays, "navigation apps" are the most common way to interact with a routing engine. They make the features of a routing engine accessible through a graphical interface that lets users enter a starting point and destination, from which a route will be calculated and plotted on a map.
 
  <!-- perform the same task, and can be used for driving as well as walking or cycling. -->
 
