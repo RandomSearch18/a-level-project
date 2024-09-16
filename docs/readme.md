@@ -63,6 +63,8 @@ In addition to the points above, the most desirable route for a user will depend
 
 #### Clear inputs and outputs
 
+Users will interact with the routing engine through a basic web-based UI
+
 Its outputs would be a list of directions that the user can follow to navigate from the start to the end.
 
 #### Clearly defined logic
@@ -104,6 +106,14 @@ I will interview each of my stakeholders to gain an understanding of what they w
     <tr>
       <td>What are your main issues with the currently-available apps for routing?</td>
       <td>Identifying pain points in similar apps will provide ideas for areas to focus on to give my app unique appeal.</td>
+    </tr>
+    <tr>
+      <td>Is it more helpful to see a pedestrian route plotted on a map, or a list of directions?</td>
+      <td>To decide how much development time to dedicate to different features, and ensure the result is presented in the most useful way.</td>
+    </tr>
+    <tr>
+      <td>What factors should be considered when the program decides which route is best?</td>
+      <td>Gives ideas for which factors should be included into the graph weights, and how much time to spend optimising those factors.</td>
     </tr>
   </tbody>
 </table>
