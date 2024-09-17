@@ -63,13 +63,15 @@ In addition to the points above, the most desirable route for a user will depend
 
 #### Clear inputs and outputs
 
-Users will interact with the routing engine through a basic web-based UI
+Users will interact with the routing engine through a basic web-based UI. There will be text fields to enter start and end points, using either coordinates or addresses (which are converted to coordinates using a geocoding API).
 
-Its outputs would be a list of directions that the user can follow to navigate from the start to the end.
+Once the route is calculated, it will be outputted by rendering it on a map rendered by the Leaflet library. It will also display a textual list of directions that can be followed.
 
 #### Clearly defined logic
 
-It will use this graph to find the optimal route between the two points using a pathfinding algorithm such as A\*.
+The front-end will use the Nominatim API to convert the inputted start and end locations to coordinates, or use coordinates directly if provided. The pair of coordinate pairs will then be passed to the routing engine.
+
+The routing engine will use the routing graph to find the optimal route between the two points using a pathfinding algorithm, such as A\*, to find a route that will be desirable for the user (as defined above).
 
 ### Problem research
 
