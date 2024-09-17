@@ -122,11 +122,11 @@ I will interview each of my stakeholders to gain an understanding of what they w
 
 #### Similar solutions
 
-As part of my research, I will investigate other programs that provide pedestrian routing. This will include programs that are solely routing engines, as well as map-viewer apps that have routing features built in.
+As part of my research, I will investigate other programs that provide pedestrian routing. This will include programs that are solely routing engines, as well as map apps that have routing features built in.
 
 ##### OsmAnd (map app)
 
-OsmAnd ([website](https://osmand.net/)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
+OsmAnd ([website](https://osmand.net/), [Wikipedia](https://en.wikipedia.org/wiki/OsmAnd#Navigation)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
 
 ##### Magic Earth (map app)
 
@@ -135,3 +135,15 @@ Magic Earth ([website](https://www.magicearth.com/)) is a similar mobile map app
 ##### Google Maps (map app)
 
 Google Maps ([website](https://www.google.co.uk/maps/about), [Wikipedia](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
+
+##### Valhalla (routing engine)
+
+> Valhalla is an open source routing engine and accompanying libraries for use with OpenStreetMap data. Valhalla also includes tools like time+distance matrix computation, isochrones, elevation sampling, map matching and tour optimization (Travelling Salesman).[^valhalla-readme]
+
+[^valhalla-readme]: Valhalla readme file (<https://github.com/valhalla/valhalla/blob/3a385045919967a14d5c9cc57610b2111936ac64/README.md>), accessed 17 September 2024
+
+Valhalla is written in C++.
+
+##### Open Source Routing Machine (routing engine)
+
+Open Source Routing Machine (OSRM) is also written in C++, and uses Contraction hierarchies or multilevel Dijkstra
