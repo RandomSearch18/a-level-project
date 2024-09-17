@@ -65,7 +65,7 @@ In addition to the points above, the most desirable route for a user will depend
 
 Users will interact with the routing engine through a basic web-based UI. There will be text fields to enter start and end points, using either coordinates or addresses (which are converted to coordinates using a geocoding API).
 
-Once the route is calculated, it will be outputted by rendering it on a map rendered by the Leaflet library. It will also display a textual list of directions that can be followed.
+Once the route is calculated, it will be outputted by rendering it on a map rendered by the [Leaflet library](https://leafletjs.com/). It will also display a textual list of directions that can be followed.
 
 #### Clearly defined logic
 
