@@ -69,7 +69,7 @@ Once the route is calculated, it will be outputted by rendering it on a map rend
 
 #### Clearly defined logic
 
-The front-end will use the Nominatim API to convert the inputted start and end locations to coordinates, or use coordinates directly if provided. The pair of coordinate pairs will then be passed to the routing engine.
+The front-end will use the [Nominatim API](https://nominatim.org/) to convert the inputted start and end locations to coordinates, or use coordinates directly if provided. The pair of coordinate pairs will then be passed to the routing engine.
 
 The routing engine will use the routing graph to find the optimal route between the two points using a pathfinding algorithm, such as A\*, to find a route that will be desirable for the user (as defined above).
 
