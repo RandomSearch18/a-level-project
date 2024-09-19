@@ -146,4 +146,8 @@ Valhalla is written in C++.
 
 ##### Open Source Routing Machine (routing engine)
 
-Open Source Routing Machine (OSRM) is also written in C++, and uses Contraction hierarchies or multilevel Dijkstra
+> High performance routing engine written in C++ designed to run on OpenStreetMap data.[^osrm-readme]
+
+[^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
+
+Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) uses Contraction hierarchies or multilevel Dijkstra's algorithm for car, bicycle, and pedestrian routing. It is written in C++ with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
