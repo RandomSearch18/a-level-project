@@ -2,6 +2,31 @@
 
 A-level Computer Science programming project
 
+## Contents
+
+- [Pedestrian routing using open map data](#pedestrian-routing-using-open-map-data)
+  - [Contents](#contents)
+  - [Analysis](#analysis)
+    - [Stakeholders](#stakeholders)
+      - [James](#james)
+      - [Andrew](#andrew)
+    - [Problem definition](#problem-definition)
+    - [Justification of computational approach](#justification-of-computational-approach)
+      - [Initial situation](#initial-situation)
+      - [Clear goal](#clear-goal)
+      - [Clear inputs and outputs](#clear-inputs-and-outputs)
+      - [Clearly defined logic](#clearly-defined-logic)
+    - [Problem research](#problem-research)
+      - [Stakeholder interviews](#stakeholder-interviews)
+      - [Similar solutions](#similar-solutions)
+        - [OsmAnd (map app)](#osmand-map-app)
+        - [Magic Earth (map app)](#magic-earth-map-app)
+        - [Google Maps (map app)](#google-maps-map-app)
+        - [Valhalla (routing engine)](#valhalla-routing-engine)
+        - [Open Source Routing Machine (routing engine)](#open-source-routing-machine-routing-engine)
+          - [Algorithm](#algorithm)
+          - [Experience](#experience)
+
 ## Analysis
 
 ### Stakeholders
@@ -14,7 +39,7 @@ James is a member of my computing class and is interested in using OpenStreetMap
 
 Andrew wants to find out the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
 
-<!-- Ili?? -->
+<!-- TODO Ili?? -->
 
 ### Problem definition
 
@@ -150,4 +175,16 @@ Valhalla is written in C++.
 
 [^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
 
-Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) uses Contraction hierarchies or multilevel Dijkstra's algorithm for car, bicycle, and pedestrian routing. It is written in C++ with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
+Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a can perform car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
+
+###### Algorithm
+
+OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, with its documentation recommending to use the multi-level Dijkstra pipeline.[^osrm-pipelines] It .
+
+[^osrm-pipelines]: OSRM Readme file, "Quick Start" (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md#quick-start>), accessed 19 September 2024
+
+###### Experience
+
+Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
+
+![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
