@@ -18,6 +18,7 @@ A-level Computer Science programming project
       - [Clearly defined logic](#clearly-defined-logic)
     - [Problem research](#problem-research)
       - [Stakeholder interviews](#stakeholder-interviews)
+        - [Initial interview with Andrew](#initial-interview-with-andrew)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
         - [Magic Earth (map app)](#magic-earth-map-app)
@@ -144,6 +145,17 @@ I will interview each of my stakeholders to gain an understanding of what they w
     </tr>
   </tbody>
 </table>
+
+##### Initial interview with Andrew
+
+I asked Andrew my research questions and gained useful insight into how pedestrian routing is used in the real world. Key takeaways were:
+
+- Google Maps lacks most smaller paths, making it less useful for countryside navigation or walks. An app that includes these would be very desirable.
+- Otherwise, Andrew found Google Maps intuitive and easy to use
+
+[The interview was recorded.](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4a)
+
+<!-- TODO, transcript (with comments?) -->
 
 #### Similar solutions
 
