@@ -27,6 +27,9 @@ A-level Computer Science programming project
         - [Open Source Routing Machine (routing engine)](#open-source-routing-machine-routing-engine)
           - [Algorithm](#algorithm)
           - [Experience](#experience)
+    - [Essential features](#essential-features)
+      - [Route generation](#route-generation)
+      - [Drawing the route on a map](#drawing-the-route-on-a-map)
 
 ## Analysis
 
@@ -200,3 +203,15 @@ OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, wit
 Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
 
 ![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
+
+### Essential features
+
+Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
+
+#### Route generation
+
+The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
+
+#### Drawing the route on a map
+
+My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is the most valuable way to present the information.
