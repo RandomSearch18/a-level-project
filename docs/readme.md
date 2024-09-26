@@ -19,6 +19,8 @@ A-level Computer Science programming project
     - [Problem research](#problem-research)
       - [Stakeholder interviews](#stakeholder-interviews)
         - [Initial interview with Andrew](#initial-interview-with-andrew)
+        - [Initial interview with James](#initial-interview-with-james)
+          - [Transcript](#transcript)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
         - [Magic Earth (map app)](#magic-earth-map-app)
@@ -159,6 +161,78 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 [The interview was recorded.](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4a)
 
 <!-- TODO, transcript (with comments?) -->
+
+##### Initial interview with James
+
+My initial interview with James was conducted via email. It was very valuable to understand he uses similar navigation apps, and how they compare.
+
+###### Transcript
+
+> Hi Mish,
+>
+> Sorry for the slow response,
+>
+> 1. **How often do you use an app or website to get directions?**
+>
+>    2 or 3 Times a week at least, I normally use it to plan a route before going.
+>
+> 1. **How often do you use an app or website to get directions for walking?**
+>
+>    Quite often whenever I'm in an area which I don't know that well
+>
+> 1. **In what situations (i.e. what places) are you more likely to use an app for pedestrian navigation?**
+>
+>    I'm most likely to use the app in cities or town which I don't know very well, I also often use a navigation app if I'm a looking for a specific building and I'm not completely sure where it is.
+>
+> 1. **What apps do you use to get directions**
+>
+>    I use a mixture if different apps as they all have there advantages:
+>
+>    OsmAnd for walking as it provides much better and faster pedestrian routes than its rivals, I also find that the location seems a bit more accurate compared to other apps on this list which is partially helpful when walking.
+>
+>    Magic Earth for driving but this app uses a lot of battery so it is only really suitable for shorter routes
+>
+>    Google Maps for planning routes as it shows me all the different modes of transport I can get there. I also often use it to navigate long journeys in a car because it uses much less battery than Magic earth.
+>
+> 1. **What are your main issues with the currently-available apps?**
+>
+>    The OsmAnd UI can be much harder to use at times and it doesn't give you the ability to search along route.
+>
+>    Magic Earth is primarily a car focus app and therefore regularly give you very inefficient pedestrian routes, It also use too much battery limits how long I can use it for.
+>
+>    Google maps is also car focused and rarely gives you the most efficient pedestrian route, It also almost never gets the direction you are facing when walking correct which can made following it directions very difficult.
+>
+> 1. **Is it more helpful to see a pedestrian route plotted on a map, or a list of directions?**
+>
+>    I like to be able to see a map, but a list of instructions can be easier to follow and much easier to share with others.
+>
+> 1. **What factors should be considered when the program decides which route is best?**
+>
+>    The speed and distance of the route, how accessible the route is, and the surface of the route depending on the time of year (I probably don't want to walk down a wet and muddy route) the program could give me a warning and offer me an alternative route which avoids these kind if areas.
+>
+> If you need more details or have any follow up questions let me know,
+>
+> Thank you,
+>
+> James
+>
+> > Hi James,
+> >
+> > I'd like to ask you a few questions to help research for my pedestrian navigation app:
+> >
+> > 1. How often do you use an app or website to get directions?
+> > 1. How often do you use an app or website to get directions for walking?
+> > 1. In what situations (i.e. what places) are you more likely to use an app for pedestrian navigation?
+> > 1. What apps do you use to get directions?
+> > 1. What are your main issues with the currently-available apps?
+> > 1. Is it more helpful to see a pedestrian route plotted on a map, or a list of directions?
+> > 1. What factors should be considered when the program decides which route is best?
+> >
+> > If you have any other thoughts or ideas, please share them too.
+> >
+> > I look forward to working with you to ensure the navigation app can be as useful as possible.
+> >
+> > Mish
 
 #### Similar solutions
 
