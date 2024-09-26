@@ -20,6 +20,8 @@ A-level Computer Science programming project
       - [Stakeholder interviews](#stakeholder-interviews)
         - [Initial interview with Andrew](#initial-interview-with-andrew)
         - [Initial interview with James](#initial-interview-with-james)
+          - [Key takeaways](#key-takeaways)
+          - [Desired features](#desired-features)
           - [Transcript](#transcript)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
@@ -165,6 +167,19 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 ##### Initial interview with James
 
 My initial interview with James was conducted via email. It was very valuable to understand he uses similar navigation apps, and how they compare.
+
+###### Key takeaways
+
+- There are a variety of navigation apps available, each with their own advantages and drawbacks
+- Battery usage during navigation on mobile is a an important consideration for James
+- Pedestrian navigation is most useful in unfamiliar urban areas (as I expected)
+- Many navigation apps (Google Maps, Magic Earth) are optimised for driving and therefore don't give ideal pedestrian routes
+
+###### Desired features
+
+- Efficient battery use during navigation (if a live navigation feature is added)
+- Warnings if the surfaces on the route are poor
+- Avoiding wet and muddy routes based on time of year and surface type
 
 ###### Transcript
 
