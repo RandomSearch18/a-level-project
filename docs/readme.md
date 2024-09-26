@@ -41,7 +41,7 @@ James is a member of my computing class and is interested in using OpenStreetMap
 
 #### Andrew
 
-Andrew wants to find out the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
+Andrew is also in my computing class so I will have frequent contact with him. One use case he looks forward to trying is finding the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
 
 <!-- TODO Ili?? -->
 
