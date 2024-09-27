@@ -180,6 +180,7 @@ My initial interview with James was conducted via email. It was very valuable to
 - Efficient battery use during navigation (if a live navigation feature is added)
 - Warnings if the surfaces on the route are poor
 - Avoiding wet and muddy routes based on time of year and surface type
+- A list of directions for sharing with others
 
 ###### Transcript
 
@@ -303,4 +304,4 @@ The core utility of a navigation app comes from the route it can generate. It sh
 
 #### Drawing the route on a map
 
-My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
+My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
