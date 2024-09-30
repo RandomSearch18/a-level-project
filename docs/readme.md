@@ -177,22 +177,14 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 - AS: No.
 - MR: Yes.
 - AS: Yes, I am
-- MR: Which is going to be a project on pedestrian routing-
-- AS: Yes
-- MR: ...so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
-- AS: Probably about once every two weeks, when I'm going somewhere new-
-- MR: Okay
-- AS: ...how long a journey will take-
-- MR: Yep
-- AS: ...car, or just walking
+- MR: Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
+- AS: Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car, or just walking
 - MR: So you'd say it's especially useful if you're going somewhere new?
 - AS: Yes, definitely
 - MR: Okay. And how often do you use an app for pedestrian navigation? So for just walking
-- AS: I'd say it's about 50/50 with using it for cars, honestly, so-
-- MR: Okay.
-- AS: Yeah if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
+- AS: I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
 - MR: Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
-- AS: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps usually.
+- AS: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
 - MR:
 
 <!-- TODO, transcript (with comments?) -->
