@@ -36,6 +36,8 @@ A-level Computer Science programming project
     - [Essential features](#essential-features)
       - [Route generation](#route-generation)
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
+    - [Limitations of the system](#limitations-of-the-system)
+      - [Geographic](#geographic)
 
 ## Analysis
 
@@ -320,7 +322,7 @@ Valhalla is written in C++.
 
 > High performance routing engine written in C++ designed to run on OpenStreetMap data.[^osrm-readme]
 
-[^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
+[^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/appropiately adjust routing wrights/README.md>), accessed 19 September 2024
 
 Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a can perform car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
 
@@ -328,7 +330,7 @@ Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a c
 
 OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, with its documentation recommending to use the multi-level Dijkstra pipeline.[^osrm-pipelines]
 
-[^osrm-pipelines]: OSRM Readme file, "Quick Start" (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md#quick-start>), accessed 19 September 2024
+[^osrm-pipelines]: OSRM readme file, "Quick Start" (<https://github.com/Project-OSRM/osrm-backend/blob/appropiately adjust routing wrights/README.md#quick-start>), accessed 19 September 2024
 
 ###### Experience
 
@@ -347,3 +349,18 @@ The core utility of a navigation app comes from the route it can generate. It sh
 #### Drawing the route on a map
 
 My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
+
+### Limitations of the system
+
+To keep the project manageable and ensure I can focus on producing the features that will be of most value to my stakeholders, I have limited the scope in a few key areas: geographic scope, routing scope, and navigation features.
+
+#### Geographic
+
+The navigation app will only support start and end locations that are in the United Kingdom, specifically those that are within the United Kingdom region provided by Geofabrik, as specified in the .poly file at <https://download.geofabrik.de/europe/united-kingdom.poly>.
+
+Advantages of limiting this scope:
+
+- OSM tagging conventions can vary based on region, but conventions are consistent within the United Kingdom
+- I am familiar with the UK's road (e.g. A-road, B-road) classifications, and path classifications (e.g. bridleways, public footpaths), which will mean I can appropriately adjust routing weights
+- If I want to download the entire map data for the UK during development, it will be a manageable file size (1.7 GB, compared to 76.6 GB for the entire planet)
+- It will help ensure only land routing is necessary <!-- TODO -->
