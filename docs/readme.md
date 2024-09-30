@@ -17,13 +17,14 @@ A-level Computer Science programming project
       - [Clear inputs and outputs](#clear-inputs-and-outputs)
       - [Clearly defined logic](#clearly-defined-logic)
     - [Problem research](#problem-research)
-      - [Stakeholder interviews](#stakeholder-interviews)
+      - [Initial stakeholder interviews](#initial-stakeholder-interviews)
         - [Initial interview with Andrew](#initial-interview-with-andrew)
           - [Transcript](#transcript)
         - [Initial interview with James](#initial-interview-with-james)
           - [Key takeaways](#key-takeaways)
           - [Desired features](#desired-features)
           - [Transcript](#transcript-1)
+        - [Follow-up discussions with Andrew](#follow-up-discussions-with-andrew)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
         - [Magic Earth (map app)](#magic-earth-map-app)
@@ -111,7 +112,7 @@ The routing engine will use the routing graph to find the optimal route between 
 
 While I have a general mental idea of what the routing engine should accomplish, it's essential to research similar programs, as well as stakeholders, to gain a well-rounded idea of what features are most important for my program, as well as how to make the user interface as intuitive as possible for my target audience.
 
-#### Stakeholder interviews
+#### Initial stakeholder interviews
 
 I will interview each of my stakeholders to gain an understanding of what they would like from a routing engine, and accompanying GUI. I plan to ask the following questions:
 
@@ -151,6 +152,18 @@ I will interview each of my stakeholders to gain an understanding of what they w
       <td>What factors should be considered when the program decides which route is best?</td>
       <td>Gives ideas for which factors should be included into the graph weights, and how much time to spend optimising those factors.</td>
     </tr>
+    <tr>
+      <td>Would a mobile or desktop app be more important for you?</td>
+      <td>I expect that mobile support will be very useful, so that directions can be obtained while out and about. Gauging the importance of a mobile app will determine how much time I might spend on mobile-specific features and optimising the UI for mobile devices.</td>
+    </tr>
+    <tr>
+      <td>If the navigation app is used through a web browser, it that a disadvantage or advantage to you</td>
+      <td>Although I am almost certainly going to make the front-end using web technologies, it will be useful to know if my users have any complaints or perceived drawbacks regarding web apps, so that I can try and address them.</td>
+    </tr>
+    <tr>
+      <td>Is it important for the navigation app to work while you're offline? What situations could you see yourself using this feature in?</td>
+      <td>This will help determine how much of the app should work offline, e.g. whether map data should be downloaded on demand or pre-downloaded. I may use tools like service workers to keep the web app functional when offline.</td>
+    </tr>
   </tbody>
 </table>
 
@@ -160,8 +173,6 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 
 - Google Maps lacks most smaller paths, making it less useful for countryside navigation or walks. An app that includes these would be very desirable.
 - Otherwise, Andrew found Google Maps intuitive and easy to use
-
-[The interview was recorded.](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4a)
 
 ###### Transcript
 
@@ -187,7 +198,9 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 - AS: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
 - MR:
 
-<!-- TODO, transcript (with comments?) -->
+<!-- TODO: finish transcript (with comments?) -->
+
+[Download the full recording (m4v, 0.5 MB)](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4v)
 
 ##### Initial interview with James
 
@@ -274,6 +287,10 @@ My initial interview with James was conducted via email. It was very valuable to
 > > I look forward to working with you to ensure the navigation app can be as useful as possible.
 > >
 > > Mish
+
+##### Follow-up discussions with Andrew
+
+<!-- TODO -->
 
 #### Similar solutions
 

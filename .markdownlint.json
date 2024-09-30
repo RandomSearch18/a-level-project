@@ -1,4 +1,7 @@
 {
     "no-inline-html": false,
-    "line-length": false
+    "line-length": false,
+    "no-duplicate-heading": {
+        "siblings_only": true
+    }
 }
