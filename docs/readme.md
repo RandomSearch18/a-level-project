@@ -38,6 +38,8 @@ A-level Computer Science programming project
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
+      - [Routing features](#routing-features)
+      - [Navigation features](#navigation-features)
 
 ## Analysis
 
@@ -364,3 +366,11 @@ Advantages of limiting this scope:
 - I am familiar with the UK's road (e.g. A-road, B-road) classifications, and path classifications (e.g. bridleways, public footpaths), which will mean I can appropriately adjust routing weights
 - If I want to download the entire map data for the UK during development, it will be a manageable file size (1.7 GB, compared to 76.6 GB for the entire planet)
 - It will help ensure only land routing is necessary <!-- TODO -->
+
+#### Routing features
+
+While the app will support a number of options to customise the routing graph weights for different pedestrian routing use-cases, <!-- TODO -->
+
+#### Navigation features
+
+<!-- TODO we won't have live navigation and some other Googhmre Maps feaqtures -->
