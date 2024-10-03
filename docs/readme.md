@@ -33,6 +33,9 @@ A-level Computer Science programming project
         - [Open Source Routing Machine (routing engine)](#open-source-routing-machine-routing-engine)
           - [Algorithm](#algorithm)
           - [Experience](#experience)
+    - [Project goals](#project-goals)
+      - [One-line description](#one-line-description)
+        - [Brainstorming](#brainstorming)
     - [Essential features](#essential-features)
       - [Route generation](#route-generation)
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
@@ -339,6 +342,21 @@ OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, wit
 Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
 
 ![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
+
+### Project goals
+
+After gaining an idea of exactly what my stakeholders want from a navigation app, I can think about what the goals of the project should be. This will guide the specific features that I add and give an idea of what the end product should look like.
+
+#### One-line description
+
+I want a one-line description to succinctly capture a few key points of my app:
+
+- Accessibility
+
+##### Brainstorming
+
+- "Pedestrian routing for anyone, anywhere"
+  - I like how "for anyone" repre
 
 ### Essential features
 
