@@ -369,7 +369,11 @@ Advantages of limiting this scope:
 
 #### Routing features
 
-While the app will support a number of options to customise the routing graph weights for different pedestrian routing use-cases, <!-- TODO -->
+While the app will support a number of options to customise the routing graph weights for different pedestrian routing use-cases, the scope of routing features will be limited to those useful for pedestrians (including walking, or using a scooter or wheelchair). Adding support for other modes of transport, like public transport, cycling, or driving, is out of scope for this project.
+
+Focusing on pedestrian navigation is justified because it has been identified as an important tool for my target persona (as shown in my [initial interview with Andrew](#initial-interview-with-andrew)), as well as being an area where other navigation apps like Google Maps and Magic Earth fall short (as mentioned by James in [his initial interview](#initial-interview-with-james)). By filling this gap in the market of available apps, I will be able to achieve the app's goal of making it easier to navigate by foot.
+
+This will help keep the development time of the project manageable, as well as ensuring that the app does its one job well.
 
 #### Navigation features
 
