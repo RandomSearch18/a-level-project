@@ -327,7 +327,7 @@ Valhalla is written in C++.
 
 > High performance routing engine written in C++ designed to run on OpenStreetMap data.[^osrm-readme]
 
-[^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/appropiately adjust routing wrights/README.md>), accessed 19 September 2024
+[^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
 
 Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a can perform car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
 
@@ -335,7 +335,7 @@ Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a c
 
 OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, with its documentation recommending to use the multi-level Dijkstra pipeline.[^osrm-pipelines]
 
-[^osrm-pipelines]: OSRM readme file, "Quick Start" (<https://github.com/Project-OSRM/osrm-backend/blob/appropiately adjust routing wrights/README.md#quick-start>), accessed 19 September 2024
+[^osrm-pipelines]: OSRM Readme file, "Quick Start" (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md#quick-start>), accessed 19 September 2024
 
 ###### Experience
 
