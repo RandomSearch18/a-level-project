@@ -39,6 +39,8 @@ A-level Computer Science programming project
     - [Essential features](#essential-features)
       - [Route generation](#route-generation)
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
+      - [Different options to customise routing](#different-options-to-customise-routing)
+      - [Saving options as presets](#saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
       - [Routing features](#routing-features)
@@ -347,16 +349,26 @@ Below is an example route that demonstrates two features I like about OSRM: it s
 
 After gaining an idea of exactly what my stakeholders want from a navigation app, I can think about what the goals of the project should be. This will guide the specific features that I add and give an idea of what the end product should look like.
 
+Describing what the app should provide will also be an effective way to communicate the app's purpose to stakeholders or anyone else interested, making it easier to explain what the project is.
+
 #### One-line description
 
 I want a one-line description to succinctly capture a few key points of my app:
 
 - Accessibility
+  - The app will have lots of options to aid with accessible pedestrian travel
+  - This is a key unique feature of the app, so I want to mention it in a one-line description
 
 ##### Brainstorming
 
-- "Pedestrian routing for anyone, anywhere"
-  - I like how "for anyone" repre
+1. "Pedestrian routing for anyone, anywhere"
+   - I like how "for anyone" represent the accessibility features
+   - "for anyone" could also represent its wide platform support due to running in the browser
+   - "pedestrian routing" is perhaps too much of a technical term
+   - "anywhere" is intended to represent how you can use it on a mobile device when outdoors, or from your desktop at home. It will also suggest that it supports a wide range of real-world situations. However, the routing engine will be limited geographically to Great Britain, so routing can't actually be done "anywhere"
+2. "Pedestrian navigation, optimised for you"
+   - "optimised for you" represents the variety of options that will make it able
+   <!-- TODO -->
 
 ### Essential features
 
@@ -369,6 +381,14 @@ The core utility of a navigation app comes from the route it can generate. It sh
 #### Drawing the route on a map
 
 My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
+
+#### Different options to customise routing
+
+Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine and its frontend will be the ability to customise how different paths are weighted to match the user's preferences.
+
+#### Saving options as presets
+
+<!-- TODO -->
 
 ### Limitations of the system
 
