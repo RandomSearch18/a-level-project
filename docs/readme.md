@@ -205,6 +205,40 @@ I asked Andrew my research questions and gained useful insight into how pedestri
 - AS: I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
 - MR: Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
 - AS: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
+- MR: Yeah, so have your map coordinates that you can just go to, okay
+- AS: Just checking if it's recording?
+- MR: No, I was just reading my questions.
+- MR: And, what apps do you use or have you used to get directions?
+- AS: Pretty much entirely Google Maps, yeah
+- MR: Sounds good. Do you find its interface intuitive?
+- AS: Yeah-
+- MR: Do you find it, _\[incomprehensible]_ laid out?
+- AS: I have actually used Google maps to find someone before, so there's that. Yeah, it's intuitive, easy.
+- MR: Nice, okay. Anything you don't like about how Google Maps does pedestrian routing?
+- AS: It doesn't have a very good layout of paths, like smaller paths, it just doesn't show, which isn't nice, so I was trying to run to Shere, and I was trying to use the compass to find out which paths to take.
+- MR: Okay, yeah. That's definitely something I'm hoping to improve with this app.
+- AS: Great.
+- MR: So if you're using a navigation app, so you find it more helpful to have a list of directions with road names &mdash; "turn on to this road, turn on to that road, cross at this road" &mdash; or the route overlaid onto a map, that's highlighted in blue or whatever.
+- AS: Ah, definitely overlaid onto a map. It's quite nice to be able to visualise that.
+- MR: Yep. And how useful is it to have your location on it, so it can be updated live?
+- AS: Yeah, very very useful. Otherwise you're just _\[incomprehensible]_
+- MR: Mhm, sounds good. And finally, what factors do you think I should consider when deciding which route is best?
+- AS: So when you've got multiple different routes... to get to a place?
+- MR: Yeah, so, which properties or aspects of the paths and roads to consider. Like, obviously, everything else being equal, we'll go for the shortest path, because it's likely to be the quickest, but that's not the only thing that will affect how enjoyable your route will actually be.
+- AS: Oh, okay. That is an interesting comment.
+- MR: Take your time. It's one that requires some thinking.
+- AS: I can only think of really specific things, like if it's been raining, and there's a muddy path, you might want to stick to roads
+- MR: Yeah, that's useful yeah. So, maybe having "avoiding unpaved paths" as an option, as well as just a default thing?
+- AS: And maybe, what, elevation... you don't wanna climb a really steep thing and then go down a really steep thing when you can go around.
+- MR: That's a good point, yeah. That sounds good.
+- AS: I suppose if you could get foot traffic data, but it doesn't really matter if there's a lot of people blocking your path unless there's a lot and a lot of people
+- MR: Yeah, that's good. What about paths being lit at night?
+- AS: Oh yeah, that's a very good point. Yeah, you definitely want to go down lit paths at night.
+- MR: Okay, sounds good! Alright, thanks for answering my questions-
+- AS: No worries.
+- MR: And if you have any other feedback you can email me or tell me.
+- AS: Yep, I probably won't email you.
+- MR: As great as emails are.
 - MR:
 
 <!-- TODO: finish transcript (with comments?) -->
