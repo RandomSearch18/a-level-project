@@ -26,9 +26,10 @@ A-level Computer Science programming project
     - [Problem research](#problem-research)
       - [Initial stakeholder interviews](#initial-stakeholder-interviews)
         - [Initial interview with Andrew](#initial-interview-with-andrew)
+          - [Key takeaways](#key-takeaways)
           - [Transcript](#transcript)
         - [Initial interview with James](#initial-interview-with-james)
-          - [Key takeaways](#key-takeaways)
+          - [Key takeaways](#key-takeaways-1)
           - [Desired features](#desired-features)
           - [Transcript](#transcript-1)
         - [Follow-up discussions with Andrew](#follow-up-discussions-with-andrew)
@@ -185,10 +186,19 @@ I will interview each of my stakeholders to gain an understanding of what they w
 
 ##### Initial interview with Andrew
 
-I asked Andrew my research questions and gained useful insight into how pedestrian routing is used in the real world. Key takeaways were:
+I asked Andrew my research questions and gained useful insight into how pedestrian routing is used in the real world.
+
+###### Key takeaways
 
 - Google Maps lacks most smaller paths, making it less useful for countryside navigation or walks. An app that includes these would be very desirable.
 - Otherwise, Andrew found Google Maps intuitive and easy to use
+- He uses pedestrian navigation quite often, as he doesn't drive yet
+- Having the route shown as an overlay on a map would "definitely" be more useful than presenting it as a list of directions
+- Path surface preference can be situational, e.g. avoiding muddy or unpaved paths will be even more desirable if it's just been raining
+  - This could be accomplished by adding an option to further deprioritise those path types
+- Preferring lit paths after sunset would also be a very useful factor to include
+- He brought up the idea of incorporating foot traffic data, so that really busy paths can be avoided
+  - This could be especially important in some specific situations, e.g. if social distancing is desired, or for users who don't like crowds of people
 
 ###### Transcript
 
@@ -203,7 +213,7 @@ In this transcript, Andrew's words are labelled as "AS" and my words are labelle
 - **MR:** Yes.
 - **AS:** Yes, I am
 - **MR:** Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
-- **AS:** Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car, or just walking
+- **AS:** Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car or just walking
 - **MR:** So you'd say it's especially useful if you're going somewhere new?
 - **AS:** Yes, definitely
 - **MR:** Okay. And how often do you use an app for pedestrian navigation? So for just walking
