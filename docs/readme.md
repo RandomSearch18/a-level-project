@@ -2,7 +2,7 @@
 
 A-level Computer Science programming project
 
-<span style="display:none;">
+<span hidden>
 <style>
   .transcript strong {
     /* Make transcripts lines line up with each other */
