@@ -2,12 +2,14 @@
 
 A-level Computer Science programming project
 
+<span style="display:none;">
 <style>
   .transcript strong {
     /* Make transcripts lines line up with each other */
     font-family: monospace;
   }
 </style>
+</span>
 
 ## Contents
 
