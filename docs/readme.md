@@ -32,6 +32,9 @@ A-level Computer Science programming project
           - [Key takeaways](#key-takeaways-1)
           - [Desired features](#desired-features)
           - [Transcript](#transcript-1)
+        - [Initial interview with Ili](#initial-interview-with-ili)
+          - [Key takeaways](#key-takeaways-2)
+          - [Transcript](#transcript-2)
         - [Follow-up discussions with Andrew](#follow-up-discussions-with-andrew)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
@@ -344,6 +347,21 @@ My initial interview with James was conducted via email. It was very valuable to
 > > I look forward to working with you to ensure the navigation app can be as useful as possible.
 > >
 > > Mish
+
+##### Initial interview with Ili
+
+My interview with Ili was done two weeks later than my other two initial stakeholder interviews, so I decided to add a few more questions about the platforms that the app will be available on, in order to back up my plans to make it a cross-platform web app. These questions have been listed and justified at the top of the [initial interviews section](#initial-stakeholder-interviews).
+
+###### Key takeaways
+
+- Similarly to Andrew, Ili would strongly prefer a route rendered on a map to a list of directions
+- <!-- TODO -->
+
+###### Transcript
+
+<!-- TODO Transcript here -->
+
+[Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
 
 ##### Follow-up discussions with Andrew
 
