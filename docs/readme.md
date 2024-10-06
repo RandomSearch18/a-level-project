@@ -174,7 +174,7 @@ I will interview each of my stakeholders to gain an understanding of what they w
       <td>I expect that mobile support will be very useful, so that directions can be obtained while out and about. Gauging the importance of a mobile app will determine how much time I might spend on mobile-specific features and optimising the UI for mobile devices.</td>
     </tr>
     <tr>
-      <td>If the navigation app is used through a web browser, it that a disadvantage or advantage to you</td>
+      <td>If the navigation app is used through a web browser, is that a disadvantage or an advantage to you?</td>
       <td>Although I am almost certainly going to make the front-end using web technologies, it will be useful to know if my users have any complaints or perceived drawbacks regarding web apps, so that I can try and address them.</td>
     </tr>
     <tr>
