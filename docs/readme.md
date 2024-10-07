@@ -372,7 +372,7 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 ##### Follow-up discussion with Andrew
 
-This happened on 17 October 2024. When I asked Andrew if mobile or desktop support would me more important, he told me that mobile support would be very important. I also asked him about accessing the app through the browser, to which he told me the only disadvantage of that would be the lack of offline access. I mentioned how I could make the web app work offline, which he agreed with.
+On 17 October 2024, I had an informal discussion with Andrew. When I asked him if mobile or desktop support would me more important, he told me that mobile support would be very important. I also asked him about accessing the app through the browser, to which he told me the only disadvantage of that would be the lack of offline access. I mentioned how I could make the web app work offline, which he agreed with.
 
 #### Similar solutions
 
