@@ -57,7 +57,7 @@ A-level Computer Science programming project
       - [Essential UI features](#essential-ui-features)
         - [`F1` Communication with the routing engine](#f1-communication-with-the-routing-engine)
         - [`F2` Drawing the route on a map](#f2-drawing-the-route-on-a-map)
-      - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
+        - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
         - [`F4` Saving options as presets](#f4-saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
@@ -482,7 +482,7 @@ This will be essential so that the UI can get the calculated route that so that 
 
 My stakeholder interviews, especially with Andrew and Ili, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
 
-#### `F3` Fields to set the available options
+##### `F3` Fields to set the available options
 
 The UI should include some form elements that let the user access the different options supported by the routing engine.
 
