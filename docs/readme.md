@@ -2,6 +2,15 @@
 
 A-level Computer Science programming project
 
+<span hidden>
+<style>
+  .transcript strong {
+    /* Make transcripts lines line up with each other */
+    font-family: monospace;
+  }
+</style>
+</span>
+
 ## Contents
 
 - [Pedestrian routing using open map data](#pedestrian-routing-using-open-map-data)
@@ -19,11 +28,15 @@ A-level Computer Science programming project
     - [Problem research](#problem-research)
       - [Initial stakeholder interviews](#initial-stakeholder-interviews)
         - [Initial interview with Andrew](#initial-interview-with-andrew)
+          - [Key takeaways](#key-takeaways)
           - [Transcript](#transcript)
         - [Initial interview with James](#initial-interview-with-james)
-          - [Key takeaways](#key-takeaways)
+          - [Key takeaways](#key-takeaways-1)
           - [Desired features](#desired-features)
           - [Transcript](#transcript-1)
+        - [Initial interview with Ili](#initial-interview-with-ili)
+          - [Key takeaways](#key-takeaways-2)
+          - [Transcript](#transcript-2)
         - [Follow-up discussions with Andrew](#follow-up-discussions-with-andrew)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
@@ -166,7 +179,7 @@ I will interview each of my stakeholders to gain an understanding of what they w
       <td>I expect that mobile support will be very useful, so that directions can be obtained while out and about. Gauging the importance of a mobile app will determine how much time I might spend on mobile-specific features and optimising the UI for mobile devices.</td>
     </tr>
     <tr>
-      <td>If the navigation app is used through a web browser, it that a disadvantage or advantage to you</td>
+      <td>If the navigation app is used through a web browser, is that a disadvantage or an advantage to you?</td>
       <td>Although I am almost certainly going to make the front-end using web technologies, it will be useful to know if my users have any complaints or perceived drawbacks regarding web apps, so that I can try and address them.</td>
     </tr>
     <tr>
@@ -178,38 +191,78 @@ I will interview each of my stakeholders to gain an understanding of what they w
 
 ##### Initial interview with Andrew
 
-I asked Andrew my research questions and gained useful insight into how pedestrian routing is used in the real world. Key takeaways were:
+I asked Andrew my research questions and gained useful insight into how pedestrian routing is used in the real world.
+
+###### Key takeaways
 
 - Google Maps lacks most smaller paths, making it less useful for countryside navigation or walks. An app that includes these would be very desirable.
 - Otherwise, Andrew found Google Maps intuitive and easy to use
+- He uses pedestrian navigation quite often, as he doesn't drive yet
+- Having the route shown as an overlay on a map would "definitely" be more useful than presenting it as a list of directions
+- Path surface preference can be situational, e.g. avoiding muddy or unpaved paths will be even more desirable if it's just been raining
+  - This could be accomplished by adding an option to further deprioritise those path types
+- Preferring lit paths after sunset would also be a very useful factor to include
+- He brought up the idea of incorporating foot traffic data, so that really busy paths can be avoided
+  - This could be especially important in some specific situations, e.g. if social distancing is desired, or for users who don't like crowds of people
 
 ###### Transcript
 
-<!-- <style>
-  p {
-    color: red
-  }
-</style> -->
+In this transcript, Andrew's words are labelled as "AS" and my words are labelled as "MR". I have removed most stuttering, filler words, and interjections that don't add any meaning.
 
-- MR: Alright, I'm going to be recording-
-- AS: Hi Mish
-- MR: Hello! Are you alright if I ask you some questions for my project?
-- AS: No.
-- MR: Yes.
-- AS: Yes, I am
-- MR: Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
-- AS: Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car, or just walking
-- MR: So you'd say it's especially useful if you're going somewhere new?
-- AS: Yes, definitely
-- MR: Okay. And how often do you use an app for pedestrian navigation? So for just walking
-- AS: I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
-- MR: Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
-- AS: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
-- MR:
+<div class="transcript">
 
-<!-- TODO: finish transcript (with comments?) -->
+- **MR:** Alright, I'm going to be recording-
+- **AS:** Hi Mish
+- **MR:** Hello! Are you alright if I ask you some questions for my project?
+- **AS:** No.
+- **MR:** Yes.
+- **AS:** Yes, I am
+- **MR:** Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
+- **AS:** Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car or just walking
+- **MR:** So you'd say it's especially useful if you're going somewhere new?
+- **AS:** Yes, definitely
+- **MR:** Okay. And how often do you use an app for pedestrian navigation? So for just walking
+- **AS:** I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
+- **MR:** Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
+- **AS:** Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
+- **MR:** Yeah, so have your map coordinates that you can just go to, okay
+- **AS:** Just checking if it's recording?
+- **MR:** No, I was just reading my questions.
+- **MR:** And, what apps do you use or have you used to get directions?
+- **AS:** Pretty much entirely Google Maps, yeah
+- **MR:** Sounds good. Do you find its interface intuitive?
+- **AS:** Yeah-
+- **MR:** Do you find it, _\[incomprehensible]_ laid out?
+- **AS:** I have actually used Google maps to find someone before, so there's that. Yeah, it's intuitive, easy.
+- **MR:** Nice, okay. Anything you don't like about how Google Maps does pedestrian routing?
+- **AS:** It doesn't have a very good layout of paths, like smaller paths, it just doesn't show, which isn't nice, so I was trying to run to Shere, and I was trying to use the compass to find out which paths to take.
+- **MR:** Okay, yeah. That's definitely something I'm hoping to improve with this app.
+- **AS:** Great.
+- **MR:** So if you're using a navigation app, so you find it more helpful to have a list of directions with road names &mdash; "turn on to this road, turn on to that road, cross at this road" &mdash; or the route overlaid onto a map, that's highlighted in blue or whatever.
+- **AS:** Ah, definitely overlaid onto a map. It's quite nice to be able to visualise that.
+- **MR:** Yep. And how useful is it to have your location on it, so it can be updated live?
+- **AS:** Yeah, very very useful. Otherwise you're just _\[incomprehensible]_
+- **MR:** Mhm, sounds good. And finally, what factors do you think I should consider when deciding which route is best?
+- **AS:** So when you've got multiple different routes... to get to a place?
+- **MR:** Yeah, so, which properties or aspects of the paths and roads to consider. Like, obviously, everything else being equal, we'll go for the shortest path, because it's likely to be the quickest, but that's not the only thing that will affect how enjoyable your route will actually be.
+- **AS:** Oh, okay. That is an interesting comment.
+- **MR:** Take your time. It's one that requires some thinking.
+- **AS:** I can only think of really specific things, like if it's been raining, and there's a muddy path, you might want to stick to roads
+- **MR:** Yeah, that's useful yeah. So, maybe having "avoiding unpaved paths" as an option, as well as just a default thing?
+- **AS:** And maybe, what, elevation... you don't wanna climb a really steep thing and then go down a really steep thing when you can go around.
+- **MR:** That's a good point, yeah. That sounds good.
+- **AS:** I suppose if you could get foot traffic data, but it doesn't really matter if there's a lot of people blocking your path unless there's a lot and a lot of people
+- **MR:** Yeah, that's good. What about paths being lit at night?
+- **AS:** Oh yeah, that's a very good point. Yeah, you definitely want to go down lit paths at night.
+- **MR:** Okay, sounds good! Alright, thanks for answering my questions-
+- **AS:** No worries.
+- **MR:** And if you have any other feedback you can email me or tell me.
+- **AS:** Yep, I probably won't email you.
+- **MR:** As great as emails are.
 
-[Download the full recording (m4v, 0.5 MB)](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4v)
+</div>
+
+[Download the full recording (05:16, m4v, 0.5 MB)](./assets/interviews/andrew/2024-09-20-andrew-initial-interview.m4v)
 
 ##### Initial interview with James
 
@@ -296,6 +349,21 @@ My initial interview with James was conducted via email. It was very valuable to
 > > I look forward to working with you to ensure the navigation app can be as useful as possible.
 > >
 > > Mish
+
+##### Initial interview with Ili
+
+My interview with Ili was done two weeks later than my other two initial stakeholder interviews, so I decided to add a few more questions about the platforms that the app will be available on, in order to back up my plans to make it a cross-platform web app. These questions have been listed and justified at the top of the [initial interviews section](#initial-stakeholder-interviews).
+
+###### Key takeaways
+
+- Similarly to Andrew, Ili would strongly prefer a route rendered on a map to a list of directions
+- <!-- TODO -->
+
+###### Transcript
+
+<!-- TODO Transcript here -->
+
+[Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
 
 ##### Follow-up discussions with Andrew
 
