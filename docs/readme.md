@@ -52,6 +52,7 @@ A-level Computer Science programming project
     - [Essential features](#essential-features)
       - [Essential routing engine features](#essential-routing-engine-features)
       - [Route generation](#route-generation)
+      - [API for routing requests](#api-for-routing-requests)
       - [Range of options to customise routing](#range-of-options-to-customise-routing)
       - [Essential UI features](#essential-ui-features)
       - [Communication with the routing engine](#communication-with-the-routing-engine)
@@ -457,6 +458,10 @@ The backend for the project will be the routing engine itself, written in Python
 
 The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
 
+#### API for routing requests
+
+The routing engine needs to be accessible from the frontend, so it must have an API that allows programs to request routes to be calculated, and return the results.
+
 #### Range of options to customise routing
 
 Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine will be the ability to customise how different paths are weighted to match the user's preferences.
@@ -469,7 +474,7 @@ The user interface (frontend of the project) will run in the browser, and will n
 
 The frontend will have to send and receive data to/from the routing engine using some form of API. This may be over HTTP, or using some sort of internal communication between the JavaScript and WebAssembly (WASM) runtimes.
 
-This will be essential so that the UI can get the computed route that so that it can then draw it on the map (as described below).
+This will be essential so that the UI can get the calculated route that so that it can then draw it on the map (as described below).
 
 #### Drawing the route on a map
 
