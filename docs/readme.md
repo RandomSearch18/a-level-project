@@ -458,6 +458,8 @@ The backend for the project will be the routing engine itself, written in Python
 
 The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
 
+This is the key functionality of the program, as demonstrated by the fact that all the other features build on top of it: either making it easier to use or adding extra customisability.
+
 #### API for routing requests
 
 The routing engine needs to be accessible from the frontend, so it must have an API that allows programs to request routes to be calculated, and return the results.
