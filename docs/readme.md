@@ -59,6 +59,7 @@ A-level Computer Science programming project
         - [`F2` Drawing the route on a map](#f2-drawing-the-route-on-a-map)
         - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
         - [`F4` Saving options as presets](#f4-saving-options-as-presets)
+        - [`F5` Accessibility](#f5-accessibility)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
       - [Routing features](#routing-features)
@@ -504,6 +505,12 @@ Forcing the user to enter their preferred options manually would be very undesir
 This should be a feature entirely within the frontend, as the presents just need to be stored individually on each user's device.
 
 While not essential, adding the ability to import and export presets will facilitate sharing them between devices and users, if this is desired.
+
+##### `F5` Accessibility
+
+As a modern web app, it should be expected that the UI will be accessible, working with built-in browser features and accessibility tools to ensure that the UI can be used comfortably, whatever situation the user is in, and whatever accessibility requirements they have.
+
+This is especially important for my routing engine, as part of its target persona is those wanting a routing app that takes into account urban accessibility. For example, a number of routing options (e.g. preferring tactile paving) will bew catered towards those with reduced vision, who may also use a screen reader, or have increased system-wide font size. The UI should accommodate this and work with these tools.
 
 ### Limitations of the system
 
