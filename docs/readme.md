@@ -54,6 +54,7 @@ A-level Computer Science programming project
       - [Route generation](#route-generation)
       - [Range of options to customise routing](#range-of-options-to-customise-routing)
       - [Essential UI features](#essential-ui-features)
+      - [Communication with the routing engine](#communication-with-the-routing-engine)
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
       - [Fields to set the available options](#fields-to-set-the-available-options)
       - [Saving options as presets](#saving-options-as-presets)
@@ -463,6 +464,12 @@ Pedestrians using my app will have varying needs and preferences, so an importan
 #### Essential UI features
 
 The user interface (frontend of the project) will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders. Most of these features will depend on a corresponding feature on the backend.
+
+#### Communication with the routing engine
+
+The frontend will have to send and receive data to/from the routing engine using some form of API. This may be over HTTP, or using some sort of internal communication between the JavaScript and WebAssembly (WASM) runtimes.
+
+This will be essential so that the UI can get the computed route that so that it can then draw it on the map (as described below).
 
 #### Drawing the route on a map
 
