@@ -367,8 +367,9 @@ I want a one-line description to succinctly capture a few key points of my app:
    - "pedestrian routing" is perhaps too much of a technical term
    - "anywhere" is intended to represent how you can use it on a mobile device when outdoors, or from your desktop at home. It will also suggest that it supports a wide range of real-world situations. However, the routing engine will be limited geographically to Great Britain, so routing can't actually be done "anywhere"
 2. "Pedestrian navigation, optimised for you"
-   - "optimised for you" represents the variety of options that will make it able
-   <!-- TODO -->
+   - "optimised for you" represents the variety of options that will make it able to cater for a variety of users and situations
+   - "pedestrian navigation" is easier to understand than "pedestrian routing"
+   - the pronoun in "optimised for you" perhaps sounds a bit vague and overly promotional, where I want it to be mainly descriptive
 
 ### Essential features
 
