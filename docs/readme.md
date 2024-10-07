@@ -37,7 +37,7 @@ A-level Computer Science programming project
         - [Initial interview with Ili](#initial-interview-with-ili)
           - [Key takeaways](#key-takeaways-2)
           - [Transcript](#transcript-2)
-        - [Follow-up discussions with Andrew](#follow-up-discussions-with-andrew)
+        - [Follow-up discussion with Andrew](#follow-up-discussion-with-andrew)
       - [Similar solutions](#similar-solutions)
         - [OsmAnd (map app)](#osmand-map-app)
         - [Magic Earth (map app)](#magic-earth-map-app)
@@ -365,9 +365,9 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 [Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
 
-##### Follow-up discussions with Andrew
+##### Follow-up discussion with Andrew
 
-<!-- TODO -->
+This happened on 17 October 2024. When I asked Andrew if mobile or desktop support would me more important, he told me that mobile support would be very important. I also asked him about accessing the app through the browser, to which he told me the only disadvantage of that would be the lack of offline access. I mentioned how I could make the web app work offline, which he agreed with.
 
 #### Similar solutions
 
