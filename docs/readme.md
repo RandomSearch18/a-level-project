@@ -55,7 +55,7 @@ A-level Computer Science programming project
       - [Range of options to customise routing](#range-of-options-to-customise-routing)
       - [Essential UI features](#essential-ui-features)
       - [Drawing the route on a map](#drawing-the-route-on-a-map)
-      - [Range of options to customise routing](#range-of-options-to-customise-routing-1)
+      - [Fields to set the available options](#fields-to-set-the-available-options)
       - [Saving options as presets](#saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
@@ -468,9 +468,11 @@ The user interface (frontend of the project) will run in the browser, and will n
 
 My stakeholder interviews, especially with Andrew and Ili, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
 
-#### Range of options to customise routing
+#### Fields to set the available options
 
-<!-- TODO -->
+The UI should include some form elements that let the user access the different options supported by the routing engine.
+
+The focus should be on providing a good user experience when wanting to plan a route, so not all possible options need to be included, especially those relating to specifics of OSM feature tags. For example, the it may be possible to ask routing engine to prefer paths that are lit at night but not lit 24/7, but this is highly unlikely to be useful in the real world so doesn't need to be catered for in the UI.
 
 #### Saving options as presets
 
