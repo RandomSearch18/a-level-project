@@ -52,7 +52,7 @@ A-level Computer Science programming project
     - [Essential features](#essential-features)
       - [Essential routing engine features](#essential-routing-engine-features)
       - [Route generation](#route-generation)
-      - [API for routing requests](#api-for-routing-requests)
+      - [API for route requests](#api-for-route-requests)
       - [Range of options to customise routing](#range-of-options-to-customise-routing)
       - [Essential UI features](#essential-ui-features)
       - [Communication with the routing engine](#communication-with-the-routing-engine)
@@ -460,7 +460,7 @@ The core utility of a navigation app comes from the route it can generate. It sh
 
 This is the key functionality of the program, as demonstrated by the fact that all the other features build on top of it: either making it easier to use or adding extra customisability.
 
-#### API for routing requests
+#### API for route requests
 
 The routing engine needs to be accessible from the frontend, so it must have an API that allows programs to request routes to be calculated, and return the results.
 
