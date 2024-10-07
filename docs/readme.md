@@ -501,7 +501,9 @@ Saving options as "presets" that can be loaded as the start/end locations are be
 
 Forcing the user to enter their preferred options manually would be very undesirable because it would cause the inverse of those advantages.
 
-<!-- TODO why on frontend -->
+This should be a feature entirely within the frontend, as the presents just need to be stored individually on each user's device.
+
+While not essential, adding the ability to import and export presets will facilitate sharing them between devices and users, if this is desired.
 
 ### Limitations of the system
 
