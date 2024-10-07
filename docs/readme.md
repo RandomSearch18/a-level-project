@@ -51,14 +51,14 @@ A-level Computer Science programming project
         - [Brainstorming](#brainstorming)
     - [Essential features](#essential-features)
       - [Essential routing engine features](#essential-routing-engine-features)
-      - [Route generation](#route-generation)
-      - [API for route requests](#api-for-route-requests)
-      - [Range of options to customise routing](#range-of-options-to-customise-routing)
+        - [`B1` Route generation](#b1-route-generation)
+        - [`B2` API for route requests](#b2-api-for-route-requests)
+        - [`B3` Range of options to customise routing](#b3-range-of-options-to-customise-routing)
       - [Essential UI features](#essential-ui-features)
-      - [Communication with the routing engine](#communication-with-the-routing-engine)
-      - [Drawing the route on a map](#drawing-the-route-on-a-map)
-      - [Fields to set the available options](#fields-to-set-the-available-options)
-      - [Saving options as presets](#saving-options-as-presets)
+        - [`F1` Communication with the routing engine](#f1-communication-with-the-routing-engine)
+        - [`F2` Drawing the route on a map](#f2-drawing-the-route-on-a-map)
+      - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
+        - [`F4` Saving options as presets](#f4-saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
       - [Routing features](#routing-features)
@@ -448,23 +448,23 @@ I want a one-line description to succinctly capture a few key points of my app:
 
 Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
 
-These features are split by features that will need to be implemented on the frontend and the backend
+These features are split by features that will need to be implemented on the frontend and the backend. They are listed in order of priority, and designated codes starting from `B1` (most important backend feature) and `F1` (most important frontend feature). This codes will make the essential features easy to reference later on in the project.
 
 #### Essential routing engine features
 
 The backend for the project will be the routing engine itself, written in Python.
 
-#### Route generation
+##### `B1` Route generation
 
 The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
 
 This is the key functionality of the program, as demonstrated by the fact that all the other features build on top of it: either making it easier to use or adding extra customisability.
 
-#### API for route requests
+##### `B2` API for route requests
 
 The routing engine needs to be accessible from the frontend, so it must have an API that allows programs to request routes to be calculated, and return the results.
 
-#### Range of options to customise routing
+##### `B3` Range of options to customise routing
 
 Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine will be the ability to customise how different paths are weighted to match the user's preferences.
 
@@ -472,23 +472,23 @@ Pedestrians using my app will have varying needs and preferences, so an importan
 
 The user interface (frontend of the project) will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders. Most of these features will depend on a corresponding feature on the backend.
 
-#### Communication with the routing engine
+##### `F1` Communication with the routing engine
 
 The frontend will have to send and receive data to/from the routing engine using some form of API. This may be over HTTP, or using some sort of internal communication between the JavaScript and WebAssembly (WASM) runtimes.
 
 This will be essential so that the UI can get the calculated route that so that it can then draw it on the map (as described below).
 
-#### Drawing the route on a map
+##### `F2` Drawing the route on a map
 
 My stakeholder interviews, especially with Andrew and Ili, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
 
-#### Fields to set the available options
+#### `F3` Fields to set the available options
 
 The UI should include some form elements that let the user access the different options supported by the routing engine.
 
 The focus should be on providing a good user experience when wanting to plan a route, so not all possible options need to be included, especially those relating to specifics of OSM feature tags. For example, the it may be possible to ask routing engine to prefer paths that are lit at night but not lit 24/7, but this is highly unlikely to be useful in the real world so doesn't need to be catered for in the UI.
 
-#### Saving options as presets
+##### `F4` Saving options as presets
 
 As discussed above, he UI will include a variety of options, and each user might have their own preferred set of options. They may have a few different preferred sets of options for different situations, e.g. walking at night, jogging, walking for pleasure.
 
