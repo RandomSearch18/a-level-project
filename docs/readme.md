@@ -50,10 +50,15 @@ A-level Computer Science programming project
       - [One-line description](#one-line-description)
         - [Brainstorming](#brainstorming)
     - [Essential features](#essential-features)
-      - [Route generation](#route-generation)
-      - [Drawing the route on a map](#drawing-the-route-on-a-map)
-      - [Different options to customise routing](#different-options-to-customise-routing)
-      - [Saving options as presets](#saving-options-as-presets)
+      - [Essential routing engine features](#essential-routing-engine-features)
+        - [`B1` Route generation](#b1-route-generation)
+        - [`B2` API for route requests](#b2-api-for-route-requests)
+        - [`B3` Range of options to customise routing](#b3-range-of-options-to-customise-routing)
+      - [Essential UI features](#essential-ui-features)
+        - [`F1` Communication with the routing engine](#f1-communication-with-the-routing-engine)
+        - [`F2` Drawing the route on a map](#f2-drawing-the-route-on-a-map)
+      - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
+        - [`F4` Saving options as presets](#f4-saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
       - [Routing features](#routing-features)
@@ -443,21 +448,62 @@ I want a one-line description to succinctly capture a few key points of my app:
 
 Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
 
-#### Route generation
+These features are split by features that will need to be implemented on the frontend and the backend. They are listed in order of priority, and designated codes starting from `B1` (most important backend feature) and `F1` (most important frontend feature). This codes will make the essential features easy to reference later on in the project.
+
+#### Essential routing engine features
+
+The backend for the project will be the routing engine itself, written in Python.
+
+##### `B1` Route generation
 
 The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
 
-#### Drawing the route on a map
+This is the key functionality of the program, as demonstrated by the fact that all the other features build on top of it: either making it easier to use or adding extra customisability.
 
-My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
+##### `B2` API for route requests
 
-#### Different options to customise routing
+The routing engine needs to be accessible from the frontend, so it must have an API that allows programs to request routes to be calculated, and return the results.
 
-Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine and its frontend will be the ability to customise how different paths are weighted to match the user's preferences.
+##### `B3` Range of options to customise routing
 
-#### Saving options as presets
+Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine will be the ability to customise how different paths are weighted to match the user's preferences.
 
-<!-- TODO -->
+#### Essential UI features
+
+The user interface (frontend of the project) will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders. Most of these features will depend on a corresponding feature on the backend.
+
+##### `F1` Communication with the routing engine
+
+The frontend will have to send and receive data to/from the routing engine using some form of API. This may be over HTTP, or using some sort of internal communication between the JavaScript and WebAssembly (WASM) runtimes.
+
+This will be essential so that the UI can get the calculated route that so that it can then draw it on the map (as described below).
+
+##### `F2` Drawing the route on a map
+
+My stakeholder interviews, especially with Andrew and Ili, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
+
+#### `F3` Fields to set the available options
+
+The UI should include some form elements that let the user access the different options supported by the routing engine.
+
+The focus should be on providing a good user experience when wanting to plan a route, so not all possible options need to be included, especially those relating to specifics of OSM feature tags. For example, the it may be possible to ask routing engine to prefer paths that are lit at night but not lit 24/7, but this is highly unlikely to be useful in the real world so doesn't need to be catered for in the UI.
+
+##### `F4` Saving options as presets
+
+As discussed above, he UI will include a variety of options, and each user might have their own preferred set of options. They may have a few different preferred sets of options for different situations, e.g. walking at night, jogging, walking for pleasure.
+
+Saving options as "presets" that can be loaded as the start/end locations are being entered, or automatically loaded when the app starts. This will have a number of important advantages:
+
+- Users don't have to remember their preferred options
+- If a user wants to tweak their options over time, saved options can be iteratively refined
+- It will be much faster to simply get a route, as the user won't me wasting time manually adjusting options
+- Having to repeat the same action each time the app is used will likely cause frustration
+
+Forcing the user to enter their preferred options manually would be very undesirable because it would cause the inverse of those advantages.
+
+This should be a feature entirely within the frontend, as the presents just need to be stored individually on each user's device.
+
+While not essential, adding the ability to import and export presets will facilitate sharing them between devices and users, if this is desired.
 
 ### Limitations of the system
 
