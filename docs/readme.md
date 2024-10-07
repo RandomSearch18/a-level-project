@@ -457,7 +457,16 @@ Pedestrians using my app will have varying needs and preferences, so an importan
 
 #### Saving options as presets
 
-<!-- TODO -->
+The app will support a variety of options, and each user might have their own preferred set of options. They may have a few different preferred sets of options for different situations, e.g. walking at night, jogging, walking for pleasure.
+
+Saving options as "presets" that can be loaded as the start/end locations are being entered, or automatically loaded when the app starts. This will have a number of important advantages:
+
+- Users don't have to remember their preferred options
+- If a user wants to tweak their options over time, saved options can be iteratively refined
+- It will be much faster to simply get a route, as the user won't me wasting time manually adjusting options
+- Having to repeat the same action each time the app is used will likely cause frustration
+
+Forcing the user to enter their preferred options manually would be very undesirable because it would cause the inverse of those advantages.
 
 ### Limitations of the system
 
