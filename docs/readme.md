@@ -462,7 +462,7 @@ Pedestrians using my app will have varying needs and preferences, so an importan
 
 #### Essential UI features
 
-The user interface (frontend of the project) will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders
+The user interface (frontend of the project) will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders. Most of these features will depend on a corresponding feature on the backend.
 
 #### Drawing the route on a map
 
@@ -476,7 +476,7 @@ The focus should be on providing a good user experience when wanting to plan a r
 
 #### Saving options as presets
 
-The app will support a variety of options, and each user might have their own preferred set of options. They may have a few different preferred sets of options for different situations, e.g. walking at night, jogging, walking for pleasure.
+As discussed above, he UI will include a variety of options, and each user might have their own preferred set of options. They may have a few different preferred sets of options for different situations, e.g. walking at night, jogging, walking for pleasure.
 
 Saving options as "presets" that can be loaded as the start/end locations are being entered, or automatically loaded when the app starts. This will have a number of important advantages:
 
