@@ -50,9 +50,11 @@ A-level Computer Science programming project
       - [One-line description](#one-line-description)
         - [Brainstorming](#brainstorming)
     - [Essential features](#essential-features)
-      - [Route generation](#route-generation)
-      - [Drawing the route on a map](#drawing-the-route-on-a-map)
       - [Different options to customise routing](#different-options-to-customise-routing)
+      - [Essential routing engine features](#essential-routing-engine-features)
+      - [Route generation](#route-generation)
+      - [Essential UI features](#essential-ui-features)
+      - [Drawing the route on a map](#drawing-the-route-on-a-map)
       - [Saving options as presets](#saving-options-as-presets)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic](#geographic)
@@ -443,17 +445,23 @@ I want a one-line description to succinctly capture a few key points of my app:
 
 Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
 
+#### Different options to customise routing
+
+Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine and its frontend will be the ability to customise how different paths are weighted to match the user's preferences.
+
+#### Essential routing engine features
+
 #### Route generation
 
 The core utility of a navigation app comes from the route it can generate. It should be able to produce a safe, legal, and fast route between the two provided points.
 
+#### Essential UI features
+
+The user interface will run in the browser, and will need a few key features to be a minimum viable product for my stakeholders
+
 #### Drawing the route on a map
 
-My stakeholder interviews, especially with Andrew, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
-
-#### Different options to customise routing
-
-Pedestrians using my app will have varying needs and preferences, so an important feature of the routing engine and its frontend will be the ability to customise how different paths are weighted to match the user's preferences.
+My stakeholder interviews, especially with Andrew and Ili, have shown that having the route displayed on a map is often the most valuable way to present the information. This will be done with the Leaflet.js library, by displaying an interactive base map that uses the OpenStreetMap Foundation (OSMF) raster tile server (<https://tile.openstreetmap.org/>). The route will then be overlaid with a coloured highlight along the paths that make up the route.
 
 #### Saving options as presets
 
