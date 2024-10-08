@@ -371,8 +371,29 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 - MR: Okay, there we are. Bring that a bit closer. Right, first of all, what I'd like to know is how often you use an app or website to get any sort of directions, on foot or by car.
 - IR: I would say, probably 3 times a week.
-- MR: Okay. And how often do you use an app for pedestrian directions.
+- MR: Okay. And how often do you use an app for pedestrian directions?
 - IR: Less frequently, but a couple of times a month maybe.
+- MR: Okay, yeah. And what situations do you use pedestrian navigation in?
+- IR: If I'm in a large city or something, and I need to find a new place I haven't been to before, and I'm not driving, then I'll walk there.
+- MR: Yeah, sounds good. What app do you use for that? For any sort of navigation.
+- IR: Google Maps. The only-
+- MR: Yep, the most common one. Can you think of any issues you have with the currently-available apps &mdash; so, Google Maps, basically &mdash; for pedestrian routing?
+- IR: I'm not always sure if Google \[Maps] pinpoints the place I want to go to accurately. So you don't know until you get there.
+- MR: Oh okay. Is that like location within a large place, like a shopping centre, or just a specific address where it might not know where you are?
+- IR: A specific address. If it's not a straightforward "Number 5, Acacia Avenue", \[there] can be a margin of uncertainty as to whether its gotten it right or not.
+- MR: Mhm, yeah. If it's 50 or 52 instead of 51 to 53. <!-- Note: this was an in-joke -->
+- IR: Yeah.
+- MR: If you're using an app for pedestrian routing, is it more helpful to have a route plotted on a map (like, highlighted on a map) or to get a list of directions?
+- IR: Well I'm quite good with maps, so I prefer a map rather than... directions I find are not so clear, specific, as-
+- MR: Yep.
+- IR: "turn right on a map": I can see where the actual... I prefer a map.
+- MR: Mhm, sounds good. And there are a lot of options for this question, but when the app's calculating a route, it will want to pick the shortest route, but there'll be other factors as well that will influence which route it prefers. Stuff to do with the path or the road that you're on. Are there any aspects that you think would be important to factor in?
+- IR: Yes, so obviously selecting roads that have footpaths on them, rather than a country lane without a footpath, if at all possible. Selecting a route in a busy city centre via pedestrian crossings might be useful, rather than get dual carriageways in the middle of-
+- MR: Yeah, we can definitely do that.
+- IR: ...the middle of Birmingham, for example, and you want to avoid asking people to cross those. You want to go via footbridge or other crossing facilities.
+- MR: Yeah, sounds good. And... I can probably guess the answer to this, but would a mobile or desktop app be more useful for you?
+- IR: Mobile. I don't carry the desktop around.
+- MR: So you can use it when you're actually needing the directions. And if you're accessing the navigation app through a web browser, would that be an advantage or disadvantage to you?
 - <!-- TODO continue :) -->
 
 [Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
