@@ -394,6 +394,24 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 - MR: Yeah, sounds good. And... I can probably guess the answer to this, but would a mobile or desktop app be more useful for you?
 - IR: Mobile. I don't carry the desktop around.
 - MR: So you can use it when you're actually needing the directions. And if you're accessing the navigation app through a web browser, would that be an advantage or disadvantage to you?
+- IR: To me, it's what I see that counts. I'm not really sure of the technical differences between viewing a picture that's on a web browser or through some other interface, from an app or something.
+- MR: Yep, mhm
+- IR: I mean, if I'm presented with a map I can understand, then it doesn't worry my how it gets there, really
+- MR: Yep. And finally, is it important for you for the navigation app to work while it's offline?
+- IR: That'd be useful, yes. If I had to pick between two apps, and that was the only difference between them, then I'd pick the one that worked offline as well.
+- MR: Yep.
+- IR: One thing that might be useful in a city centre scenario would be a dry route, as opposed to a shortest route. Through a shopping centre, or...
+- MR: So anywhere, sort of, covered?
+- IR: Covered, yeah.
+- MR: Prioritise those places.
+- IR: Yeah.
+- MR: Yeah.
+- MR: Yeah, sounds good. Any specific situations where offline support would be most helpful? Or is it just whenever mobile data is patchy.
+- IR: Yeah, patchy or...
+- IR: Yeah, that's when it's gonna be useful, is when you're in the countryside or something, and the signal's not so common, you might find it useful.
+- MR: Yeah.
+- IR: If you're doing a walk route, which might be across a big hill or something, you might like to have one that works offline.
+- MR: Yeah. Is there anything else you've thought of that you'd want to suggest or mention?
 - <!-- TODO continue :) -->
 
 [Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
