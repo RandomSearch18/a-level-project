@@ -367,7 +367,13 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 ###### Transcript
 
-<!-- TODO Transcript here -->
+<!-- TODO: Intro paragraph! -->
+
+- MR: Okay, there we are. Bring that a bit closer. Right, first of all, what I'd like to know is how often you use an app or website to get any sort of directions, on foot or by car.
+- IR: I would say, probably 3 times a week.
+- MR: Okay. And how often do you use an app for pedestrian directions.
+- IR: Less frequently, but a couple of times a month maybe.
+- <!-- TODO continue :) -->
 
 [Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
 
