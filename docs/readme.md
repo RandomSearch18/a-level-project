@@ -537,4 +537,26 @@ This will help keep the development time of the project manageable, as well as e
 
 #### Navigation feature limitations
 
-<!-- TODO we won't have live navigation and some other Googhmre Maps feaqtures -->
+The navigation app will provide a high-quality route and present it to the user. However, most auxiliary features found in other apps, especially Google Maps, are out of scope for the project. This is because these features can be very technically-complex, meaning that they will take a great length of time to research, analyse and develop. Deciding not to implement these features will help the project avoid scope creep, allow me to focus on the core product, should help keep the app performant, and avoid cluttering the UI with features that aren't wanted by my stakeholders.
+
+Some examples of auxiliary navigation features that are out of scope:
+
+- AR navigation
+  - Features that use a device's built in camera and GPS to overlay directions, instructions, or other routing information onto a live picture of the real-world environment the user is in
+  - For example, _Live View_ for pedestrian navigation in Google Maps
+- Points of interest (POIs) along the route
+  - After calculating a route, this feature could suggest POIs, such as restaurants, petrol stations, or parks
+  - While this feature would be very useful for planning long car or public transport journeys, it is of much less use for a pedestrian navigation app, where routes tend to be shorter, and often focused on simply getting to the desired point.
+  - In addition, OSM data about POIs will require a lot of development to parse the tags for POI data, and POI details on OSM are limited in a lot of places.
+- Route shown in 3D aerial imagery
+  - This uses aerial and street-level imagery to create a close-to-the-ground visualisation of the route, before it is embarked on
+  - For example, _Immersive View for routes_ in Google Maps
+  - This would also require a lot of development time, as well as imagery which isn't freely available
+
+There are also some auxiliary features that may be implementable within a reasonable amount of time, so it is possible that they will be added if time allows and they are desired by stakeholders. This includes:
+
+- Voice directions
+  - This involves using a text-to-speech (TTS) system to "speak" the instructions through a mobile phone's speakers, so that the route can be followed without needing to watch the phone screen.
+  - Will rely on a "live" turn-by-turn navigation mode being implemented, so that voice instructions can be called at the appropriate time
+  - An off-the-shelf TTS library could be used, perhaps using an neural TTS system like Piper (<https://github.com/rhasspy/piper>). However, this will require work to integrate, and may not perform well on mobile devices, especially lower-end ones.
+  - Text-to-speech libraries may also need extra work to run in a browser WASM environment
