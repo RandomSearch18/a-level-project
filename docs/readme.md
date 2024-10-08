@@ -367,7 +367,7 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 ###### Transcript
 
-<!-- TODO: Intro paragraph! -->
+In this transcript, Ili's words are labelled as "IR" and my words are labelled as "MR". I have removed most stuttering, filler words, and interjections that don't add any meaning.
 
 <div class="transcript">
 
