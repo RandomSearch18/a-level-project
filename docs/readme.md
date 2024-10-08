@@ -36,6 +36,7 @@ A-level Computer Science programming project
           - [Transcript](#transcript-1)
         - [Initial interview with Ili](#initial-interview-with-ili)
           - [Key takeaways](#key-takeaways-2)
+          - [Desired features](#desired-features-1)
           - [Transcript](#transcript-2)
         - [Follow-up discussion with Andrew](#follow-up-discussion-with-andrew)
       - [Similar solutions](#similar-solutions)
@@ -363,7 +364,17 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 ###### Key takeaways
 
 - Similarly to Andrew, Ili would strongly prefer a route rendered on a map to a list of directions
-- <!-- TODO -->
+- Unlike my other two stakeholders, he uses navigation apps for walking much less than for driving
+- His only gripe with Google Maps is how it is sometimes uncertain when finding more complex addresses
+  - While I could try improving on this in my project, I plan to focus more on improving the routing between two given points, rather than improving the geocoding and destination input.
+  - In addition, we will likely be limited by the number of addresses in the OSM database. OSM address coverage in the UK is not particularly extensive, so it's unlikely that I will be able to do better than Google Maps in that regard.
+- He is indifferent on the matter of a native app vs a web app, caring more about what it looks like than technical differences
+
+###### Desired features
+
+- Considering colour blind users when designing the map
+  - While I will be using off-the-shelf raster map tiles for the base map, which limits my ability to customise its colour scheme, I can ensure the rest of the UI remains accessible to those with colour blindness.
+  - Because the frontend runs in the browser, I will be able to use colour blindness emulation in browser dev tools to help ensure the app is usable, even for people with various vision difficulties.
 
 ###### Transcript
 
