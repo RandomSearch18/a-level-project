@@ -217,54 +217,54 @@ In this transcript, Andrew's words are labelled as "AS" and my words are labelle
 
 <div class="transcript">
 
-- **MR:** Alright, I'm going to be recording-
-- **AS:** Hi Mish
-- **MR:** Hello! Are you alright if I ask you some questions for my project?
-- **AS:** No.
-- **MR:** Yes.
-- **AS:** Yes, I am
-- **MR:** Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
-- **AS:** Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car or just walking
-- **MR:** So you'd say it's especially useful if you're going somewhere new?
-- **AS:** Yes, definitely
-- **MR:** Okay. And how often do you use an app for pedestrian navigation? So for just walking
-- **AS:** I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
-- **MR:** Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
-- **AS:** Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
-- **MR:** Yeah, so have your map coordinates that you can just go to, okay
-- **AS:** Just checking if it's recording?
-- **MR:** No, I was just reading my questions.
-- **MR:** And, what apps do you use or have you used to get directions?
-- **AS:** Pretty much entirely Google Maps, yeah
-- **MR:** Sounds good. Do you find its interface intuitive?
-- **AS:** Yeah-
-- **MR:** Do you find it, _\[incomprehensible]_ laid out?
-- **AS:** I have actually used Google maps to find someone before, so there's that. Yeah, it's intuitive, easy.
-- **MR:** Nice, okay. Anything you don't like about how Google Maps does pedestrian routing?
-- **AS:** It doesn't have a very good layout of paths, like smaller paths, it just doesn't show, which isn't nice, so I was trying to run to Shere, and I was trying to use the compass to find out which paths to take.
-- **MR:** Okay, yeah. That's definitely something I'm hoping to improve with this app.
-- **AS:** Great.
-- **MR:** So if you're using a navigation app, so you find it more helpful to have a list of directions with road names &mdash; "turn on to this road, turn on to that road, cross at this road" &mdash; or the route overlaid onto a map, that's highlighted in blue or whatever.
-- **AS:** Ah, definitely overlaid onto a map. It's quite nice to be able to visualise that.
-- **MR:** Yep. And how useful is it to have your location on it, so it can be updated live?
-- **AS:** Yeah, very very useful. Otherwise you're just _\[incomprehensible]_
-- **MR:** Mhm, sounds good. And finally, what factors do you think I should consider when deciding which route is best?
-- **AS:** So when you've got multiple different routes... to get to a place?
-- **MR:** Yeah, so, which properties or aspects of the paths and roads to consider. Like, obviously, everything else being equal, we'll go for the shortest path, because it's likely to be the quickest, but that's not the only thing that will affect how enjoyable your route will actually be.
-- **AS:** Oh, okay. That is an interesting comment.
-- **MR:** Take your time. It's one that requires some thinking.
-- **AS:** I can only think of really specific things, like if it's been raining, and there's a muddy path, you might want to stick to roads
-- **MR:** Yeah, that's useful yeah. So, maybe having "avoiding unpaved paths" as an option, as well as just a default thing?
-- **AS:** And maybe, what, elevation... you don't wanna climb a really steep thing and then go down a really steep thing when you can go around.
-- **MR:** That's a good point, yeah. That sounds good.
-- **AS:** I suppose if you could get foot traffic data, but it doesn't really matter if there's a lot of people blocking your path unless there's a lot and a lot of people
-- **MR:** Yeah, that's good. What about paths being lit at night?
-- **AS:** Oh yeah, that's a very good point. Yeah, you definitely want to go down lit paths at night.
-- **MR:** Okay, sounds good! Alright, thanks for answering my questions-
-- **AS:** No worries.
-- **MR:** And if you have any other feedback you can email me or tell me.
-- **AS:** Yep, I probably won't email you.
-- **MR:** As great as emails are.
+- **MR**: Alright, I'm going to be recording-
+- **AS**: Hi Mish
+- **MR**: Hello! Are you alright if I ask you some questions for my project?
+- **AS**: No.
+- **MR**: Yes.
+- **AS**: Yes, I am
+- **MR**: Which is going to be a project on pedestrian routing, so it will be a navigation app, basically. Okay, I'd like to know first of all, how often you use a app or website to get directions, at all.
+- **AS**: Probably about once every two weeks, when I'm going somewhere new... how long a journey will take, \[by] car or just walking
+- **MR**: So you'd say it's especially useful if you're going somewhere new?
+- **AS**: Yes, definitely
+- **MR**: Okay. And how often do you use an app for pedestrian navigation? So for just walking
+- **AS**: I'd say it's about 50/50 with using it for cars, honestly... if I need to just find out how to get somewhere if I don't have a car, which is quite important for me-
+- **MR**: Yeah, that's fair, yeah. Any situations where you find it especially useful to have that pedestrian routing available? Or is it just in general if you're walking somewhere?
+- **AS**: Well, yeah, that, but I've found it's also quite useful when I'm trying to find out where someone is, if they give you their location so you can route to that using, Google Maps, usually.
+- **MR**: Yeah, so have your map coordinates that you can just go to, okay
+- **AS**: Just checking if it's recording?
+- **MR**: No, I was just reading my questions.
+- **MR**: And, what apps do you use or have you used to get directions?
+- **AS**: Pretty much entirely Google Maps, yeah
+- **MR**: Sounds good. Do you find its interface intuitive?
+- **AS**: Yeah-
+- **MR**: Do you find it, _\[incomprehensible]_ laid out?
+- **AS**: I have actually used Google maps to find someone before, so there's that. Yeah, it's intuitive, easy.
+- **MR**: Nice, okay. Anything you don't like about how Google Maps does pedestrian routing?
+- **AS**: It doesn't have a very good layout of paths, like smaller paths, it just doesn't show, which isn't nice, so I was trying to run to Shere, and I was trying to use the compass to find out which paths to take.
+- **MR**: Okay, yeah. That's definitely something I'm hoping to improve with this app.
+- **AS**: Great.
+- **MR**: So if you're using a navigation app, so you find it more helpful to have a list of directions with road names &mdash; "turn on to this road, turn on to that road, cross at this road" &mdash; or the route overlaid onto a map, that's highlighted in blue or whatever.
+- **AS**: Ah, definitely overlaid onto a map. It's quite nice to be able to visualise that.
+- **MR**: Yep. And how useful is it to have your location on it, so it can be updated live?
+- **AS**: Yeah, very very useful. Otherwise you're just _\[incomprehensible]_
+- **MR**: Mhm, sounds good. And finally, what factors do you think I should consider when deciding which route is best?
+- **AS**: So when you've got multiple different routes... to get to a place?
+- **MR**: Yeah, so, which properties or aspects of the paths and roads to consider. Like, obviously, everything else being equal, we'll go for the shortest path, because it's likely to be the quickest, but that's not the only thing that will affect how enjoyable your route will actually be.
+- **AS**: Oh, okay. That is an interesting comment.
+- **MR**: Take your time. It's one that requires some thinking.
+- **AS**: I can only think of really specific things, like if it's been raining, and there's a muddy path, you might want to stick to roads
+- **MR**: Yeah, that's useful yeah. So, maybe having "avoiding unpaved paths" as an option, as well as just a default thing?
+- **AS**: And maybe, what, elevation... you don't wanna climb a really steep thing and then go down a really steep thing when you can go around.
+- **MR**: That's a good point, yeah. That sounds good.
+- **AS**: I suppose if you could get foot traffic data, but it doesn't really matter if there's a lot of people blocking your path unless there's a lot and a lot of people
+- **MR**: Yeah, that's good. What about paths being lit at night?
+- **AS**: Oh yeah, that's a very good point. Yeah, you definitely want to go down lit paths at night.
+- **MR**: Okay, sounds good! Alright, thanks for answering my questions-
+- **AS**: No worries.
+- **MR**: And if you have any other feedback you can email me or tell me.
+- **AS**: Yep, I probably won't email you.
+- **MR**: As great as emails are.
 
 </div>
 
@@ -371,58 +371,58 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 
 <div class="transcript">
 
-- **MR:** Okay, there we are. Bring that a bit closer. Right, first of all, what I'd like to know is how often you use an app or website to get any sort of directions, on foot or by car.
-- **IR:** I would say, probably 3 times a week.
-- **MR:** Okay. And how often do you use an app for pedestrian directions?
-- **IR:** Less frequently, but a couple of times a month maybe.
-- **MR:** Okay, yeah. And what situations do you use pedestrian navigation in?
-- **IR:** If I'm in a large city or something, and I need to find a new place I haven't been to before, and I'm not driving, then I'll walk there.
-- **MR:** Yeah, sounds good. What app do you use for that? For any sort of navigation.
-- **IR:** Google Maps. The only-
-- **MR:** Yep, the most common one. Can you think of any issues you have with the currently-available apps &mdash; so, Google Maps, basically &mdash; for pedestrian routing?
-- **IR:** I'm not always sure if Google \[Maps] pinpoints the place I want to go to accurately. So you don't know until you get there.
-- **MR:** Oh okay. Is that like location within a large place, like a shopping centre, or just a specific address where it might not know where you are?
-- **IR:** A specific address. If it's not a straightforward "Number 5, Acacia Avenue", \[there] can be a margin of uncertainty as to whether its gotten it right or not.
-- **MR:** Mhm, yeah. If it's 50 or 52 instead of 51 to 53. <!-- Note: this was an in-joke -->
-- **IR:** Yeah.
-- **MR:** If you're using an app for pedestrian routing, is it more helpful to have a route plotted on a map (like, highlighted on a map) or to get a list of directions?
-- **IR:** Well I'm quite good with maps, so I prefer a map rather than... directions I find are not so clear, specific, as-
-- **MR:** Yep.
-- **IR:** "turn right on a map": I can see where the actual... I prefer a map.
-- **MR:** Mhm, sounds good. And there are a lot of options for this question, but when the app's calculating a route, it will want to pick the shortest route, but there'll be other factors as well that will influence which route it prefers. Stuff to do with the path or the road that you're on. Are there any aspects that you think would be important to factor in?
-- **IR:** Yes, so obviously selecting roads that have footpaths on them, rather than a country lane without a footpath, if at all possible. Selecting a route in a busy city centre via pedestrian crossings might be useful, rather than get dual carriageways in the middle of-
-- **MR:** Yeah, we can definitely do that.
-- **IR:** ...the middle of Birmingham, for example, and you want to avoid asking people to cross those. You want to go via footbridge or other crossing facilities.
-- **MR:** Yeah, sounds good. And... I can probably guess the answer to this, but would a mobile or desktop app be more useful for you?
-- **IR:** Mobile. I don't carry the desktop around.
-- **MR:** So you can use it when you're actually needing the directions. And if you're accessing the navigation app through a web browser, would that be an advantage or disadvantage to you?
-- **IR:** To me, it's what I see that counts. I'm not really sure of the technical differences between viewing a picture that's on a web browser or through some other interface, from an app or something.
-- **MR:** Yep, mhm
-- **IR:** I mean, if I'm presented with a map I can understand, then it doesn't worry my how it gets there, really
-- **MR:** Yep. And finally, is it important for you for the navigation app to work while it's offline?
-- **IR:** That'd be useful, yes. If I had to pick between two apps, and that was the only difference between them, then I'd pick the one that worked offline as well.
-- **MR:** Yep.
-- **IR:** One thing that might be useful in a city centre scenario would be a dry route, as opposed to a shortest route. Through a shopping centre, or...
-- **MR:** So anywhere, sort of, covered?
-- **IR:** Covered, yeah.
-- **MR:** Prioritise those places.
-- **IR:** Yeah.
-- **MR:** Yeah.
-- **MR:** Yeah, sounds good. Any specific situations where offline support would be most helpful? Or is it just whenever mobile data is patchy.
-- **IR:** Yeah, patchy or...
-- **IR:** Yeah, that's when it's gonna be useful, is when you're in the countryside or something, and the signal's not so common, you might find it useful.
-- **MR:** Yeah.
-- **IR:** If you're doing a walk route, which might be across a big hill or something, you might like to have one that works offline.
-- **MR:** Yeah. Is there anything else you've thought of that you'd want to suggest or mention? Or any questions you have about the project?
-- **IR:** I don't know whether most mapping apps these days take into account people with colour blindness and suchlike. Was it red and green, or red and blue, that's commonly indistinguishable by people who are colour blind, whether that's something to bear in mind.
-- **MR:** So, when thinking about how the map's presented, or how it's highlighted.
-- **IR:** Yeah, the colour of the map. I mean, I'm not colour blind, so I can see things... I don't appreciate, necessarily, that a red route on a green background or something might not stick out very well. So you have that kind of colour blindness.
-- **MR:** Mhm, yep
-- **IR:** Apart from that, nothing else spring to mind.
-- **MR:** Okay, cool. Thank you very much.
-- **IR:** You're welcome.
-- **MR:** Hopefully you'll be able to find some use for the app.
-- **IR:** Yep.
+- **MR**: Okay, there we are. Bring that a bit closer. Right, first of all, what I'd like to know is how often you use an app or website to get any sort of directions, on foot or by car.
+- **IR**: I would say, probably 3 times a week.
+- **MR**: Okay. And how often do you use an app for pedestrian directions?
+- **IR**: Less frequently, but a couple of times a month maybe.
+- **MR**: Okay, yeah. And what situations do you use pedestrian navigation in?
+- **IR**: If I'm in a large city or something, and I need to find a new place I haven't been to before, and I'm not driving, then I'll walk there.
+- **MR**: Yeah, sounds good. What app do you use for that? For any sort of navigation.
+- **IR**: Google Maps. The only-
+- **MR**: Yep, the most common one. Can you think of any issues you have with the currently-available apps &mdash; so, Google Maps, basically &mdash; for pedestrian routing?
+- **IR**: I'm not always sure if Google \[Maps] pinpoints the place I want to go to accurately. So you don't know until you get there.
+- **MR**: Oh okay. Is that like location within a large place, like a shopping centre, or just a specific address where it might not know where you are?
+- **IR**: A specific address. If it's not a straightforward "Number 5, Acacia Avenue", \[there] can be a margin of uncertainty as to whether its gotten it right or not.
+- **MR**: Mhm, yeah. If it's 50 or 52 instead of 51 to 53. <!-- Note: this was an in-joke -->
+- **IR**: Yeah.
+- **MR**: If you're using an app for pedestrian routing, is it more helpful to have a route plotted on a map (like, highlighted on a map) or to get a list of directions?
+- **IR**: Well I'm quite good with maps, so I prefer a map rather than... directions I find are not so clear, specific, as-
+- **MR**: Yep.
+- **IR**: "turn right on a map": I can see where the actual... I prefer a map.
+- **MR**: Mhm, sounds good. And there are a lot of options for this question, but when the app's calculating a route, it will want to pick the shortest route, but there'll be other factors as well that will influence which route it prefers. Stuff to do with the path or the road that you're on. Are there any aspects that you think would be important to factor in?
+- **IR**: Yes, so obviously selecting roads that have footpaths on them, rather than a country lane without a footpath, if at all possible. Selecting a route in a busy city centre via pedestrian crossings might be useful, rather than get dual carriageways in the middle of-
+- **MR**: Yeah, we can definitely do that.
+- **IR**: ...the middle of Birmingham, for example, and you want to avoid asking people to cross those. You want to go via footbridge or other crossing facilities.
+- **MR**: Yeah, sounds good. And... I can probably guess the answer to this, but would a mobile or desktop app be more useful for you?
+- **IR**: Mobile. I don't carry the desktop around.
+- **MR**: So you can use it when you're actually needing the directions. And if you're accessing the navigation app through a web browser, would that be an advantage or disadvantage to you?
+- **IR**: To me, it's what I see that counts. I'm not really sure of the technical differences between viewing a picture that's on a web browser or through some other interface, from an app or something.
+- **MR**: Yep, mhm
+- **IR**: I mean, if I'm presented with a map I can understand, then it doesn't worry my how it gets there, really
+- **MR**: Yep. And finally, is it important for you for the navigation app to work while it's offline?
+- **IR**: That'd be useful, yes. If I had to pick between two apps, and that was the only difference between them, then I'd pick the one that worked offline as well.
+- **MR**: Yep.
+- **IR**: One thing that might be useful in a city centre scenario would be a dry route, as opposed to a shortest route. Through a shopping centre, or...
+- **MR**: So anywhere, sort of, covered?
+- **IR**: Covered, yeah.
+- **MR**: Prioritise those places.
+- **IR**: Yeah.
+- **MR**: Yeah.
+- **MR**: Yeah, sounds good. Any specific situations where offline support would be most helpful? Or is it just whenever mobile data is patchy.
+- **IR**: Yeah, patchy or...
+- **IR**: Yeah, that's when it's gonna be useful, is when you're in the countryside or something, and the signal's not so common, you might find it useful.
+- **MR**: Yeah.
+- **IR**: If you're doing a walk route, which might be across a big hill or something, you might like to have one that works offline.
+- **MR**: Yeah. Is there anything else you've thought of that you'd want to suggest or mention? Or any questions you have about the project?
+- **IR**: I don't know whether most mapping apps these days take into account people with colour blindness and suchlike. Was it red and green, or red and blue, that's commonly indistinguishable by people who are colour blind, whether that's something to bear in mind.
+- **MR**: So, when thinking about how the map's presented, or how it's highlighted.
+- **IR**: Yeah, the colour of the map. I mean, I'm not colour blind, so I can see things... I don't appreciate, necessarily, that a red route on a green background or something might not stick out very well. So you have that kind of colour blindness.
+- **MR**: Mhm, yep
+- **IR**: Apart from that, nothing else spring to mind.
+- **MR**: Okay, cool. Thank you very much.
+- **IR**: You're welcome.
+- **MR**: Hopefully you'll be able to find some use for the app.
+- **IR**: Yep.
 
 </div>
 
