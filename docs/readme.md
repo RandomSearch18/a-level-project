@@ -61,9 +61,9 @@ A-level Computer Science programming project
         - [`F4` Saving options as presets](#f4-saving-options-as-presets)
         - [`F5` Accessibility](#f5-accessibility)
     - [Limitations of the system](#limitations-of-the-system)
-      - [Geographic](#geographic)
-      - [Routing features](#routing-features)
-      - [Navigation features](#navigation-features)
+      - [Geographic limitations](#geographic-limitations)
+      - [Routing feature limitations](#routing-feature-limitations)
+      - [Navigation feature limitations](#navigation-feature-limitations)
 
 ## Analysis
 
@@ -516,7 +516,7 @@ This is especially important for my routing engine, as part of its target person
 
 To keep the project manageable and ensure I can focus on producing the features that will be of most value to my stakeholders, I have limited the scope in a few key areas: geographic scope, routing scope, and navigation features.
 
-#### Geographic
+#### Geographic limitations
 
 The navigation app will only support start and end locations that are in the United Kingdom, specifically those that are within the United Kingdom region provided by Geofabrik, as specified in the .poly file at <https://download.geofabrik.de/europe/united-kingdom.poly>.
 
@@ -527,7 +527,7 @@ Advantages of limiting this scope:
 - If I want to download the entire map data for the UK during development, it will be a manageable file size (1.7 GB, compared to 76.6 GB for the entire planet)
 - It will help ensure only land routing is necessary, which aligns with the fact that transportation methods for crossing water, like ferries, won't be supported (as specified below)
 
-#### Routing features
+#### Routing feature limitations
 
 While the app will support a number of options to customise the routing graph weights for different pedestrian routing use-cases, the scope of routing features will be limited to those useful for pedestrians (including walking, or using a scooter or wheelchair). Adding support for other modes of transport, like public transport, ferries, cycling, or driving, is out of scope for this project.
 
@@ -535,6 +535,6 @@ Focusing on pedestrian navigation is justified because it has been identified as
 
 This will help keep the development time of the project manageable, as well as ensuring that the app does its one job well.
 
-#### Navigation features
+#### Navigation feature limitations
 
 <!-- TODO we won't have live navigation and some other Googhmre Maps feaqtures -->
