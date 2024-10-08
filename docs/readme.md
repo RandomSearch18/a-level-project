@@ -411,8 +411,16 @@ My interview with Ili was done two weeks later than my other two initial stakeho
 - IR: Yeah, that's when it's gonna be useful, is when you're in the countryside or something, and the signal's not so common, you might find it useful.
 - MR: Yeah.
 - IR: If you're doing a walk route, which might be across a big hill or something, you might like to have one that works offline.
-- MR: Yeah. Is there anything else you've thought of that you'd want to suggest or mention?
-- <!-- TODO continue :) -->
+- MR: Yeah. Is there anything else you've thought of that you'd want to suggest or mention? Or any questions you have about the project?
+- IR: I don't know whether most mapping apps these days take into account people with colour blindness and suchlike. Was it red and green, or red and blue, that's commonly indistinguishable by people who are colour blind, whether that's something to bear in mind.
+- MR: So, when thinking about how the map's presented, or how it's highlighted.
+- IR: Yeah, the colour of the map. I mean, I'm not colour blind, so I can see things... I don't appreciate, necessarily, that a red route on a green background or something might not stick out very well. So you have that kind of colour blindness.
+- MR: Mhm, yep
+- IR: Apart from that, nothing else spring to mind.
+- MR: Okay, cool. Thank you very much.
+- IR: You're welcome.
+- MR: Hopefully you'll be able to find some use for the app.
+- IR: Yep.
 
 [Download the full recording (08:36, m4v, 0.8 MB)](./assets/interviews/ili/2024-10-06-ili-initial-interview.m4v)
 
