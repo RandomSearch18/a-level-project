@@ -19,6 +19,7 @@ A-level Computer Science programming project
     - [Stakeholders](#stakeholders)
       - [James](#james)
       - [Andrew](#andrew)
+      - [Ili](#ili)
     - [Problem definition](#problem-definition)
     - [Justification of computational approach](#justification-of-computational-approach)
       - [Initial situation](#initial-situation)
@@ -77,7 +78,9 @@ James is a member of my computing class and is interested in using OpenStreetMap
 
 Andrew is also in my computing class so I will have frequent contact with him. One use case he looks forward to trying is finding the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
 
-<!-- TODO Ili?? -->
+#### Ili
+
+Ili is a family member who will be able to provide feedback and ideas often. While he doesn't use pedestrian routing as often as my other stakeholders, he often uses navigation apps for driving and enjoys using maps. This means that he will certainly offer valuable opinions on map design, how intuitive the UI is, and the general user experience. He has highlighted the need for safety in pedestrian navigation, i.e. while crossing roads. My navigation app will provide him with an alternative to Google Maps for shorter journeys that better understands the pavements and crossings in our area.
 
 ### Problem definition
 
