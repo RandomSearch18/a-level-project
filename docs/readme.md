@@ -43,6 +43,8 @@ A-level Computer Science programming project
         - [Open Source Routing Machine (routing engine)](#open-source-routing-machine-routing-engine)
           - [Algorithm](#algorithm)
           - [Experience](#experience)
+        - [GraphHopper](#graphhopper)
+          - [Algorithm](#algorithm-1)
     - [Project goals and branding](#project-goals-and-branding)
       - [One-line description](#one-line-description)
         - [Brainstorming](#brainstorming)
@@ -473,7 +475,7 @@ Valhalla is written in C++.
 
 [^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
 
-Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a can perform car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
+Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
 
 ###### Algorithm
 
@@ -486,6 +488,20 @@ OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, wit
 Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
 
 ![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
+
+##### GraphHopper
+
+> GraphHopper is a fast and memory-efficient routing engine released under Apache License 2.0.[^graphhopper-readme]
+
+GraphHopper is the third main open-source routing engine that uses OSM data. It's written in Java and supports a range of transport modes, including walking.
+
+[^graphhopper-readme]: GraphHopper readme file (<https://github.com/graphhopper/graphhopper/blob/c0ad6b040b8930ad2a5a28661b211b1289a5d93d/README.md>), accessed 9 October 2024
+
+###### Algorithm
+
+GraphHopper supports Dijkstra's algorithm and the A\* algorithm. It also supports contraction hierarchies, which improves speed at the cost of less flexibility to incorporate additional factors (e.g. traffic data).[^graphhopper-technical-overview]
+
+[^graphhopper-technical-overview]: GraphHopper technical overview (<https://github.com/graphhopper/graphhopper/blob/c0ad6b040b8930ad2a5a28661b211b1289a5d93d/README.md#technical-overview>), accessed 9 October 2024
 
 ### Project goals and branding
 
