@@ -2,14 +2,9 @@
 
 A-level Computer Science programming project
 
-<span hidden>
 <style>
-  .transcript strong {
-    /* Make transcripts lines line up with each other */
-    font-family: monospace;
-  }
+@import "./main.css";
 </style>
-</span>
 
 ## Contents
 
@@ -673,3 +668,12 @@ There are also some auxiliary features that may be implementable within a reason
   - Will rely on a "live" turn-by-turn navigation mode being implemented, so that voice instructions can be called at the appropriate time
   - An off-the-shelf TTS library could be used, perhaps using an neural TTS system like Piper (<https://github.com/rhasspy/piper>). However, this will require work to integrate, and may not perform well on mobile devices, especially lower-end ones.
   - Text-to-speech libraries may also need extra work to run in a browser WASM environment
+
+---
+
+<div>
+
+<!-- Import CSS styles for VSCode's markdown preview -->
+<style>
+@import "./main.css";
+</style>

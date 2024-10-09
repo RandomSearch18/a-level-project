@@ -1,0 +1,4 @@
+.transcript strong {
+  /* Make transcripts lines line up with each other */
+  font-family: monospace;
+}
