@@ -73,11 +73,11 @@ A-level Computer Science programming project
 
 #### James
 
-James is a member of my computing class and is interested in using OpenStreetMap (OSM) data for navigation, but needs a program that can reliably do this. He has already tried a few apps that use OSM, so he will be able to provide insights to how my engine compares to results from other programs, as well as suggest areas where other engines fall short.
+James is a member of my computing class and is interested in using OpenStreetMap (OSM) data for navigation, but needs a program that can reliably do this. He has already tried a few apps that use map data from OSM, so he will be able to provide insights to how my engine compares to results from other programs, as well as suggest areas where other engines fall short.
 
 #### Andrew
 
-Andrew is also in my computing class so I will have frequent contact with him. He uses pedestrian navigation for a variety of purposes, from going for runs in his local green spaces to goal-oriented navigation in a city centre. One use case he looks forward to trying is finding the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
+Andrew is also in my computing class so I will have frequent contact with him. He uses pedestrian navigation for a variety of purposes in our local area, from going for runs in green spaces to goal-oriented navigation in a city centre. This wide range of uses in a small geographic area will be invaluable for rapid feedback cycles and adjustment of the routing engine during development. One use case he looks forward to trying is finding the optimal route to get to the local bakery from school. He wants to have easy-to read instructions and the total distance he'll have to walk.
 
 #### Ili
 
