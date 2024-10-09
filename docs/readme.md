@@ -2,10 +2,6 @@
 
 A-level Computer Science programming project
 
-<style>
-@import "./main.css";
-</style>
-
 ## Contents
 
 - [Pedestrian routing using open map data](#pedestrian-routing-using-open-map-data)
