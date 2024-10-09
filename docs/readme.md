@@ -11,7 +11,7 @@ A-level Computer Science programming project
 - [Pedestrian routing using open map data](#pedestrian-routing-using-open-map-data)
   - [Contents](#contents)
   - [Analysis](#analysis)
-    - [Stakeholders](#stakeholders)
+    - [Stakeholder identification](#stakeholder-identification)
       - [James](#james)
       - [Andrew](#andrew)
       - [Ili](#ili)
@@ -68,7 +68,7 @@ A-level Computer Science programming project
 
 ## Analysis
 
-### Stakeholders
+### Stakeholder identification
 
 #### James
 
@@ -84,7 +84,7 @@ Ili is a family member who will be able to provide feedback and ideas often. Whi
 
 ### Problem definition
 
-A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads. Routing engines first became commonly used with satnavs and similar automotive navigation systems ([Wikipedia](https://en.wikipedia.org/wiki/Automotive_navigation)) that provide live directions for driving.
+A routing engine is a piece of software that calculates a route between two points in the world, following a pre-defined network of paths or roads. Routing engines first became commonly used with satnavs and similar automotive navigation systems ([Wikipedia: w.wiki/BUn$](https://en.wikipedia.org/wiki/Automotive_navigation)) that provide live directions for driving.
 
 Nowadays, "navigation apps" are the most common way to interact with a routing engine. They make the features of a routing engine accessible through a graphical interface that lets users enter a starting point and destination, from which a route will be calculated and plotted on a map.
 
