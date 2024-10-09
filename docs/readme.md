@@ -65,6 +65,10 @@ A-level Computer Science programming project
       - [Geographic limitations](#geographic-limitations)
       - [Routing feature limitations](#routing-feature-limitations)
       - [Navigation feature limitations](#navigation-feature-limitations)
+    - [Hardware and software requirements](#hardware-and-software-requirements)
+      - [Software requirements (routing engine)](#software-requirements-routing-engine)
+      - [Hardware requirements (routing engine)](#hardware-requirements-routing-engine)
+      - [Requirements (web app)](#requirements-web-app)
 
 ## Analysis
 
@@ -684,6 +688,64 @@ There are also some auxiliary features that may be implementable within a reason
   - Will rely on a "live" turn-by-turn navigation mode being implemented, so that voice instructions can be called at the appropriate time
   - An off-the-shelf TTS library could be used, perhaps using an neural TTS system like Piper (<https://github.com/rhasspy/piper>). However, this will require work to integrate, and may not perform well on mobile devices, especially lower-end ones.
   - Text-to-speech libraries may also need extra work to run in a browser WASM environment
+
+### Hardware and software requirements
+
+Most users will access the software through the web app, which only requires a modern browser environment. However, the Python routing engine can also be run separately, in which case it will have its own specific requirements.
+
+#### Software requirements (routing engine)
+
+- Python 3.10 or later
+  - This is required because the routing engine will be written in Python, so will need a Python interpreter
+  - I've selected Python 3.10 as the minimum supported version because it is the oldest version that supports writing union types as `X | Y`, a feature that I have found has improved my developer experience in past projects
+  - Python 3.10 was released in October 2021, so it is reasonable to expect a modern operating system to have at least Python 3.10 available.
+  - For example, most Linux distributions package a newer version of Python, e.g. Debian 12 "bookworm" ships Python 3.11.[^debian-python-pkg]
+  - Python 2 will not be supported, as it reached end-of-life in 2020.[^python-2-eol]
+- Python packages as specified in the `requirements.txt`
+  - The final program will depend on a number of packages, although a list cannot be given for certain during the analysis phase
+  - It is recommended that these are installed in a Python virtual environment, as per best practices for running Python code, but this is not strictly necessary
+- A Windows or GNU/Linux operating system
+  - This is because the program will use certain OS-specific features, such as file paths, and I am only able to test on Windows and GNU/Linux environments.
+  - Other similar environments (e.g. BSD, Linux with `musl`) may work, but won't be tested and are therefore unsupported.
+
+[^debian-python-pkg]: See <https://packages.debian.org/bookworm/python3>
+[^python-2-eol]: See <https://www.python.org/doc/sunset-python-2/>
+
+#### Hardware requirements (routing engine)
+
+- Recommended: A reasonably fast desktop or mobile CPU from the past 10 years, clock speed around 1 GHz or greater
+  - In theory a slower processor, even one in an embedded system, will be able to run the routing engine, but any processor that is too slow will mean that routing calculations take an comically long time
+  - This low requirement will keep the program accessible and ensure that older devices remain useful. Example baseline systems that should be able to run the routing engine include:
+    - A desktop system with an Intel Haswell CPU
+    - A budget mobile phone with a Snapdragon 600 series CPU
+    - A Raspberry Pi 3
+- Around 512 MB of free memory, depending on how much of the routing graph is loaded into memory
+  - The routing engine will need to store the routing graph in memory before it can calculate a route, so a sizeable amount of memory is justified
+  - The actual amount of memory required will depend on how much memory the routing graph takes up, as well as if a large geographical area is pre-loaded, or only the area around the start and end points. This has not been determined yet.
+  - Similarly to the CPU requirement, keeping this requirement low will ensure that the program is usable on a range of devices
+- Around 2 GB of free disk space
+  - The routing engine will most likely have to store the OSM data for the entirety of the UK locally, which is around 2 GB when compressed. If the data is stored decompressed, this requirement will be greater.
+  - Similarly to the memory requirement above, the exact requirement cannot be reasonably determined until the solution is coded
+  - The program will also need enough space for its own code, but this is likely to me negligible compared to the map data
+  - This requirement may pose an issue when integrating it into the web app, as web apps are not expected to require such a large amount of persistent storage. This could be mitigated by downloading smaller regions of map data before a route is calculated.
+
+#### Requirements (web app)
+
+- A modern web browser that supports WASM (A browser based on Chromium or Firefox is recommended)
+  - The "modern" browser requirement will allow me to use modern JavaScript, HTML, and CSS features, which will make the app easier to develop, and in a lot of cases, more accessible and performant
+  - WASM is required because the routing engine is written in Python, and will be executed in a WASM runtime in the browser. Without the routing engine embedded, the web app will be about as useful as subtitles for a silent movie.
+  - Testing will be done on Firefox Developer Edition (primarily), Google Chrome, and Brave, so the requirements will match the environment used for development and testing
+  - With that said, any browser that supports the required web standards will be able to run the app. This helps to keep the app accessible users in unusual environments, or using a less-popular or novel browser engine
+- A pointing device, touch interface, or keyboard that can interact with web pages
+  - This is required so that the user can interact with buttons, text inputs, and other elements in the web app
+  - Without such a device, there will be no way for the user to interact with the app
+  - A range of input methods are supported to ensure that the app is accessible to as many users as possible
+- An internet connection (for the initial load of the app)
+  - As a web app, the code will be requested from a web server when the app is loaded, which requires an internet connection
+  - Users may not be able to access the app if they have a censored internet connection, in which case a VPN, proxy, or similar technology can be used for the first load.
+  - Since I plan to build it as a PWA, the app will use caching and service workers to ensure it can work offline once it has been loaded once or twice. Therefore, an internet connection will only be required for the first load, or to update the app to a new version.
+
+Any other software or hardware requirements will depend on the requirements of the web browser used, so are not included here as they will depend between browser, browser version, and environment.
 
 ---
 
