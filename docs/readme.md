@@ -48,9 +48,10 @@ A-level Computer Science programming project
         - [Open Source Routing Machine (routing engine)](#open-source-routing-machine-routing-engine)
           - [Algorithm](#algorithm)
           - [Experience](#experience)
-    - [Project goals](#project-goals)
+    - [Project goals and branding](#project-goals-and-branding)
       - [One-line description](#one-line-description)
         - [Brainstorming](#brainstorming)
+        - [Conclusion](#conclusion)
     - [Essential features](#essential-features)
       - [Essential routing engine features](#essential-routing-engine-features)
         - [`B1` Route generation](#b1-route-generation)
@@ -490,11 +491,17 @@ Below is an example route that demonstrates two features I like about OSRM: it s
 
 ![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
 
-### Project goals
+### Project goals and branding
 
-After gaining an idea of exactly what my stakeholders want from a navigation app, I can think about what the goals of the project should be. This will guide the specific features that I add and give an idea of what the end product should look like.
+After gaining an idea of exactly what my stakeholders want from a navigation app, I can think about what the high-level goals of the project should be. I will then transform this into some example prose for describing the app, to create a sort of branding that describes what the project will do and what features it will have. I want to capture the "vibe" of the project before I start developing it.
 
-Describing what the app should provide will also be an effective way to communicate the app's purpose to stakeholders or anyone else interested, making it easier to explain what the project is.
+Thinking about branding early on in the project will have a few advantages, e.g. to:
+
+- Provide a consistent mindset that I can keep during development, to help keep the project moving in the right direction
+- Inspire the specific features that I add
+- Be a "guiding star" of what the end product should look like
+- Describe what the app will provide, to effectively communicate the app's purpose to stakeholders or anyone else interested
+- Make it easier to explain what the project is, by providing a sentence or set of sentences that I know will do a good job at describing the app.
 
 #### One-line description
 
@@ -503,6 +510,10 @@ I want a one-line description to succinctly capture a few key points of my app:
 - Accessibility
   - The app will have lots of options to aid with accessible pedestrian travel
   - This is a key unique feature of the app, so I want to mention it in a one-line description
+- Cross-platform support
+- Keeping it simple
+- Benefit to the environment (perhaps)
+  - As the app will make it easier for people to get around by walking, which is better for the environment than powered transport
 
 ##### Brainstorming
 
@@ -514,7 +525,27 @@ I want a one-line description to succinctly capture a few key points of my app:
 2. "Pedestrian navigation, optimised for you"
    - "optimised for you" represents the variety of options that will make it able to cater for a variety of users and situations
    - "pedestrian navigation" is easier to understand than "pedestrian routing"
-   - the pronoun in "optimised for you" perhaps sounds a bit vague and overly promotional, where I want it to be mainly descriptive
+   - The pronoun in "optimised for you" perhaps sounds a bit vague and overly promotional, where I want it to be mainly descriptive
+3. "Easy pedestrian navigation for anyone"
+   - This returns to the "for anyone" phrasing
+   - I wanted a nicer synonym for "simple" (as it will be a no-frills app), so I went for "easy"
+   - "easy" should also capture the ease of use that I hope to build in to the app by working closely with my stakeholders and holding accessibility as a priority.
+4. "Easy pedestrian navigation for everyone"
+   - I changed "anyone" to "everyone" as I feel it elicits an even greater sense of inclusivity and accessibility
+5. "Pedestrian navigation, done right"
+   - "done right" signifies the attention to detail that will be put into the routing engine to ensure it uses footpaths, pavements, and other paths correctly
+   - "done right" also highlights how the project will improve upon other navigation apps like Google Maps that have inadequate coverage of paths.
+   - However, this one lacks the description of benefits to users, like the others have
+
+##### Conclusion
+
+For users:
+
+> Easy pedestrian navigation for everyone
+
+For developers (tentative):
+
+> Pedestrian navigation, done right
 
 ### Essential features
 
