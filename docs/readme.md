@@ -52,6 +52,7 @@ A-level Computer Science programming project
       - [One-line description](#one-line-description)
         - [Brainstorming](#brainstorming)
         - [Conclusion](#conclusion)
+      - [App name](#app-name)
     - [Essential features](#essential-features)
       - [Essential routing engine features](#essential-routing-engine-features)
         - [`B1` Route generation](#b1-route-generation)
@@ -546,6 +547,16 @@ For users:
 For developers (tentative):
 
 > Pedestrian navigation, done right
+
+#### App name
+
+An overall name for the project (which will also be the app name) will be very important, because it will:
+
+- Make it easier for stakeholders (and others) to refer to and discuss the app
+- Provide something that sticks in the head of potential users, so that they can remember the project after hearing about it
+- Provide branding for the web app, e.g. HTML page title, or app name when installed as a progressive web app (PWA)
+
+With that said, I don't consider it necessary to decide on an app name at this point, as the app is only being discussed by a small number of stakeholders. It is also likely to be easier to come up with a project name after I've worked on it for a while.
 
 ### Essential features
 
