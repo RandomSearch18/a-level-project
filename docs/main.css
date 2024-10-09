@@ -1,4 +1,12 @@
 .transcript strong {
-  /* Make transcripts lines line up with each other */
+  /* Make the start of transcript lines line up with each other vertically */
   font-family: monospace;
+}
+
+img {
+  max-width: 100%;
+}
+
+figure {
+  margin-inline: 1em;
 }
