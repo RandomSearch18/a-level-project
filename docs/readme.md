@@ -475,7 +475,7 @@ Valhalla is written in C++.
 
 [^osrm-readme]: OSRM readme file (<https://github.com/Project-OSRM/osrm-backend/blob/203314b1aa5a4cbbd32b8bd47a5c68399bd9d04e/README.md>), accessed 19 September 2024
 
-Open Source Routing Machine (OSRM) ([website](https://project-osrm.org/)) is a car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
+Open Source Routing Machine (OSRM) ([project-osrm.org](https://project-osrm.org/)) is a car, bicycle, and pedestrian routing engine with source code available on GitHub ([Project-OSRM/osrm-backend](https://github.com/Project-OSRM/osrm-backend)).
 
 ###### Algorithm
 
@@ -493,7 +493,7 @@ Below is an example route that demonstrates two features I like about OSRM: it s
 
 > GraphHopper is a fast and memory-efficient routing engine released under Apache License 2.0.[^graphhopper-readme]
 
-GraphHopper is the third main open-source routing engine that uses OSM data. It's written in Java and supports a range of transport modes, including walking.
+GraphHopper ([www.graphhopper.com/open-source](https://www.graphhopper.com/open-source/)) is the third main open-source routing engine that uses OSM data. It's written in Java and supports a range of transport modes, including walking. Its source code is available at <https://github.com/graphhopper/graphhopper>, and has a useful technical overview document ([docs/core/technical.md](https://github.com/graphhopper/graphhopper/blob/master/docs/core/technical.md)).
 
 [^graphhopper-readme]: GraphHopper readme file (<https://github.com/graphhopper/graphhopper/blob/c0ad6b040b8930ad2a5a28661b211b1289a5d93d/README.md>), accessed 9 October 2024
 
@@ -571,7 +571,7 @@ With that said, I don't consider it necessary to decide on an app name at this p
 
 ### Essential features
 
-Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
+Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users. This list also functions as a list of user requirements. <!-- TODO: WILL IT?!?!?!?! -->
 
 These features are split by features that will need to be implemented on the frontend and the backend. They are listed in order of priority, and designated codes starting from `B1` (most important backend feature) and `F1` (most important frontend feature). This codes will make the essential features easy to reference later on in the project.
 
