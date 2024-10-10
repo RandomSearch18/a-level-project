@@ -67,6 +67,11 @@ A-level Computer Science programming project
       - [Software requirements (routing engine)](#software-requirements-routing-engine)
       - [Hardware requirements (routing engine)](#hardware-requirements-routing-engine)
       - [Requirements (web app)](#requirements-web-app)
+  - [Design](#design)
+    - [Program structure diagrams](#program-structure-diagrams)
+      - [Overall architecture](#overall-architecture)
+      - [Routing engine](#routing-engine)
+      - [Web app](#web-app)
 
 ## Analysis
 
@@ -795,6 +800,27 @@ Most users will access the software through the web app, which only requires a m
   - Since I plan to build it as a PWA, the app will use caching and service workers to ensure it can work offline once it has been loaded once or twice. Therefore, an internet connection will only be required for the first load, or to update the app to a new version.
 
 Any other software or hardware requirements will depend on the requirements of the web browser used, so are not included here as they will depend between browser, browser version, and environment.
+
+## Design
+
+### Program structure diagrams
+
+#### Overall architecture
+
+<!-- TODO: do this in excallidraw -->
+
+#### Routing engine
+
+<!-- TODO -->
+
+#### Web app
+
+<!-- TODO: Finish this -->
+
+```mermaid
+graph TD
+  A[Web app]
+```
 
 ---
 
