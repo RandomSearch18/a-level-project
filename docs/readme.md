@@ -453,15 +453,23 @@ As part of my research, I will investigate other programs that provide pedestria
 
 ##### OsmAnd (map app)
 
-OsmAnd ([website](https://osmand.net/), [Wikipedia](https://en.wikipedia.org/wiki/OsmAnd#Navigation)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
+OsmAnd ([osmand.net](https://osmand.net/), [w.wiki/BV4b](https://en.wikipedia.org/wiki/OsmAnd#Navigation)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
+
+| Route overlay                                                                                           | Directions list                                                                                    | Navigation options                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of the OSMAnd route overlay for walking, highlighted in blue.](assets//osmand_route.png) | ![A screenshot of the directions list for a walking route on OsmAnd](assets/osmand_directions.png) | ![A screenshot of the "route parameters" screen in OSMAnd for the walking profile, showing a few options for customising the routing engine](assets/osmand_options.png) |
 
 ##### Magic Earth (map app)
 
-Magic Earth ([website](https://www.magicearth.com/)) is a similar mobile map app, suggested by my stakeholder James.
+Magic Earth ([magicearth.com](https://www.magicearth.com/)) is a similar mobile map app, suggested by my stakeholder James.
 
 ##### Google Maps (map app)
 
-Google Maps ([website](https://www.google.co.uk/maps/about), [Wikipedia](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
+Google Maps ([google.co.uk/maps/about](https://www.google.co.uk/maps/about), [w.wiki/BV4d](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
+
+| Route overlay                                                                                                                                 | Directions list                                                                                              | Navigation options                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of a walking route in Google Maps. The route is shown as a blue dotted line overlaid onto a map](assets/google_maps_route.png) | ![A screenshot of the directions list for a walking route on Google Maps](assets/google_maps_directions.png) | ![A screenshot of the "trip options" in Google Maps, giving the user two toggles](assets/google_maps_options.png) |
 
 ##### Valhalla (routing engine)
 
