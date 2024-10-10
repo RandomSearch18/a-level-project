@@ -57,6 +57,8 @@ A-level Computer Science programming project
         - [`F3` Fields to set the available options](#f3-fields-to-set-the-available-options)
         - [`F4` Saving options as presets](#f4-saving-options-as-presets)
         - [`F5` Accessibility](#f5-accessibility)
+    - [User requirements](#user-requirements)
+      - [User requirements signatures](#user-requirements-signatures)
     - [Limitations of the system](#limitations-of-the-system)
       - [Geographic limitations](#geographic-limitations)
       - [Routing feature limitations](#routing-feature-limitations)
@@ -635,6 +637,49 @@ While not essential, adding the ability to import and export presets will facili
 As a modern web app, it should be expected that the UI will be accessible, working with built-in browser features and accessibility tools to ensure that the UI can be used comfortably, whatever situation the user is in, and whatever accessibility requirements they have.
 
 This is especially important for my routing engine, as part of its target persona is those wanting a routing app that takes into account urban accessibility. For example, a number of routing options (e.g. preferring tactile paving) will bew catered towards those with reduced vision, who may also use a screen reader, or have increased system-wide font size. The UI should accommodate this and work with these tools.
+
+### User requirements
+
+Based on the essential features as well as other ideas from stakeholder interviews, I have produced a list of user requirements, i.e. user-facing features that I plan to add to the app. As a user-oriented list, it covers both the frontend and backend of the project. Each requirement has been numbered and justified, and linked to the corresponding essential feature where there is one.
+
+1. The system should be able to calculate a route between two points ([`B1`](#b1-route-generation))
+   - This is the core functionality of the app, as it is what will provide the most value to users
+   - This is because that all my stakeholders mentioned that they use navigation apps to get routes between two points
+2. The system should be able to display the route on a map ([`F2`](#f2-drawing-the-route-on-a-map))
+   - Both Andrew and Ili mentioned that they prefer to see the route on a map, rather than as a list of directions
+   - This will be the most intuitive and user-friendly way to present the route
+3. The system should be able to customise the route based on a range of options ([`B3`](#b3-range-of-options-to-customise-routing))
+   - This will allow the user to get a route that is tailored to their specific needs, which will make the app more useful to them
+   - I have decided that this will one of the the key areas where my app will stand out from other navigation apps, so it is important to include this feature
+   - In addition, my stakeholders James (avoiding wet and muddy routes), Andrew (sticking to lit paths at night), and Ili (sticking to covered paths) have all given examples of routing customisation that can be made available as an option
+4. The system should be able to save routing options as presets ([`F4`](#f4-saving-options-as-presets))
+   - This is an essential companion to the highly-customisable nature of the routing engine, as it will allow users to quickly access their preferred routing options
+   - This will make the app more user-friendly, as it will save the user time and effort
+5. The system should be accessible to those with a variety of needs and preferences ([`F5`](#f5-accessibility))
+   - Andrew is colour blind, so keeping the visuals of the app within accessibility best practices will ensure he can use it to its fullest extent
+   - Ili also mentioned that it is important to consider colour blindness when designing the map, so this will be a key consideration when designing the UI
+   - In addition, following accessibility best practices will make the app more usable for everyone, e.g. keeping it usable in bright sunlight (a likely situation for an outdoors-focused app) or allowing for faster data input with a keyboard
+6. The system should function offline, once the necessary data has been downloaded
+   - This will make the app more useful to my stakeholders, as it will allow them to use the app in a wider range of situations
+   - Andrew told me in his [follow-up discussion](#follow-up-discussion-with-andrew) that offline support would be a very important factor, so ensuring a smooth offline experience will be key to making the app useful to him
+   - Ili has also said that offline support would be useful, because you can often find yourself in areas with poor internet access when using a navigation app
+7. The system should be able to import and export routing options presets
+   - This is a companion feature to the ability to save presets, as it will allow users to share their presets between devices, or with other users
+   - This grants more flexibility to the user, putting them in control of their data, which helps facilitate a sense of openness and trust in the app, as well as making it more user-friendly
+8. The system should perform well and be responsive to a variety of devices, across mobile and desktop
+   - All my stakeholders have told me they're most likely to want to use the app on a mobile device, so ensuring it runs well on mobile is key
+   - This will dramatically increase the usefulness of the app, as it can be used on the ground for real-time navigation, as well as for planning routes ahead of time on a desktop
+   - Testing on a number of different devices will ensure that the app is usable, even on lower-end or unusual devices
+   - Ensuring the app adapts to different screen sizes will help it feel like a native app, which will satisfy Ili's statement that it's how the app looks that counts
+
+#### User requirements signatures
+
+| Stakeholder | Signature | Date                                             |
+| ----------- | --------- | ------------------------------------------------ |
+|             |           | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |
+|             |           | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |
+|             |           | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |
+|             |           | \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ |
 
 ### Limitations of the system
 
