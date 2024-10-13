@@ -71,7 +71,7 @@ A-level Computer Science programming project
     - [Program structure diagrams](#program-structure-diagrams)
       - [Overall architecture](#overall-architecture)
       - [Routing engine](#routing-engine)
-      - [Web app](#web-app)
+      - [Web app structure](#web-app-structure)
 
 ## Analysis
 
@@ -813,19 +813,25 @@ Any other software or hardware requirements will depend on the requirements of t
 
 <!-- TODO -->
 
-#### Web app
+#### Web app structure
 
 <!-- TODO: Finish this -->
 
 ```mermaid
 graph LR
   A[Web app]
-  A --> B["`Start/end location input`"]
-  A --> C["`Customise route options (F3)`"]
-  click C "#f3-fields-to-set-the-available-options"
-  A --> D[Display base map]
-  A --> E[Ask routing engine for a route]
-  A --> F[Display route on map]
+  A --> B[Accept input]
+    B --> BA[Start/end location]
+    B --> BB[Route options]
+  A --> C[Communicate with routing engine]
+    C --> CA[Request a route calculation]
+    C --> CB[Receive route data]
+  A --> D[Display base]
+    D --> DA[Base map]
+    D --> DB[Highlight route on map]
+  A --> E[Manage presets]
+    E --> EA[Save presets]
+    E --> EB[Load presets]
 ```
 
 ---
