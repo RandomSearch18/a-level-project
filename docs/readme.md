@@ -821,7 +821,8 @@ Any other software or hardware requirements will depend on the requirements of t
 graph LR
   A[Web app]
   A --> B["`Start/end location input`"]
-  A --> C["`Customise route options ([F3](#f3-fields-to-set-the-available-options))`"]
+  A --> C["`Customise route options (F3)`"]
+  click C "#f3-fields-to-set-the-available-options"
   A --> D[Display base map]
   A --> E[Ask routing engine for a route]
   A --> F[Display route on map]
