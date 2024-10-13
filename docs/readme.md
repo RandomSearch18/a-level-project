@@ -586,7 +586,7 @@ With that said, I don't consider it necessary to decide on an app name at this p
 
 ### Essential features
 
-Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users. This list also functions as a list of user requirements. <!-- TODO: WILL IT?!?!?!?! -->
+Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
 
 These features are split by features that will need to be implemented on the frontend and the backend. They are listed in order of priority, and designated codes starting from `B1` (most important backend feature) and `F1` (most important frontend feature). This codes will make the essential features easy to reference later on in the project.
 
