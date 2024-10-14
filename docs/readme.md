@@ -805,6 +805,8 @@ Any other software or hardware requirements will depend on the requirements of t
 
 ### Program structure diagrams
 
+I have decomposed the main problem into sub-problems, showing the different aspects of the frontend and backend that will need to be implemented. I have considered the [essential features list](#essential-features) and the [user requirements list](#user-requirements) during this process, and have linked boxes to user requirements (e.g. "UR1") where appropriate.
+
 #### Overall architecture
 
 <!-- TODO: do this in excallidraw -->
