@@ -70,7 +70,7 @@ A-level Computer Science programming project
   - [Design](#design)
     - [Program structure diagrams](#program-structure-diagrams)
       - [Overall architecture](#overall-architecture)
-      - [Routing engine](#routing-engine)
+      - [Routing engine structure](#routing-engine-structure)
       - [Web app structure](#web-app-structure)
 
 ## Analysis
@@ -809,7 +809,7 @@ Any other software or hardware requirements will depend on the requirements of t
 
 <!-- TODO: do this in excallidraw -->
 
-#### Routing engine
+#### Routing engine structure
 
 <!-- TODO -->
 
