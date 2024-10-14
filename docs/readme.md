@@ -71,7 +71,22 @@ A-level Computer Science programming project
     - [Program structure diagrams](#program-structure-diagrams)
       - [Overall architecture](#overall-architecture)
       - [Routing engine structure](#routing-engine-structure)
+        - [Map data](#map-data)
+          - [Download region](#download-region)
+          - [Parse OSM tags](#parse-osm-tags)
+          - [Compute routing graph](#compute-routing-graph)
+        - [Route calculation](#route-calculation)
+          - [Perform A\* algorithm](#perform-a-algorithm)
+        - [Communicate with frontend](#communicate-with-frontend)
+          - [Receive route request](#receive-route-request)
+          - [Send route data](#send-route-data)
+          - [HTTP API](#http-api)
       - [Web app structure](#web-app-structure)
+        - [Accept input](#accept-input)
+        - [Communicate with routing engine](#communicate-with-routing-engine)
+        - [Display interactive map](#display-interactive-map)
+        - [Manage presets](#manage-presets)
+        - [Offline support](#offline-support)
 
 ## Analysis
 
@@ -822,7 +837,7 @@ graph LR
     B --> BC[Compute routing graph]
       BC --> BCA[Nodes and edges]
       BC --> BCB["Weights (UR3)"]
-  A --> C["Route calculation (UR1)"]
+  A --> C["Calculate route (UR1)"]
     C --> CA[Perform A* algorithm]
   A --> D[Communicate with frontend]
     D --> DA[Receive route request]
@@ -832,9 +847,47 @@ graph LR
     D -.-> DC[HTTP API]
 ```
 
-#### Web app structure
+##### Map data
 
-<!-- TODO: Finish this -->
+This subsection contains all the features related to downloading, saving, and processing map data, including creating the graph that will be used to compute the route. I have grouped these tasks together because they are all dealing with the map data, which can then be used by the routing engine to actually compute the route.
+
+###### Download region
+
+<!-- TODO -->
+
+###### Parse OSM tags
+
+<!-- TODO -->
+
+###### Compute routing graph
+
+<!-- TODO -->
+
+##### Route calculation
+
+<!-- TODO -->
+
+###### Perform A\* algorithm
+
+<!-- TODO -->
+
+##### Communicate with frontend
+
+<!-- TODO -->
+
+###### Receive route request
+
+<!-- TODO -->
+
+###### Send route data
+
+<!-- TODO -->
+
+###### HTTP API
+
+<!-- TODO -->
+
+#### Web app structure
 
 ```mermaid
 graph LR
@@ -856,6 +909,26 @@ graph LR
     F --> FA[Use service worker for caching]
     F --> FB[Allow pre-downloading map data]
 ```
+
+##### Accept input
+
+<!-- TODO -->
+
+##### Communicate with routing engine
+
+<!-- TODO -->
+
+##### Display interactive map
+
+<!-- TODO -->
+
+##### Manage presets
+
+<!-- TODO -->
+
+##### Offline support
+
+<!-- TODO -->
 
 ---
 
