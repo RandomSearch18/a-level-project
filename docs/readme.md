@@ -811,7 +811,24 @@ Any other software or hardware requirements will depend on the requirements of t
 
 #### Routing engine structure
 
-<!-- TODO -->
+```mermaid
+graph LR
+  A[Routing engine]
+  A --> B[Map data]
+    B --> BA[Download region]
+    B --> BB[Parse OSM tags]
+    B --> BC[Compute routing graph]
+      BC --> BCA[Nodes and edges]
+      BC --> BCB[Weights]
+  A --> C[Route calculation]
+    C --> CA[Perform A* algorithm]
+  A --> D[Communicate with frontend]
+    D --> DA[Receive route request]
+      DA --> DAA[Start/end location]
+      DA --> DAB[Route options]
+    D --> DB[Send route data]
+    D -.-> DC[HTTP API]
+```
 
 #### Web app structure
 
@@ -826,7 +843,7 @@ graph LR
   A --> C[Communicate with routing engine]
     C --> CA[Request a route calculation]
     C --> CB[Receive route data]
-  A --> D[Display base]
+  A --> D[Display interactive map]
     D --> DA[Base map]
     D --> DB[Highlight route on map]
   A --> E[Manage presets]
