@@ -87,6 +87,9 @@ A-level Computer Science programming project
         - [Display interactive map](#display-interactive-map)
         - [Manage presets](#manage-presets)
         - [Offline support](#offline-support)
+    - [Technology decisions](#technology-decisions)
+      - [Frontend](#frontend)
+        - [TypeScript](#typescript)
 
 ## Analysis
 
@@ -931,6 +934,24 @@ graph LR
 ##### Offline support
 
 <!-- TODO -->
+
+### Technology decisions
+
+#### Frontend
+
+##### TypeScript
+
+TypeScript [(typescriptlang.org](https://www.typescriptlang.org/) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
+
+- I am familiar with TypeScript, having used it in a number of projects across the past few years.
+  - This will mean I can immediately get the most out of the language
+  - I won't be slowed down when working on new features by having to learn the complexities of a new language
+- TypeScript compiles to human-readable JavaScript
+  - This means the code can be directly run by the browser, without an additional runtime
+  - Any browser that supports JavaScript will also be able to run my TypeScript code (once it has been compiled)
+- If necessary, the TypeScript compiler (`tsc`) can target older browser versions that support fewer modern JavaScript features
+  - This might be necessary to keep supporting my defined [system requirements](#requirements-web-app), although I don't expect it to be because modern browsers run on a large range of devices.
+  <!-- TODO: Continue! -->
 
 ---
 
