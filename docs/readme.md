@@ -826,6 +826,8 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 <!-- TODO: do this in excallidraw -->
 
+![](assets/design/overall-architecture.excalidraw.svg)
+
 #### Routing engine structure
 
 ```mermaid
