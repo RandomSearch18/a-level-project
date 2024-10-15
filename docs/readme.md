@@ -475,9 +475,9 @@ As part of my research, I will investigate other programs that provide pedestria
 
 OsmAnd ([osmand.net](https://osmand.net/), [w.wiki/BV4b](https://en.wikipedia.org/wiki/OsmAnd#Navigation)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
 
-| Route overlay                                                                                           | Directions list                                                                                    | Navigation options                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![A screenshot of the OSMAnd route overlay for walking, highlighted in blue.](assets//osmand_route.png) | ![A screenshot of the directions list for a walking route on OsmAnd](assets/osmand_directions.png) | ![A screenshot of the "route parameters" screen in OSMAnd for the walking profile, showing a few options for customising the routing engine](assets/osmand_options.png) |
+| Route overlay                                                                                                   | Directions list                                                                                             | Navigation options                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of the OSMAnd route overlay for walking, highlighted in blue.](assets/analysis/osmand_route.png) | ![A screenshot of the directions list for a walking route on OsmAnd](assets/analysis/osmand_directions.png) | ![A screenshot of the "route parameters" screen in OSMAnd for the walking profile, showing a few options for customising the routing engine](assets/analysis/osmand_options.png) |
 
 ##### Magic Earth (map app)
 
@@ -487,9 +487,9 @@ Magic Earth ([magicearth.com](https://www.magicearth.com/)) is a similar mobile 
 
 Google Maps ([google.co.uk/maps/about](https://www.google.co.uk/maps/about), [w.wiki/BV4d](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
 
-| Route overlay                                                                                                                                 | Directions list                                                                                              | Navigation options                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| ![A screenshot of a walking route in Google Maps. The route is shown as a blue dotted line overlaid onto a map](assets/google_maps_route.png) | ![A screenshot of the directions list for a walking route on Google Maps](assets/google_maps_directions.png) | ![A screenshot of the "trip options" in Google Maps, giving the user two toggles](assets/google_maps_options.png) |
+| Route overlay                                                                                                                                          | Directions list                                                                                                       | Navigation options                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of a walking route in Google Maps. The route is shown as a blue dotted line overlaid onto a map](assets/analysis/google_maps_route.png) | ![A screenshot of the directions list for a walking route on Google Maps](assets/analysis/google_maps_directions.png) | ![A screenshot of the "trip options" in Google Maps, giving the user two toggles](assets/analysis/google_maps_options.png) |
 
 ##### Valhalla (routing engine)
 
@@ -517,7 +517,7 @@ OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, wit
 
 Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
 
-![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
+![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/analysis/osrm.png)
 
 ##### GraphHopper
 
