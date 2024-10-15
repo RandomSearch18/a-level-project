@@ -67,6 +67,26 @@ A-level Computer Science programming project
       - [Software requirements (routing engine)](#software-requirements-routing-engine)
       - [Hardware requirements (routing engine)](#hardware-requirements-routing-engine)
       - [Requirements (web app)](#requirements-web-app)
+  - [Design](#design)
+    - [Program structure diagrams](#program-structure-diagrams)
+      - [Overall architecture](#overall-architecture)
+      - [Routing engine structure](#routing-engine-structure)
+        - [Map data](#map-data)
+          - [Download region](#download-region)
+          - [Parse OSM tags](#parse-osm-tags)
+          - [Compute routing graph](#compute-routing-graph)
+        - [Route calculation](#route-calculation)
+          - [Perform A\* algorithm](#perform-a-algorithm)
+        - [Communicate with frontend](#communicate-with-frontend)
+          - [Receive route request](#receive-route-request)
+          - [Send route data](#send-route-data)
+          - [HTTP API](#http-api)
+      - [Web app structure](#web-app-structure)
+        - [Accept input](#accept-input)
+        - [Communicate with routing engine](#communicate-with-routing-engine)
+        - [Display interactive map](#display-interactive-map)
+        - [Manage presets](#manage-presets)
+        - [Offline support](#offline-support)
 
 ## Analysis
 
@@ -455,9 +475,9 @@ As part of my research, I will investigate other programs that provide pedestria
 
 OsmAnd ([osmand.net](https://osmand.net/), [w.wiki/BV4b](https://en.wikipedia.org/wiki/OsmAnd#Navigation)) is a mobile map app that uses OSM data and has routing that runs on-device for a range of transport modes. I have personally found its pedestrian routing to be very good in real-word use, so I will be using it as my primary point of reference to compare my engine's routes with.
 
-| Route overlay                                                                                           | Directions list                                                                                    | Navigation options                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![A screenshot of the OSMAnd route overlay for walking, highlighted in blue.](assets//osmand_route.png) | ![A screenshot of the directions list for a walking route on OsmAnd](assets/osmand_directions.png) | ![A screenshot of the "route parameters" screen in OSMAnd for the walking profile, showing a few options for customising the routing engine](assets/osmand_options.png) |
+| Route overlay                                                                                                   | Directions list                                                                                             | Navigation options                                                                                                                                                               |
+| --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of the OSMAnd route overlay for walking, highlighted in blue.](assets/analysis/osmand_route.png) | ![A screenshot of the directions list for a walking route on OsmAnd](assets/analysis/osmand_directions.png) | ![A screenshot of the "route parameters" screen in OSMAnd for the walking profile, showing a few options for customising the routing engine](assets/analysis/osmand_options.png) |
 
 ##### Magic Earth (map app)
 
@@ -467,9 +487,9 @@ Magic Earth ([magicearth.com](https://www.magicearth.com/)) is a similar mobile 
 
 Google Maps ([google.co.uk/maps/about](https://www.google.co.uk/maps/about), [w.wiki/BV4d](https://en.wikipedia.org/wiki/Google_Maps#Directions_and_transit)) is a popular web app and mobile app.
 
-| Route overlay                                                                                                                                 | Directions list                                                                                              | Navigation options                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| ![A screenshot of a walking route in Google Maps. The route is shown as a blue dotted line overlaid onto a map](assets/google_maps_route.png) | ![A screenshot of the directions list for a walking route on Google Maps](assets/google_maps_directions.png) | ![A screenshot of the "trip options" in Google Maps, giving the user two toggles](assets/google_maps_options.png) |
+| Route overlay                                                                                                                                          | Directions list                                                                                                       | Navigation options                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| ![A screenshot of a walking route in Google Maps. The route is shown as a blue dotted line overlaid onto a map](assets/analysis/google_maps_route.png) | ![A screenshot of the directions list for a walking route on Google Maps](assets/analysis/google_maps_directions.png) | ![A screenshot of the "trip options" in Google Maps, giving the user two toggles](assets/analysis/google_maps_options.png) |
 
 ##### Valhalla (routing engine)
 
@@ -497,7 +517,7 @@ OSRM either uses contraction hierarchies or multilevel Dijkstra's algorithm, wit
 
 Below is an example route that demonstrates two features I like about OSRM: it suggests an equally-valid alternative route (translucent and dotted) as well as the main one (solid), and it gets onto the pavement as soon as possible.
 
-![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/osrm.png)
+![A screenshot of a route overlaid onto a map. The start point is on a road but the route goes onto the pavement to the side of the road at the next crossing](assets/analysis/osrm.png)
 
 ##### GraphHopper
 
@@ -581,7 +601,7 @@ With that said, I don't consider it necessary to decide on an app name at this p
 
 ### Essential features
 
-Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users. This list also functions as a list of user requirements. <!-- TODO: WILL IT?!?!?!?! -->
+Based on my own ideas, initial stakeholder interviews, and research of similar programs, I have produced a list of essential features which will provide the most value to my program's users.
 
 These features are split by features that will need to be implemented on the frontend and the backend. They are listed in order of priority, and designated codes starting from `B1` (most important backend feature) and `F1` (most important frontend feature). This codes will make the essential features easy to reference later on in the project.
 
@@ -795,6 +815,122 @@ Most users will access the software through the web app, which only requires a m
   - Since I plan to build it as a PWA, the app will use caching and service workers to ensure it can work offline once it has been loaded once or twice. Therefore, an internet connection will only be required for the first load, or to update the app to a new version.
 
 Any other software or hardware requirements will depend on the requirements of the web browser used, so are not included here as they will depend between browser, browser version, and environment.
+
+## Design
+
+### Program structure diagrams
+
+I have decomposed the main problem into sub-problems, showing the different aspects of the frontend and backend that will need to be implemented. I have considered the [essential features list](#essential-features) and the [user requirements list](#user-requirements) during this process, and have linked boxes to user requirements (e.g. "UR1") where appropriate.
+
+#### Overall architecture
+
+<!-- TODO: do this in excallidraw -->
+
+![](assets/design/overall-architecture.excalidraw.svg)
+
+#### Routing engine structure
+
+```mermaid
+graph LR
+  A[Routing engine]
+  A --> B[Map data]
+    B --> BA[Download region]
+    B --> BB[Parse OSM tags]
+    B --> BC[Compute routing graph]
+      BC --> BCA[Nodes and edges]
+      BC --> BCB["Weights (UR3)"]
+  A --> C["Calculate route (UR1)"]
+    C --> CA[Perform A* algorithm]
+  A --> D[Communicate with frontend]
+    D --> DA[Receive route request]
+      DA --> DAA[Start/end location]
+      DA --> DAB["Route options (UR3)"]
+    D --> DB[Send route data]
+    D -.-> DC[HTTP API]
+```
+
+##### Map data
+
+This subsection contains all the features related to downloading, saving, and processing map data, including creating the graph that will be used to compute the route. I have grouped these tasks together because they are all dealing with the map data, which can then be used by the routing engine to actually compute the route.
+
+###### Download region
+
+<!-- TODO -->
+
+###### Parse OSM tags
+
+<!-- TODO -->
+
+###### Compute routing graph
+
+<!-- TODO -->
+
+##### Route calculation
+
+<!-- TODO -->
+
+###### Perform A\* algorithm
+
+<!-- TODO -->
+
+##### Communicate with frontend
+
+<!-- TODO -->
+
+###### Receive route request
+
+<!-- TODO -->
+
+###### Send route data
+
+<!-- TODO -->
+
+###### HTTP API
+
+<!-- TODO -->
+
+#### Web app structure
+
+```mermaid
+graph LR
+  A[Web app]
+  A --> B[Accept input]
+    B --> BA[Start/end location]
+    B --> BB[Route options]
+  A --> C[Communicate with routing engine]
+    C --> CA[Request a route calculation]
+    C --> CB[Receive route data]
+  A --> D["Display interactive map (UR3)"]
+    D --> DA[Base map]
+    D --> DB[Highlight route on map]
+  A --> E["Manage presets (UR4)"]
+    E --> EA[Save presets]
+    E --> EB[Load presets]
+    E --> EC["Import/export presets (UR7)"]
+  A --> F["Offline support (UR6)"]
+    F --> FA[Use service worker for caching]
+    F --> FB[Allow pre-downloading map data]
+```
+
+##### Accept input
+
+<!-- TODO -->
+
+##### Communicate with routing engine
+
+<!-- TODO -->
+
+##### Display interactive map
+
+<!-- TODO -->
+
+##### Manage presets
+
+<!-- TODO -->
+
+##### Offline support
+
+<!-- TODO -->
 
 ---
 
