@@ -827,9 +827,9 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 #### Overall architecture
 
-<!-- TODO: do this in excallidraw -->
+![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
 
-![](assets/design/overall-architecture.excalidraw.svg)
+<!-- TODO: Credit KDE Breeze icon set -->
 
 #### Routing engine structure
 
