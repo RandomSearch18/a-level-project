@@ -90,7 +90,7 @@ A-level Computer Science programming project
     - [Technology decisions](#technology-decisions)
       - [Frontend](#frontend)
         - [TypeScript](#typescript)
-        - [z](#z)
+        - [Vite](#vite)
 
 ## Analysis
 
@@ -940,6 +940,14 @@ graph LR
 
 #### Frontend
 
+| Thingy               | Technology to use         |
+| -------------------- | ------------------------- |
+| Programming language | [Typescript](#typescript) |
+| Other languages      | HTML, CSS                 |
+| Build tool           | [Vite](#vite)             |
+| Package manager      | Yarn                      |
+| Python interpreter   | _Undecided_ <!-- TODO --> |
+
 ##### TypeScript
 
 TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
@@ -961,9 +969,11 @@ TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset
 
 [^stack-overflow-survey-admired-languages]: Most-admired programming, scripting, and markup languages, Stack Overflow Developer Survey 2023 (<https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages>)
 
-##### z
+##### Vite
 
-<!-- TODO -->
+Vite is a build tool for JavaScript and TypeScript code, which will handle compiling my TypeScript code to JavaScript, as well as including my dependencies.
+
+<!-- TODO justify -->
 
 ---
 
