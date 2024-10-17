@@ -90,6 +90,7 @@ A-level Computer Science programming project
     - [Technology decisions](#technology-decisions)
       - [Frontend](#frontend)
         - [TypeScript](#typescript)
+        - [z](#z)
 
 ## Analysis
 
@@ -941,7 +942,7 @@ graph LR
 
 ##### TypeScript
 
-TypeScript [(typescriptlang.org](https://www.typescriptlang.org/) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
+TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
 
 - I am familiar with TypeScript, having used it in a number of projects across the past few years.
   - This will mean I can immediately get the most out of the language
@@ -951,7 +952,18 @@ TypeScript [(typescriptlang.org](https://www.typescriptlang.org/) is a superset 
   - Any browser that supports JavaScript will also be able to run my TypeScript code (once it has been compiled)
 - If necessary, the TypeScript compiler (`tsc`) can target older browser versions that support fewer modern JavaScript features
   - This might be necessary to keep supporting my defined [system requirements](#requirements-web-app), although I don't expect it to be because modern browsers run on a large range of devices.
-  <!-- TODO: Continue! -->
+- Its types and static analysis features are well-loved by developers[^stack-overflow-survey-admired-languages] (including me) and I have found that they make it more enjoyable to write JavaScript code
+- TypeScript is very popular in the web development community
+  - This means that many libraries will have type definitions to make them easier to use with TypeScript (speeding up development)
+  - Also, there's good tooling support for TypeScript, minimising the additional work I will have to put in to get the development environment working
+- TypeScript supports, and will let me enforce, various object-oriented programming (OOP) techniques, such as private and protected properties and methods, abstract classes, and static properties.
+  - This will ensure I can make the most of OOP best practices, to help reduce bugs and keep my code readable
+
+[^stack-overflow-survey-admired-languages]: Most-admired programming, scripting, and markup languages, Stack Overflow Developer Survey 2023 (<https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages>)
+
+##### z
+
+<!-- TODO -->
 
 ---
 
