@@ -971,7 +971,15 @@ TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset
 
 ##### Vite
 
-Vite is a build tool for JavaScript and TypeScript code, which will handle compiling my TypeScript code to JavaScript, as well as including my dependencies.
+Vite ([vite.dev](https://vite.dev)) is a build tool for JavaScript and TypeScript code, which will handle compiling my TypeScript code to JavaScript, as well as including my dependencies. I have picked it for the following reasons:
+
+- Vite is quick to set up and works without needing to create configuration files
+- It has built-in support for TypeScript
+- I have used it a lot in the past, so I know how it works
+- It has good documentation on its website (<https://vite.dev/guide/>)
+- It's popular tool for modern web development
+  - Different plugins are available to customise the tool
+  - There's a range of help available on Q&A sites like Stack Overflow
 
 <!-- TODO justify -->
 
