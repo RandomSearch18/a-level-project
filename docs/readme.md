@@ -87,6 +87,10 @@ A-level Computer Science programming project
         - [Display interactive map](#display-interactive-map)
         - [Manage presets](#manage-presets)
         - [Offline support](#offline-support)
+    - [Technology decisions](#technology-decisions)
+      - [Frontend](#frontend)
+        - [TypeScript](#typescript)
+        - [Vite](#vite)
 
 ## Analysis
 
@@ -824,9 +828,9 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 #### Overall architecture
 
-<!-- TODO: do this in excallidraw -->
+![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
 
-![](assets/design/overall-architecture.excalidraw.svg)
+<!-- TODO: Credit KDE Breeze icon set -->
 
 #### Routing engine structure
 
@@ -931,6 +935,53 @@ graph LR
 ##### Offline support
 
 <!-- TODO -->
+
+### Technology decisions
+
+#### Frontend
+
+| Thingy               | Technology to use         |
+| -------------------- | ------------------------- |
+| Programming language | [Typescript](#typescript) |
+| Other languages      | HTML, CSS                 |
+| Build tool           | [Vite](#vite)             |
+| Package manager      | Yarn                      |
+| Python interpreter   | _Undecided_ <!-- TODO --> |
+
+##### TypeScript
+
+TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
+
+- I am familiar with TypeScript, having used it in a number of projects across the past few years.
+  - This will mean I can immediately get the most out of the language
+  - I won't be slowed down when working on new features by having to learn the complexities of a new language
+- TypeScript compiles to human-readable JavaScript
+  - This means the code can be directly run by the browser, without an additional runtime
+  - Any browser that supports JavaScript will also be able to run my TypeScript code (once it has been compiled)
+- If necessary, the TypeScript compiler (`tsc`) can target older browser versions that support fewer modern JavaScript features
+  - This might be necessary to keep supporting my defined [system requirements](#requirements-web-app), although I don't expect it to be because modern browsers run on a large range of devices.
+- Its types and static analysis features are well-loved by developers[^stack-overflow-survey-admired-languages] (including me) and I have found that they make it more enjoyable to write JavaScript code
+- TypeScript is very popular in the web development community
+  - This means that many libraries will have type definitions to make them easier to use with TypeScript (speeding up development)
+  - Also, there's good tooling support for TypeScript, minimising the additional work I will have to put in to get the development environment working
+- TypeScript supports, and will let me enforce, various object-oriented programming (OOP) techniques, such as private and protected properties and methods, abstract classes, and static properties.
+  - This will ensure I can make the most of OOP best practices, to help reduce bugs and keep my code readable
+
+[^stack-overflow-survey-admired-languages]: Most-admired programming, scripting, and markup languages, Stack Overflow Developer Survey 2023 (<https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages>)
+
+##### Vite
+
+Vite ([vite.dev](https://vite.dev)) is a build tool for JavaScript and TypeScript code, which will handle compiling my TypeScript code to JavaScript, as well as including my dependencies. I have picked it for the following reasons:
+
+- Vite is quick to set up and works without needing to create configuration files
+- It has built-in support for TypeScript
+- I have used it a lot in the past, so I know how it works
+- It has good documentation on its website (<https://vite.dev/guide/>)
+- It's popular tool for modern web development
+  - Different plugins are available to customise the tool
+  - There's a range of help available on Q&A sites like Stack Overflow
+
+<!-- TODO justify -->
 
 ---
 
