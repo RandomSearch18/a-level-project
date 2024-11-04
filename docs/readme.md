@@ -859,19 +859,21 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ###### Download region
 
-<!-- TODO -->
+Before the routing graph is computed, the appropriate region of map data will have to be downloaded. Therefore, it makes sense for this to be grouped with the task for computing the routing graph.
 
 ###### Parse OSM tags
 
-<!-- TODO -->
+OpenStreetMap has its own text-based tag format, which uses plain text attributes to describe properties about map features. I will need to parse the tags that are relevant to the routing engine, so that they can be used to appropriately create the routing graph, set the routing graph weights, and provide additional information to the user after the route is computed, e.g. road names or statistics on surface types.
+
+Since the routing graph will be the primary consumer of OSM tag data, I have grouped this task with the routing graph computation.
 
 ###### Compute routing graph
 
-<!-- TODO -->
+The routing graph is the data structure that the routing engine will use to calculate routes. It will contain nodes and edges, with each edge representing a path between two nodes. The edges will have weights that represent the cost of traversing that path, which will be used by the A\* algorithm to find the best route during the route calculation task.
 
 ##### Route calculation
 
-<!-- TODO -->
+This subsection contains the task of actually calculating the route between two points, given the routing graph and other parameters to conform to (i.e. types of paths to avoid). The nodes and edges will first be computed, and then weighted based on attributes of the corresponding OSM objects. Those tasks can be done separately to each other so I have placed them as subtasks of this one.
 
 ###### Perform A\* algorithm
 
@@ -879,7 +881,7 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ##### Communicate with frontend
 
-<!-- TODO -->
+This subsection contains the tasks related to passing data between the routing engine and the frontend. This will be done using an internal API.
 
 ###### Receive route request
 
@@ -891,7 +893,7 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ###### HTTP API
 
-<!-- TODO -->
+The HTTP API is a potential feature that might be added to allow for more flexibility with using the routing engine in various situations. It will allow the routing engine to be used by other programs, or by the frontend, without needing to be embedded directly into the frontend code. This also means that a HTTP API could be implemented and used if embedding the routing engine is shown to not be feasible during development, ensuring that the project can still be made in some form.
 
 #### Web app structure
 
