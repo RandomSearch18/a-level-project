@@ -92,6 +92,8 @@ A-level Computer Science programming project
         - [TypeScript](#typescript)
         - [Vite](#vite)
         - [Yarn](#yarn)
+        - [daisyUI](#daisyui)
+          - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
 
 ## Analysis
 
@@ -943,13 +945,14 @@ graph LR
 
 #### Frontend
 
-| Thingy               | Technology to use         |
-| -------------------- | ------------------------- |
-| Programming language | [Typescript](#typescript) |
-| Other languages      | HTML, CSS                 |
-| Build tool           | [Vite](#vite)             |
-| Package manager      | [Yarn](#yarn)             |
-| Python interpreter   | _Undecided_ <!-- TODO --> |
+| Thingy               | Technology to use                |
+| -------------------- | -------------------------------- |
+| Programming language | [Typescript](#typescript)        |
+| Other languages      | HTML, CSS                        |
+| Build tool           | [Vite](#vite)                    |
+| Package manager      | [Yarn](#yarn)                    |
+| Python interpreter   | _Undecided_ <!-- TODO -->        |
+| UI library           | daisyUI (probably) <!-- TODO --> |
 
 ##### TypeScript
 
@@ -990,6 +993,18 @@ Yarn is a package manager for JavaScript/TypeScript, which will mean that it can
 
 - I have used it in the past so know how it works and can use it easily
 - It is faster to install packages than its alternatives (e.g. `npm`), which will mean I can quickly set up a development environment on various machines
+
+##### daisyUI
+
+daisyUI is a UI libary for web development. It will provide ready-made styles for components like buttons, dropdowns, and switches, which should greatly help with developing the frontend because I won't have to reinvent the wheel with my own styles for very element I need. While I haven't used it before, I have used the tool that it's built on top of (Tailwind CSS) so it should be easy for me to install and start using it. Other advantages are:
+
+- It works with "vanilla JavaScript", which means that it doesn't depend on any specific JavaScript framwework like React or Vue
+  - This will be helpful becuase I plan on keeping my app simple by using a simple framework or no framework at all
+- d
+
+###### Stakeholder discussions about daisyUI
+
+I showed Andrew a demo of daisyUI and he liked the different components avalable, saying that it seemed easy to use.
 
 ---
 
