@@ -91,6 +91,7 @@ A-level Computer Science programming project
       - [Frontend](#frontend)
         - [TypeScript](#typescript)
         - [Vite](#vite)
+        - [Yarn](#yarn)
 
 ## Analysis
 
@@ -947,7 +948,7 @@ graph LR
 | Programming language | [Typescript](#typescript) |
 | Other languages      | HTML, CSS                 |
 | Build tool           | [Vite](#vite)             |
-| Package manager      | Yarn                      |
+| Package manager      | [Yarn](#yarn)             |
 | Python interpreter   | _Undecided_ <!-- TODO --> |
 
 ##### TypeScript
@@ -983,7 +984,12 @@ Vite ([vite.dev](https://vite.dev)) is a build tool for JavaScript and TypeScrip
   - Different plugins are available to customise the tool
   - There's a range of help available on Q&A sites like Stack Overflow
 
-<!-- TODO justify -->
+##### Yarn
+
+Yarn is a package manager for JavaScript/TypeScript, which will mean that it can help me use any Javascript libraries I'll need in my project. The reasons I've chosen it are similar to my other technology decisions:
+
+- I have used it in the past so know how it works and can use it easily
+- It is faster to install packages than its alternatives (e.g. `npm`), which will mean I can quickly set up a development environment on various machines
 
 ---
 
