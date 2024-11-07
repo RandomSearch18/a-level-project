@@ -833,7 +833,7 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 ![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
 
-<!-- TODO: Credit KDE Breeze icon set -->
+_Icons provided by the KDE Breeze icon theme, licenced under LGPL, <https://github.com/KDE/breeze-icons>_
 
 #### Routing engine structure
 
