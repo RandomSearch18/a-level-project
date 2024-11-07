@@ -87,6 +87,13 @@ A-level Computer Science programming project
         - [Display interactive map](#display-interactive-map)
         - [Manage presets](#manage-presets)
         - [Offline support](#offline-support)
+    - [Technology decisions](#technology-decisions)
+      - [Frontend technologies](#frontend-technologies)
+        - [TypeScript](#typescript)
+        - [Vite](#vite)
+        - [Yarn](#yarn)
+        - [daisyUI](#daisyui)
+          - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
 
 ## Analysis
 
@@ -824,9 +831,9 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 #### Overall architecture
 
-<!-- TODO: do this in excallidraw -->
+![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
 
-![](assets/design/overall-architecture.excalidraw.svg)
+<!-- TODO: Credit KDE Breeze icon set -->
 
 #### Routing engine structure
 
@@ -855,19 +862,21 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ###### Download region
 
-<!-- TODO -->
+Before the routing graph is computed, the appropriate region of map data will have to be downloaded. Therefore, it makes sense for this to be grouped with the task for computing the routing graph.
 
 ###### Parse OSM tags
 
-<!-- TODO -->
+OpenStreetMap has its own text-based tag format, which uses plain text attributes to describe properties about map features. I will need to parse the tags that are relevant to the routing engine, so that they can be used to appropriately create the routing graph, set the routing graph weights, and provide additional information to the user after the route is computed, e.g. road names or statistics on surface types.
+
+Since the routing graph will be the primary consumer of OSM tag data, I have grouped this task with the routing graph computation.
 
 ###### Compute routing graph
 
-<!-- TODO -->
+The routing graph is the data structure that the routing engine will use to calculate routes. It will contain nodes and edges, with each edge representing a path between two nodes. The edges will have weights that represent the cost of traversing that path, which will be used by the A\* algorithm to find the best route during the route calculation task.
 
 ##### Route calculation
 
-<!-- TODO -->
+This subsection contains the task of actually calculating the route between two points, given the routing graph and other parameters to conform to (i.e. types of paths to avoid). The nodes and edges will first be computed, and then weighted based on attributes of the corresponding OSM objects. Those tasks can be done separately to each other so I have placed them as subtasks of this one.
 
 ###### Perform A\* algorithm
 
@@ -875,7 +884,7 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ##### Communicate with frontend
 
-<!-- TODO -->
+This subsection contains the tasks related to passing data between the routing engine and the frontend. This will be done using an internal API.
 
 ###### Receive route request
 
@@ -887,7 +896,7 @@ This subsection contains all the features related to downloading, saving, and pr
 
 ###### HTTP API
 
-<!-- TODO -->
+The HTTP API is a potential feature that might be added to allow for more flexibility with using the routing engine in various situations. It will allow the routing engine to be used by other programs, or by the frontend, without needing to be embedded directly into the frontend code. This also means that a HTTP API could be implemented and used if embedding the routing engine is shown to not be feasible during development, ensuring that the project can still be made in some form.
 
 #### Web app structure
 
@@ -931,6 +940,73 @@ graph LR
 ##### Offline support
 
 <!-- TODO -->
+
+### Technology decisions
+
+#### Frontend technologies
+
+| Thingy               | Technology to use                |
+| -------------------- | -------------------------------- |
+| Programming language | [Typescript](#typescript)        |
+| Other languages      | HTML, CSS                        |
+| Build tool           | [Vite](#vite)                    |
+| Package manager      | [Yarn](#yarn)                    |
+| Python interpreter   | _Undecided_ <!-- TODO -->        |
+| UI library           | daisyUI (probably) <!-- TODO --> |
+
+##### TypeScript
+
+TypeScript ([typescriptlang.org](https://www.typescriptlang.org/)) is a superset of JavaScript designed to improve developer experience by adding a type system to catch type errors while writing code. I have chosen it for a number of reasons:
+
+- I am familiar with TypeScript, having used it in a number of projects across the past few years.
+  - This will mean I can immediately get the most out of the language
+  - I won't be slowed down when working on new features by having to learn the complexities of a new language
+- TypeScript compiles to human-readable JavaScript
+  - This means the code can be directly run by the browser, without an additional runtime
+  - Any browser that supports JavaScript will also be able to run my TypeScript code (once it has been compiled)
+- If necessary, the TypeScript compiler (`tsc`) can target older browser versions that support fewer modern JavaScript features
+  - This might be necessary to keep supporting my defined [system requirements](#requirements-web-app), although I don't expect it to be because modern browsers run on a large range of devices.
+- Its types and static analysis features are well-loved by developers[^stack-overflow-survey-admired-languages] (including me) and I have found that they make it more enjoyable to write JavaScript code
+- TypeScript is very popular in the web development community
+  - This means that many libraries will have type definitions to make them easier to use with TypeScript (speeding up development)
+  - Also, there's good tooling support for TypeScript, minimising the additional work I will have to put in to get the development environment working
+- TypeScript supports, and will let me enforce, various object-oriented programming (OOP) techniques, such as private and protected properties and methods, abstract classes, and static properties.
+  - This will ensure I can make the most of OOP best practices, to help reduce bugs and keep my code readable
+
+[^stack-overflow-survey-admired-languages]: Most-admired programming, scripting, and markup languages, Stack Overflow Developer Survey 2023 (<https://survey.stackoverflow.co/2023/#programming-scripting-and-markup-languages>)
+
+##### Vite
+
+Vite ([vite.dev](https://vite.dev)) is a build tool for JavaScript and TypeScript code, which will handle compiling my TypeScript code to JavaScript, as well as including my dependencies. I have picked it for the following reasons:
+
+- Vite is quick to set up and works without needing to create configuration files
+- It has built-in support for TypeScript
+- I have used it a lot in the past, so I know how it works
+- It has good documentation on its website (<https://vite.dev/guide/>)
+- It's popular tool for modern web development
+  - Different plugins are available to customise the tool
+  - There's a range of help available on Q&A sites like Stack Overflow
+
+##### Yarn
+
+Yarn is a package manager for JavaScript/TypeScript, which will mean that it can help me use any Javascript libraries I'll need in my project. The reasons I've chosen it are similar to my other technology decisions:
+
+- I have used it in the past so know how it works and can use it easily
+- It is faster to install packages than its alternatives (e.g. `npm`), which will mean I can quickly set up a development environment on various machines
+
+##### daisyUI
+
+daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web development. It will provide ready-made styles for components like buttons, dropdowns, and switches, which should greatly help with developing the frontend because I won't have to reinvent the wheel with my own styles for very element I need. While I haven't used it before, I have used the tool that it's built on top of (Tailwind CSS) so it should be easy for me to install and start using it. Other advantages are:
+
+- It works with "vanilla JavaScript", which means that it doesn't depend on any specific JavaScript framework like React or Vue
+  - This will be helpful because I plan on keeping my app simple by using a simple framework or no framework at all
+- It has pre-made components for UI elements that I plan to use, including: toasts for displaying status updates; buttons; range sliders and input boxes for numerical input; dropdown lists and radio buttons for selecting options; and modals for displaying overlays on the screen.
+  - This will save me time when developing the frontend, as I won't have to write my own styles for these components
+- Using a UI library will ensure consistency in my UI, which should make the app more enjoyable and easier to use for my stakeholders
+
+###### Stakeholder discussions about daisyUI
+
+I showed Andrew a demo of daisyUI and he liked the different components available, saying that they seemed easy to use.
 
 ---
 
