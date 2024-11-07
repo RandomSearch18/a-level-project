@@ -1019,6 +1019,8 @@ I showed Andrew a demo of daisyUI and he liked the different components availabl
 
 The routing graph is the most important data structure to get right in the program, as almost every part of the routing engine will use it.
 
+https://github.com/routeco/routor/blob/main/routor/engine.py
+
 ### Class diagrams
 
 ```mermaid
