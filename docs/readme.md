@@ -88,7 +88,7 @@ A-level Computer Science programming project
         - [Manage presets](#manage-presets)
         - [Offline support](#offline-support)
     - [Technology decisions](#technology-decisions)
-      - [Frontend](#frontend)
+      - [Frontend technologies](#frontend-technologies)
         - [TypeScript](#typescript)
         - [Vite](#vite)
         - [Yarn](#yarn)
@@ -943,7 +943,7 @@ graph LR
 
 ### Technology decisions
 
-#### Frontend
+#### Frontend technologies
 
 | Thingy               | Technology to use                |
 | -------------------- | -------------------------------- |
