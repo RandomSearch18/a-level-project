@@ -996,15 +996,17 @@ Yarn is a package manager for JavaScript/TypeScript, which will mean that it can
 
 ##### daisyUI
 
-daisyUI is a UI libary for web development. It will provide ready-made styles for components like buttons, dropdowns, and switches, which should greatly help with developing the frontend because I won't have to reinvent the wheel with my own styles for very element I need. While I haven't used it before, I have used the tool that it's built on top of (Tailwind CSS) so it should be easy for me to install and start using it. Other advantages are:
+daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web development. It will provide ready-made styles for components like buttons, dropdowns, and switches, which should greatly help with developing the frontend because I won't have to reinvent the wheel with my own styles for very element I need. While I haven't used it before, I have used the tool that it's built on top of (Tailwind CSS) so it should be easy for me to install and start using it. Other advantages are:
 
-- It works with "vanilla JavaScript", which means that it doesn't depend on any specific JavaScript framwework like React or Vue
-  - This will be helpful becuase I plan on keeping my app simple by using a simple framework or no framework at all
-- d
+- It works with "vanilla JavaScript", which means that it doesn't depend on any specific JavaScript framework like React or Vue
+  - This will be helpful because I plan on keeping my app simple by using a simple framework or no framework at all
+- It has pre-made components for UI elements that I plan to use, including: toasts for displaying status updates; buttons; range sliders and input boxes for numerical input; dropdown lists and radio buttons for selecting options; and modals for displaying overlays on the screen.
+  - This will save me time when developing the frontend, as I won't have to write my own styles for these components
+- Using a UI library will ensure consistency in my UI, which should make the app more enjoyable and easier to use for my stakeholders
 
 ###### Stakeholder discussions about daisyUI
 
-I showed Andrew a demo of daisyUI and he liked the different components avalable, saying that it seemed easy to use.
+I showed Andrew a demo of daisyUI and he liked the different components available, saying that they seemed easy to use.
 
 ---
 
