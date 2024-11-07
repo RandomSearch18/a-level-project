@@ -94,6 +94,9 @@ A-level Computer Science programming project
         - [Yarn](#yarn)
         - [daisyUI](#daisyui)
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
+    - [Data structure research](#data-structure-research)
+      - [Routing graph](#routing-graph)
+    - [Class diagrams](#class-diagrams)
 
 ## Analysis
 
@@ -1007,6 +1010,27 @@ daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web developmen
 ###### Stakeholder discussions about daisyUI
 
 I showed Andrew a demo of daisyUI and he liked the different components available, saying that they seemed easy to use.
+
+### Data structure research
+
+> Bad programmers worry about the code. Good programmers worry about data structures and their relationships. — Linus Torvalds
+
+#### Routing graph
+
+The routing graph is the most important data structure to get right in the program, as almost every part of the routing engine will use it.
+
+### Class diagrams
+
+```mermaid
+---
+title: <!-- TODO -->
+---
+classDiagram
+  class RoutingGraph {
+
+  }
+
+```
 
 ---
 
