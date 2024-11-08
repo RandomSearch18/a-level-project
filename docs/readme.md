@@ -97,6 +97,8 @@ A-level Computer Science programming project
     - [Data structure research](#data-structure-research)
       - [Routing graph research](#routing-graph-research)
         - [Deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph)
+        - [Explanatory diagrams for the routing graph](#explanatory-diagrams-for-the-routing-graph)
+        - [How graph nodes/edges relate to OSM elements](#how-graph-nodesedges-relate-to-osm-elements)
         - [Investigating the routing graph in Routor](#investigating-the-routing-graph-in-routor)
     - [Class diagrams](#class-diagrams)
 
@@ -1048,6 +1050,19 @@ It may be desirable for routing graphs to be directed for a number of reasons. I
 I have not tested or researched the differences in performance between undirected and directed graphs, but I don't expect a directed graph to be drastically faster than an undirected graph.
 
 The main advantage of an undirected graph is its simplicity: in a similar way to how each graph node will have a 1:1 relationship with a OSM node, each edge will have a 1:1 relationship with a specific segment of an OSM way. This should make it easier to implement, and easier to calculate edge weights, as a corresponding OSM way will always be present.
+
+##### Explanatory diagrams for the routing graph
+
+##### How graph nodes/edges relate to OSM elements
+
+```mermaid
+erDiagram
+  "OSM way" 1+--1 "Graph edge" : "links to"
+  "OSM way" 1--1+ "OSM node" : "has"
+  "OSM node" 1--1 "Graph node" : "links to"
+```
+
+<!-- TODO diagram to show a way with subsections thererfore multiple ewdges -->
 
 ##### Investigating the routing graph in Routor
 
