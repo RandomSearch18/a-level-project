@@ -95,7 +95,7 @@ A-level Computer Science programming project
         - [daisyUI](#daisyui)
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
     - [Data structure research](#data-structure-research)
-      - [Routing graph](#routing-graph)
+      - [Routing graph research](#routing-graph-research)
     - [Class diagrams](#class-diagrams)
 
 ## Analysis
@@ -1015,9 +1015,20 @@ I showed Andrew a demo of daisyUI and he liked the different components availabl
 
 > Bad programmers worry about the code. Good programmers worry about data structures and their relationships. — Linus Torvalds
 
-#### Routing graph
+#### Routing graph research
 
 The routing graph is the most important data structure to get right in the program, as almost every part of the routing engine will use it.
+
+It has the following requirements:
+
+- Nodes and edges that I can attach extra data to, perhaps through object references
+- Weights on edges and nodes
+- Undirected edges
+  - Even if one-way roads are best represented as directed edges, it is very uncommon for one-way restrictions to apply to pedestrians in the UK
+- Decent performance for creating the graph
+  - The graph will only be computed once for a certain region
+- Great performance for traversing the graph
+  - The graph will need to be widely traversed during route calculation, which may also happen multiple times if the user adjusts a route slightly
 
 https://github.com/routeco/routor/blob/main/routor/engine.py
 

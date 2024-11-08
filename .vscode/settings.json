@@ -20,5 +20,6 @@
     "Travelling",
     "typescriptlang.org",
     "unsignalled"
-  ]
+  ],
+  "editor.suggest.showWords": false
 }
