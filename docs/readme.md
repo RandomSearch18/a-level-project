@@ -96,6 +96,8 @@ A-level Computer Science programming project
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
     - [Data structure research](#data-structure-research)
       - [Routing graph research](#routing-graph-research)
+        - [Deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph)
+        - [Investigating the routing graph in Routor](#investigating-the-routing-graph-in-routor)
     - [Class diagrams](#class-diagrams)
 
 ## Analysis
@@ -1023,14 +1025,35 @@ It has the following requirements:
 
 - Nodes and edges that I can attach extra data to, perhaps through object references
 - Weights on edges and nodes
-- Undirected edges
+- Ability to transverse the edges in either direction
+  - This could be implemented either by having two edges for each path, or by having a single edge that can be traversed in either direction
   - Even if one-way roads are best represented as directed edges, it is very uncommon for one-way restrictions to apply to pedestrians in the UK
 - Decent performance for creating the graph
   - The graph will only be computed once for a certain region
 - Great performance for traversing the graph
   - The graph will need to be widely traversed during route calculation, which may also happen multiple times if the user adjusts a route slightly
 
-https://github.com/routeco/routor/blob/main/routor/engine.py
+##### Deciding between an undirected or directed graph
+
+It may be desirable for routing graphs to be directed for a number of reasons. I will consider them, as well as considering the extent to which they apply to my project.
+
+- **One-way roads**: One-way roads legally restrict vehicles from travelling in a certain direction. Therefore, it would make sense to represent them as a single directed edge to match how the path should be traversed.
+  - However, it is very uncommon for one-way restrictions to apply to pedestrians in the UK, so this won't be a necessary feature
+- **Turning restrictions**: OSM data includes turn restrictions, another kind of legal restriction that limits how vehicles can turn at an intersection. These might be easier to represent with a directed graph that has multiple edges for each OSM way.
+  - However, once again, turn restrictions don't apply to pedestrians. Since pedestrians simply have to follow the physical shape of pavements and footpaths, it makes more sense to pick an abstraction that's closer to the physical layout of paths.
+- **Different weights based on direction of travel**: Factors such as steepness of the path would be different depending on which way the path is being traversed, so it would be derivable to have separate edges for each direction, each with their own weights.
+  - In my eyes, this is the most compelling technical reason to choose a directed graph, as having weights that depend on direction wouldn't make sense to implement with an undirected graph
+  - However, since I don't plan to incorporate elevation data into the routing engine, and I can't think of any other common-enough cases where weight should differ based on direction, I should still be able to use an undirected graph.
+
+I have not tested or researched the differences in performance between undirected and directed graphs, but I don't expect a directed graph to be drastically faster than an undirected graph.
+
+The main advantage of an undirected graph is its simplicity: in a similar way to how each graph node will have a 1:1 relationship with a OSM node, each edge will have a 1:1 relationship with a specific segment of an OSM way. This should make it easier to implement, and easier to calculate edge weights, as a corresponding OSM way will always be present.
+
+##### Investigating the routing graph in Routor
+
+A valuable program to investigate at this point is Routor, a routing engine for OpenStreetMap that is also written in Python ([github.com/routeco/routor](https://github.com/routeco/routor), [routor/engine.py](https://github.com/routeco/routor/blob/main/routor/engine.py)). It uses the NetworkX library to implement a directed graph.
+
+<!-- TODO -->
 
 ### Class diagrams
 
