@@ -100,6 +100,8 @@ A-level Computer Science programming project
         - [Explanatory diagrams for the routing graph](#explanatory-diagrams-for-the-routing-graph)
         - [How graph nodes/edges relate to OSM elements](#how-graph-nodesedges-relate-to-osm-elements)
         - [Investigating the routing graph in Routor](#investigating-the-routing-graph-in-routor)
+        - [Investigating the suitability of NetworkX](#investigating-the-suitability-of-networkx)
+        - [Routing graph research conclusion](#routing-graph-research-conclusion)
     - [Class diagrams](#class-diagrams)
 
 ## Analysis
@@ -1025,15 +1027,19 @@ The routing graph is the most important data structure to get right in the progr
 
 It has the following requirements:
 
-- Nodes and edges that I can attach extra data to, perhaps through object references
-- Weights on edges and nodes
-- Ability to transverse the edges in either direction
-  - This could be implemented either by having two edges for each path, or by having a single edge that can be traversed in either direction
-  - Even if one-way roads are best represented as directed edges, it is very uncommon for one-way restrictions to apply to pedestrians in the UK
-- Decent performance for creating the graph
-  - The graph will only be computed once for a certain region
-- Great performance for traversing the graph
-  - The graph will need to be widely traversed during route calculation, which may also happen multiple times if the user adjusts a route slightly
+1. Nodes and edges that I can attach extra data to, perhaps through object references
+2. Weights on edges and nodes
+3. Ability to transverse the edges in either direction
+
+   - This could be implemented either by having two edges for each path, or by having a single edge that can be traversed in either direction
+   - Even if one-way roads are best represented as directed edges, it is very uncommon for one-way restrictions to apply to pedestrians in the UK
+
+4. Decent performance for creating the graph
+
+   - The graph will only be computed once for a certain region
+
+5. Great performance for traversing the graph
+   - The graph will need to be widely traversed during route calculation, which may also happen multiple times if the user adjusts a route slightly
 
 ##### Deciding between an undirected or directed graph
 
@@ -1068,14 +1074,42 @@ erDiagram
 
 A valuable program to investigate at this point is Routor, a routing engine for OpenStreetMap that is also written in Python ([github.com/routeco/routor](https://github.com/routeco/routor), [routor/engine.py](https://github.com/routeco/routor/blob/main/routor/engine.py)). It uses the NetworkX library to implement a directed graph.
 
-NetworkX ([networkx.org](https://networkx.org/)) is a Python library that implements various graph data structures and algorithms. It will be very useful to use, as it will make implementing the routing graph quicker and easier, so that I can get a working prototype to my stakeholders sooner, as well as faster, because it's a widely-used library that will have been optimised better than I can do myself.
+Routor, as a general-purpose OSM routing engine, uses a directed graph (`networkx.DiGraph`) to implement its routing graph. However, I plan to use a undirected graph (`networkx.Graph`) instead, as discussed under [deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph).
+
+##### Investigating the suitability of NetworkX
+
+NetworkX ([networkx.org](https://networkx.org/)) is a Python library that implements various graph data structures and algorithms. I looked for a library that implemented a graph data structure for a couple of reasons:
+
+- Tt will make implementing the routing graph quicker and easier, so that I can get a working prototype to my stakeholders sooner
+- The routing graph will be more performant, because it's a widely-used library that will have been optimised better than I can do myself
+  - This helps satisfy requirements 4 and 5 for the routing graph, [as specified at the top of the routing graph research section](#routing-graph-research)
+
+NetworkX would be a good choice for the following reasons:
+
+- It allows nodes and edges to have arbitrary data attached to them, which will be useful for storing OSM data or other data that will be helpful for routing (satisfies routing graph requirement 1)
+- While it doesn't have a specific feature for adding weights to nodes or edges, weights are a common use for its flexible attribute support, so weights can be stored that way, or dynamically calculated based on attached info if this option is chosen during development (satisfies routing graph requirement 2)
+- It has a large number of features, including supporting undirected graphs (with the `networkx.Graph` class) (satisfies routing graph requirement 3)
+- It also implements a range of useful pathfinding algorithms, including A\* and bidirectional Dijkstra's algorithm
+  - While I plan to implement an A\* routing algorithm myself, the built-in algorithms may be useful for any smaller-scale calculations that need to be done
+    - I may want to use Dijkstra's algorithm to improve accuracy and reproducibility of results for small sections of a route, like intersections with a large number of pavements and crossings
+    - With that said, that is by no means an important feature to implement, and may not be necessary at all
+- Looking through its documentation ([networkx.org/documentation/stable/reference](https://networkx.org/documentation/stable/reference/introduction.html)), the different classes and functions available in the library appear to be very well-documented and explained
+  - This will be important as it will help me to understand how to use the library and any best practices
+- It has successfully been used in Routor, which proves that it can work for a very similar use-case to mine
+  - While this gives me extra confidence that it will be an appropriate choice, my research has also determined that it will be a good option.
+- It is a large active open-source project, with a large number of contributors and recent commits and releases.
+  - Ensuring I use open-source libraries is important to me, as they are more likely to run in a range of environments, and can be used under a permissive licence
+  - Bugs are likely to be found and fixed quickly due to its large community
+  - It is actively maintained for modern Python versions and continues to receive performance (and other) enhancements
+
+<!-- TODO: Networkx drops py 3.10 support?! https://github.com/networkx/networkx/pull/7668 -->
 
 While NetworkX implements shortest path algorithms, including A\*, I still plan to implement my own A\* algorithm. This will:
 
 - Ensure I understand exactly how the algorithm calculates shortest paths, making it easier to debug and tweak
 - Make it easier to adjust the result based on the routing preferences from the user or the app
 
-Routor, as a general-purpose OSM routing engine, uses a directed graph (`networkx.DiGraph`) to implement its routing graph. However, I plan to use a undirected graph (`networkx.Graph`) instead, as discussed under [deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph).
+##### Routing graph research conclusion
 
 With that in mind, I plan to use the NetworkX library to store and interface with the routing graph in-memory, using the `networkx.Graph` class to implement an undirected graph.
 
