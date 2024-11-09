@@ -1068,7 +1068,16 @@ erDiagram
 
 A valuable program to investigate at this point is Routor, a routing engine for OpenStreetMap that is also written in Python ([github.com/routeco/routor](https://github.com/routeco/routor), [routor/engine.py](https://github.com/routeco/routor/blob/main/routor/engine.py)). It uses the NetworkX library to implement a directed graph.
 
-<!-- TODO -->
+NetworkX ([networkx.org](https://networkx.org/)) is a Python library that implements various graph data structures and algorithms. It will be very useful to use, as it will make implementing the routing graph quicker and easier, so that I can get a working prototype to my stakeholders sooner, as well as faster, because it's a widely-used library that will have been optimised better than I can do myself.
+
+While NetworkX implements shortest path algorithms, including A\*, I still plan to implement my own A\* algorithm. This will:
+
+- Ensure I understand exactly how the algorithm calculates shortest paths, making it easier to debug and tweak
+- Make it easier to adjust the result based on the routing preferences from the user or the app
+
+Routor, as a general-purpose OSM routing engine, uses a directed graph (`networkx.DiGraph`) to implement its routing graph. However, I plan to use a undirected graph (`networkx.Graph`) instead, as discussed under [deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph).
+
+With that in mind, I plan to use the NetworkX library to store and interface with the routing graph in-memory, using the `networkx.Graph` class to implement an undirected graph.
 
 ### Class diagrams
 
