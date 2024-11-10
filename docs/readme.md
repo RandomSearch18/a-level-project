@@ -1238,7 +1238,7 @@ note for StartWalking "The first part of every route"
 Arrive --|> RouteManoeuvre
 note for Arrive "The last part of every route"
 
-%% TODO more RouteManoeuvres
+%% TODO more RouteManoeuvres?
 
 RouteProgression --|> RoutePart
 class RouteProgression {
@@ -1270,6 +1270,7 @@ class RouteCalculator {
 note for RouteCalculator "Contains all the state/data required for one route calculation request"
 
 class RoutingEngine {
+  %% TODO: How on earth is the compute_graph() function meant to actually work
   +compute_graph(map_data: OSMData): RoutingGraph
   +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
 }
