@@ -104,6 +104,7 @@ A-level Computer Science programming project
         - [Routing graph research conclusion](#routing-graph-research-conclusion)
     - [Class diagrams](#class-diagrams)
       - [Class diagrams for OSM data](#class-diagrams-for-osm-data)
+      - [Class diagrams for routing](#class-diagrams-for-routing)
 
 ## Analysis
 
@@ -1162,16 +1163,27 @@ classDiagram
   class OSMRelation {
     +members: list[OSMRelationMember]
   }
+
+  %% OSMRegion "1" o-- "*" OSMElement : nodes, ways, relations
+  OSMRegion "1" o-- "*" OSMNode : nodes
+  OSMRegion "1" o-- "*" OSMWay : ways
+  OSMRegion "1" o-- "*" OSMRelation : relations
+  class OSMRegion {
+    +nodes: dict[int, OSMNode]
+    +ways: dict[int, OSMWay]
+    +relations: dict[int, OSMRelation]
+  }
 ```
 
-<!--
-  class OSMData {
-    +nodes: dict[int, OSMNode]
-  }
+#### Class diagrams for routing
+
+```mermaid
+classDiagram
   class RoutingGraph {
     -graph: networkx.Graph
     -osm_data: OSMData
-  } -->
+  }
+```
 
 ---
 
