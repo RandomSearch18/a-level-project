@@ -78,8 +78,6 @@ A-level Computer Science programming project
         - [Route calculation](#route-calculation)
           - [Perform A\* algorithm](#perform-a-algorithm)
         - [Communicate with frontend](#communicate-with-frontend)
-          - [Receive route request](#receive-route-request)
-          - [Send route data](#send-route-data)
           - [HTTP API](#http-api)
       - [Web app structure](#web-app-structure)
         - [Accept input](#accept-input)
@@ -891,19 +889,13 @@ This subsection contains the task of actually calculating the route between two 
 
 ###### Perform A\* algorithm
 
-<!-- TODO -->
+The route will be calculated using the A\* algorithm, so I will need to implement an A\* pathfinding algorithm to work on the routing graph. I've added it as a separate box as it is essentially a standalone algorithm that can have its own subprogram.
 
 ##### Communicate with frontend
 
 This subsection contains the tasks related to passing data between the routing engine and the frontend. This will be done using an internal API.
 
-###### Receive route request
-
-<!-- TODO -->
-
-###### Send route data
-
-<!-- TODO -->
+The two subtasks here are receiving a route request from the frontend, and sending the route data back to the frontend. I have separated them out as they will use different data formats and will happen at different times during the route calculation process.
 
 ###### HTTP API
 
