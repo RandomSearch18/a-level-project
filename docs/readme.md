@@ -1111,7 +1111,7 @@ While NetworkX implements shortest path algorithms, including A\*, I still plan 
 
 ##### Routing graph research conclusion
 
-With that in mind, I plan to use the NetworkX library to store and interface with the routing graph in-memory, using the `networkx.Graph` class to implement an undirected graph.
+With this research in mind, I plan to use the NetworkX library to store and interface with the routing graph in-memory, using the `networkx.Graph` class to implement an undirected graph.
 
 ### Class diagrams
 
