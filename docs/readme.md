@@ -103,6 +103,7 @@ A-level Computer Science programming project
         - [Investigating the suitability of NetworkX](#investigating-the-suitability-of-networkx)
         - [Routing graph research conclusion](#routing-graph-research-conclusion)
     - [Class diagrams](#class-diagrams)
+      - [Class diagrams for OSM data](#class-diagrams-for-osm-data)
 
 ## Analysis
 
@@ -1115,16 +1116,61 @@ With this research in mind, I plan to use the NetworkX library to store and inte
 
 ### Class diagrams
 
-```mermaid
----
-title: <!-- TODO -->
----
-classDiagram
-  class RoutingGraph {
+#### Class diagrams for OSM data
 
+```mermaid
+classDiagram
+  class Coordinates {
+    +lat: float
+    +lon: float
   }
 
+  class OSMTag {
+    -key: str
+    -value: str
+    +text(): str
+    +is_truthy(): bool
+    +is_falsy(): bool
+  }
+
+  OSMElement "1" *-- "*" OSMTag : tags
+  class OSMElement {
+    +type: str
+    +tags: Dict[str, OSMTag]
+  }
+
+  OSMNode <|-- OSMElement
+  OSMNode "1" *-- "1" Coordinates
+  class OSMNode {
+    +pos: Coordinates
+  }
+
+  OSMWay <|-- OSMElement
+  OSMWay "1" o-- "n" OSMNode : nodes
+  class OSMWay {
+    +nodes: List[OSMNode]
+  }
+
+  OSMRelationMember "n" *-- "1" OSMRelation : members
+  class OSMRelationMember {
+    +role: str
+    +element: OSMElement
+  }
+
+  OSMRelation <|-- OSMElement
+  class OSMRelation {
+    +members: List[OSMRelationMember]
+  }
 ```
+
+<!--
+  class OSMData {
+    +nodes: Dict[int, OSMNode]
+  }
+  class RoutingGraph {
+    -graph: networkx.Graph
+    -osm_data: OSMData
+  } -->
 
 ---
 
