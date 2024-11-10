@@ -1243,11 +1243,6 @@ class RouteProgression {
 ```
 
 ```mermaid
----
-  config:
-    class:
-      hideEmptyMembersBox: true
----
 classDiagram
 direction TB
 class RoutingGraph {
@@ -1257,8 +1252,6 @@ class RoutingGraph {
 
 class RoutingOptions
 %% TODO RoutingOptions
-
-
 
 RouteCalculator *-- RoutingOptions : options
 RouteCalculator *-- RoutingGraph : graph
