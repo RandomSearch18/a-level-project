@@ -1120,6 +1120,7 @@ With this research in mind, I plan to use the NetworkX library to store and inte
 
 ```mermaid
 classDiagram
+  direction BT
   class Coordinates {
     +lat: float
     +lon: float
