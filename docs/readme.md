@@ -83,6 +83,8 @@ A-level Computer Science programming project
         - [Accept input](#accept-input)
         - [Communicate with routing engine](#communicate-with-routing-engine)
         - [Display interactive map](#display-interactive-map)
+          - [Base map](#base-map)
+          - [Highlight route on map](#highlight-route-on-map)
         - [Manage presets](#manage-presets)
         - [Offline support](#offline-support)
     - [Technology decisions](#technology-decisions)
@@ -915,6 +917,7 @@ graph LR
   A --> D["Display interactive map (UR3)"]
     D --> DA[Base map]
     D --> DB[Highlight route on map]
+    D --> DC[Current location dot]
   A --> E["Manage presets (UR4)"]
     E --> EA[Save presets]
     E --> EB[Load presets]
@@ -926,23 +929,35 @@ graph LR
 
 ##### Accept input
 
-<!-- TODO -->
+This will likely be the first thing the user looks to do when they open the web app and see the UI, so I have listed it first. This will primarily mean selecting the start and end locations, but route options will be input in a similar way and at the same time, so they are grouped in here.
 
 ##### Communicate with routing engine
 
-<!-- TODO -->
+This is the part that will prompt the routing engine to calculate a route, which is naturally quite an important part of the frontend. It corresponds to the [communicate with frontend](#communicate-with-frontend) task of the routing engine, and they have similar sub-tasks: communicating the route request information, and receiving the route data.
 
 ##### Display interactive map
 
-<!-- TODO -->
+An interactive map is user requirement 3 for the project, so it is important that it is implemented.
+
+###### Base map
+
+The base map will provide important context of where the route is, what roads and paths are in that area, and what paths are being followed. The base map is also useful for orienting the user to make it easier for them to follow the route.
+
+###### Highlight route on map
+
+After the route has been calculated, it should be highlighted on the map, as this is the most intuitive way to present the route to the user. I will use Leaflet.js's features to accomplish this.
 
 ##### Manage presets
 
-<!-- TODO -->
+Presets make the wide number of options more manageable to work with, as well as allowing transferring of options between devices, making the app more useful.
+
+Saving and loading presets are the two actions that any preset feature will need to have implemented, so those are the first two sub-tasks (corresponding to user requirement 4).
+
+The other sub-task is importing and exporting presets, which allows working with presets in more ways (as per user requirement 7).
 
 ##### Offline support
 
-<!-- TODO -->
+Offline support is user requirement 6, and implementing it will require both the app's code (managed by a service worker) and the map data to be stored locally.
 
 ### Technology decisions
 
