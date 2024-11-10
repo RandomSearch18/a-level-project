@@ -1199,14 +1199,6 @@ class OSMRegion {
 ---
 classDiagram
 direction BT
-class RoutingGraph {
-  -graph: networkx.Graph
-  -osm_data: OSMData
-}
-
-class RoutingOptions
-%% TODO RoutingOptions
-
 RouteResult "1" *-- "n" RoutePart : parts
 class RouteResult {
   +start: Coordinates
@@ -1228,9 +1220,16 @@ class RouteManoeuvre {
   +description(): str
 }
 
-RouteChangePath --|> RouteManoeuvre
-note for RouteChangePath "Going/turning from one path to another"
-class RouteChangePath
+ChangePath --|> RouteManoeuvre
+note for ChangePath "Going/turning from one path to another"
+CrossRoad --|> RouteManoeuvre
+class CrossRoad {
+  +crossing_node: OSMNode
+}
+StartWalking --|> RouteManoeuvre
+note for StartWalking "The first part of every route"
+Arrive --|> RouteManoeuvre
+note for Arrive "The last part of every route"
 
 %% TODO more RouteManoeuvres
 
@@ -1241,12 +1240,34 @@ class RouteProgression {
   +along: OSMWay
   +description(): str
 }
+```
 
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+direction TB
+class RoutingGraph {
+  -graph: networkx.Graph
+  -osm_data: OSMData
+}
+
+class RoutingOptions
+%% TODO RoutingOptions
+
+
+
+RouteCalculator *-- RoutingOptions : options
+RouteCalculator *-- RoutingGraph : graph
 class RouteCalculator {
   -graph: RoutingGraph
   -options: RoutingOptions
   +calculate_route(start: Coordinates, end: Coordinates): RouteResult
 }
+note for RouteCalculator "Contains all the state/data required for one route calculation request"
 
 class RoutingEngine {
   +compute_graph(map_data: OSMData): RoutingGraph
