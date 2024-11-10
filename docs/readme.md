@@ -1121,7 +1121,7 @@ With this research in mind, I plan to use the NetworkX library to store and inte
 
 ```mermaid
 classDiagram
-direction BT
+direction TB
 class Coordinates {
   +lat: float
   +lon: float
@@ -1148,17 +1148,18 @@ class OSMTag {
 
 OSMElement "1" *-- "*" OSMTag : tags
 class OSMElement {
+  <<abstract>>
   +type: str
   +tags: dict[str, OSMTag]
 }
 
-OSMNode <|-- OSMElement
+OSMNode --|> OSMElement
 OSMNode "1" *-- "1" Coordinates
 class OSMNode {
   +pos: Coordinates
 }
 
-OSMWay <|-- OSMElement
+OSMWay --|> OSMElement
 OSMWay "1" o-- "n" OSMNode : nodes
 class OSMWay {
   +nodes: list[OSMNode]
@@ -1170,7 +1171,7 @@ class OSMRelationMember {
   +element: OSMElement
 }
 
-OSMRelation <|-- OSMElement
+OSMRelation --|> OSMElement
 class OSMRelation {
   +members: list[OSMRelationMember]
 }
@@ -1191,7 +1192,13 @@ class OSMRegion {
 #### Class diagrams for routing
 
 ```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
 classDiagram
+direction BT
 class RoutingGraph {
   -graph: networkx.Graph
   -osm_data: OSMData
@@ -1199,6 +1206,41 @@ class RoutingGraph {
 
 class RoutingOptions
 %% TODO RoutingOptions
+
+RouteResult "1" *-- "n" RoutePart : parts
+class RouteResult {
+  +start: Coordinates
+  +end: Coordinates
+  +parts: list[RoutePart]
+  +distance(): float
+  +estimated_time(): float
+}
+
+class RoutePart {
+  <<abstract>>
+}
+
+%% FIXME Spelling?!
+RouteManoeuvre --|> RoutePart
+class RouteManoeuvre {
+  <<abstract>>
+  +estimated_time: float
+  +description(): str
+}
+
+RouteChangePath --|> RouteManoeuvre
+note for RouteChangePath "Going/turning from one path to another"
+class RouteChangePath
+
+%% TODO more RouteManoeuvres
+
+RouteProgression --|> RoutePart
+class RouteProgression {
+  +distance: float
+  +estimated_time: float
+  +along: OSMWay
+  +description(): str
+}
 
 class RouteCalculator {
   -graph: RoutingGraph
