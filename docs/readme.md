@@ -1121,68 +1121,68 @@ With this research in mind, I plan to use the NetworkX library to store and inte
 
 ```mermaid
 classDiagram
-  direction BT
-  class Coordinates {
-    +lat: float
-    +lon: float
-  }
+direction BT
+class Coordinates {
+  +lat: float
+  +lon: float
+}
 
-  class OSMTag {
-    -key: str
-    -value: str
-    +text(): str
-    +is_truthy(): bool
-    +is_falsy(): bool
-  }
+class OSMTag {
+  -key: str
+  -value: str
+  +text(): str
+  +is_truthy(): bool
+  +is_falsy(): bool
+}
 
-  OSMElement "1" *-- "*" OSMTag : tags
-  class OSMElement {
-    +type: str
-    +tags: dict[str, OSMTag]
-  }
+OSMElement "1" *-- "*" OSMTag : tags
+class OSMElement {
+  +type: str
+  +tags: dict[str, OSMTag]
+}
 
-  OSMNode <|-- OSMElement
-  OSMNode "1" *-- "1" Coordinates
-  class OSMNode {
-    +pos: Coordinates
-  }
+OSMNode <|-- OSMElement
+OSMNode "1" *-- "1" Coordinates
+class OSMNode {
+  +pos: Coordinates
+}
 
-  OSMWay <|-- OSMElement
-  OSMWay "1" o-- "n" OSMNode : nodes
-  class OSMWay {
-    +nodes: list[OSMNode]
-  }
+OSMWay <|-- OSMElement
+OSMWay "1" o-- "n" OSMNode : nodes
+class OSMWay {
+  +nodes: list[OSMNode]
+}
 
-  OSMRelationMember "n" *-- "1" OSMRelation : members
-  class OSMRelationMember {
-    +role: str
-    +element: OSMElement
-  }
+OSMRelationMember "n" *-- "1" OSMRelation : members
+class OSMRelationMember {
+  +role: str
+  +element: OSMElement
+}
 
-  OSMRelation <|-- OSMElement
-  class OSMRelation {
-    +members: list[OSMRelationMember]
-  }
+OSMRelation <|-- OSMElement
+class OSMRelation {
+  +members: list[OSMRelationMember]
+}
 
-  %% OSMRegion "1" o-- "*" OSMElement : nodes, ways, relations
-  OSMRegion "1" o-- "*" OSMNode : nodes
-  OSMRegion "1" o-- "*" OSMWay : ways
-  OSMRegion "1" o-- "*" OSMRelation : relations
-  class OSMRegion {
-    +nodes: dict[int, OSMNode]
-    +ways: dict[int, OSMWay]
-    +relations: dict[int, OSMRelation]
-  }
+%% OSMRegion "1" o-- "*" OSMElement : nodes, ways, relations
+OSMRegion "1" o-- "*" OSMNode : nodes
+OSMRegion "1" o-- "*" OSMWay : ways
+OSMRegion "1" o-- "*" OSMRelation : relations
+class OSMRegion {
+  +nodes: dict[int, OSMNode]
+  +ways: dict[int, OSMWay]
+  +relations: dict[int, OSMRelation]
+}
 ```
 
 #### Class diagrams for routing
 
 ```mermaid
 classDiagram
-  class RoutingGraph {
-    -graph: networkx.Graph
-    -osm_data: OSMData
-  }
+class RoutingGraph {
+  -graph: networkx.Graph
+  -osm_data: OSMData
+}
 ```
 
 ---
