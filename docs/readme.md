@@ -1127,6 +1127,17 @@ class Coordinates {
   +lon: float
 }
 
+BoundingBox "1" *-- "2" Coordinates
+class BoundingBox {
+  +min_lat: float
+  +min_lon: float
+  +max_lat: float
+  +max_lon: float
+  +contains(point: Coordinates): bool
+  +top_left(): Coordinates
+  +bottom_right(): Coordinates
+}
+
 class OSMTag {
   -key: str
   -value: str
@@ -1165,13 +1176,15 @@ class OSMRelation {
 }
 
 %% OSMRegion "1" o-- "*" OSMElement : nodes, ways, relations
-OSMRegion "1" o-- "*" OSMNode : nodes
-OSMRegion "1" o-- "*" OSMWay : ways
-OSMRegion "1" o-- "*" OSMRelation : relations
+OSMRegion "1" *-- "*" OSMNode : nodes
+OSMRegion "1" *-- "*" OSMWay : ways
+OSMRegion "1" *-- "*" OSMRelation : relations
+OSMRegion o-- BoundingBox : bbox
 class OSMRegion {
   +nodes: dict[int, OSMNode]
   +ways: dict[int, OSMWay]
   +relations: dict[int, OSMRelation]
+  +bbox: BoundingBox
 }
 ```
 
@@ -1182,6 +1195,20 @@ classDiagram
 class RoutingGraph {
   -graph: networkx.Graph
   -osm_data: OSMData
+}
+
+class RoutingOptions
+%% TODO RoutingOptions
+
+class RouteCalculator {
+  -graph: RoutingGraph
+  -options: RoutingOptions
+  +calculate_route(start: Coordinates, end: Coordinates): RouteResult
+}
+
+class RoutingEngine {
+  +compute_graph(map_data: OSMData): RoutingGraph
+  +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
 }
 ```
 
