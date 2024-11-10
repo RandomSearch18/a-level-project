@@ -94,6 +94,17 @@ A-level Computer Science programming project
         - [Yarn](#yarn)
         - [daisyUI](#daisyui)
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
+    - [Data structure research](#data-structure-research)
+      - [Routing graph research](#routing-graph-research)
+        - [Deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph)
+        - [Explanatory diagrams for the routing graph](#explanatory-diagrams-for-the-routing-graph)
+        - [How graph nodes/edges relate to OSM elements](#how-graph-nodesedges-relate-to-osm-elements)
+        - [Investigating the routing graph in Routor](#investigating-the-routing-graph-in-routor)
+        - [Investigating the suitability of NetworkX](#investigating-the-suitability-of-networkx)
+        - [Routing graph research conclusion](#routing-graph-research-conclusion)
+    - [Class diagrams](#class-diagrams)
+      - [Class diagrams for OSM data](#class-diagrams-for-osm-data)
+      - [Class diagrams for routing](#class-diagrams-for-routing)
 
 ## Analysis
 
@@ -1007,6 +1018,255 @@ daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web developmen
 ###### Stakeholder discussions about daisyUI
 
 I showed Andrew a demo of daisyUI and he liked the different components available, saying that they seemed easy to use.
+
+### Data structure research
+
+> Bad programmers worry about the code. Good programmers worry about data structures and their relationships. — Linus Torvalds
+
+#### Routing graph research
+
+The routing graph is the most important data structure to get right in the program, as almost every part of the routing engine will use it.
+
+It has the following requirements:
+
+1. Nodes and edges that I can attach extra data to, perhaps through object references
+2. Weights on edges and nodes
+3. Ability to transverse the edges in either direction
+
+   - This could be implemented either by having two edges for each path, or by having a single edge that can be traversed in either direction
+   - Even if one-way roads are best represented as directed edges, it is very uncommon for one-way restrictions to apply to pedestrians in the UK
+
+4. Decent performance for creating the graph
+
+   - The graph will only be computed once for a certain region
+
+5. Great performance for traversing the graph
+   - The graph will need to be widely traversed during route calculation, which may also happen multiple times if the user adjusts a route slightly
+
+##### Deciding between an undirected or directed graph
+
+It may be desirable for routing graphs to be directed for a number of reasons. I will consider them, as well as considering the extent to which they apply to my project.
+
+- **One-way roads**: One-way roads legally restrict vehicles from travelling in a certain direction. Therefore, it would make sense to represent them as a single directed edge to match how the path should be traversed.
+  - However, it is very uncommon for one-way restrictions to apply to pedestrians in the UK, so this won't be a necessary feature
+- **Turning restrictions**: OSM data includes turn restrictions, another kind of legal restriction that limits how vehicles can turn at an intersection. These might be easier to represent with a directed graph that has multiple edges for each OSM way.
+  - However, once again, turn restrictions don't apply to pedestrians. Since pedestrians simply have to follow the physical shape of pavements and footpaths, it makes more sense to pick an abstraction that's closer to the physical layout of paths.
+- **Different weights based on direction of travel**: Factors such as steepness of the path would be different depending on which way the path is being traversed, so it would be derivable to have separate edges for each direction, each with their own weights.
+  - In my eyes, this is the most compelling technical reason to choose a directed graph, as having weights that depend on direction wouldn't make sense to implement with an undirected graph
+  - In this project, I don't plan to incorporate elevation data into the routing engine, and I can't think of any other common-enough cases where weight should differ based on direction, I should still be able to use an undirected graph.
+
+I have not tested or researched the differences in performance between undirected and directed graphs, but I don't expect a directed graph to be drastically faster than an undirected graph.
+
+The main advantage of an undirected graph is its simplicity: in a similar way to how each graph node will have a 1:1 relationship with a OSM node, each edge will have a 1:1 relationship with a specific segment of an OSM way. This should make it easier to implement, and easier to calculate edge weights, as a corresponding OSM way will always be present.
+
+##### Explanatory diagrams for the routing graph
+
+##### How graph nodes/edges relate to OSM elements
+
+```mermaid
+erDiagram
+  "OSM way" 1+--1 "Graph edge" : "links to"
+  "OSM way" 1--1+ "OSM node" : "has"
+  "OSM node" 1--1 "Graph node" : "links to"
+```
+
+<!-- TODO diagram to show a way with subsections thererfore multiple ewdges -->
+
+##### Investigating the routing graph in Routor
+
+A valuable program to investigate at this point is Routor, a routing engine for OpenStreetMap that is also written in Python ([github.com/routeco/routor](https://github.com/routeco/routor), [routor/engine.py](https://github.com/routeco/routor/blob/main/routor/engine.py)). It uses the NetworkX library to implement a directed graph.
+
+Routor, as a general-purpose OSM routing engine, uses a directed graph (`networkx.DiGraph`) to implement its routing graph. However, I plan to use a undirected graph (`networkx.Graph`) instead, as discussed under [deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph).
+
+##### Investigating the suitability of NetworkX
+
+NetworkX ([networkx.org](https://networkx.org/)) is a Python library that implements various graph data structures and algorithms. I looked for a library that implemented a graph data structure for a couple of reasons:
+
+- Tt will make implementing the routing graph quicker and easier, so that I can get a working prototype to my stakeholders sooner
+- The routing graph will be more performant, because it's a widely-used library that will have been optimised better than I can do myself
+  - This helps satisfy requirements 4 and 5 for the routing graph, [as specified at the top of the routing graph research section](#routing-graph-research)
+
+NetworkX would be a good choice for the following reasons:
+
+- It allows nodes and edges to have arbitrary data attached to them, which will be useful for storing OSM data or other data that will be helpful for routing (satisfies routing graph requirement 1)
+- While it doesn't have a specific feature for adding weights to nodes or edges, weights are a common use for its flexible attribute support, so weights can be stored that way, or dynamically calculated based on attached info if this option is chosen during development (satisfies routing graph requirement 2)
+- It has a large number of features, including supporting undirected graphs (with the `networkx.Graph` class) (satisfies routing graph requirement 3)
+- It also implements a range of useful pathfinding algorithms, including A\* and bidirectional Dijkstra's algorithm
+  - While I plan to implement an A\* routing algorithm myself, the built-in algorithms may be useful for any smaller-scale calculations that need to be done
+    - I may want to use Dijkstra's algorithm to improve accuracy and reproducibility of results for small sections of a route, like intersections with a large number of pavements and crossings
+    - With that said, that is by no means an important feature to implement, and may not be necessary at all
+- Looking through its documentation ([networkx.org/documentation/stable/reference](https://networkx.org/documentation/stable/reference/introduction.html)), the different classes and functions available in the library appear to be very well-documented and explained
+  - This will be important as it will help me to understand how to use the library and any best practices
+- It has successfully been used in Routor, which proves that it can work for a very similar use-case to mine
+  - While this gives me extra confidence that it will be an appropriate choice, my research has also determined that it will be a good option.
+- It is a large active open-source project, with a large number of contributors and recent commits and releases.
+  - Ensuring I use open-source libraries is important to me, as they are more likely to run in a range of environments, and can be used under a permissive licence
+  - Bugs are likely to be found and fixed quickly due to its large community
+  - It is actively maintained for modern Python versions and continues to receive performance (and other) enhancements
+
+<!-- TODO: Networkx drops py 3.10 support?! https://github.com/networkx/networkx/pull/7668 -->
+
+While NetworkX implements shortest path algorithms, including A\*, I still plan to implement my own A\* algorithm. This will:
+
+- Ensure I understand exactly how the algorithm calculates shortest paths, making it easier to debug and tweak
+- Make it easier to adjust the result based on the routing preferences from the user or the app
+
+##### Routing graph research conclusion
+
+With this research in mind, I plan to use the NetworkX library to store and interface with the routing graph in-memory, using the `networkx.Graph` class to implement an undirected graph.
+
+### Class diagrams
+
+#### Class diagrams for OSM data
+
+```mermaid
+classDiagram
+direction TB
+class Coordinates {
+  +lat: float
+  +lon: float
+}
+
+BoundingBox "1" *-- "2" Coordinates
+class BoundingBox {
+  +min_lat: float
+  +min_lon: float
+  +max_lat: float
+  +max_lon: float
+  +contains(point: Coordinates): bool
+  +top_left(): Coordinates
+  +bottom_right(): Coordinates
+}
+
+class OSMTag {
+  -key: str
+  -value: str
+  +text(): str
+  +is_truthy(): bool
+  +is_falsy(): bool
+}
+
+OSMElement "1" *-- "*" OSMTag : tags
+class OSMElement {
+  <<abstract>>
+  +type: str
+  +tags: dict[str, OSMTag]
+}
+
+OSMNode --|> OSMElement
+OSMNode "1" *-- "1" Coordinates
+class OSMNode {
+  +pos: Coordinates
+}
+
+OSMWay --|> OSMElement
+OSMWay "1" o-- "n" OSMNode : nodes
+class OSMWay {
+  +nodes: list[OSMNode]
+}
+
+OSMRelationMember "n" *-- "1" OSMRelation : members
+class OSMRelationMember {
+  +role: str
+  +element: OSMElement
+}
+
+OSMRelation --|> OSMElement
+class OSMRelation {
+  +members: list[OSMRelationMember]
+}
+
+%% OSMRegion "1" o-- "*" OSMElement : nodes, ways, relations
+OSMRegion "1" *-- "*" OSMNode : nodes
+OSMRegion "1" *-- "*" OSMWay : ways
+OSMRegion "1" *-- "*" OSMRelation : relations
+OSMRegion o-- BoundingBox : bbox
+class OSMRegion {
+  +nodes: dict[int, OSMNode]
+  +ways: dict[int, OSMWay]
+  +relations: dict[int, OSMRelation]
+  +bbox: BoundingBox
+}
+```
+
+#### Class diagrams for routing
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+direction BT
+RouteResult "1" *-- "n" RoutePart : parts
+class RouteResult {
+  +start: Coordinates
+  +end: Coordinates
+  +parts: list[RoutePart]
+  +distance(): float
+  +estimated_time(): float
+}
+
+class RoutePart {
+  <<abstract>>
+}
+
+%% FIXME Spelling?!
+RouteManoeuvre --|> RoutePart
+class RouteManoeuvre {
+  <<abstract>>
+  +estimated_time: float
+  +description(): str
+}
+
+ChangePath --|> RouteManoeuvre
+note for ChangePath "Going/turning from one path to another"
+CrossRoad --|> RouteManoeuvre
+class CrossRoad {
+  +crossing_node: OSMNode
+}
+StartWalking --|> RouteManoeuvre
+note for StartWalking "The first part of every route"
+Arrive --|> RouteManoeuvre
+note for Arrive "The last part of every route"
+
+%% TODO more RouteManoeuvres
+
+RouteProgression --|> RoutePart
+class RouteProgression {
+  +distance: float
+  +estimated_time: float
+  +along: OSMWay
+  +description(): str
+}
+```
+
+```mermaid
+classDiagram
+direction TB
+class RoutingGraph {
+  -graph: networkx.Graph
+  -osm_data: OSMData
+}
+
+class RoutingOptions
+%% TODO RoutingOptions
+
+RouteCalculator *-- RoutingOptions : options
+RouteCalculator *-- RoutingGraph : graph
+class RouteCalculator {
+  -graph: RoutingGraph
+  -options: RoutingOptions
+  +calculate_route(start: Coordinates, end: Coordinates): RouteResult
+}
+note for RouteCalculator "Contains all the state/data required for one route calculation request"
+
+class RoutingEngine {
+  +compute_graph(map_data: OSMData): RoutingGraph
+  +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
+}
+```
 
 ---
 

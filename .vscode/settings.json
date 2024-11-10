@@ -8,6 +8,7 @@
     "isochrones",
     "minimising",
     "Mish",
+    "NetworkX",
     "optimise",
     "optimising",
     "OSMAnd",
@@ -15,10 +16,12 @@
     "OSRM",
     "pathfinding",
     "prioritise",
+    "Routor",
     "runtimes",
     "satnavs",
     "Travelling",
     "typescriptlang.org",
     "unsignalled"
-  ]
+  ],
+  "editor.suggest.showWords": false
 }
