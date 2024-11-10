@@ -1137,7 +1137,7 @@ classDiagram
   OSMElement "1" *-- "*" OSMTag : tags
   class OSMElement {
     +type: str
-    +tags: Dict[str, OSMTag]
+    +tags: dict[str, OSMTag]
   }
 
   OSMNode <|-- OSMElement
@@ -1149,7 +1149,7 @@ classDiagram
   OSMWay <|-- OSMElement
   OSMWay "1" o-- "n" OSMNode : nodes
   class OSMWay {
-    +nodes: List[OSMNode]
+    +nodes: list[OSMNode]
   }
 
   OSMRelationMember "n" *-- "1" OSMRelation : members
@@ -1160,13 +1160,13 @@ classDiagram
 
   OSMRelation <|-- OSMElement
   class OSMRelation {
-    +members: List[OSMRelationMember]
+    +members: list[OSMRelationMember]
   }
 ```
 
 <!--
   class OSMData {
-    +nodes: Dict[int, OSMNode]
+    +nodes: dict[int, OSMNode]
   }
   class RoutingGraph {
     -graph: networkx.Graph
