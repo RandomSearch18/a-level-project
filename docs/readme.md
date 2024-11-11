@@ -105,6 +105,11 @@ A-level Computer Science programming project
     - [Class diagrams](#class-diagrams)
       - [Class diagrams for OSM data](#class-diagrams-for-osm-data)
       - [Class diagrams for routing](#class-diagrams-for-routing)
+    - [Inputs and outputs](#inputs-and-outputs)
+      - [Inputs](#inputs)
+    - [UI mockups](#ui-mockups)
+      - [Components](#components)
+        - [Combination button](#combination-button)
 
 ## Analysis
 
@@ -1275,6 +1280,29 @@ class RoutingEngine {
   +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
 }
 ```
+
+### Inputs and outputs
+
+#### Inputs
+
+Due to the large number of options
+
+### UI mockups
+
+#### Components
+
+##### Combination button
+
+This would be used to select a preference for a certain routing option, like whether to avoid or prefer a certain type of path.
+
+![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button.excalidraw.svg)
+
+Andrews' feedback
+
+- Neutral state is not very obvious
+  - Just saw it as a separator
+- Wanted to ensure that the circular bits are lined up with the rectangular bits
+- He agreed that avoid and prefer should be that way around
 
 ---
 
