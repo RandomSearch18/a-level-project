@@ -1302,7 +1302,7 @@ This would be used to select a preference for a certain routing option, like whe
 
 ###### Combination button (iteration 1)
 
-This button was made with Excallidraw.
+This button was made with Excalidraw.
 
 ![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button.excalidraw.svg)
 
