@@ -113,6 +113,8 @@ A-level Computer Science programming project
           - [Combination button (iteration 1)](#combination-button-iteration-1)
           - [Combination button (iteration 2)](#combination-button-iteration-2)
           - [Combination button (iteration 3)](#combination-button-iteration-3)
+          - [Combination button (iteration 4)](#combination-button-iteration-4)
+          - [](#)
 
 ## Analysis
 
@@ -1304,7 +1306,7 @@ This would be used to select a preference for a certain routing option, like whe
 
 This button was made with Excalidraw.
 
-![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button.excalidraw.svg)
+![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
 
 Andrews' feedback:
 
@@ -1330,11 +1332,19 @@ I used Figma to make this mockup, so that the rounded corners could be neater.
 
 I need to add a way to show which option is selected and which can be pressed. This should be intuitive to make the app easy to use.
 
-![Combi buttons showing the "neutral" state selected](assets/design/ui/combi-button-v3.svg)
+![Combination buttons showing the "neutral" state selected](assets/design/ui/combi-button-v3.svg)
 
 - Andrew liked the top version best
   - He liked the shadow
 - James also liked the top version best
+
+###### Combination button (iteration 4)
+
+I decided it'd be helpful to create a UI mockup using daisyUI, the component library that I'll be using.
+
+![A browser mockup of combination buttons](assets/design/ui/combi-button-v4.png)
+
+######
 
 ---
 
