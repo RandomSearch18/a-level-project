@@ -1308,12 +1308,12 @@ This button was made with Excalidraw.
 
 ![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
 
-Andrews' feedback:
+Andrew's feedback:
 
 - Neutral state is not very obvious
-  - Just saw it as a separator
+  - He just saw it as a separator
 - Wanted to ensure that the circular bits are lined up with the rectangular bits
-- He agreed that avoid and prefer should be that way around
+- He agreed that "avoid" and "prefer" should be that way around
 
 ###### Combination button (iteration 2)
 
