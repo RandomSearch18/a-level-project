@@ -1285,7 +1285,7 @@ class RoutingEngine {
 
 #### Inputs
 
-Due to the large number of options
+Due to the large number of options that the routing engine will support, the user interface will need to include a large number of inputs.
 
 ### UI mockups
 
