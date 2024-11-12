@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <link rel="stylesheet" href="src/index.css" />
+  </head>
+  <body>
+    <div id="app" class="m-2">
+      <div class="mockup-browser border-base-300 border">
+        <div class="mockup-browser-toolbar">
+          <div class="input border-base-300 border">http://localhost:3000</div>
+        </div>
+        <div class="border-base-300 border-t px-4 py-4 prose">
+          <h2>Combination buttons</h2>
+          <div class="flex flex-col gap-10 justify-center">
+            <div class="flex join rounded-full">
+              <button class="btn btn-error join-item">Avoid</button>
+              <button class="btn btn-outline btn-neutral join-item">
+                Neutral
+              </button>
+              <button class="btn btn-outline btn-success join-item">
+                Prefer
+              </button>
+            </div>
+            <div class="flex join rounded-full">
+              <button class="btn btn-outline btn-error join-item">Avoid</button>
+              <button class="btn btn-neutral join-item">Neutral</button>
+              <button class="btn btn-outline btn-success join-item">
+                Prefer
+              </button>
+            </div>
+            <div class="flex join rounded-full">
+              <button class="btn btn-outline btn-error join-item">Avoid</button>
+              <button class="btn btn-outline btn-neutral join-item">
+                Neutral
+              </button>
+              <button class="btn btn-success join-item">Prefer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
