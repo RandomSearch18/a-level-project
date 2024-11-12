@@ -114,7 +114,7 @@ A-level Computer Science programming project
           - [Combination button (iteration 2)](#combination-button-iteration-2)
           - [Combination button (iteration 3)](#combination-button-iteration-3)
           - [Combination button (iteration 4)](#combination-button-iteration-4)
-          - [](#)
+          - [Combination button (iteration 5)](#combination-button-iteration-5)
 
 ## Analysis
 
@@ -1344,7 +1344,9 @@ I decided it'd be helpful to create a UI mockup using daisyUI, the component lib
 
 ![A browser mockup of combination buttons](assets/design/ui/combi-button-v4.png)
 
-######
+###### Combination button (iteration 5)
+
+![Combination buttons with inset shadows to show selected state](assets/design/ui/combi-button-v5.png)
 
 ---
 
