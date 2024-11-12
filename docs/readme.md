@@ -110,6 +110,9 @@ A-level Computer Science programming project
     - [UI mockups](#ui-mockups)
       - [Components](#components)
         - [Combination button](#combination-button)
+          - [Combination button (iteration 1)](#combination-button-iteration-1)
+          - [Combination button (iteration 2)](#combination-button-iteration-2)
+          - [Combination button (iteration 3)](#combination-button-iteration-3)
 
 ## Analysis
 
@@ -1289,20 +1292,49 @@ Due to the large number of options that the routing engine will support, the use
 
 ### UI mockups
 
+Some of my mockups were made in Figma, and interactive versions can be accessed online: <https://www.figma.com/design/jbFmOUqG90DkDqRnpOlqAF/Routing-app-UI-mockups>.
+
 #### Components
 
 ##### Combination button
 
 This would be used to select a preference for a certain routing option, like whether to avoid or prefer a certain type of path.
 
+###### Combination button (iteration 1)
+
+This button was made with Excallidraw.
+
 ![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button.excalidraw.svg)
 
-Andrews' feedback
+Andrews' feedback:
 
 - Neutral state is not very obvious
   - Just saw it as a separator
 - Wanted to ensure that the circular bits are lined up with the rectangular bits
 - He agreed that avoid and prefer should be that way around
+
+###### Combination button (iteration 2)
+
+I used Figma to make this mockup, so that the rounded corners could be neater.
+
+![A neater combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v2.svg)
+
+- James likes rectangle 2 (the red part of the pill shape)
+- Andrew likes:
+  - Curved edges
+    - Smooth
+      - Smooth operator
+  - The "neutral" is more obvious
+
+###### Combination button (iteration 3)
+
+I need to add a way to show which option is selected and which can be pressed. This should be intuitive to make the app easy to use.
+
+![Combi buttons showing the "neutral" state selected](assets/design/ui/combi-button-v3.svg)
+
+- Andrew liked the top version best
+  - He liked the shadow
+- James also liked the top version best
 
 ---
 
