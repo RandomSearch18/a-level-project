@@ -108,7 +108,7 @@ A-level Computer Science programming project
     - [Inputs and outputs](#inputs-and-outputs)
       - [Inputs](#inputs)
     - [UI mockups](#ui-mockups)
-      - [Components](#components)
+      - [UI component mockups](#ui-component-mockups)
         - [Combination button](#combination-button)
           - [Combination button (iteration 1)](#combination-button-iteration-1)
           - [Combination button (iteration 2)](#combination-button-iteration-2)
@@ -1294,7 +1294,7 @@ Due to the large number of options that the routing engine will support, the use
 
 Some of my mockups were made in Figma, and interactive versions can be accessed online: <https://www.figma.com/design/jbFmOUqG90DkDqRnpOlqAF/Routing-app-UI-mockups>.
 
-#### Components
+#### UI component mockups
 
 ##### Combination button
 
