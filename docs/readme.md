@@ -1348,6 +1348,8 @@ I decided it'd be helpful to create a UI mockup using daisyUI, the component lib
 
 ![Combination buttons with inset shadows to show selected state](assets/design/ui/combi-button-v5.png)
 
+- James preferred this style to the one with solid-filled buttons (i.e. [iteration 4](#combination-button-iteration-4))
+
 ---
 
 <div>
