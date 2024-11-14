@@ -105,6 +105,18 @@ A-level Computer Science programming project
     - [Class diagrams](#class-diagrams)
       - [Class diagrams for OSM data](#class-diagrams-for-osm-data)
       - [Class diagrams for routing](#class-diagrams-for-routing)
+    - [Inputs and outputs](#inputs-and-outputs)
+      - [Inputs](#inputs)
+    - [UI mockups](#ui-mockups)
+      - [UI component mockups](#ui-component-mockups)
+        - [Combination button](#combination-button)
+          - [Combination button (iteration 1)](#combination-button-iteration-1)
+          - [Combination button (iteration 2)](#combination-button-iteration-2)
+          - [Combination button (iteration 3)](#combination-button-iteration-3)
+          - [Combination button (iteration 4)](#combination-button-iteration-4)
+          - [Combination button (iteration 5)](#combination-button-iteration-5)
+    - [Sprint planning](#sprint-planning)
+      - [Sprint 1 upfront plan](#sprint-1-upfront-plan)
 
 ## Analysis
 
@@ -1275,6 +1287,114 @@ class RoutingEngine {
   +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
 }
 ```
+
+### Inputs and outputs
+
+#### Inputs
+
+<!-- Due to the large number of options that the routing engine will support, the user interface will need to include a large number of inputs. -->
+
+<!-- TODO: waaaa what am I actually meant to do for this -->
+
+### UI mockups
+
+Some of my mockups were made in Figma, and interactive versions can be accessed online: <https://www.figma.com/design/jbFmOUqG90DkDqRnpOlqAF/Routing-app-UI-mockups>.
+
+#### UI component mockups
+
+##### Combination button
+
+This would be used to select a preference for a certain routing option, like whether to avoid or prefer a certain type of path.
+
+###### Combination button (iteration 1)
+
+This button was made with Excalidraw.
+
+![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
+
+Andrew's feedback:
+
+- Neutral state is not very obvious
+  - He just saw it as a separator
+- Wanted to ensure that the circular bits are lined up with the rectangular bits
+- He agreed that "avoid" and "prefer" should be that way around
+
+###### Combination button (iteration 2)
+
+I used Figma to make this mockup, so that the rounded corners could be neater.
+
+![A neater combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v2.svg)
+
+- James likes rectangle 2 (the red part of the pill shape)
+- Andrew likes:
+  - Curved edges
+    - Smooth
+      - Smooth operator
+  - The "neutral" is more obvious
+
+###### Combination button (iteration 3)
+
+I need to add a way to show which option is selected and which can be pressed. This should be intuitive to make the app easy to use.
+
+![Combination buttons showing the "neutral" state selected](assets/design/ui/combi-button-v3.svg)
+
+- Andrew liked the top version best
+  - He liked the shadow
+- James also liked the top version best
+
+###### Combination button (iteration 4)
+
+I decided it'd be helpful to create a UI mockup using daisyUI, the component library that I'll be using.
+
+![A browser mockup of combination buttons](assets/design/ui/combi-button-v4.png)
+
+###### Combination button (iteration 5)
+
+![Combination buttons with inset shadows to show selected state](assets/design/ui/combi-button-v5.png)
+
+- James preferred this style to the one with solid-filled buttons (i.e. [iteration 4](#combination-button-iteration-4))
+
+### Sprint planning
+
+```mermaid
+gantt
+  title Sprint timeline
+  dateFormat YYYY-MM-DD
+  axisFormat w/c %b %d
+  tickInterval 1week
+  %% section Frontend
+  %%   A task          :a1, 2014-01-01, 30d
+  %%   Another task    :after a1, 20d
+  %% section Backend
+  %%   Task in Another :2014-01-12, 12d
+  %%   another task    :24d
+  section Sprints
+    %% Final milestone : milestone, m2, 2024-11-30, 4m
+    Design phase: 2024-10-10, 2024-11-14
+    Sprint 1: 2024-11-14, 2024-11-28
+```
+
+```mermaid
+%% TODO what do we do with this
+gantt
+  title Sprint timeline (test)
+  dateFormat X
+  axisFormat Sprint %s
+  tickInterval 1second
+  section Sprints
+    %% Final milestone : milestone, m2, 2024-11-30, 4m
+    Task 1: 1, 2
+    Task 2: 1, 2
+    Task 3: 2, 3
+```
+
+#### Sprint 1 upfront plan
+
+- Start work on the backend, completing a proof of concept of the following tasks:
+  - Loading a provided OSM region file into an appropriate Python data structure, likely by using an appropriate library
+    - This will require researching the best library to use
+  - Generate a routing graph based on a very simple filter, e.g. `highway=*`
+- Also start work on the frontend
 
 ---
 
