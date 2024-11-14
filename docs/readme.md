@@ -1362,12 +1362,6 @@ gantt
   dateFormat YYYY-MM-DD
   axisFormat w/c %b %d
   tickInterval 1week
-  %% section Frontend
-  %%   A task          :a1, 2014-01-01, 30d
-  %%   Another task    :after a1, 20d
-  %% section Backend
-  %%   Task in Another :2014-01-12, 12d
-  %%   another task    :24d
   section Sprints
     %% Final milestone : milestone, m2, 2024-11-30, 4m
     Design phase: 2024-10-10, 2024-11-14
@@ -1381,7 +1375,7 @@ gantt
   dateFormat X
   axisFormat Sprint %s
   tickInterval 1second
-  section Sprints
+  section Frontend
     %% Final milestone : milestone, m2, 2024-11-30, 4m
     Task 1: 1, 2
     Task 2: 1, 2
