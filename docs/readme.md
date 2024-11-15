@@ -93,6 +93,7 @@ A-level Computer Science programming project
         - [Vite](#vite)
         - [Yarn](#yarn)
         - [daisyUI](#daisyui)
+        - [Python interpreter (undecided)](#python-interpreter-undecided)
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
     - [Data structure research](#data-structure-research)
       - [Routing graph research](#routing-graph-research)
@@ -979,14 +980,14 @@ Offline support is user requirement 6, and implementing it will require both the
 
 #### Frontend technologies
 
-| Thingy               | Technology to use                |
-| -------------------- | -------------------------------- |
-| Programming language | [Typescript](#typescript)        |
-| Other languages      | HTML, CSS                        |
-| Build tool           | [Vite](#vite)                    |
-| Package manager      | [Yarn](#yarn)                    |
-| Python interpreter   | _Undecided_ <!-- TODO -->        |
-| UI library           | daisyUI (probably) <!-- TODO --> |
+| Thingy               | Technology to use         |
+| -------------------- | ------------------------- |
+| Programming language | [Typescript](#typescript) |
+| Other languages      | HTML, CSS                 |
+| Build tool           | [Vite](#vite)             |
+| Package manager      | [Yarn](#yarn)             |
+| Python interpreter   | _Undecided_               |
+| UI library           | daisyUI                   |
 
 ##### TypeScript
 
@@ -1037,6 +1038,12 @@ daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web developmen
 - It has pre-made components for UI elements that I plan to use, including: toasts for displaying status updates; buttons; range sliders and input boxes for numerical input; dropdown lists and radio buttons for selecting options; and modals for displaying overlays on the screen.
   - This will save me time when developing the frontend, as I won't have to write my own styles for these components
 - Using a UI library will ensure consistency in my UI, which should make the app more enjoyable and easier to use for my stakeholders
+
+After creating mockups of parts of the app using daisyUI, and showing them as well as the official demos to my stakeholders, I've decided to stick with daisyUI for the project.
+
+##### Python interpreter (undecided)
+
+I will decide what technique and library to use for running Python code in the browser during the design part of Sprint 2, as written in my [Sprint 2 upfront plan](#sprint-2-upfront-plan).
 
 ###### Stakeholder discussions about daisyUI
 
