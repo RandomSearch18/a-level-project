@@ -117,6 +117,8 @@ A-level Computer Science programming project
           - [Combination button (iteration 5)](#combination-button-iteration-5)
     - [Sprint planning](#sprint-planning)
       - [Sprint 1 upfront plan](#sprint-1-upfront-plan)
+      - [Sprint 2 upfront plan](#sprint-2-upfront-plan)
+      - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
 
 ## Analysis
 
@@ -1358,13 +1360,18 @@ I decided it'd be helpful to create a UI mockup using daisyUI, the component lib
 
 ```mermaid
 gantt
-  title Sprint timeline
+  title Sprint schedule
   dateFormat YYYY-MM-DD
-  axisFormat w/c %b %d
+  axisFormat %b %d
   tickInterval 1week
-  section Sprints
-    Design phase: 2024-10-10, 2024-11-14
-    Sprint 1: 2024-11-14, 2024-11-28
+  section Schedule
+    Analysis phase: 2024-09-04, 2024-10-10
+    Design phase: 2024-10-10, 2024-11-12
+    Sprint 1: 2024-11-12, 2024-12-05
+  section Actual
+    Analysis phase: 2024-09-04, 2024-10-10
+    Design phase: 2024-10-10, 2024-11-15
+    Sprint 1: 2024-11-15
 ```
 
 ```mermaid
@@ -1389,6 +1396,31 @@ gantt
     - This will require researching the best library to use
   - Generate a routing graph based on a very simple filter, e.g. `highway=*`
 - Also start work on the frontend
+  - Create the general layout of the UI
+  - Implement the combination button component
+    - Will require roughly designing what the UI will look like, and running it past my stakeholders
+  - Add an interactive map using Leaflet.js
+  - Show the user's current location on the map
+  - This will be the initial deliverable to my stakeholders
+
+#### Sprint 2 upfront plan
+
+- Make the routing engine functional
+  - Implement my own version of the A\* algorithm to find the shortest path between two points
+  - Refine the routing graph to appropriately take OSM tags into account
+    - Will require researching which OSM tags to use, using the OSM Wiki
+  - Implement a way of passing data between the frontend and backend
+- Integrate the routing engine into the frontend
+  - Will require investigating the best solution for running Python in the browser
+  - Fields should be added to the UI to select a start and end location and summon the routing engine
+
+#### Sprint 3 upfront plan
+
+- Add support for a number of routing options
+  - First will require planning and defining the set of routing options, and agreeing with my stakeholders
+  - Allow setting options in the routing engine
+  - Incorporate the routing options into the routing graph
+  - Add the appropriate form elements to the frontend
 
 ---
 
