@@ -93,6 +93,7 @@ A-level Computer Science programming project
         - [Vite](#vite)
         - [Yarn](#yarn)
         - [daisyUI](#daisyui)
+        - [Python interpreter (undecided)](#python-interpreter-undecided)
           - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
     - [Data structure research](#data-structure-research)
       - [Routing graph research](#routing-graph-research)
@@ -115,6 +116,12 @@ A-level Computer Science programming project
           - [Combination button (iteration 3)](#combination-button-iteration-3)
           - [Combination button (iteration 4)](#combination-button-iteration-4)
           - [Combination button (iteration 5)](#combination-button-iteration-5)
+    - [Sprint planning](#sprint-planning)
+      - [Sprint 1 upfront plan](#sprint-1-upfront-plan)
+      - [Sprint 2 upfront plan](#sprint-2-upfront-plan)
+      - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
+      - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
+      - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
 
 ## Analysis
 
@@ -973,14 +980,14 @@ Offline support is user requirement 6, and implementing it will require both the
 
 #### Frontend technologies
 
-| Thingy               | Technology to use                |
-| -------------------- | -------------------------------- |
-| Programming language | [Typescript](#typescript)        |
-| Other languages      | HTML, CSS                        |
-| Build tool           | [Vite](#vite)                    |
-| Package manager      | [Yarn](#yarn)                    |
-| Python interpreter   | _Undecided_ <!-- TODO -->        |
-| UI library           | daisyUI (probably) <!-- TODO --> |
+| Thingy               | Technology to use         |
+| -------------------- | ------------------------- |
+| Programming language | [Typescript](#typescript) |
+| Other languages      | HTML, CSS                 |
+| Build tool           | [Vite](#vite)             |
+| Package manager      | [Yarn](#yarn)             |
+| Python interpreter   | _Undecided_               |
+| UI library           | daisyUI                   |
 
 ##### TypeScript
 
@@ -1031,6 +1038,12 @@ daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web developmen
 - It has pre-made components for UI elements that I plan to use, including: toasts for displaying status updates; buttons; range sliders and input boxes for numerical input; dropdown lists and radio buttons for selecting options; and modals for displaying overlays on the screen.
   - This will save me time when developing the frontend, as I won't have to write my own styles for these components
 - Using a UI library will ensure consistency in my UI, which should make the app more enjoyable and easier to use for my stakeholders
+
+After creating mockups of parts of the app using daisyUI, and showing them as well as the official demos to my stakeholders, I've decided to stick with daisyUI for the project.
+
+##### Python interpreter (undecided)
+
+I will decide what technique and library to use for running Python code in the browser during the design part of Sprint 2, as written in my [Sprint 2 upfront plan](#sprint-2-upfront-plan).
 
 ###### Stakeholder discussions about daisyUI
 
@@ -1351,6 +1364,83 @@ I decided it'd be helpful to create a UI mockup using daisyUI, the component lib
 ![Combination buttons with inset shadows to show selected state](assets/design/ui/combi-button-v5.png)
 
 - James preferred this style to the one with solid-filled buttons (i.e. [iteration 4](#combination-button-iteration-4))
+
+### Sprint planning
+
+```mermaid
+gantt
+  title Sprint schedule
+  dateFormat YYYY-MM-DD
+  axisFormat %b %d
+  tickInterval 1week
+  section Schedule
+    Analysis phase: 2024-09-04, 2024-10-10
+    Design phase: 2024-10-10, 2024-11-12
+    Sprint 1: 2024-11-12, 2024-12-05
+  section Actual
+    Analysis phase: 2024-09-04, 2024-10-10
+    Design phase: 2024-10-10, 2024-11-15
+    Sprint 1: 2024-11-15
+```
+
+```mermaid
+%% TODO what do we do with this
+gantt
+  title Sprint timeline (test)
+  dateFormat X
+  axisFormat Sprint %s
+  tickInterval 1second
+  section Frontend
+    %% Final milestone : milestone, m2, 2024-11-30, 4m
+    Task 1: 1, 2
+  section Backend
+    Task 2: 1, 2
+    Task 3: 2, 3
+```
+
+#### Sprint 1 upfront plan
+
+- Start work on the backend, completing a proof of concept of the following tasks:
+  - Loading a provided OSM region file into an appropriate Python data structure, likely by using an appropriate library
+    - This will require researching the best library to use
+  - Generate a routing graph based on a very simple filter, e.g. `highway=*`
+- Also start work on the frontend
+  - Create the general layout of the UI
+  - Implement the combination button component
+    - Will require roughly designing what the UI will look like, and running it past my stakeholders
+  - Add an interactive map using Leaflet.js
+  - Show the user's current location on the map
+  - This will be the initial deliverable to my stakeholders
+
+#### Sprint 2 upfront plan
+
+- Make the routing engine functional
+  - Implement my own version of the A\* algorithm to find the shortest path between two points
+  - Refine the routing graph to appropriately take OSM tags into account
+    - Will require researching which OSM tags to use, using the OSM Wiki
+  - Implement a way of passing data between the frontend and backend
+- Integrate the routing engine into the frontend
+  - Will require investigating the best solution for running Python in the browser
+  - Fields should be added to the UI to select a start and end location and summon the routing engine
+
+#### Sprint 3 upfront plan
+
+- Add support for a number of routing options
+  - First will require planning and defining the set of routing options, and agreeing with my stakeholders
+  - Allow setting options in the routing engine
+  - Incorporate the routing options into the routing graph
+  - Add the appropriate form elements to the frontend
+
+#### Sprint 4 upfront plan
+
+- Tweak the routing graph so that the routing results better match the requirements of a good route
+  - This will require a lot of testing and stakeholder involvement to ensure that the routing engine is producing good results
+  - It may include updating OSM data for specific areas to improve the quality of data
+- Add the presets feature to the frontend
+
+#### Sprint 5 upfront plan
+
+Sprint 5 will be added if required, and will be planned in more detail once the results of the previous sprints are known. I may use it to work on improving the frontend to ensure it works offline, has a good mobile experience, etc.
 
 ---
 
