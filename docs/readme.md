@@ -1363,7 +1363,6 @@ gantt
   axisFormat w/c %b %d
   tickInterval 1week
   section Sprints
-    %% Final milestone : milestone, m2, 2024-11-30, 4m
     Design phase: 2024-10-10, 2024-11-14
     Sprint 1: 2024-11-14, 2024-11-28
 ```
@@ -1378,6 +1377,7 @@ gantt
   section Frontend
     %% Final milestone : milestone, m2, 2024-11-30, 4m
     Task 1: 1, 2
+  section Backend
     Task 2: 1, 2
     Task 3: 2, 3
 ```
