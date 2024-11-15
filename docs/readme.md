@@ -119,6 +119,8 @@ A-level Computer Science programming project
       - [Sprint 1 upfront plan](#sprint-1-upfront-plan)
       - [Sprint 2 upfront plan](#sprint-2-upfront-plan)
       - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
+      - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
+      - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
 
 ## Analysis
 
@@ -1421,6 +1423,17 @@ gantt
   - Allow setting options in the routing engine
   - Incorporate the routing options into the routing graph
   - Add the appropriate form elements to the frontend
+
+#### Sprint 4 upfront plan
+
+- Tweak the routing graph so that the routing results better match the requirements of a good route
+  - This will require a lot of testing and stakeholder involvement to ensure that the routing engine is producing good results
+  - It may include updating OSM data for specific areas to improve the quality of data
+- Add the presets feature to the frontend
+
+#### Sprint 5 upfront plan
+
+Sprint 5 will be added if required, and will be planned in more detail once the results of the previous sprints are known. I may use it to work on improving the frontend to ensure it works offline, has a good mobile experience, etc.
 
 ---
 
