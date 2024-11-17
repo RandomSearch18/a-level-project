@@ -1409,7 +1409,6 @@ gantt
   - Generate a routing graph based on a very simple filter, e.g. `highway=*`
 - Also start work on the frontend
   - Create the general layout of the UI
-  - Implement the combination button component
     - Will require roughly designing what the UI will look like, and running it past my stakeholders
   - Add an interactive map using Leaflet.js
   - Show the user's current location on the map
