@@ -125,6 +125,11 @@ A-level Computer Science programming project
   - [Sprint 1 (2024-11-17)](#sprint-1-2024-11-17)
     - [Sprint 1 goals](#sprint-1-goals)
       - [User stories](#user-stories)
+    - [Sprint 1 design](#sprint-1-design)
+      - [Sprint 1 library research](#sprint-1-library-research)
+        - [OSM data parsing requirements](#osm-data-parsing-requirements)
+        - [OSMnx research](#osmnx-research)
+      - [Sprint 1 pseudocode](#sprint-1-pseudocode)
 
 ## Analysis
 
@@ -1457,6 +1462,38 @@ Sprint 5 will be added if required, and will be planned in more detail once the 
 3. As a mobile user, I want the UI to fit well on my screen and be easy to use
 4. As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
 5. As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
+
+### Sprint 1 design
+
+#### Sprint 1 library research
+
+Before writing my pseudocode, I would like to research the libraries available for parsing OSM data in Python.
+
+##### OSM data parsing requirements
+
+- Supports `osm.pbf` files
+  - This is the format of region files from geofabrik.de
+- Supports `.osm` files
+  - This is the format of map data exports from openstreetmap.org and the Overpass API
+- Allows pythonic access to nodes, ways, relations and their tags
+  - Because this is the data that I wil be using to build the routing graph
+
+##### OSMnx research
+
+> OSMnx is a Python package to easily download, model, analyze, and visualize street networks and other geospatial features from OpenStreetMap. You can download and model walking, driving, or biking networks with a single line of code then analyze and visualize them. You can just as easily work with urban amenities/points of interest, building footprints, transit stops, elevation data, street orientations, speed/travel time, and routing.
+> &mdash; [osmnx.readthedocs.io](https://osmnx.readthedocs.io/en/stable/index.html)
+
+From reading its documentation, OSMnx appears to be a highly-featured tool for working with OpenStreetMap data, including routing use-cases. It also handles downloading of OSM data, although I might bypass this feature so that I can use a pre-downloaded data file for offline use. Its `graph` module will also help me to create a routing graph from OSM data, and it uses NetworkX, which is what I plan to use. While it's usually used for creating directional graphs, it also supports undirected graphs through its `convert` module.
+
+Since it uses the Overpass.de API, and Nominatim, I will need to ensure I follow their usage policies, i.e. the [Overpass API Commons documentation](https://dev.overpass-api.de/overpass-doc/en/preface/commons.html) and the [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/).
+
+My one concern with OSMnx is that, since it handles a large part of processing OSM data, it may not be customisable enough for my needs. For example, it may be too vehicle-oriented, making it difficult to construct a routing graph specific to pedestrians as I envisioned. However, it should mean that I can get a working prototype of the routing engine to my stakeholders sooner, which is a key goal of Sprint 1.
+
+OSMnx is also used by Routor, my beloved Python routing engine.
+
+#### Sprint 1 pseudocode
+
+<!-- ##### `` TODO -->
 
 ---
 
