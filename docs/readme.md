@@ -123,6 +123,8 @@ A-level Computer Science programming project
       - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
       - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
   - [Sprint 1 (2024-11-17)](#sprint-1-2024-11-17)
+    - [Sprint 1 goals](#sprint-1-goals)
+      - [User stories](#user-stories)
 
 ## Analysis
 
@@ -1446,6 +1448,16 @@ Sprint 5 will be added if required, and will be planned in more detail once the 
 ## Sprint 1 (2024-11-17)
 
 <!-- TODO end time for Sprint 1 -->
+
+### Sprint 1 goals
+
+#### User stories
+
+1. As a user, I want an interactive map that is intuitive and readable
+2. As a user, I want the map to clearly show my current location
+3. As a mobile user, I want the UI to fit well on my screen and be easy to use
+4. As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
+5. As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
 
 ---
 
