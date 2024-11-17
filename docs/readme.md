@@ -122,6 +122,7 @@ A-level Computer Science programming project
       - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
       - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
       - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
+  - [Sprint 1 (2024-11-17)](#sprint-1-2024-11-17)
 
 ## Analysis
 
@@ -1380,7 +1381,7 @@ gantt
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
-    Sprint 1: 2024-11-15
+    Sprint 1: 2024-11-17, 2024-12-05
 ```
 
 ```mermaid
@@ -1441,6 +1442,10 @@ gantt
 #### Sprint 5 upfront plan
 
 Sprint 5 will be added if required, and will be planned in more detail once the results of the previous sprints are known. I may use it to work on improving the frontend to ensure it works offline, has a good mobile experience, etc.
+
+## Sprint 1 (2024-11-17)
+
+<!-- TODO end time for Sprint 1 -->
 
 ---
 
