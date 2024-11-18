@@ -129,7 +129,11 @@ A-level Computer Science programming project
       - [Sprint 1 library research](#sprint-1-library-research)
         - [OSM data parsing requirements](#osm-data-parsing-requirements)
         - [OSMnx research](#osmnx-research)
+          - [OSMnx citation](#osmnx-citation)
+        - [PyOsmium research](#pyosmium-research)
+        - [OSM library research conclusion](#osm-library-research-conclusion)
       - [Sprint 1 pseudocode](#sprint-1-pseudocode)
+        - [Creating a very basic graph](#creating-a-very-basic-graph)
 
 ## Analysis
 
@@ -1491,9 +1495,31 @@ My one concern with OSMnx is that, since it handles a large part of processing O
 
 OSMnx is also used by Routor, my beloved Python routing engine.
 
+###### OSMnx citation
+
+Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/>
+
+##### PyOsmium research
+
+PyOsmium ([osmcode.org/pyosmium](https://osmcode.org/pyosmium/)) is a Python library for using Osmium ([wiki.osm.org/Osmium](https://wiki.openstreetmap.org/wiki/Osmium)), a general library for working with OSM data formats. It supports converting between OSM data formats, and extracting geographical areas from a larger OSM file.
+
+While it may be useful if I need to store OSM data in a specific format, its other features would be redundant if I use OSMnx, so I don't expect to need this library.
+
+##### OSM library research conclusion
+
+Due to its large number of features that are appropriate to my routing engine, OSMnx seems like a clear choice to use for my routing engine, and I look forward to experimenting with and making use of its features.
+
 #### Sprint 1 pseudocode
 
-<!-- ##### `` TODO -->
+##### Creating a very basic graph
+
+- data_file = argv[1]
+- osm_data = osmnx.parse(data_file)
+- graph = networkx.Graph()
+- for way in osm_data.ways:
+  - if way.tags.get("highway").is_truthy():
+    - graph.add_edge(way=way)
+- print(graph)
 
 ---
 
