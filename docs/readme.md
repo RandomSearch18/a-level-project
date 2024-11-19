@@ -136,6 +136,7 @@ A-level Computer Science programming project
         - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
           - [Approach](#approach)
           - [Pseudocode](#pseudocode)
+          - [Validation table](#validation-table)
 
 ## Analysis
 
@@ -1531,6 +1532,15 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
   - if way.tags.get("highway").is_truthy():
     - graph.add_edge(way=way)
 - print(graph)
+
+###### Validation table
+
+| Expectation                       | Example unexpected data              | Response                 |
+| --------------------------------- | ------------------------------------ | ------------------------ |
+| Command-line argument is provided | 0 arguments                          | Print "Please provide the OSM file, e.g. python main.py region.osm" |
+| Data file is present              | File does not exist                  | Print e.g. "File region.osm not found" |
+| Data file is readable             | Filesystem permissions forbid access | Print e.g. "Cannot access file region.osm, permission denied" |
+| Map data is valid                 | OSMnx throws an error while parsing  | Print "Failed to parse OSM data" and print the error from OSMnx |
 
 ---
 
