@@ -1529,10 +1529,8 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 - data_file = argv[1]
 - osm_data = osmnx.parse(data_file)
 - print("Successfully loaded OSM data from {data_file}")
-- graph = networkx.Graph()
-- for way in osm_data.ways:
-  - if way.tags.get("highway").is_truthy():
-    - graph.add_edge(way=way)
+- graph = osmnx.create_digraph(osm_data, filter="highway!=no")
+- converted_graph = osmnx.to_undirected_graph(graph)
 - print(graph)
 
 ###### Validation table
@@ -1551,9 +1549,13 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 - `osm_data`
   - This data structure will be OSMnx's data format for map data
 - `graph`
-  - This will be an undirected graph, using the NetworkX library
+  - This will be a directed graph, in the default OSMnx format, which is based on a NetworkX graph
+- `converted_graph`
+  - This will be an undirected graph, which is the format we want to use for the routing engine
 
 ###### Test data
+
+<!-- TODO split into before and after fevelopemnt -->
 
 <!-- prettier-ignore -->
 | Test | Reason for test | Type | Test data | Expected outcome |
