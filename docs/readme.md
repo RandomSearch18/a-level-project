@@ -137,7 +137,10 @@ A-level Computer Science programming project
           - [Approach](#approach)
           - [Pseudocode](#pseudocode)
           - [Validation table](#validation-table)
-          - [Variables and d](#variables-and-d)
+          - [Variables and data structures](#variables-and-data-structures)
+          - [Test data](#test-data)
+          - [During development](#during-development)
+          - [After development](#after-development)
 
 ## Analysis
 
