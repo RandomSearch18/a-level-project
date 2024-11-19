@@ -141,6 +141,8 @@ A-level Computer Science programming project
           - [Test data](#test-data)
           - [During development](#during-development)
           - [After development](#after-development)
+    - [Sprint 1 development](#sprint-1-development)
+      - [Starting work on the frontend](#starting-work-on-the-frontend)
 
 ## Analysis
 
@@ -1582,6 +1584,14 @@ I will download OSM data files from <https://www.openstreetmap.org/export> for t
 | File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
 | File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
 | Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+
+### Sprint 1 development
+
+#### Starting work on the frontend
+
+I will bootstrap the frontend using the files from the web mockup I made, since it already has the important tools like Tailwind, Vite, and daisyUI set up.
+
+To separate frontend and backend code, I have put the files in a `frontend` directory, and shall create a similar `backend` directory when I start work on the backend.
 
 ---
 
