@@ -137,6 +137,7 @@ A-level Computer Science programming project
           - [Approach](#approach)
           - [Pseudocode](#pseudocode)
           - [Validation table](#validation-table)
+          - [Variables and d](#variables-and-d)
 
 ## Analysis
 
@@ -1535,12 +1536,20 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 
 ###### Validation table
 
-| Expectation                       | Example unexpected data              | Response                 |
-| --------------------------------- | ------------------------------------ | ------------------------ |
+| Expectation                       | Example unexpected data              | Response                                                            |
+| --------------------------------- | ------------------------------------ | ------------------------------------------------------------------- |
 | Command-line argument is provided | 0 arguments                          | Print "Please provide the OSM file, e.g. python main.py region.osm" |
-| Data file is present              | File does not exist                  | Print e.g. "File region.osm not found" |
-| Data file is readable             | Filesystem permissions forbid access | Print e.g. "Cannot access file region.osm, permission denied" |
-| Map data is valid                 | OSMnx throws an error while parsing  | Print "Failed to parse OSM data" and print the error from OSMnx |
+| Data file is present              | File does not exist                  | Print e.g. "File region.osm not found"                              |
+| Data file is readable             | Filesystem permissions forbid access | Print e.g. "Cannot access file region.osm, permission denied"       |
+| Map data is valid                 | OSMnx throws an error while parsing  | Print "Failed to parse OSM data" and print the error from OSMnx     |
+
+###### Variables and data structures
+
+- `data_file`
+- `osm_data`
+  - This data structure will be OSMnx's data format for map data
+- `graph`
+  - This will be an undirected graph, using the NetworkX library
 
 ---
 
