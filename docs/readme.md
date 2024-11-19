@@ -145,6 +145,10 @@ A-level Computer Science programming project
       - [Starting work on the frontend](#starting-work-on-the-frontend)
         - [Initial web app bootstrap](#initial-web-app-bootstrap)
         - [Using unusual file extensions](#using-unusual-file-extensions)
+      - [Starting work on the backend](#starting-work-on-the-backend)
+        - [Preparing to start the backend](#preparing-to-start-the-backend)
+        - [Command-line argument parsing functions](#command-line-argument-parsing-functions)
+          - [Testing](#testing)
 
 ## Analysis
 
@@ -1599,6 +1603,8 @@ To separate frontend and backend code, I have put the files in a `frontend` dire
 
 I started setting up my development environment by installing dependencies with Yarn (as per my [frontend technologies](#frontend-technologies) decision). While ideally I would use a modern Yarn version, I've decided to stick with Yarn 1, because it's installed by default in GitHub Codespaces (which I plan to use for some of my development), and I won't be using any advanced Yarn features.
 
+I initialised a Git repository, giving it the name `marvellous-mapping-machine`, because version control will be very useful. I also published it to a GitHub repository to let me access my code from different machines, and to allow anyone interested to view my code.
+
 ##### Using unusual file extensions
 
 I made a couple of changes to the file extensions I use, away from what the Vite template used:
@@ -1613,6 +1619,65 @@ This decision was made to work around two different restrictions that I encounte
 - When accessing the internet at school, any URL ending in `.ts` is blocked, which would make it more difficult to view those files on GitHub. This would be an inconvenience rather than a show-stopper though.
 
 To avoid those problems, I will use the `.mjs` and `.mts` extensions for my JavaScript and TypeScript files, respectively. While these are less common, they still have essentially the same meaning, and are supported by my tools (e.g. VSCode, Vite).
+
+#### Starting work on the backend
+
+##### Preparing to start the backend
+
+I created a `backend` folder next to the `frontend` one. I considered using codenames for the frontend and backend to make the code project more interesting and unique, but decided against it because the names would be harder to remember and identify at a glance.
+
+##### Command-line argument parsing functions
+
+I then started implementing the command-line argument parsing functions that will be required to find the OSM data file.
+
+```python
+from sys import argv, stderr
+
+
+def print_error(message):
+    print(message, file=stderr)
+
+
+def validate_args():
+    if len(argv) == 2:
+        return True
+    if len(argv) < 2:
+        print_error(
+            f"Please provide a path to the OSM data file, e.g. {argv[0]} region.osm",
+        )
+        return False
+    print_error(
+        f"Too many arguments provided. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm",
+    )
+    return False
+
+
+def get_data_file_path():
+    return argv[1]
+
+
+if __name__ == "__main__":
+    if not validate_args():
+        exit(1)
+
+    data_file_path = get_data_file_path()
+    print(data_file_path)
+```
+
+I decided to give the validation for arguments its own function, `validate_args()`, because it will allow me to write unit tests for it later on. I also decided to give the error printing its own function, `print_error()`, in case I want to use a library for logging or make it more complicated in some other way later on. Similarly, `get_data_file_path()` is its own function in case I want to make the logic more complicated later on, and to make it easier to test.
+
+I also improved my validation from my validation plan to also check if too many arguments are provided, to match usual argument parsing conventions.
+
+###### Testing
+
+I started off by testing the too many/few arguments cases:
+
+```shell
+$ python main.py
+Please provide a path to the OSM data file, e.g. main.py region.osm
+$ python main.py arg1 arg2
+Too many arguments provided. Please provide a path to the OSM data file, e.g. main.py region.osm
+```
 
 ---
 
