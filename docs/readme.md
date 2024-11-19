@@ -132,8 +132,10 @@ A-level Computer Science programming project
           - [OSMnx citation](#osmnx-citation)
         - [PyOsmium research](#pyosmium-research)
         - [OSM library research conclusion](#osm-library-research-conclusion)
-      - [Sprint 1 pseudocode](#sprint-1-pseudocode)
-        - [Creating a very basic graph](#creating-a-very-basic-graph)
+      - [Sprint 1 modules](#sprint-1-modules)
+        - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
+          - [Approach](#approach)
+          - [Pseudocode](#pseudocode)
 
 ## Analysis
 
@@ -1334,7 +1336,6 @@ This would be used to select a preference for a certain routing option, like whe
 This button was made with Excalidraw.
 
 ![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
-
 Andrew's feedback:
 
 - Neutral state is not very obvious
@@ -1509,9 +1510,19 @@ While it may be useful if I need to store OSM data in a specific format, its oth
 
 Due to its large number of features that are appropriate to my routing engine, OSMnx seems like a clear choice to use for my routing engine, and I look forward to experimenting with and making use of its features.
 
-#### Sprint 1 pseudocode
+#### Sprint 1 modules
 
-##### Creating a very basic graph
+##### Backend: Creating a very basic graph
+
+###### Approach
+
+I will take an OSM data file as a command-line argument, because that will be the easiest way to get map data for an intitial prototype. Later on managing and downloading map data will be automatically managed by the program, but for now I shall manually download some data for development.
+
+I plan to use OSMnx to parse the data as planned in my [library research](#sprint-1-library-research), and create a graph using NetworkX as planned in my [routing graph research](#routing-graph-research-conclusion). I will use the very basic filter of the `highway` tag being any value that isn't "no" to decide which ways to include in my graph.
+
+Since there isn't much I can do with the graph yet, I will print it to the screen to check that it looks alright.
+
+###### Pseudocode
 
 - data_file = argv[1]
 - osm_data = osmnx.parse(data_file)
