@@ -1528,6 +1528,7 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 
 - data_file = argv[1]
 - osm_data = osmnx.parse(data_file)
+- print("Successfully loaded OSM data from {data_file}")
 - graph = networkx.Graph()
 - for way in osm_data.ways:
   - if way.tags.get("highway").is_truthy():
@@ -1539,8 +1540,9 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 | Expectation                       | Example unexpected data              | Response                                                            |
 | --------------------------------- | ------------------------------------ | ------------------------------------------------------------------- |
 | Command-line argument is provided | 0 arguments                          | Print "Please provide the OSM file, e.g. python main.py region.osm" |
-| Data file is present              | File does not exist                  | Print e.g. "File region.osm not found"                              |
-| Data file is readable             | Filesystem permissions forbid access | Print e.g. "Cannot access file region.osm, permission denied"       |
+| Data file is present              | File does not exist                  | Print "File {path} not found"                                       |
+| Data file is an actual file       | Path to a block device provided      | Print "Cannot access {path}: not a file"                            |
+| Data file is readable             | Filesystem permissions forbid access | Print "Cannot access file {path}: permission denied"                |
 | Map data is valid                 | OSMnx throws an error while parsing  | Print "Failed to parse OSM data" and print the error from OSMnx     |
 
 ###### Variables and data structures
@@ -1550,6 +1552,18 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
   - This data structure will be OSMnx's data format for map data
 - `graph`
   - This will be an undirected graph, using the NetworkX library
+
+###### Test data
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome |
+| ---- | --------------- | ---- | --------- | ---------------- |
+| Accepts file | Ensure the program uses the provided CLI arg | Normal | `my-data-file.osm` (a valid data file) | Output shows that data was loaded from that file |
+| File exists | Program should check that the file exists | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
+| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
+| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
 
 ---
 
