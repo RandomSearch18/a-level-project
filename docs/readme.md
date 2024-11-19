@@ -1531,6 +1531,7 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 - print("Successfully loaded OSM data from {data_file}")
 - graph = osmnx.create_digraph(osm_data, filter="highway!=no")
 - converted_graph = osmnx.to_undirected_graph(graph)
+- simplified_graph = osmnx.simplify_graph(converted_graph)
 - print(graph)
 
 ###### Validation table
@@ -1552,6 +1553,8 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
   - This will be a directed graph, in the default OSMnx format, which is based on a NetworkX graph
 - `converted_graph`
   - This will be an undirected graph, which is the format we want to use for the routing engine
+- `simplified_graph`
+  - This will be another NetworkX undirected graph, but after graph simplification (removing nodes that aren't intersections)
 
 ###### Test data
 
