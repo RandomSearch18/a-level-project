@@ -143,6 +143,8 @@ A-level Computer Science programming project
           - [After development](#after-development)
     - [Sprint 1 development](#sprint-1-development)
       - [Starting work on the frontend](#starting-work-on-the-frontend)
+        - [Initial web app bootstrap](#initial-web-app-bootstrap)
+        - [Using unusual file extensions](#using-unusual-file-extensions)
 
 ## Analysis
 
@@ -1589,11 +1591,28 @@ I will download OSM data files from <https://www.openstreetmap.org/export> for t
 
 #### Starting work on the frontend
 
+##### Initial web app bootstrap
+
 I will bootstrap the frontend using the files from the web mockup I made, since it already has the important tools like Tailwind, Vite, and daisyUI set up.
 
 To separate frontend and backend code, I have put the files in a `frontend` directory, and shall create a similar `backend` directory when I start work on the backend.
 
 I started setting up my development environment by installing dependencies with Yarn (as per my [frontend technologies](#frontend-technologies) decision). While ideally I would use a modern Yarn version, I've decided to stick with Yarn 1, because it's installed by default in GitHub Codespaces (which I plan to use for some of my development), and I won't be using any advanced Yarn features.
+
+##### Using unusual file extensions
+
+I made a couple of changes to the file extensions I use, away from what the Vite template used:
+
+- I changed my two JavaScript-language config files (`vite.config.js` and `tailwind.config.js`) to have the `.config.mjs` extension
+- I changed my empty TypeScript code file from `main.ts` to `main.mts`
+- Any future TypeScript files that I create will also use the `.mts` extension
+
+This decision was made to work around two different restrictions that I encounter when programming at school:
+
+- `.js` files are prohibited to be created in my home directory on the school network, so I wouldn't be able to work on them locally at school
+- When accessing the internet at school, any URL ending in `.ts` is blocked, which would make it more difficult to view those files on GitHub. This would be an inconvenience rather than a show-stopper though.
+
+To avoid those problems, I will use the `.mjs` and `.mts` extensions for my JavaScript and TypeScript files, respectively. While these are less common, they still have essentially the same meaning, and are supported by my tools (e.g. VSCode, Vite).
 
 ---
 
