@@ -148,7 +148,6 @@ A-level Computer Science programming project
       - [Starting work on the backend](#starting-work-on-the-backend)
         - [Preparing to start the backend](#preparing-to-start-the-backend)
         - [Command-line argument parsing functions](#command-line-argument-parsing-functions)
-          - [Testing](#testing)
 
 ## Analysis
 
@@ -1668,15 +1667,30 @@ I decided to give the validation for arguments its own function, `validate_args(
 
 I also improved my validation from my validation plan to also check if too many arguments are provided, to match usual argument parsing conventions.
 
-###### Testing
-
-I started off by testing the too many/few arguments cases:
+I then tested the too many/few arguments cases:
 
 ```shell
 $ python main.py
 Please provide a path to the OSM data file, e.g. main.py region.osm
 $ python main.py arg1 arg2
 Too many arguments provided. Please provide a path to the OSM data file, e.g. main.py region.osm
+```
+
+The results are successful, but I wanted to adjust the error messages to be more consistent:
+
+```diff
+- Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
++ Too few arguments. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
+
+- Too many arguments provided. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
++ Too many arguments. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
+```
+
+I then checked that it printed the filename I provided it with:
+
+```shell
+$ python main.py filee
+filee
 ```
 
 ---
