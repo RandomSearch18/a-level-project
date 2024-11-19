@@ -1560,6 +1560,8 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 
 ###### Test data
 
+I will download OSM data files from <https://www.openstreetmap.org/export> for testing and development.
+
 ###### During development
 
 <!-- prettier-ignore -->
