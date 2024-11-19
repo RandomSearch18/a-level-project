@@ -1593,6 +1593,8 @@ I will bootstrap the frontend using the files from the web mockup I made, since 
 
 To separate frontend and backend code, I have put the files in a `frontend` directory, and shall create a similar `backend` directory when I start work on the backend.
 
+I started setting up my development environment by installing dependencies with Yarn (as per my [frontend technologies](#frontend-technologies) decision).
+
 ---
 
 <div>
