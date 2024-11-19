@@ -148,6 +148,7 @@ A-level Computer Science programming project
       - [Starting work on the backend](#starting-work-on-the-backend)
         - [Preparing to start the backend](#preparing-to-start-the-backend)
         - [Command-line argument parsing functions](#command-line-argument-parsing-functions)
+        - [Validating the provided file path](#validating-the-provided-file-path)
 
 ## Analysis
 
@@ -1691,6 +1692,48 @@ I then checked that it printed the filename I provided it with:
 ```shell
 $ python main.py filee
 filee
+```
+
+This test was also successful.
+
+##### Validating the provided file path
+
+I created a function to handle validation of the file path provided, keeping it similar in structure to the argument validation function:
+
+```python
+def validate_file_is_readable(file_path: str):
+    """Returns True if the provided path points to an existing, readable, file-y file.
+    Otherwise, prints an appropriate error message and returns False."""
+    try:
+        with open(file_path, "r") as file:
+            if not Path(file.name).is_file():
+                print_error(f"Cannot access {file_path}: not a file")
+            return True
+
+    except FileNotFoundError:
+        print_error(f"File {file_path} not found.")
+        return False
+    except PermissionError:
+        print_error(f"Cannot access file {file_path}: permission denied")
+        return False
+```
+
+I then realised that my other functions didn't have docstrings or type annotations, so I added them to aid maintainability and readability:
+
+```python
+def print_error(message: str):
+    """Prints an error message to stderr"""
+```
+
+```python
+def validate_args():
+    """Returns True if the number of command-line arguments to the program is correct.
+    Otherwise, prints an appropriate error message and returns False."""
+```
+
+```python
+def get_data_file_path():
+    """Returns the path to the OSM data file that should be used by the routing engine"""
 ```
 
 ---
