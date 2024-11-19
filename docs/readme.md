@@ -1518,9 +1518,11 @@ Due to its large number of features that are appropriate to my routing engine, O
 
 ###### Approach
 
-I will take an OSM data file as a command-line argument, because that will be the easiest way to get map data for an intitial prototype. Later on managing and downloading map data will be automatically managed by the program, but for now I shall manually download some data for development.
+I will take an OSM data file as a command-line argument, because that will be the easiest way to get map data for an initial prototype. Later on managing and downloading map data will be automatically managed by the program, but for now I shall manually download some data for development.
 
 I plan to use OSMnx to parse the data as planned in my [library research](#sprint-1-library-research), and create a graph using NetworkX as planned in my [routing graph research](#routing-graph-research-conclusion). I will use the very basic filter of the `highway` tag being any value that isn't "no" to decide which ways to include in my graph.
+
+To process the graph, I will first convert is from OSMnx's default directed graph format to an undirected graph, as I plan to use an undirected graph for the routing engine (which was also described in [routing graph research](#routing-graph-research-conclusion)). I will then simplify the graph, removing nodes that aren't intersections, to make it easier to work with.
 
 Since there isn't much I can do with the graph yet, I will print it to the screen to check that it looks alright.
 
