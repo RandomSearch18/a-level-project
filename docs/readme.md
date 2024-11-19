@@ -1560,17 +1560,23 @@ Since there isn't much I can do with the graph yet, I will print it to the scree
 
 ###### Test data
 
-<!-- TODO split into before and after fevelopemnt -->
+###### During development
 
 <!-- prettier-ignore -->
 | Test | Reason for test | Type | Test data | Expected outcome |
 | ---- | --------------- | ---- | --------- | ---------------- |
 | Accepts file | Ensure the program uses the provided CLI arg | Normal | `my-data-file.osm` (a valid data file) | Output shows that data was loaded from that file |
 | File exists | Program should check that the file exists | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
+| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
+
+###### After development
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome |
+| ---- | --------------- | ---- | --------- | ---------------- |
 | File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
 | File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
 | Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
-| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
 
 ---
 
