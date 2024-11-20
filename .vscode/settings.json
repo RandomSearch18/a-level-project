@@ -4,6 +4,7 @@
     "daisyUI",
     "deprioritise",
     "docstrings",
+    "errno",
     "Excalidraw",
     "Geofabrik",
     "GraphHopper",
@@ -28,6 +29,7 @@
     "Routor",
     "runtimes",
     "satnavs",
+    "traceback",
     "Travelling",
     "typescriptlang.org",
     "unsignalled"

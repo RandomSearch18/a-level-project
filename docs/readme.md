@@ -1736,6 +1736,66 @@ def get_data_file_path():
     """Returns the path to the OSM data file that should be used by the routing engine"""
 ```
 
+I called the file validation function in the main procedure:
+
+```python
+if not validate_file_is_readable(data_file_path):
+    exit(1)
+```
+
+And tested:
+
+```shell
+$ python main.py fake.osm
+File fake.osm not found.
+```
+
+```shell
+$ python main.py /tmp
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 54, in <module>
+    if not validate_file_is_readable(data_file_path):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 35, in validate_file_is_readable
+    with open(file_path, "r") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/tmp'
+```
+
+As demonstrated in the output above, providing a directory to the program threw an `IsADirectoryError` that I was not expecting when I wrote the code. I added another `except` clause to catch this and print an appropriate error message:
+
+```python
+except IsADirectoryError:
+    print_error(f"Cannot access {file_path}: is a directory")
+    return False
+```
+
+I then tested:
+
+![Screenshot of the terminal output written out below](assets/sprint-1/file-validation-terminal.png)
+
+```shell
+$ sudo python main.py /dev/sda1
+Cannot access /dev/sda1: not a file
+$ python main.py /etc/
+Cannot access /etc/: is a directory
+$ python main.py /
+Cannot access /: is a directory
+$ python main.py main.py
+$ echo $?
+0
+```
+
+I noticed that when the script prints "not a file", it still returns a `0` exit code. I fixed this by adding a `return False` line to `validate_file_is_readable()` after that error message is shown:
+
+```diff
+ if not Path(file.name).is_file():
+     print_error(f"Cannot access {file_path}: not a file")
++    return False
+```
+
+I re-tested this case and it now returns a `1` exit code as expected.
+
 ---
 
 <div>
