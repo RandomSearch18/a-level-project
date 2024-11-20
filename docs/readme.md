@@ -1796,7 +1796,7 @@ I noticed that when the script prints "not a file", it still returns a `0` exit 
 
 I re-tested this case and it now returns a `1` exit code as expected.
 
-This section is done now. Note that all this is equivalent to the first line of pseudocode for this module ("data_file = argv[1]"). The actual code is much longer because it includes validation and splits things into functions, whereas the pseudocode just shows the basic flow of the program.
+This section is done now. Note that the code from the last two sections is equivalent to the first line of pseudocode for this module ("data_file = argv[1]"). The actual code is much longer because it includes validation and splits things into functions, whereas the pseudocode just shows the basic flow of the program.
 
 ---
 
