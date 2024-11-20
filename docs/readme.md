@@ -149,6 +149,10 @@ A-level Computer Science programming project
         - [Preparing to start the backend](#preparing-to-start-the-backend)
         - [Command-line argument parsing functions](#command-line-argument-parsing-functions)
         - [Validating the provided file path](#validating-the-provided-file-path)
+      - [Backend: Loading OSM data with OSMnx](#backend-loading-osm-data-with-osmnx)
+        - [Installing OSMnx](#installing-osmnx)
+        - [Downloading a region file](#downloading-a-region-file)
+        - [Experimenting with `graph_from_xml()`](#experimenting-with-graph_from_xml)
 
 ## Analysis
 
@@ -1797,6 +1801,28 @@ I noticed that when the script prints "not a file", it still returns a `0` exit 
 I re-tested this case and it now returns a `1` exit code as expected.
 
 This section is done now. Note that the code from the last two sections is equivalent to the first line of pseudocode for this module ("data_file = argv[1]"). The actual code is much longer because it includes validation and splits things into functions, whereas the pseudocode just shows the basic flow of the program.
+
+#### Backend: Loading OSM data with OSMnx
+
+##### Installing OSMnx
+
+For the next task, I will be using the `osmnx` library, so I added the latest version to my `requirements.txt` file (pinning the version to avoid issues with breaking changes in the future), and created a `venv` virtual environment to install it in. This is not the recommended way to install OSMnx (they recommend Conda), but the `venv` tool is more widely available and I am familiar with it. If I have issues installing then I can look into switching to Conda.
+
+##### Downloading a region file
+
+I want to use the [`osmnx.graph.graph_from_xml()`](https://osmnx.readthedocs.io/en/stable/user-reference.html#osmnx.graph.graph_from_xml) function from OSMnx, which means I will need to download an OSM XML file to test the program, which I was expecting to have to do. I downloaded a region file of my local area from osm.org and saved it as `map.osm` in my repository for convenience (and added it to `.gitignore` so that it isn't committed).
+
+##### Experimenting with `graph_from_xml()`
+
+To gain an understanding of how the OSMnx graph works and what it looks like, I used my debugger to inspect the graph object after creating it with `graph_from_xml()`.
+
+```python
+# Use OSMnx to parse the data and create a graph
+graph = osmnx.graph.graph_from_xml(data_file_path, bidirectional=True)
+print(graph)
+```
+
+![](assets/sprint-1/my-first-graph.png)
 
 ---
 
