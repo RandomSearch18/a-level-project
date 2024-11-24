@@ -132,6 +132,8 @@ A-level Computer Science programming project
           - [OSMnx citation](#osmnx-citation)
         - [PyOsmium research](#pyosmium-research)
         - [OSM library research conclusion](#osm-library-research-conclusion)
+      - [Sprint 1 UI design](#sprint-1-ui-design)
+      - [Sprint 1 UI mockup v1](#sprint-1-ui-mockup-v1)
       - [Sprint 1 modules](#sprint-1-modules)
         - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
           - [Approach](#approach)
@@ -1526,6 +1528,25 @@ While it may be useful if I need to store OSM data in a specific format, its oth
 ##### OSM library research conclusion
 
 Due to its large number of features that are appropriate to my routing engine, OSMnx seems like a clear choice to use for my routing engine, and I look forward to experimenting with and making use of its features.
+
+#### Sprint 1 UI design
+
+I used Excalidraw to create some basic mockups that show the general layout of the UI. I can then collaborate with my stakeholders to improve the design.
+
+#### Sprint 1 UI mockup v1
+
+This mockup shows an idea for how the app could look on mobile, with a bottom navigation bar, and two screens to demonstrate its use.
+
+I chose to split the functions of the app into three sections ("screens"): "map", "route", and "options", and only show one section at a time on small screens. I have done this because:
+
+- The three screens represent actions that the user will want to focus their attention on
+  - Therefore, they'll only need to see one screen at a time
+  - This makes it easier to e.g. browse the map without extra UI clutter
+- The bottom navigation bar is a common pattern for switching between tasks/screens in mobile apps
+  - This helps ensure that the app is intuitive to use
+- It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
+
+![Mockup of the "map" screen, and the "route" screen](assets/sprint-1/mockup-1.excalidraw.svg)
 
 #### Sprint 1 modules
 

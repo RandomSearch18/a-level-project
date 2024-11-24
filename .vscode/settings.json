@@ -34,5 +34,6 @@
     "typescriptlang.org",
     "unsignalled"
   ],
-  "editor.suggest.showWords": false
+  "editor.suggest.showWords": false,
+  "editor.suggest.showSnippets": false
 }
