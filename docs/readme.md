@@ -133,7 +133,8 @@ A-level Computer Science programming project
         - [PyOsmium research](#pyosmium-research)
         - [OSM library research conclusion](#osm-library-research-conclusion)
       - [Sprint 1 UI design](#sprint-1-ui-design)
-      - [Sprint 1 UI mockup v1](#sprint-1-ui-mockup-v1)
+        - [Sprint 1 UI mockup v1](#sprint-1-ui-mockup-v1)
+        - [Sprint 1 UI mockup v2](#sprint-1-ui-mockup-v2)
       - [Sprint 1 modules](#sprint-1-modules)
         - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
           - [Approach](#approach)
@@ -1533,7 +1534,7 @@ Due to its large number of features that are appropriate to my routing engine, O
 
 I used Excalidraw to create some basic mockups that show the general layout of the UI. I can then collaborate with my stakeholders to improve the design.
 
-#### Sprint 1 UI mockup v1
+##### Sprint 1 UI mockup v1
 
 This mockup shows an idea for how the app could look on mobile, with a bottom navigation bar, and two screens to demonstrate its use.
 
@@ -1547,6 +1548,10 @@ I chose to split the functions of the app into three sections ("screens"): "map"
 - It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
 
 ![Mockup of the "map" screen, and the "route" screen](assets/sprint-1/mockup-1.excalidraw.svg)
+
+##### Sprint 1 UI mockup v2
+
+For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
 #### Sprint 1 modules
 
