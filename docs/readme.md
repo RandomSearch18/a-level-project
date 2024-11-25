@@ -1547,13 +1547,13 @@ I chose to split the functions of the app into three sections ("screens"): "map"
   - This helps ensure that the app is intuitive to use
 - It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
 
-![Mockup of the "map" screen, and the "route" screen](assets/sprint-1/mockup-1.excalidraw.svg)
+![Mockup of the map screen, and the route screen](assets/sprint-1/mockup-1.excalidraw.svg)
 
 ##### Sprint 1 UI mockup v2
 
 For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
-![](assets/sprint-1/mockup-2.excalidraw.svg)
+![Mockup of the map screen](assets/sprint-1/mockup-2.excalidraw.svg)
 
 #### Sprint 1 modules
 
