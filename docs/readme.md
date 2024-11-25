@@ -1855,7 +1855,8 @@ graph = osmnx.graph.graph_from_xml(data_file_path, bidirectional=True)
 print(graph)
 ```
 
-![](assets/sprint-1/my-first-graph.png)
+![](assets/sprint-1/my-first-graph-1.png)
+![](assets/sprint-1/my-first-graph-2.png)
 
 ---
 
