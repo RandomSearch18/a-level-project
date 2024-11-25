@@ -135,6 +135,7 @@ A-level Computer Science programming project
       - [Sprint 1 UI design](#sprint-1-ui-design)
         - [Sprint 1 UI mockup v1](#sprint-1-ui-mockup-v1)
         - [Sprint 1 UI mockup v2](#sprint-1-ui-mockup-v2)
+          - [Sprint 1 UI mockup v2 feedback](#sprint-1-ui-mockup-v2-feedback)
       - [Sprint 1 modules](#sprint-1-modules)
         - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
           - [Approach](#approach)
@@ -1554,6 +1555,10 @@ I chose to split the functions of the app into three sections ("screens"): "map"
 For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
 ![Mockup of the map screen](assets/sprint-1/mockup-2.excalidraw.svg)
+
+###### Sprint 1 UI mockup v2 feedback
+
+Andrew liked it: "I can't think of a better way of implementing it". He wanted to be able to swipe between the screens, although I mentioned that this wouldn't be possible from the map screen because it would interfere with the map's panning feature.
 
 #### Sprint 1 modules
 
