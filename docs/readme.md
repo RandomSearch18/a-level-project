@@ -1553,6 +1553,8 @@ I chose to split the functions of the app into three sections ("screens"): "map"
 
 For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
+![](assets/sprint-1/mockup-2.excalidraw.svg)
+
 #### Sprint 1 modules
 
 ##### Backend: Creating a very basic graph
