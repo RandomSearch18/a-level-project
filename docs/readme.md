@@ -1861,7 +1861,7 @@ print(graph)
 
 ##### Connecting the graph to the OSM data
 
-I wanted to see how the graph data corresponds to OSM nodes and tags.
+I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was purplexing.
 
 ![](assets/sprint-1/my-first-graph-3.png)
 
