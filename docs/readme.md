@@ -157,6 +157,7 @@ A-level Computer Science programming project
         - [Installing OSMnx](#installing-osmnx)
         - [Downloading a region file](#downloading-a-region-file)
         - [Experimenting with `graph_from_xml()`](#experimenting-with-graph_from_xml)
+        - [Connecting the graph to the OSM data](#connecting-the-graph-to-the-osm-data)
 
 ## Analysis
 
@@ -1857,6 +1858,12 @@ print(graph)
 
 ![](assets/sprint-1/my-first-graph-1.png)
 ![](assets/sprint-1/my-first-graph-2.png)
+
+##### Connecting the graph to the OSM data
+
+I wanted to see how the graph data corresponds to OSM nodes and tags.
+
+![](assets/sprint-1/my-first-graph-3.png)
 
 ---
 
