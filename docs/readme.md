@@ -1865,6 +1865,59 @@ I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed 
 
 ![](assets/sprint-1/my-first-graph-3.png)
 
+To investigate thus further, I chose to download a very small region of OSM data, so that I can individually check and verify the nodes and ways in the graph. I want to ensure I can access the raw OSM data to enable the more complicated routing options that I want to implement.
+
+For nodes, I found that the node IDs under `graph.nodes` did match OSM nodes on the online map and in the `.osm` (XML) file. Not all nodes from the XML file were present in the graph, but this is because they aren't part of the road network. I found that nodes with attributes had their attributes directly added as a dictionary entry to the value of the node in the graph.
+
+| Python graph                               | OSM.org                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| ![](assets/sprint-1/n1551819044-graph.png) | [![](assets/sprint-1/n1551819044-osm.png)](https://www.openstreetmap.org/node/1551819044) |
+
+I then went on to investigating ways, and how they correspond to edges in the graph. Unlike the `graph.nodes` object, which could be viewed in my debugger like a dictionary, the `graph.edges` object didn't have any easy way to click through the edges and view their attributes.
+
+![](assets/sprint-1/my-first-graph-edges.png)
+
+However, I could see that there appeared to be items keyed by tuples like `(3753293827, 3753283823, 0)`. I guessed that these could be the node IDs of the start and end point of the edge.
+
+I tried accessing edges by their OSM way ID, and the error message confirmed that I was looking for a tuple as a key.
+
+```python
+>>> graph.edges[28112739]
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+    u, v, k = e
+    ^^^^^^^
+TypeError: cannot unpack non-iterable int object
+```
+
+I then tried providing a tuple of a start and end node ID that I knew corresponded to a way (from OSM.org), and got an error message that confirmed that the tuple must have 3 items:
+
+```python
+graph.edges[(1551819044, 1551819044)]
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+    u, v, k = e
+    ^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 2)
+```
+
+I wasn't sure what the third value was, but it seemed to most commonly be set to `0` (and occasionally set to `1` or `2`), so I tried looking up the way with the third tuple value set to `0`:
+
+| Python graph                                 | OSM.org                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| ![](assets/sprint-1/my-first-graph-edge.png) | [![](assets/sprint-1/w28112739-osm.png)](https://www.openstreetmap.org/way/28112739) |
+
+Success! I could now confirm that:
+
+- Edges are keyed based on their start and end node IDs, but have their corresponding OSM way ID linked as an attribute
+  - This matches the way I planned to implement the routing graph in the section [routing graph research, how graph nodes/edges relate to OSM elements](#how-graph-nodesedges-relate-to-osm-elements).
+- Edges have attributes that correspond to the OSM way tags
+  - This will be very useful for implementing routing options and general route calculation work
+- The `oneway` attribute, although it look like a tag from the OSM object, has been added by the graph creation process
+  - This information is likely be helpful to consistently work with the graph data, and perhaps when converting the graph to an undirected graph
+  - I might want to manually change any `oneway=yes` ways to be bidirectional, to match my requirements for a pedestrian routing graph
+- Other attributes added by OSMnx are `length` (which will be essential for calculating cost), `reversed` (which will probably be important for making graph operations work correctly), and `geometry` (which I probably won't use, but is nice to have, since it means none of the data from OSM is lost)
+
 ---
 
 <div>
