@@ -1920,11 +1920,64 @@ Success! I could now confirm that:
   - I might want to manually change any `oneway=yes` ways to be bidirectional, to match my requirements for a pedestrian routing graph
 - Other attributes added by OSMnx are `length` (which will be essential for calculating cost), `reversed` (which will probably be important for making graph operations work correctly), and `geometry` (which I probably won't use, but is nice to have, since it means none of the data from OSM is lost)
 
+I also tested looking up an edge by setting the third tuple value for the index to `1`, which successfully returned a value, and setting it to `2`, which threw an error. I suppose that this may be a discriminator for when multiple ways exist that start and end at with same node.
+
 ##### Converting the graph to the desired format
+
+Following my pseudocode, I added lines to convert the graph to an undirected graph and simplify it:
+
+```python
+directed_graph = osmnx.graph.graph_from_xml(map_data_path, bidirectional=True)
+undirected_graph = osmnx.convert.to_undirected(directed_graph)
+```
+
+I inspected the directed graph and it looked quite like the undirected graph, with similar attributes on the edges. Accessing my test edge `(3753293827, 3753283823, 0)` worked as expected (although curiously, testing with `(3753293827, 3753283823, 1)` didn't work).
+
+I decided not to simplify the graph, because I encountered an error when trying to do so:
+
+> `osmnx._errors.GraphSimplifacationError`: This graph has already been simplified, cannot simplify it again.
 
 ![](assets/sprint-1/cannot-simplify-graph.png)
 
+This error suggested that I don't need to simplify the graph anyway, so I can drop that line from my code.
+
 ##### Creating classes
+
+The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a paremeter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
+
+```python
+class RoutingGraph:
+    def __init__(self, graph: networkx.Graph):
+        self.osm_data = None  # TODO
+        self.graph = graph
+```
+
+```python
+class RoutingEngine:
+    def __init__(self):
+        pass
+
+    def compute_graph(self, map_data_path: str) -> RoutingGraph:
+        # Use OSMnx to parse the map data and create a graph
+        directed_graph = osmnx.graph.graph_from_xml(map_data_path, bidirectional=True)
+        undirected_graph = osmnx.convert.to_undirected(directed_graph)
+        return RoutingGraph(undirected_graph)
+```
+
+I then went to `main.py` and made use of my routing engine class and its `compute_graph()` method. I decided to import from the `routing_engine.py` file using `.routing_engine`, becuase I figured that it would look for the `routing_engine` module in the same directory as `main.py`.
+
+```python
+from .routing_engine import RoutingEngine
+```
+
+```python
+routing_engine = RoutingEngine()
+routing_graph = routing_engine.compute_graph(data_file_path)
+```
+
+Unfortunately, my thinking regarding the import syntax did not pull through, and I was met with an `ImportError` when I tried to run the program:
+
+> `ImportError`: attempted relative import with no known parent package
 
 ![](assets/sprint-1/import-error.png)
 
