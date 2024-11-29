@@ -158,6 +158,8 @@ A-level Computer Science programming project
         - [Downloading a region file](#downloading-a-region-file)
         - [Experimenting with `graph_from_xml()`](#experimenting-with-graph_from_xml)
         - [Connecting the graph to the OSM data](#connecting-the-graph-to-the-osm-data)
+        - [Converting the graph to the desired format](#converting-the-graph-to-the-desired-format)
+        - [Creating classes](#creating-classes)
 
 ## Analysis
 
@@ -1917,6 +1919,14 @@ Success! I could now confirm that:
   - This information is likely be helpful to consistently work with the graph data, and perhaps when converting the graph to an undirected graph
   - I might want to manually change any `oneway=yes` ways to be bidirectional, to match my requirements for a pedestrian routing graph
 - Other attributes added by OSMnx are `length` (which will be essential for calculating cost), `reversed` (which will probably be important for making graph operations work correctly), and `geometry` (which I probably won't use, but is nice to have, since it means none of the data from OSM is lost)
+
+##### Converting the graph to the desired format
+
+![](assets/sprint-1/cannot-simplify-graph.png)
+
+##### Creating classes
+
+![](assets/sprint-1/import-error.png)
 
 ---
 
