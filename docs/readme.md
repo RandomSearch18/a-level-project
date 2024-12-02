@@ -160,6 +160,7 @@ A-level Computer Science programming project
         - [Connecting the graph to the OSM data](#connecting-the-graph-to-the-osm-data)
         - [Converting the graph to the desired format](#converting-the-graph-to-the-desired-format)
         - [Creating classes](#creating-classes)
+        - [Creating more classes](#creating-more-classes)
 
 ## Analysis
 
@@ -1980,6 +1981,24 @@ Unfortunately, my thinking regarding the import syntax did not pull through, and
 > `ImportError`: attempted relative import with no known parent package
 
 ![](assets/sprint-1/import-error.png)
+
+I didn't want to have to set up a package and other things I don't yet understand, so I decided to just run the program from the `backend` folder and import it simply:
+
+```python
+from routing_engine import RoutingEngine
+```
+
+I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backedn folder, so that it runs correctly when I press <kbd>F5</kbd>.
+
+##### Creating more classes
+
+I continued to work on creating the classes and data structres from my class diagram, implementing:
+
+- The `Coordinates` data structure (in a new `osm_data_types.py` file)
+- The `RouteCalculator` class
+- Stubs for the `RouteResult` and `RoutingOptions` classes
+
+I added `raise NotImplementedError` lines, and to-do comments where appropiate.
 
 ---
 
