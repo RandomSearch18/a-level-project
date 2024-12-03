@@ -164,6 +164,10 @@ A-level Computer Science programming project
       - [Frontend: Implementing the UI design](#frontend-implementing-the-ui-design)
         - [Development instructions](#development-instructions)
         - [Getting Voby JSX working](#getting-voby-jsx-working)
+    - [Sprint 1 conclusion](#sprint-1-conclusion)
+      - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
+      - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
+      - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
 
 ## Analysis
 
@@ -2021,6 +2025,45 @@ function App() {
 export default App
 ```
 
+### Sprint 1 conclusion
+
+#### Sprint 1 post-development testing
+
+#### Sprint 1 post-development test table
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
+| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
+| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
+| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+
+#### Sprint 1 post-development test log
+
+Right out of the gate, when running my code normally, discovered an error:
+
+```python
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 3, in <module>
+    from routing_engine import RoutingEngine
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/routing_engine.py", line 5, in <module>
+    from backend.osm_data_types import Coordinates
+ModuleNotFoundError: No module named 'backend'
+```
+
+![Running my code gave the error above](assets/sprint-1/testing-1.png)
+
+I realised that my `import` statement in `routing_engine.py` had a reference to the `backend` folder, probably automatically added by my editor. It may have not been an issue when running the code in my debugger, but clearly it matters when running it normally in the terminal.
+
+```diff
+-from backend.osm_data_types import Coordinates
++from osm_data_types import Coordinates
+```
+
+I fixed the `import` statement, so it is now importing the `osm_data_types` module as I originally intended. I could then proceed with my tests.
+
+![Running the tests from my test table](assets/sprint-1/testing-2.png)
+
 ---
 
 <div>
@@ -2029,3 +2072,7 @@ export default App
 <style>
 @import "./main.css";
 </style>
+
+```
+
+```
