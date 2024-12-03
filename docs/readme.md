@@ -2078,7 +2078,3 @@ I used the same OSM data file that I used during development, as it fits the req
 <style>
 @import "./main.css";
 </style>
-
-```
-
-```
