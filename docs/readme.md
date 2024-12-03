@@ -1998,7 +1998,7 @@ I continued to work on creating the classes and data structres from my class dia
 - The `RouteCalculator` class
 - Stubs for the `RouteResult` and `RoutingOptions` classes
 
-I added `raise NotImplementedError` lines, and to-do comments where appropiate.
+I added `raise NotImplementedError` lines, and to-do comments where appropiate, because I will implement the logic for the other classes in future sprints.
 
 ---
 
