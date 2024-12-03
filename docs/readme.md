@@ -2031,12 +2031,16 @@ export default App
 
 #### Sprint 1 post-development test table
 
+Note that my "during development" tests have been discussed in the above sections of sprint 1, so won't be repeated here.
+
+I have adjusted the input data slightly from my initial test plan for the backend, to make it slightly easier to run the tests in a way that can be captured in a single screenshot. This won't materially affect the tests, as the data still matches the test reason, type, and outcome that should be expected.
+
 <!-- prettier-ignore -->
 | Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
 | ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
-| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
-| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" | "Cannot access /tmp: is a directory" | ✅\* |
+| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied" | "Cannot access file ../map.osm: permission denied" | ✅ |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with an extra `</invalid>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx | ❌ |
 
 #### Sprint 1 post-development test log
 
@@ -2061,6 +2065,8 @@ I realised that my `import` statement in `routing_engine.py` had a reference to 
 ```
 
 I fixed the `import` statement, so it is now importing the `osm_data_types` module as I originally intended. I could then proceed with my tests.
+
+I used the same OSM data file that I used during development, as it fits the requirements of the tests, and downloading a new one or renaming it to exactly match my test plan would be a waste of time.
 
 ![Running the tests from my test table](assets/sprint-1/testing-2.png)
 
