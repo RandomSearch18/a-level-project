@@ -163,6 +163,7 @@ A-level Computer Science programming project
         - [Creating more classes](#creating-more-classes)
       - [Frontend: Implementing the UI design](#frontend-implementing-the-ui-design)
         - [Development instructions](#development-instructions)
+        - [Getting Voby JSX working](#getting-voby-jsx-working)
 
 ## Analysis
 
@@ -2007,6 +2008,18 @@ I added `raise NotImplementedError` lines, and to-do comments where appropiate, 
 ##### Development instructions
 
 To ensure that I am documenting my work, and to make it easier for me to develop the project on a wide range of machines, I improved the development instructions, and added development instructions for the frontend.
+
+##### Getting Voby JSX working
+
+I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work hald of the time:
+
+```tsx
+function App() {
+  return <div>AAAAAAAAAA</div>
+}
+
+export default App
+```
 
 ---
 
