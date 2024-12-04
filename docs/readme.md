@@ -166,6 +166,9 @@ A-level Computer Science programming project
         - [Getting Voby JSX working](#getting-voby-jsx-working)
       - [Frontend: Implementing the UI design (2)](#frontend-implementing-the-ui-design-2)
         - [Leaflet map](#leaflet-map)
+        - [Bottom navigation bar](#bottom-navigation-bar)
+        - [Bottom navigation bar functionality](#bottom-navigation-bar-functionality)
+        - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-pages)
     - [Sprint 1 conclusion](#sprint-1-conclusion)
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
         - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
@@ -2069,6 +2072,8 @@ leaflet
 
 ![](assets/sprint-1/map.png)
 
+##### Bottom navigation bar
+
 I then added a bottom navigation bar using DaisyUI's `btm-nav` class, as well as a few of my own adjustments to bring it closer to my mockup:
 
 ```html
@@ -2100,6 +2105,8 @@ And made the page title screenreader-only, so that the view matches my mockup, w
 ```
 
 ![](assets/sprint-1/bottom-bar.png)
+
+##### Bottom navigation bar functionality
 
 I then added some code for the interactivity of the bottom bar, starting with updating the `active` class when a button is clicked:
 
@@ -2156,6 +2163,19 @@ I also adjusted my variable names to make more sense:
 
 - `target` became `button` because that's what it is
 - `activeButton` became `oldActiveButton` to better differentiate it from the just-clicked button
+
+##### Deploying to Cloudflare Pages
+
+To make the site easier to share with my stakeholders (and other interested parties), I want to deploy it to the web. I have used Cloudflare Pages before, and it is a good fit for this project because it:
+
+- is free
+- supports running a build tool like Vite
+- supports building and deploying from a GitHub repository
+- has a `*.pages.dev` free subdomain that isn't blocked on the school network
+
+![](assets/sprint-1/cf-pages.png)
+
+I clicked Save and Deploy, but when building the site, Pages gave me an error. Turns out that the build output directory is relative to the "root directory", but I had assumed it wasn't. I adjusted the build output setting from `frontend/dist` to `dist` to solve it. This time it built successfully.
 
 ### Sprint 1 conclusion
 
