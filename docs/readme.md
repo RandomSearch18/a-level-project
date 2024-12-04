@@ -2101,6 +2101,62 @@ And made the page title screenreader-only, so that the view matches my mockup, w
 
 ![](assets/sprint-1/bottom-bar.png)
 
+I then added some code for the interactivity of the bottom bar, starting with updating the `active` class when a button is clicked:
+
+```ts
+const bottomBar = document.querySelector("#bottom-bar")!
+
+bottomBar.addEventListener("click", (event) => {
+  const target = event.target as HTMLElement
+  if (target.classList.contains("active")) return
+  const activeButton = bottomBar.querySelector(".active")!
+  activeButton.classList.remove("active")
+  target.classList.add("active")
+})
+```
+
+I went on to add more code for actually changing the screen that is being displayed when a button is clicked.
+
+```ts
+const activeScreen = document.querySelector("#active-screen")
+const nextScreen = document.querySelector(
+  `[data-screen="${target.innerText.toLowerCase()}"]`
+)
+if (!nextScreen) {
+  throw new Error(`No screen found for ${target.innerText}`)
+}
+if (activeScreen) {
+  activeScreen.id = ""
+} else {
+  console.warn("No active screen to deactivate")
+}
+nextScreen.id = "active-screen"
+```
+
+![](assets/sprint-1/new-screen.png)
+
+I noticed a bug where occasionally when clicking a bottom bar button, the active classes and styles would not be applied to that button, meaning the bar would look like it had nothing selected. What was perplexing was this seemed to happen randomly without any clear pattern.
+
+However, I had a brain wave and suspected that the `target` of the `ClickEvent` might not be consistent between different clicks, depending on where exactly the button was clicked, which would explain the fuzziness. I added a `console.debug()` call to log the target to confirm my suspicions:
+
+![](assets/sprint-1/event-targets.png)
+
+As the image above shows, the event target is not always the button itself, but sometimes the `span` inside the button. Because I need to apply the active class to the button, I decided to use the `closest()` method to find the corresponding button element consistently:
+
+```ts
+const eventTarget = event.target as HTMLElement
+const target = eventTarget.closest("button")
+if (!target) {
+  console.warn("Handling bottom bar click event without a button")
+  return
+}
+```
+
+I also adjusted my variable names to make more sense:
+
+- `target` became `button` because that's what it is
+- `activeButton` became `oldActiveButton` to better differentiate it from the just-clicked button
+
 ### Sprint 1 conclusion
 
 #### Sprint 1 post-development testing
