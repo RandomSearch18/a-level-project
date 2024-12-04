@@ -169,6 +169,7 @@ A-level Computer Science programming project
         - [Bottom navigation bar](#bottom-navigation-bar)
         - [Bottom navigation bar functionality](#bottom-navigation-bar-functionality)
         - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-pages)
+        - [GPS location dot](#gps-location-dot)
     - [Sprint 1 conclusion](#sprint-1-conclusion)
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
         - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
@@ -2181,6 +2182,10 @@ To make the site easier to share with my stakeholders (and other interested part
 
 I clicked Save and Deploy, but when building the site, Pages gave me an error. Turns out that the build output directory is relative to the "root directory", but I had assumed it wasn't. I adjusted the build output setting from `frontend/dist` to `dist` to solve it. This time it built successfully.
 
+##### GPS location dot
+
+<!-- TODO -->
+
 ### Sprint 1 conclusion
 
 #### Sprint 1 post-development testing
@@ -2264,6 +2269,16 @@ James was on a flight at time of finishing the sprint, so his feedback is curren
 ##### Sprint 1 feedback from Ili
 
 I showed Ili the deployed site being accessed on my computer.
+
+<!-- "what have you spent all this time doing?" -->
+
+He found the bottom navigation bar intuitive, although he seemed unimpressed with the amount of features I'd implemented myself. He looked forward to the routing functionality being implemented, and was curious as to what options would be available.
+
+He also asked why the location indicator was inaccurate, and I explained that since it was running on my computer, the browser was giving a best-effort guess, instead of an accurate GPS position.
+
+While he was experimenting with the "show current location" button, I noticed that the location ring was drawn multiple times, each time the button was clicked. I should fix this in the next sprint.
+
+In addition, he also asked about text contrast, wondering if the dark pink on pink is appropriate for all vision types. I checked the contrast in Firefox's dev tools and found out that its contrast ratio was 3.33, which does not meet WCAG accessibility standards. I will need to adjust these colours in the next sprint to meet my accessibility goals, and my stakeholders' requests.
 
 ---
 

@@ -32,7 +32,8 @@
     "traceback",
     "Travelling",
     "typescriptlang.org",
-    "unsignalled"
+    "unsignalled",
+    "WCAG"
   ],
   "editor.suggest.showWords": false,
   "editor.suggest.showSnippets": false
