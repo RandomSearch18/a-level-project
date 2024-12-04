@@ -122,7 +122,7 @@ A-level Computer Science programming project
       - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
       - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
       - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
-  - [Sprint 1 (2024-11-17)](#sprint-1-2024-11-17)
+  - [Sprint 1 (2024-11-17 to 2024-12-05)](#sprint-1-2024-11-17-to-2024-12-05)
     - [Sprint 1 goals](#sprint-1-goals)
       - [User stories](#user-stories)
     - [Sprint 1 design](#sprint-1-design)
@@ -1439,6 +1439,7 @@ gantt
     Sprint 1: 2024-11-17, 2024-12-05
 ```
 
+<!--
 ```mermaid
 %% TODO what do we do with this
 gantt
@@ -1453,6 +1454,7 @@ gantt
     Task 2: 1, 2
     Task 3: 2, 3
 ```
+-->
 
 #### Sprint 1 upfront plan
 
@@ -1497,7 +1499,7 @@ gantt
 
 Sprint 5 will be added if required, and will be planned in more detail once the results of the previous sprints are known. I may use it to work on improving the frontend to ensure it works offline, has a good mobile experience, etc.
 
-## Sprint 1 (2024-11-17)
+## Sprint 1 (2024-11-17 to 2024-12-05)
 
 <!-- TODO end time for Sprint 1 -->
 
