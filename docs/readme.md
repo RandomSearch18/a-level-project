@@ -2052,6 +2052,10 @@ However, Leaflet requires that the map element has a fixed height. For developme
 +  height: 90vh;
 ```
 
+With that adjustment made, I added a tile layer (the default tile.openstreetmap.org server) and suddenly, I had a map:
+
+![](assets/sprint-1/map.png)
+
 ### Sprint 1 conclusion
 
 #### Sprint 1 post-development testing
