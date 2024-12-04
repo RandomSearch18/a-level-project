@@ -168,9 +168,9 @@ A-level Computer Science programming project
         - [Leaflet map](#leaflet-map)
     - [Sprint 1 conclusion](#sprint-1-conclusion)
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
-      - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
-      - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
-      - [Sprint 1 post-development test resolutions](#sprint-1-post-development-test-resolutions)
+        - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
+        - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
+        - [Sprint 1 post-development test resolutions](#sprint-1-post-development-test-resolutions)
 
 ## Analysis
 
@@ -2161,7 +2161,7 @@ I also adjusted my variable names to make more sense:
 
 #### Sprint 1 post-development testing
 
-#### Sprint 1 post-development test table
+##### Sprint 1 post-development test table
 
 Note that my "during development" tests have been discussed in the above sections of sprint 1, so won't be repeated here.
 
@@ -2174,7 +2174,7 @@ I have adjusted the input data slightly from my initial test plan for the backen
 | File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied" | "Cannot access file ../map.osm: permission denied" | ✅ |
 | Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with an extra `</invalid>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx | ❌ |
 
-#### Sprint 1 post-development test log
+##### Sprint 1 post-development test log
 
 Right out of the gate, when running my code normally, discovered an error:
 
@@ -2204,7 +2204,7 @@ I used the same OSM data file that I used during development, as it fits the req
 
 All the tests passed apart from the final test ("Check data file syntax"). I realised that I hadn't implemented custom handling for the XML parse error, which means the error was uncaught and caused the whole traceback to be printed instead of a user-friendly message.
 
-#### Sprint 1 post-development test resolutions
+##### Sprint 1 post-development test resolutions
 
 To fix my failing test, I added a `try`/`except` block to catch the `xml.etree.ElementTree.ParseError` exception that was being raised by OSMnx. I then printed a user-friendly error message, and the error message from OSMnx, to help the user understand what went wrong.
 
