@@ -1949,7 +1949,7 @@ I inspected the directed graph and it looked quite like the undirected graph, wi
 
 I decided not to simplify the graph, because I encountered an error when trying to do so:
 
-> `osmnx._errors.GraphSimplifacationError`: This graph has already been simplified, cannot simplify it again.
+> `osmnx._errors.GraphSimplificationError`: This graph has already been simplified, cannot simplify it again.
 
 ![](assets/sprint-1/cannot-simplify-graph.png)
 
