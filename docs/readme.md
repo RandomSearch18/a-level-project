@@ -2054,7 +2054,52 @@ However, Leaflet requires that the map element has a fixed height. For developme
 
 With that adjustment made, I added a tile layer (the default tile.openstreetmap.org server) and suddenly, I had a map:
 
+```ts
+import leaflet from "leaflet"
+import "leaflet/dist/leaflet.css"
+
+const mainMap = leaflet.map("main-map").setView([51.27556, -0.37834], 15)
+
+leaflet
+  .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+  })
+  .addTo(mainMap)
+```
+
 ![](assets/sprint-1/map.png)
+
+I then added a bottom navigation bar using DaisyUI's `btm-nav` class, as well as a few of my own adjustments to bring it closer to my mockup:
+
+```html
+<div class="btm-nav">
+  <button class="active border-pinx-600 bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Map</span>
+  </button>
+  <button class="bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Route</span>
+  </button>
+  <button class="bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Options</span>
+  </button>
+</div>
+```
+
+I also adjusted the main map to have the correct height:
+
+```diff
+-  height: 90vh;
++  height: calc(100dvh - 4rem);
+```
+
+And made the page title screenreader-only, so that the view matches my mockup, while preserving accessibility:
+
+```diff
+-<h1>Marvellous mapping machine</h1>
++<h1 class="sr-only">Marvellous mapping machine</h1>
+```
+
+![](assets/sprint-1/bottom-bar.png)
 
 ### Sprint 1 conclusion
 
