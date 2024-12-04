@@ -168,6 +168,7 @@ A-level Computer Science programming project
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
       - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
       - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
+      - [Sprint 1 post-development test resolutions](#sprint-1-post-development-test-resolutions)
 
 ## Analysis
 
@@ -2069,6 +2070,25 @@ I fixed the `import` statement, so it is now importing the `osm_data_types` modu
 I used the same OSM data file that I used during development, as it fits the requirements of the tests, and downloading a new one or renaming it to exactly match my test plan would be a waste of time.
 
 ![Running the tests from my test table](assets/sprint-1/testing-2.png)
+
+All the tests passed apart from the final test ("Check data file syntax"). I realised that I hadn't implemented custom handling for the XML parse error, which means the error was uncaught and caused the whole traceback to be printed instead of a user-friendly message.
+
+#### Sprint 1 post-development test resolutions
+
+To fix my failing test, I added a `try`/`except` block to catch the `xml.etree.ElementTree.ParseError` exception that was being raised by OSMnx. I then printed a user-friendly error message, and the error message from OSMnx, to help the user understand what went wrong.
+
+```python
+try:
+    routing_graph = routing_engine.compute_graph(data_file_path)#
+    # [...]
+except xml.etree.ElementTree.ParseError as error:
+    print_error(f"Failed to parse OSM data")
+    print_error(f"Invalid XML: {error}")
+```
+
+I then re-ran the test, and it passed successfully:
+
+![](assets/sprint-1/testing-3.png)
 
 ---
 
