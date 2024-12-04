@@ -174,6 +174,10 @@ A-level Computer Science programming project
         - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
         - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
         - [Sprint 1 post-development test resolutions](#sprint-1-post-development-test-resolutions)
+      - [Sprint 1 stakeholder opinions](#sprint-1-stakeholder-opinions)
+        - [Sprint 1 feedback from Andrew](#sprint-1-feedback-from-andrew)
+        - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
+        - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
 
 ## Analysis
 
@@ -2242,6 +2246,24 @@ except xml.etree.ElementTree.ParseError as error:
 I then re-ran the test, and it passed successfully:
 
 ![](assets/sprint-1/testing-3.png)
+
+#### Sprint 1 stakeholder opinions
+
+##### Sprint 1 feedback from Andrew
+
+I contacted Andrew by text message, giving him the link to the deployed site on Cloudflare Pages.
+
+<!-- TODO: did he respond??? -->
+
+##### Sprint 1 feedback from James
+
+James was on a flight at time of finishing the sprint, so his feedback is currently pending.
+
+<!-- TODO: ask james for feedback -->
+
+##### Sprint 1 feedback from Ili
+
+I showed Ili the deployed site being accessed on my computer.
 
 ---
 
