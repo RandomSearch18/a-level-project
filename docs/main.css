@@ -7,6 +7,12 @@ img {
   max-width: 100%;
 }
 
+/* Workaround for Pandoc's insanely large SVGs with hardcoded width/height attributes */
+figure svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
 figure {
   margin-inline: 1em;
 }
