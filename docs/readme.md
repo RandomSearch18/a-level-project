@@ -164,6 +164,8 @@ A-level Computer Science programming project
       - [Frontend: Implementing the UI design](#frontend-implementing-the-ui-design)
         - [Development instructions](#development-instructions)
         - [Getting Voby JSX working](#getting-voby-jsx-working)
+      - [Frontend: Implementing the UI design (2)](#frontend-implementing-the-ui-design-2)
+        - [Leaflet map](#leaflet-map)
     - [Sprint 1 conclusion](#sprint-1-conclusion)
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
       - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
@@ -2024,6 +2026,30 @@ function App() {
 }
 
 export default App
+```
+
+#### Frontend: Implementing the UI design (2)
+
+I created a new Git branch named `aaaaaaaaaaaaaaaaaa` to represent my growing stress over the looming deadline, added to by the fact that I hadn't pushed my changes to GitHub from school.
+
+I then set to work implementing the UI design, as planned and approved by my stakeholders. I will split the UI up into components later, because then I'll have a better idea of what the overall implementation will look like.
+
+##### Leaflet map
+
+When implementing the map, I planned to set the map to a height of 100%:
+
+```css
+#main-map {
+  height: 100%;
+  width: 100%;
+}
+```
+
+However, Leaflet requires that the map element has a fixed height. For development, I picked an arbitrary height, and I will later adjust it so that it correctly fills the screen without using `100%`, probably with `calc()` and `dvh` units.
+
+```diff
+-  height: 100%;
++  height: 90vh;
 ```
 
 ### Sprint 1 conclusion
