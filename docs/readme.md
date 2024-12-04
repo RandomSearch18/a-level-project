@@ -2181,6 +2181,8 @@ I clicked Save and Deploy, but when building the site, Pages gave me an error. T
 
 #### Sprint 1 post-development testing
 
+Testing was focused on the backend, as it is where the logic has been implemented, and has most things to test.
+
 ##### Sprint 1 post-development test table
 
 Note that my "during development" tests have been discussed in the above sections of sprint 1, so won't be repeated here.
