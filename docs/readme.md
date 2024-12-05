@@ -2321,7 +2321,11 @@ This conformed that my choice of a bottom app bar for mobile was a sensible deci
 
 James was on a flight at time of finishing the sprint, so his feedback is currently pending.
 
-<!-- TODO: ask james for feedback -->
+I showed him the deployed site on a school computer. Overall, he liked the usability of the tabs and the UI in general. He also adjusted the responsive viewport and was happy to see that the UI expanded appropriately.
+
+He tested the "show my location" feature and we were both very impressed with its precision and accuracy, identifying us correctly down to the room we were in. He wanted to know how it was so accurate.
+
+He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noed that when zomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement.
 
 ##### Sprint 1 feedback from Ili
 
