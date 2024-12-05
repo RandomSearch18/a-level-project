@@ -124,7 +124,7 @@ A-level Computer Science programming project
       - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
   - [Sprint 1 (2024-11-17 to 2024-12-05)](#sprint-1-2024-11-17-to-2024-12-05)
     - [Sprint 1 goals](#sprint-1-goals)
-      - [User stories](#user-stories)
+      - [Sprint 1 user stories](#sprint-1-user-stories)
     - [Sprint 1 design](#sprint-1-design)
       - [Sprint 1 library research](#sprint-1-library-research)
         - [OSM data parsing requirements](#osm-data-parsing-requirements)
@@ -180,6 +180,7 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from Andrew](#sprint-1-feedback-from-andrew)
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
+      - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
 
 ## Analysis
 
@@ -1504,7 +1505,7 @@ Sprint 5 will be added if required, and will be planned in more detail once the 
 
 ### Sprint 1 goals
 
-#### User stories
+#### Sprint 1 user stories
 
 1. As a user, I want an interactive map that is intuitive and readable
 2. As a user, I want the map to clearly show my current location
@@ -2341,7 +2342,22 @@ While he was experimenting with the "show current location" button, I noticed th
 
 In addition, he also asked about text contrast, wondering if the dark pink on pink is appropriate for all vision types. I checked the contrast in Firefox's dev tools and found out that its contrast ratio was 3.33, which does not meet WCAG accessibility standards. I will need to adjust these colours in the next sprint to meet my accessibility goals, and my stakeholders' requests.
 
----
+#### Sprint 1 user story checklist
+
+![The adjacency matrix that I showed Andrew](assets/sprint-1/adj-matrix.png)
+
+1. ✅ As a user, I want an interactive map that is intuitive and readable
+   - This has been implemented, and my feedback has proven that the map is intuitive to navigate and easy to interpret
+2. ✅ As a user, I want the map to clearly show my current location
+   - All my stakeholders tested the feature successfully, and could tell that it was showing their location
+3. ✅ As a mobile user, I want the UI to fit well on my screen and be easy to use
+   - The web app was developed mobile-first, and my stakeholders liked the mobile UI
+4. ✅ As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
+   - This sprint succesfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
+5. ✅ As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
+   - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
+
+All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
 
 <div>
 
