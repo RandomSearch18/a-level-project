@@ -169,6 +169,7 @@ A-level Computer Science programming project
         - [Bottom navigation bar](#bottom-navigation-bar)
         - [Bottom navigation bar functionality](#bottom-navigation-bar-functionality)
         - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-pages)
+        - [Show current location button](#show-current-location-button)
         - [GPS location dot](#gps-location-dot)
     - [Sprint 1 conclusion](#sprint-1-conclusion)
       - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
@@ -1501,8 +1502,6 @@ Sprint 5 will be added if required, and will be planned in more detail once the 
 
 ## Sprint 1 (2024-11-17 to 2024-12-05)
 
-<!-- TODO end time for Sprint 1 -->
-
 ### Sprint 1 goals
 
 #### User stories
@@ -2184,9 +2183,63 @@ To make the site easier to share with my stakeholders (and other interested part
 
 I clicked Save and Deploy, but when building the site, Pages gave me an error. Turns out that the build output directory is relative to the "root directory", but I had assumed it wasn't. I adjusted the build output setting from `frontend/dist` to `dist` to solve it. This time it built successfully.
 
+##### Show current location button
+
+I added a floating button that would show the user's current location on the map when clicked. I used the `bottom` CSS property to ensure that is shows above the bottom navigation bar and the licence notice. At first, it didn't show up despite the element being in the correct position, so I increased its z-index to `1000` to make sure it was above the map.
+
+I also wrapped it in a `.tooltip` element, which is a daisyUI feature that provides informative text when the user hovers over the element. I set the `data-tip` attribute to "Show current location" to give the user a hint about what the button does.
+
+```html
+<div class="fixed bottom-[6rem] right-2 z-[1000]">
+  <div class="tooltip tooltip-left" data-tip="Show current location">
+    <button
+      class="btn btn-square btn-md btn-primary text-2xl"
+      id="show-location"
+    >
+      <span class="sr-only">Show current location</span>
+      📍
+    </button>
+  </div>
+</div>
+```
+
+![](assets/sprint-1/fab.png)
+
 ##### GPS location dot
 
-<!-- TODO -->
+I used Leaflet's `locate()` method to show the user's location on the map when the button is clicked.
+
+To display a location indicator, I draw one large circle with a low opacity to show the user the precision of the location, and a smaller, more opaque circle to act as the dot in the middle. I also set the `maxZoom` option to `16` to prevent the map from zooming in too far when the user's location is found.
+
+```ts
+import leaflet from "leaflet"
+import { mainMap } from "./mainMap.mjs"
+
+mainMap.on("locationfound", (event) => {
+  const radius = event.accuracy / 2
+  leaflet
+    .circle(event.latlng, {
+      radius: Math.min(20, radius),
+      fillOpacity: 1,
+    })
+    .addTo(mainMap)
+  leaflet
+    .circle(event.latlng, {
+      radius,
+    })
+    .addTo(mainMap)
+  console.debug("Location found", event)
+})
+
+mainMap.on("locationerror", (event) => {
+  console.error("Leaflet location error", event)
+})
+
+const showLocationButton = document.querySelector("#show-location")!
+showLocationButton.addEventListener("click", () => {
+  mainMap.locate({ setView: true, maxZoom: 16 })
+})
+```
 
 ### Sprint 1 conclusion
 
