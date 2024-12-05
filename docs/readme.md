@@ -2313,7 +2313,9 @@ I then re-ran the test, and it passed successfully:
 
 I contacted Andrew by text message, giving him the link to the deployed site on Cloudflare Pages.
 
-<!-- TODO: did he respond??? -->
+Andrew was very happy with the frontend. He accessed it on his phone and noted that it was very easy to pan and zoom the map, and "none of the extra UI gets in the way".
+
+This conformed that my choice of a bottom app bar for mobile was a sensible decision, and means that I have met my goal of having an intuitive map that can be browsed.
 
 ##### Sprint 1 feedback from James
 
