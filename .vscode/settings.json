@@ -1,7 +1,10 @@
 {
   "cSpell.words": [
+    "Codespaces",
     "daisyUI",
     "deprioritise",
+    "docstrings",
+    "errno",
     "Excalidraw",
     "Geofabrik",
     "GraphHopper",
@@ -11,19 +14,27 @@
     "Mish",
     "mockup",
     "NetworkX",
+    "OpenStreetMap",
     "optimise",
     "optimising",
+    "OSM",
     "OSMAnd",
+    "osmcode.org",
     "OSMF",
+    "OSMnx",
     "OSRM",
     "pathfinding",
     "prioritise",
+    "PyOsmium",
     "Routor",
     "runtimes",
     "satnavs",
+    "traceback",
     "Travelling",
     "typescriptlang.org",
-    "unsignalled"
+    "unsignalled",
+    "WCAG"
   ],
-  "editor.suggest.showWords": false
+  "editor.suggest.showWords": false,
+  "editor.suggest.showSnippets": false
 }

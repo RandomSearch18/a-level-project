@@ -122,6 +122,65 @@ A-level Computer Science programming project
       - [Sprint 3 upfront plan](#sprint-3-upfront-plan)
       - [Sprint 4 upfront plan](#sprint-4-upfront-plan)
       - [Sprint 5 upfront plan](#sprint-5-upfront-plan)
+  - [Sprint 1 (2024-11-17 to 2024-12-05)](#sprint-1-2024-11-17-to-2024-12-05)
+    - [Sprint 1 goals](#sprint-1-goals)
+      - [Sprint 1 user stories](#sprint-1-user-stories)
+    - [Sprint 1 design](#sprint-1-design)
+      - [Sprint 1 library research](#sprint-1-library-research)
+        - [OSM data parsing requirements](#osm-data-parsing-requirements)
+        - [OSMnx research](#osmnx-research)
+          - [OSMnx citation](#osmnx-citation)
+        - [PyOsmium research](#pyosmium-research)
+        - [OSM library research conclusion](#osm-library-research-conclusion)
+      - [Sprint 1 UI design](#sprint-1-ui-design)
+        - [Sprint 1 UI mockup v1](#sprint-1-ui-mockup-v1)
+        - [Sprint 1 UI mockup v2](#sprint-1-ui-mockup-v2)
+          - [Sprint 1 UI mockup v2 feedback](#sprint-1-ui-mockup-v2-feedback)
+      - [Sprint 1 modules](#sprint-1-modules)
+        - [Backend: Creating a very basic graph](#backend-creating-a-very-basic-graph)
+          - [Approach](#approach)
+          - [Pseudocode](#pseudocode)
+          - [Validation table](#validation-table)
+          - [Variables and data structures](#variables-and-data-structures)
+          - [Test data](#test-data)
+          - [During development](#during-development)
+          - [After development](#after-development)
+    - [Sprint 1 development](#sprint-1-development)
+      - [Starting work on the frontend](#starting-work-on-the-frontend)
+        - [Initial web app bootstrap](#initial-web-app-bootstrap)
+        - [Using unusual file extensions](#using-unusual-file-extensions)
+      - [Starting work on the backend](#starting-work-on-the-backend)
+        - [Preparing to start the backend](#preparing-to-start-the-backend)
+        - [Command-line argument parsing functions](#command-line-argument-parsing-functions)
+        - [Validating the provided file path](#validating-the-provided-file-path)
+      - [Backend: Loading OSM data with OSMnx](#backend-loading-osm-data-with-osmnx)
+        - [Installing OSMnx](#installing-osmnx)
+        - [Downloading a region file](#downloading-a-region-file)
+        - [Experimenting with `graph_from_xml()`](#experimenting-with-graph_from_xml)
+        - [Connecting the graph to the OSM data](#connecting-the-graph-to-the-osm-data)
+        - [Converting the graph to the desired format](#converting-the-graph-to-the-desired-format)
+        - [Creating classes](#creating-classes)
+        - [Creating more classes](#creating-more-classes)
+      - [Frontend: Implementing the UI design](#frontend-implementing-the-ui-design)
+        - [Development instructions](#development-instructions)
+        - [Getting Voby JSX working](#getting-voby-jsx-working)
+      - [Frontend: Implementing the UI design (2)](#frontend-implementing-the-ui-design-2)
+        - [Leaflet map](#leaflet-map)
+        - [Bottom navigation bar](#bottom-navigation-bar)
+        - [Bottom navigation bar functionality](#bottom-navigation-bar-functionality)
+        - [Deploying to Cloudflare Pages](#deploying-to-cloudflare-pages)
+        - [Show current location button](#show-current-location-button)
+        - [GPS location dot](#gps-location-dot)
+    - [Sprint 1 conclusion](#sprint-1-conclusion)
+      - [Sprint 1 post-development testing](#sprint-1-post-development-testing)
+        - [Sprint 1 post-development test table](#sprint-1-post-development-test-table)
+        - [Sprint 1 post-development test log](#sprint-1-post-development-test-log)
+        - [Sprint 1 post-development test resolutions](#sprint-1-post-development-test-resolutions)
+      - [Sprint 1 stakeholder opinions](#sprint-1-stakeholder-opinions)
+        - [Sprint 1 feedback from Andrew](#sprint-1-feedback-from-andrew)
+        - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
+        - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
+      - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
 
 ## Analysis
 
@@ -1322,7 +1381,6 @@ This would be used to select a preference for a certain routing option, like whe
 This button was made with Excalidraw.
 
 ![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
-
 Andrew's feedback:
 
 - Neutral state is not very obvious
@@ -1380,9 +1438,10 @@ gantt
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
-    Sprint 1: 2024-11-15
+    Sprint 1: 2024-11-17, 2024-12-05
 ```
 
+<!--
 ```mermaid
 %% TODO what do we do with this
 gantt
@@ -1397,6 +1456,7 @@ gantt
     Task 2: 1, 2
     Task 3: 2, 3
 ```
+-->
 
 #### Sprint 1 upfront plan
 
@@ -1406,7 +1466,6 @@ gantt
   - Generate a routing graph based on a very simple filter, e.g. `highway=*`
 - Also start work on the frontend
   - Create the general layout of the UI
-  - Implement the combination button component
     - Will require roughly designing what the UI will look like, and running it past my stakeholders
   - Add an interactive map using Leaflet.js
   - Show the user's current location on the map
@@ -1442,7 +1501,863 @@ gantt
 
 Sprint 5 will be added if required, and will be planned in more detail once the results of the previous sprints are known. I may use it to work on improving the frontend to ensure it works offline, has a good mobile experience, etc.
 
----
+## Sprint 1 (2024-11-17 to 2024-12-05)
+
+### Sprint 1 goals
+
+#### Sprint 1 user stories
+
+1. As a user, I want an interactive map that is intuitive and readable
+2. As a user, I want the map to clearly show my current location
+3. As a mobile user, I want the UI to fit well on my screen and be easy to use
+4. As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
+5. As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
+
+### Sprint 1 design
+
+#### Sprint 1 library research
+
+Before writing my pseudocode, I would like to research the libraries available for parsing OSM data in Python.
+
+##### OSM data parsing requirements
+
+- Supports `osm.pbf` files
+  - This is the format of region files from geofabrik.de
+- Supports `.osm` files
+  - This is the format of map data exports from openstreetmap.org and the Overpass API
+- Allows pythonic access to nodes, ways, relations and their tags
+  - Because this is the data that I wil be using to build the routing graph
+
+##### OSMnx research
+
+> OSMnx is a Python package to easily download, model, analyze, and visualize street networks and other geospatial features from OpenStreetMap. You can download and model walking, driving, or biking networks with a single line of code then analyze and visualize them. You can just as easily work with urban amenities/points of interest, building footprints, transit stops, elevation data, street orientations, speed/travel time, and routing.
+> &mdash; [osmnx.readthedocs.io](https://osmnx.readthedocs.io/en/stable/index.html)
+
+From reading its documentation, OSMnx appears to be a highly-featured tool for working with OpenStreetMap data, including routing use-cases. It also handles downloading of OSM data, although I might bypass this feature so that I can use a pre-downloaded data file for offline use. Its `graph` module will also help me to create a routing graph from OSM data, and it uses NetworkX, which is what I plan to use. While it's usually used for creating directional graphs, it also supports undirected graphs through its `convert` module.
+
+Since it uses the Overpass.de API, and Nominatim, I will need to ensure I follow their usage policies, i.e. the [Overpass API Commons documentation](https://dev.overpass-api.de/overpass-doc/en/preface/commons.html) and the [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/).
+
+My one concern with OSMnx is that, since it handles a large part of processing OSM data, it may not be customisable enough for my needs. For example, it may be too vehicle-oriented, making it difficult to construct a routing graph specific to pedestrians as I envisioned. However, it should mean that I can get a working prototype of the routing engine to my stakeholders sooner, which is a key goal of Sprint 1.
+
+OSMnx is also used by Routor, my beloved Python routing engine.
+
+###### OSMnx citation
+
+Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/>
+
+##### PyOsmium research
+
+PyOsmium ([osmcode.org/pyosmium](https://osmcode.org/pyosmium/)) is a Python library for using Osmium ([wiki.osm.org/Osmium](https://wiki.openstreetmap.org/wiki/Osmium)), a general library for working with OSM data formats. It supports converting between OSM data formats, and extracting geographical areas from a larger OSM file.
+
+While it may be useful if I need to store OSM data in a specific format, its other features would be redundant if I use OSMnx, so I don't expect to need this library.
+
+##### OSM library research conclusion
+
+Due to its large number of features that are appropriate to my routing engine, OSMnx seems like a clear choice to use for my routing engine, and I look forward to experimenting with and making use of its features.
+
+#### Sprint 1 UI design
+
+I used Excalidraw to create some basic mockups that show the general layout of the UI. I can then collaborate with my stakeholders to improve the design.
+
+##### Sprint 1 UI mockup v1
+
+This mockup shows an idea for how the app could look on mobile, with a bottom navigation bar, and two screens to demonstrate its use.
+
+I chose to split the functions of the app into three sections ("screens"): "map", "route", and "options", and only show one section at a time on small screens. I have done this because:
+
+- The three screens represent actions that the user will want to focus their attention on
+  - Therefore, they'll only need to see one screen at a time
+  - This makes it easier to e.g. browse the map without extra UI clutter
+- The bottom navigation bar is a common pattern for switching between tasks/screens in mobile apps
+  - This helps ensure that the app is intuitive to use
+- It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
+
+![Mockup of the map screen, and the route screen](assets/sprint-1/mockup-1.excalidraw.svg)
+
+##### Sprint 1 UI mockup v2
+
+For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
+
+![Mockup of the map screen](assets/sprint-1/mockup-2.excalidraw.svg)
+
+###### Sprint 1 UI mockup v2 feedback
+
+Andrew liked it: "I can't think of a better way of implementing it". He wanted to be able to swipe between the screens, although I mentioned that this wouldn't be possible from the map screen because it would interfere with the map's panning feature.
+
+#### Sprint 1 modules
+
+##### Backend: Creating a very basic graph
+
+###### Approach
+
+I will take an OSM data file as a command-line argument, because that will be the easiest way to get map data for an initial prototype. Later on managing and downloading map data will be automatically managed by the program, but for now I shall manually download some data for development.
+
+I plan to use OSMnx to parse the data as planned in my [library research](#sprint-1-library-research), and create a graph using NetworkX as planned in my [routing graph research](#routing-graph-research-conclusion). I will use the very basic filter of the `highway` tag being any value that isn't "no" to decide which ways to include in my graph.
+
+To process the graph, I will first convert is from OSMnx's default directed graph format to an undirected graph, as I plan to use an undirected graph for the routing engine (which was also described in [routing graph research](#routing-graph-research-conclusion)). I will then simplify the graph, removing nodes that aren't intersections, to make it easier to work with.
+
+Since there isn't much I can do with the graph yet, I will print it to the screen to check that it looks alright.
+
+###### Pseudocode
+
+- data_file = argv[1]
+- osm_data = osmnx.parse(data_file)
+- print("Successfully loaded OSM data from {data_file}")
+- graph = osmnx.create_digraph(osm_data, filter="highway!=no")
+- converted_graph = osmnx.to_undirected_graph(graph)
+- simplified_graph = osmnx.simplify_graph(converted_graph)
+- print(graph)
+
+###### Validation table
+
+| Expectation                       | Example unexpected data              | Response                                                            |
+| --------------------------------- | ------------------------------------ | ------------------------------------------------------------------- |
+| Command-line argument is provided | 0 arguments                          | Print "Please provide the OSM file, e.g. python main.py region.osm" |
+| Data file is present              | File does not exist                  | Print "File {path} not found"                                       |
+| Data file is an actual file       | Path to a block device provided      | Print "Cannot access {path}: not a file"                            |
+| Data file is readable             | Filesystem permissions forbid access | Print "Cannot access file {path}: permission denied"                |
+| Map data is valid                 | OSMnx throws an error while parsing  | Print "Failed to parse OSM data" and print the error from OSMnx     |
+
+###### Variables and data structures
+
+- `data_file`
+- `osm_data`
+  - This data structure will be OSMnx's data format for map data
+- `graph`
+  - This will be a directed graph, in the default OSMnx format, which is based on a NetworkX graph
+- `converted_graph`
+  - This will be an undirected graph, which is the format we want to use for the routing engine
+- `simplified_graph`
+  - This will be another NetworkX undirected graph, but after graph simplification (removing nodes that aren't intersections)
+
+###### Test data
+
+I will download OSM data files from <https://www.openstreetmap.org/export> for testing and development.
+
+###### During development
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome |
+| ---- | --------------- | ---- | --------- | ---------------- |
+| Accepts file | Ensure the program uses the provided CLI arg | Normal | `my-data-file.osm` (a valid data file) | Output shows that data was loaded from that file |
+| File exists | Program should check that the file exists | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
+| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
+
+###### After development
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome |
+| ---- | --------------- | ---- | --------- | ---------------- |
+| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
+| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+
+### Sprint 1 development
+
+#### Starting work on the frontend
+
+##### Initial web app bootstrap
+
+I will bootstrap the frontend using the files from the web mockup I made, since it already has the important tools like Tailwind, Vite, and daisyUI set up.
+
+To separate frontend and backend code, I have put the files in a `frontend` directory, and shall create a similar `backend` directory when I start work on the backend.
+
+I started setting up my development environment by installing dependencies with Yarn (as per my [frontend technologies](#frontend-technologies) decision). While ideally I would use a modern Yarn version, I've decided to stick with Yarn 1, because it's installed by default in GitHub Codespaces (which I plan to use for some of my development), and I won't be using any advanced Yarn features.
+
+I initialised a Git repository, giving it the name `marvellous-mapping-machine`, because version control will be very useful. I also published it to a GitHub repository to let me access my code from different machines, and to allow anyone interested to view my code.
+
+##### Using unusual file extensions
+
+I made a couple of changes to the file extensions I use, away from what the Vite template used:
+
+- I changed my two JavaScript-language config files (`vite.config.js` and `tailwind.config.js`) to have the `.config.mjs` extension
+- I changed my empty TypeScript code file from `main.ts` to `main.mts`
+- Any future TypeScript files that I create will also use the `.mts` extension
+
+This decision was made to work around two different restrictions that I encounter when programming at school:
+
+- `.js` files are prohibited to be created in my home directory on the school network, so I wouldn't be able to work on them locally at school
+- When accessing the internet at school, any URL ending in `.ts` is blocked, which would make it more difficult to view those files on GitHub. This would be an inconvenience rather than a show-stopper though.
+
+To avoid those problems, I will use the `.mjs` and `.mts` extensions for my JavaScript and TypeScript files, respectively. While these are less common, they still have essentially the same meaning, and are supported by my tools (e.g. VSCode, Vite).
+
+#### Starting work on the backend
+
+##### Preparing to start the backend
+
+I created a `backend` folder next to the `frontend` one. I considered using codenames for the frontend and backend to make the code project more interesting and unique, but decided against it because the names would be harder to remember and identify at a glance.
+
+##### Command-line argument parsing functions
+
+I then started implementing the command-line argument parsing functions that will be required to find the OSM data file.
+
+```python
+from sys import argv, stderr
+
+
+def print_error(message):
+    print(message, file=stderr)
+
+
+def validate_args():
+    if len(argv) == 2:
+        return True
+    if len(argv) < 2:
+        print_error(
+            f"Please provide a path to the OSM data file, e.g. {argv[0]} region.osm",
+        )
+        return False
+    print_error(
+        f"Too many arguments provided. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm",
+    )
+    return False
+
+
+def get_data_file_path():
+    return argv[1]
+
+
+if __name__ == "__main__":
+    if not validate_args():
+        exit(1)
+
+    data_file_path = get_data_file_path()
+    print(data_file_path)
+```
+
+I decided to give the validation for arguments its own function, `validate_args()`, because it will allow me to write unit tests for it later on. I also decided to give the error printing its own function, `print_error()`, in case I want to use a library for logging or make it more complicated in some other way later on. Similarly, `get_data_file_path()` is its own function in case I want to make the logic more complicated later on, and to make it easier to test.
+
+I also improved my validation from my validation plan to also check if too many arguments are provided, to match usual argument parsing conventions.
+
+I then tested the too many/few arguments cases:
+
+```shell
+$ python main.py
+Please provide a path to the OSM data file, e.g. main.py region.osm
+$ python main.py arg1 arg2
+Too many arguments provided. Please provide a path to the OSM data file, e.g. main.py region.osm
+```
+
+The results are successful, but I wanted to adjust the error messages to be more consistent:
+
+```diff
+- Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
++ Too few arguments. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
+
+- Too many arguments provided. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
++ Too many arguments. Please provide a path to the OSM data file, e.g. {argv[0]} region.osm
+```
+
+I then checked that it printed the filename I provided it with:
+
+```shell
+$ python main.py filee
+filee
+```
+
+This test was also successful.
+
+##### Validating the provided file path
+
+I created a function to handle validation of the file path provided, keeping it similar in structure to the argument validation function:
+
+```python
+def validate_file_is_readable(file_path: str):
+    """Returns True if the provided path points to an existing, readable, file-y file.
+    Otherwise, prints an appropriate error message and returns False."""
+    try:
+        with open(file_path, "r") as file:
+            if not Path(file.name).is_file():
+                print_error(f"Cannot access {file_path}: not a file")
+            return True
+
+    except FileNotFoundError:
+        print_error(f"File {file_path} not found.")
+        return False
+    except PermissionError:
+        print_error(f"Cannot access file {file_path}: permission denied")
+        return False
+```
+
+I then realised that my other functions didn't have docstrings or type annotations, so I added them to aid maintainability and readability:
+
+```python
+def print_error(message: str):
+    """Prints an error message to stderr"""
+```
+
+```python
+def validate_args():
+    """Returns True if the number of command-line arguments to the program is correct.
+    Otherwise, prints an appropriate error message and returns False."""
+```
+
+```python
+def get_data_file_path():
+    """Returns the path to the OSM data file that should be used by the routing engine"""
+```
+
+I called the file validation function in the main procedure:
+
+```python
+if not validate_file_is_readable(data_file_path):
+    exit(1)
+```
+
+And tested:
+
+```shell
+$ python main.py fake.osm
+File fake.osm not found.
+```
+
+```shell
+$ python main.py /tmp
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 54, in <module>
+    if not validate_file_is_readable(data_file_path):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 35, in validate_file_is_readable
+    with open(file_path, "r") as file:
+         ^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/tmp'
+```
+
+As demonstrated in the output above, providing a directory to the program threw an `IsADirectoryError` that I was not expecting when I wrote the code. I added another `except` clause to catch this and print an appropriate error message:
+
+```python
+except IsADirectoryError:
+    print_error(f"Cannot access {file_path}: is a directory")
+    return False
+```
+
+I then tested:
+
+![Screenshot of the terminal output written out below](assets/sprint-1/file-validation-terminal.png)
+
+```shell
+$ sudo python main.py /dev/sda1
+Cannot access /dev/sda1: not a file
+$ python main.py /etc/
+Cannot access /etc/: is a directory
+$ python main.py /
+Cannot access /: is a directory
+$ python main.py main.py
+$ echo $?
+0
+```
+
+I noticed that when the script prints "not a file", it still returns a `0` exit code. I fixed this by adding a `return False` line to `validate_file_is_readable()` after that error message is shown:
+
+```diff
+ if not Path(file.name).is_file():
+     print_error(f"Cannot access {file_path}: not a file")
++    return False
+```
+
+I re-tested this case and it now returns a `1` exit code as expected.
+
+This section is done now. Note that the code from the last two sections is equivalent to the first line of pseudocode for this module ("data_file = argv[1]"). The actual code is much longer because it includes validation and splits things into functions, whereas the pseudocode just shows the basic flow of the program.
+
+#### Backend: Loading OSM data with OSMnx
+
+##### Installing OSMnx
+
+For the next task, I will be using the `osmnx` library, so I added the latest version to my `requirements.txt` file (pinning the version to avoid issues with breaking changes in the future), and created a `venv` virtual environment to install it in. This is not the recommended way to install OSMnx (they recommend Conda), but the `venv` tool is more widely available and I am familiar with it. If I have issues installing then I can look into switching to Conda.
+
+##### Downloading a region file
+
+I want to use the [`osmnx.graph.graph_from_xml()`](https://osmnx.readthedocs.io/en/stable/user-reference.html#osmnx.graph.graph_from_xml) function from OSMnx, which means I will need to download an OSM XML file to test the program, which I was expecting to have to do. I downloaded a region file of my local area from osm.org and saved it as `map.osm` in my repository for convenience (and added it to `.gitignore` so that it isn't committed).
+
+##### Experimenting with `graph_from_xml()`
+
+To gain an understanding of how the OSMnx graph works and what it looks like, I used my debugger to inspect the graph object after creating it with `graph_from_xml()`.
+
+```python
+# Use OSMnx to parse the data and create a graph
+graph = osmnx.graph.graph_from_xml(data_file_path, bidirectional=True)
+print(graph)
+```
+
+![](assets/sprint-1/my-first-graph-1.png)
+![](assets/sprint-1/my-first-graph-2.png)
+
+##### Connecting the graph to the OSM data
+
+I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was purplexing.
+
+![](assets/sprint-1/my-first-graph-3.png)
+
+To investigate thus further, I chose to download a very small region of OSM data, so that I can individually check and verify the nodes and ways in the graph. I want to ensure I can access the raw OSM data to enable the more complicated routing options that I want to implement.
+
+For nodes, I found that the node IDs under `graph.nodes` did match OSM nodes on the online map and in the `.osm` (XML) file. Not all nodes from the XML file were present in the graph, but this is because they aren't part of the road network. I found that nodes with attributes had their attributes directly added as a dictionary entry to the value of the node in the graph.
+
+| Python graph                               | OSM.org                                                                                   |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| ![](assets/sprint-1/n1551819044-graph.png) | [![](assets/sprint-1/n1551819044-osm.png)](https://www.openstreetmap.org/node/1551819044) |
+
+I then went on to investigating ways, and how they correspond to edges in the graph. Unlike the `graph.nodes` object, which could be viewed in my debugger like a dictionary, the `graph.edges` object didn't have any easy way to click through the edges and view their attributes.
+
+![](assets/sprint-1/my-first-graph-edges.png)
+
+However, I could see that there appeared to be items keyed by tuples like `(3753293827, 3753283823, 0)`. I guessed that these could be the node IDs of the start and end point of the edge.
+
+I tried accessing edges by their OSM way ID, and the error message confirmed that I was looking for a tuple as a key.
+
+```python
+>>> graph.edges[28112739]
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+    u, v, k = e
+    ^^^^^^^
+TypeError: cannot unpack non-iterable int object
+```
+
+I then tried providing a tuple of a start and end node ID that I knew corresponded to a way (from OSM.org), and got an error message that confirmed that the tuple must have 3 items:
+
+```python
+graph.edges[(1551819044, 1551819044)]
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+    u, v, k = e
+    ^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 2)
+```
+
+I wasn't sure what the third value was, but it seemed to most commonly be set to `0` (and occasionally set to `1` or `2`), so I tried looking up the way with the third tuple value set to `0`:
+
+| Python graph                                 | OSM.org                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| ![](assets/sprint-1/my-first-graph-edge.png) | [![](assets/sprint-1/w28112739-osm.png)](https://www.openstreetmap.org/way/28112739) |
+
+Success! I could now confirm that:
+
+- Edges are keyed based on their start and end node IDs, but have their corresponding OSM way ID linked as an attribute
+  - This matches the way I planned to implement the routing graph in the section [routing graph research, how graph nodes/edges relate to OSM elements](#how-graph-nodesedges-relate-to-osm-elements).
+- Edges have attributes that correspond to the OSM way tags
+  - This will be very useful for implementing routing options and general route calculation work
+- The `oneway` attribute, although it look like a tag from the OSM object, has been added by the graph creation process
+  - This information is likely be helpful to consistently work with the graph data, and perhaps when converting the graph to an undirected graph
+  - I might want to manually change any `oneway=yes` ways to be bidirectional, to match my requirements for a pedestrian routing graph
+- Other attributes added by OSMnx are `length` (which will be essential for calculating cost), `reversed` (which will probably be important for making graph operations work correctly), and `geometry` (which I probably won't use, but is nice to have, since it means none of the data from OSM is lost)
+
+I also tested looking up an edge by setting the third tuple value for the index to `1`, which successfully returned a value, and setting it to `2`, which threw an error. I suppose that this may be a discriminator for when multiple ways exist that start and end at with same node.
+
+##### Converting the graph to the desired format
+
+Following my pseudocode, I added lines to convert the graph to an undirected graph and simplify it:
+
+```python
+directed_graph = osmnx.graph.graph_from_xml(map_data_path, bidirectional=True)
+undirected_graph = osmnx.convert.to_undirected(directed_graph)
+```
+
+I inspected the directed graph and it looked quite like the undirected graph, with similar attributes on the edges. Accessing my test edge `(3753293827, 3753283823, 0)` worked as expected (although curiously, testing with `(3753293827, 3753283823, 1)` didn't work).
+
+I decided not to simplify the graph, because I encountered an error when trying to do so:
+
+> `osmnx._errors.GraphSimplificationError`: This graph has already been simplified, cannot simplify it again.
+
+![](assets/sprint-1/cannot-simplify-graph.png)
+
+This error suggested that I don't need to simplify the graph anyway, so I can drop that line from my code.
+
+##### Creating classes
+
+The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a paremeter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
+
+```python
+class RoutingGraph:
+    def __init__(self, graph: networkx.Graph):
+        self.osm_data = None  # TODO
+        self.graph = graph
+```
+
+```python
+class RoutingEngine:
+    def __init__(self):
+        pass
+
+    def compute_graph(self, map_data_path: str) -> RoutingGraph:
+        # Use OSMnx to parse the map data and create a graph
+        directed_graph = osmnx.graph.graph_from_xml(map_data_path, bidirectional=True)
+        undirected_graph = osmnx.convert.to_undirected(directed_graph)
+        return RoutingGraph(undirected_graph)
+```
+
+I then went to `main.py` and made use of my routing engine class and its `compute_graph()` method. I decided to import from the `routing_engine.py` file using `.routing_engine`, becuase I figured that it would look for the `routing_engine` module in the same directory as `main.py`.
+
+```python
+from .routing_engine import RoutingEngine
+```
+
+```python
+routing_engine = RoutingEngine()
+routing_graph = routing_engine.compute_graph(data_file_path)
+```
+
+Unfortunately, my thinking regarding the import syntax did not pull through, and I was met with an `ImportError` when I tried to run the program:
+
+> `ImportError`: attempted relative import with no known parent package
+
+![](assets/sprint-1/import-error.png)
+
+I didn't want to have to set up a package and other things I don't yet understand, so I decided to just run the program from the `backend` folder and import it simply:
+
+```python
+from routing_engine import RoutingEngine
+```
+
+I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backedn folder, so that it runs correctly when I press <kbd>F5</kbd>.
+
+##### Creating more classes
+
+I continued to work on creating the classes and data structres from my class diagram, implementing:
+
+- The `Coordinates` data structure (in a new `osm_data_types.py` file)
+- The `RouteCalculator` class
+- Stubs for the `RouteResult` and `RoutingOptions` classes
+
+I added `raise NotImplementedError` lines, and to-do comments where appropiate, because I will implement the logic for the other classes in future sprints.
+
+#### Frontend: Implementing the UI design
+
+##### Development instructions
+
+To ensure that I am documenting my work, and to make it easier for me to develop the project on a wide range of machines, I improved the development instructions, and added development instructions for the frontend.
+
+##### Getting Voby JSX working
+
+I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work hald of the time:
+
+```tsx
+function App() {
+  return <div>AAAAAAAAAA</div>
+}
+
+export default App
+```
+
+#### Frontend: Implementing the UI design (2)
+
+I created a new Git branch named `aaaaaaaaaaaaaaaaaa` to represent my growing stress over the looming deadline, added to by the fact that I hadn't pushed my changes to GitHub from school.
+
+I then set to work implementing the UI design, as planned and approved by my stakeholders. I will split the UI up into components later, because then I'll have a better idea of what the overall implementation will look like.
+
+##### Leaflet map
+
+When implementing the map, I planned to set the map to a height of 100%:
+
+```css
+#main-map {
+  height: 100%;
+  width: 100%;
+}
+```
+
+However, Leaflet requires that the map element has a fixed height. For development, I picked an arbitrary height, and I will later adjust it so that it correctly fills the screen without using `100%`, probably with `calc()` and `dvh` units.
+
+```diff
+-  height: 100%;
++  height: 90vh;
+```
+
+With that adjustment made, I added a tile layer (the default tile.openstreetmap.org server) and suddenly, I had a map:
+
+```ts
+import leaflet from "leaflet"
+import "leaflet/dist/leaflet.css"
+
+const mainMap = leaflet.map("main-map").setView([51.27556, -0.37834], 15)
+
+leaflet
+  .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+  })
+  .addTo(mainMap)
+```
+
+![](assets/sprint-1/map.png)
+
+##### Bottom navigation bar
+
+I then added a bottom navigation bar using DaisyUI's `btm-nav` class, as well as a few of my own adjustments to bring it closer to my mockup:
+
+```html
+<div class="btm-nav">
+  <button class="active border-pinx-600 bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Map</span>
+  </button>
+  <button class="bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Route</span>
+  </button>
+  <button class="bg-pink-200 text-pink-600">
+    <span class="btm-nav-label">Options</span>
+  </button>
+</div>
+```
+
+I also adjusted the main map to have the correct height:
+
+```diff
+-  height: 90vh;
++  height: calc(100dvh - 4rem);
+```
+
+And made the page title screenreader-only, so that the view matches my mockup, while preserving accessibility:
+
+```diff
+-<h1>Marvellous mapping machine</h1>
++<h1 class="sr-only">Marvellous mapping machine</h1>
+```
+
+![](assets/sprint-1/bottom-bar.png)
+
+##### Bottom navigation bar functionality
+
+I then added some code for the interactivity of the bottom bar, starting with updating the `active` class when a button is clicked:
+
+```ts
+const bottomBar = document.querySelector("#bottom-bar")!
+
+bottomBar.addEventListener("click", (event) => {
+  const target = event.target as HTMLElement
+  if (target.classList.contains("active")) return
+  const activeButton = bottomBar.querySelector(".active")!
+  activeButton.classList.remove("active")
+  target.classList.add("active")
+})
+```
+
+I went on to add more code for actually changing the screen that is being displayed when a button is clicked.
+
+```ts
+const activeScreen = document.querySelector("#active-screen")
+const nextScreen = document.querySelector(
+  `[data-screen="${target.innerText.toLowerCase()}"]`
+)
+if (!nextScreen) {
+  throw new Error(`No screen found for ${target.innerText}`)
+}
+if (activeScreen) {
+  activeScreen.id = ""
+} else {
+  console.warn("No active screen to deactivate")
+}
+nextScreen.id = "active-screen"
+```
+
+![](assets/sprint-1/new-screen.png)
+
+I noticed a bug where occasionally when clicking a bottom bar button, the active classes and styles would not be applied to that button, meaning the bar would look like it had nothing selected. What was perplexing was this seemed to happen randomly without any clear pattern.
+
+However, I had a brain wave and suspected that the `target` of the `ClickEvent` might not be consistent between different clicks, depending on where exactly the button was clicked, which would explain the fuzziness. I added a `console.debug()` call to log the target to confirm my suspicions:
+
+![](assets/sprint-1/event-targets.png)
+
+As the image above shows, the event target is not always the button itself, but sometimes the `span` inside the button. Because I need to apply the active class to the button, I decided to use the `closest()` method to find the corresponding button element consistently:
+
+```ts
+const eventTarget = event.target as HTMLElement
+const target = eventTarget.closest("button")
+if (!target) {
+  console.warn("Handling bottom bar click event without a button")
+  return
+}
+```
+
+I also adjusted my variable names to make more sense:
+
+- `target` became `button` because that's what it is
+- `activeButton` became `oldActiveButton` to better differentiate it from the just-clicked button
+
+##### Deploying to Cloudflare Pages
+
+To make the site easier to share with my stakeholders (and other interested parties), I want to deploy it to the web. I have used Cloudflare Pages before, and it is a good fit for this project because it:
+
+- is free
+- supports running a build tool like Vite
+- supports building and deploying from a GitHub repository
+- has a `*.pages.dev` free subdomain that isn't blocked on the school network
+
+![](assets/sprint-1/cf-pages.png)
+
+I clicked Save and Deploy, but when building the site, Pages gave me an error. Turns out that the build output directory is relative to the "root directory", but I had assumed it wasn't. I adjusted the build output setting from `frontend/dist` to `dist` to solve it. This time it built successfully.
+
+##### Show current location button
+
+I added a floating button that would show the user's current location on the map when clicked. I used the `bottom` CSS property to ensure that is shows above the bottom navigation bar and the licence notice. At first, it didn't show up despite the element being in the correct position, so I increased its z-index to `1000` to make sure it was above the map.
+
+I also wrapped it in a `.tooltip` element, which is a daisyUI feature that provides informative text when the user hovers over the element. I set the `data-tip` attribute to "Show current location" to give the user a hint about what the button does.
+
+```html
+<div class="fixed bottom-[6rem] right-2 z-[1000]">
+  <div class="tooltip tooltip-left" data-tip="Show current location">
+    <button
+      class="btn btn-square btn-md btn-primary text-2xl"
+      id="show-location"
+    >
+      <span class="sr-only">Show current location</span>
+      📍
+    </button>
+  </div>
+</div>
+```
+
+![](assets/sprint-1/fab.png)
+
+##### GPS location dot
+
+I used Leaflet's `locate()` method to show the user's location on the map when the button is clicked.
+
+To display a location indicator, I draw one large circle with a low opacity to show the user the precision of the location, and a smaller, more opaque circle to act as the dot in the middle. I also set the `maxZoom` option to `16` to prevent the map from zooming in too far when the user's location is found.
+
+```ts
+import leaflet from "leaflet"
+import { mainMap } from "./mainMap.mjs"
+
+mainMap.on("locationfound", (event) => {
+  const radius = event.accuracy / 2
+  leaflet
+    .circle(event.latlng, {
+      radius: Math.min(20, radius),
+      fillOpacity: 1,
+    })
+    .addTo(mainMap)
+  leaflet
+    .circle(event.latlng, {
+      radius,
+    })
+    .addTo(mainMap)
+  console.debug("Location found", event)
+})
+
+mainMap.on("locationerror", (event) => {
+  console.error("Leaflet location error", event)
+})
+
+const showLocationButton = document.querySelector("#show-location")!
+showLocationButton.addEventListener("click", () => {
+  mainMap.locate({ setView: true, maxZoom: 16 })
+})
+```
+
+### Sprint 1 conclusion
+
+#### Sprint 1 post-development testing
+
+Testing was focused on the backend, as it is where the logic has been implemented, and has most things to test.
+
+##### Sprint 1 post-development test table
+
+Note that my "during development" tests have been discussed in the above sections of sprint 1, so won't be repeated here.
+
+I have adjusted the input data slightly from my initial test plan for the backend, to make it slightly easier to run the tests in a way that can be captured in a single screenshot. This won't materially affect the tests, as the data still matches the test reason, type, and outcome that should be expected.
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
+| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
+| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" | "Cannot access /tmp: is a directory" | ✅\* |
+| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied" | "Cannot access file ../map.osm: permission denied" | ✅ |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with an extra `</invalid>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx | ❌ |
+
+##### Sprint 1 post-development test log
+
+Right out of the gate, when running my code normally, discovered an error:
+
+```python
+Traceback (most recent call last):
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 3, in <module>
+    from routing_engine import RoutingEngine
+  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/routing_engine.py", line 5, in <module>
+    from backend.osm_data_types import Coordinates
+ModuleNotFoundError: No module named 'backend'
+```
+
+![Running my code gave the error above](assets/sprint-1/testing-1.png)
+
+I realised that my `import` statement in `routing_engine.py` had a reference to the `backend` folder, probably automatically added by my editor. It may have not been an issue when running the code in my debugger, but clearly it matters when running it normally in the terminal.
+
+```diff
+-from backend.osm_data_types import Coordinates
++from osm_data_types import Coordinates
+```
+
+I fixed the `import` statement, so it is now importing the `osm_data_types` module as I originally intended. I could then proceed with my tests.
+
+I used the same OSM data file that I used during development, as it fits the requirements of the tests, and downloading a new one or renaming it to exactly match my test plan would be a waste of time.
+
+![Running the tests from my test table](assets/sprint-1/testing-2.png)
+
+All the tests passed apart from the final test ("Check data file syntax"). I realised that I hadn't implemented custom handling for the XML parse error, which means the error was uncaught and caused the whole traceback to be printed instead of a user-friendly message.
+
+##### Sprint 1 post-development test resolutions
+
+To fix my failing test, I added a `try`/`except` block to catch the `xml.etree.ElementTree.ParseError` exception that was being raised by OSMnx. I then printed a user-friendly error message, and the error message from OSMnx, to help the user understand what went wrong.
+
+```python
+try:
+    routing_graph = routing_engine.compute_graph(data_file_path)#
+    # [...]
+except xml.etree.ElementTree.ParseError as error:
+    print_error(f"Failed to parse OSM data")
+    print_error(f"Invalid XML: {error}")
+```
+
+I then re-ran the test, and it passed successfully:
+
+![](assets/sprint-1/testing-3.png)
+
+#### Sprint 1 stakeholder opinions
+
+##### Sprint 1 feedback from Andrew
+
+I contacted Andrew by text message, giving him the link to the deployed site on Cloudflare Pages.
+
+Andrew was very happy with the frontend. He accessed it on his phone and noted that it was very easy to pan and zoom the map, and "none of the extra UI gets in the way".
+
+This conformed that my choice of a bottom app bar for mobile was a sensible decision, and means that I have met my goal of having an intuitive map that can be browsed.
+
+##### Sprint 1 feedback from James
+
+James was on a flight at time of finishing the sprint, so his feedback is currently pending.
+
+I showed him the deployed site on a school computer. Overall, he liked the usability of the tabs and the UI in general. He also adjusted the responsive viewport and was happy to see that the UI expanded appropriately.
+
+He tested the "show my location" feature and we were both very impressed with its precision and accuracy, identifying us correctly down to the room we were in. He wanted to know how it was so accurate.
+
+He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noed that when zomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement. James was able to successfully and quickly find the Old Trafford football stadium, which proves that the app was intuitive and fast to use.
+
+##### Sprint 1 feedback from Ili
+
+I showed Ili the deployed site being accessed on my computer.
+
+<!-- "what have you spent all this time doing?" -->
+
+He found the bottom navigation bar intuitive, although he seemed unimpressed with the amount of features I'd implemented myself. He looked forward to the routing functionality being implemented, and was curious as to what options would be available.
+
+He also asked why the location indicator was inaccurate, and I explained that since it was running on my computer, the browser was giving a best-effort guess, instead of an accurate GPS position.
+
+While he was experimenting with the "show current location" button, I noticed that the location ring was drawn multiple times, each time the button was clicked. I should fix this in the next sprint.
+
+In addition, he also asked about text contrast, wondering if the dark pink on pink is appropriate for all vision types. I checked the contrast in Firefox's dev tools and found out that its contrast ratio was 3.33, which does not meet WCAG accessibility standards. I will need to adjust these colours in the next sprint to meet my accessibility goals, and my stakeholders' requests.
+
+#### Sprint 1 user story checklist
+
+![The adjacency matrix that I showed Andrew](assets/sprint-1/adj-matrix.png)
+
+1. ✅ As a user, I want an interactive map that is intuitive and readable
+   - This has been implemented, and my feedback has proven that the map is intuitive to navigate and easy to interpret
+2. ✅ As a user, I want the map to clearly show my current location
+   - All my stakeholders tested the feature successfully, and could tell that it was showing their location
+3. ✅ As a mobile user, I want the UI to fit well on my screen and be easy to use
+   - The web app was developed mobile-first, and my stakeholders liked the mobile UI
+4. ✅ As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
+   - This sprint succesfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
+5. ✅ As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
+   - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
+
+All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
 
 <div>
 
