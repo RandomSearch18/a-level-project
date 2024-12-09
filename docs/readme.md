@@ -187,6 +187,8 @@ A-level Computer Science programming project
       - [Sprint 2 research tasks](#sprint-2-research-tasks)
     - [Sprint 2 design](#sprint-2-design)
       - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
+        - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
+        - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
 
 ## Analysis
 
@@ -2391,6 +2393,16 @@ I will need to complete two large pieces of research during the design phase of 
 #### Sprint 2 design: Running Python in the browser
 
 I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
+
+##### Potential tools for Python in the browser
+
+- Pyscript (<https://pyscript.net/>)
+
+##### Official WASM platform support from Python
+
+[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platfrom uses the WASI specifacation amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+
+[^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
 
 <!-- TODO  -->
 
