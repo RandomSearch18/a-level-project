@@ -181,6 +181,14 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
       - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
+  - [Sprint 2 (2024-12-09 onwards)](#sprint-2-2024-12-09-onwards)
+    - [Sprint 2 goals](#sprint-2-goals)
+      - [Sprint 2 user stories](#sprint-2-user-stories)
+      - [Sprint 2 research tasks](#sprint-2-research-tasks)
+    - [Sprint 2 design](#sprint-2-design)
+      - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
+        - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
+        - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
 
 ## Analysis
 
@@ -1435,10 +1443,12 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
+    Sprint 2: 2024-12-05,
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
+    Sprint 2: 2024-12-09,
 ```
 
 <!--
@@ -2358,6 +2368,47 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
    - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
 
 All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+
+## Sprint 2 (2024-12-09 onwards)
+
+### Sprint 2 goals
+
+#### Sprint 2 user stories
+
+1. As a user, I want to be able to use the program by simply visiting a URL in my web browser
+2. As a user, I want to see a basic route between two points that I choose
+3. As a user, I want to see the route highlighted on the map
+
+#### Sprint 2 research tasks
+
+I will need to complete two large pieces of research during the design phase of sprint 2.
+
+1. Investigate ways to run Python in the browser
+   - This is to integrate the routing engine into the web app
+2. Determine which OSM tags to use to help calculate the routing graph
+   - This is to meet my planned task of refining the routing graph
+
+### Sprint 2 design
+
+#### Sprint 2 design: Running Python in the browser
+
+I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
+
+##### Potential tools for Python in the browser
+
+- Pyscript (<https://pyscript.net/>)
+- Pyodide (<https://pyodide.org/en/stable/>)
+- `py2wasm` (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>)
+
+##### Official WASM platform support from Python
+
+[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platfrom uses the WASI specifacation amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+
+However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add Webassembly support to CPython.
+
+[^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
+
+<!-- TODO  -->
 
 <div>
 

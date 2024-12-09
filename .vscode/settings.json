@@ -36,5 +36,8 @@
     "WCAG"
   ],
   "editor.suggest.showWords": false,
-  "editor.suggest.showSnippets": false
+  "editor.suggest.showSnippets": false,
+  "cSpell.enabledFileTypes": {
+    "markdown": true
+  }
 }
