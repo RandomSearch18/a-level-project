@@ -2397,10 +2397,14 @@ I have encountered a number of different methods for running Python code in the 
 ##### Potential tools for Python in the browser
 
 - Pyscript (<https://pyscript.net/>)
+- Pyodide (<https://pyodide.org/en/stable/>)
+- `py2wasm` (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>)
 
 ##### Official WASM platform support from Python
 
 [Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platfrom uses the WASI specifacation amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+
+However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add Webassembly support to CPython.
 
 [^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
 
