@@ -181,6 +181,7 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
       - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
+  - [Sprint 2 (2024-12-09 onwards)](#sprint-2-2024-12-09-onwards)
 
 ## Analysis
 
@@ -1435,10 +1436,12 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
+    Sprint 2: 2024-12-05,
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
+    Sprint 2: 2024-12-09,
 ```
 
 <!--
@@ -2358,6 +2361,10 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
    - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
 
 All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+
+## Sprint 2 (2024-12-09 onwards)
+
+<!-- TODO -->
 
 <div>
 
