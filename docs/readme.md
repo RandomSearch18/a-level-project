@@ -192,6 +192,7 @@ A-level Computer Science programming project
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
+        - [Creating `BottomBar.tsx`](#creating-bottombartsx)
 
 ## Analysis
 
@@ -2440,6 +2441,59 @@ render(<App />, appElement)
 import("./bottomBar.mjs")
 import("./showCurrentLocation.mjs")
 import("./mainMap.mjs")
+```
+
+##### Creating `BottomBar.tsx`
+
+I then moved the bottom bar markup into `BottomBar.tsx`, and included the logic from `bottomBar.mts`. Then, I decided to make use of observables so that I didn't have to manually toggle classes on the buttons when they are clicked. At the same time, I defined the bottom bar buttons as an array of button names, from which a map of names to observables is created, with the observable specifying if the button is active or not. The object is iterated through using the Voby `<For>` component, which dynamically creates the JSX elements.
+
+```jsx
+function BottomBar() {
+  function onClick(event: MouseEvent) {
+    // [...]
+  }
+
+  const bottomBarButtons = Object.fromEntries(
+    ["Map", "Route", "Options"].map((name) => [name, $(false)])
+  )
+
+  // Map is the default view
+  bottomBarButtons["Map"](true)
+
+  return (
+    <div class="btm-nav" id="bottom-bar" onClick={onClick}>
+      <For values={Object.entries(bottomBarButtons)}>
+        {([name, active]) => <BottomBarButton active={active} name={name} />}
+      </For>
+    </div>
+  )
+}
+```
+
+I split off the markup for each actual bottom bar button into a separate component, which uses observables to ensure its Tailwind styles are always correct:
+
+```tsx
+function BottomBarButton({
+  active,
+  name,
+}: {
+  active: () => boolean
+  name: string
+}) {
+  return (
+    <button
+      class={() =>
+        active()
+          ? "active border-t-4 border-pink-800 bg-pink-200 text-pink-800"
+          : "bg-pink-100 text-pink-800"
+      }
+    >
+      <span class="btm-nav-label">{name}</span>
+    </button>
+  )
+}
+
+export default BottomBar
 ```
 
 <div>
