@@ -189,6 +189,9 @@ A-level Computer Science programming project
       - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
         - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
         - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
+    - [Sprint 2 development](#sprint-2-development)
+      - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
+        - [Creating `App.tsx`](#creating-apptsx)
 
 ## Analysis
 
@@ -2392,6 +2395,8 @@ I will need to complete two large pieces of research during the design phase of 
 
 #### Sprint 2 design: Running Python in the browser
 
+<!-- TODO cont -->
+
 I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
 
 ##### Potential tools for Python in the browser
@@ -2408,7 +2413,34 @@ However, this is not an issue as there are other Python interpreters available, 
 
 [^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
 
-<!-- TODO  -->
+### Sprint 2 development
+
+#### Sprint 2: Converting the frontend code to JSX components
+
+Last sprint, I implemented the HTML structure for my components in the `index.html` file, and the logic in TypeScript files that I imported in `main.mts`.
+
+Since the code is much more maintainable when using JSX components, I will convert these parts of my code to `.tsx` files that will contain the markup and logic for each component.
+
+##### Creating `App.tsx`
+
+I started by putting all my HTML code for the app into `App.tsx`, rendering that with Voby, and then importing my logic files like I had before:
+
+```ts
+import { render } from "voby"
+import App from "./App"
+import "leaflet/dist/leaflet.css"
+
+const appElement = document.querySelector("#app")
+if (!appElement) {
+  throw new Error("No app element found")
+}
+
+render(<App />, appElement)
+
+import("./bottomBar.mjs")
+import("./showCurrentLocation.mjs")
+import("./mainMap.mjs")
+```
 
 <div>
 
