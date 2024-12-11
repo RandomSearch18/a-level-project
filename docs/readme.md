@@ -193,6 +193,7 @@ A-level Computer Science programming project
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
         - [Creating `BottomBar.tsx`](#creating-bottombartsx)
+        - [Creating `CurrentLocationButton.tsx`](#creating-currentlocationbuttontsx)
 
 ## Analysis
 
@@ -2495,6 +2496,19 @@ function BottomBarButton({
 
 export default BottomBar
 ```
+
+##### Creating `CurrentLocationButton.tsx`
+
+I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` component. However, when running it I got an error about `mainMap` not being defined. After a bit of investigation and debugging, I realised that I had a sort of circular logic problem, mainly resulting from the fact that the main map was being created in `mainMap.mts`, separate to the Voby component tree. I shall try to explain the conundrum as follows:
+
+<!-- 1. `CurrentLocationButton.tsx` imports the `mainMap` variable from `mainMap.mts` (in the same way as `showCurrentLocation.mts` did previously) -->
+
+1. `showCurrentLocation.mts` imports the `mainMap` variable from `mainMap.mts`, to add event listeners to it
+2. Therefore, `showCurrentLocation.mts` had to be ran (i.e. imported) after `mainMap.mts`.
+3. However, when converting `showCurrentLocation.mts` to a Voby component, its logic runs when the component is initialised in memory, which happens before the logic (e.g. `mainMap.mts`) files are imported
+4. But `mainMap.mts` must be imported after the Voby components are rendered, because the `#main-map` element must exist in the DOM before the Leaflet map is created
+
+![](assets/sprint-2/main-map-undefined.png)
 
 <div>
 
