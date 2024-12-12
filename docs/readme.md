@@ -2510,6 +2510,8 @@ I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` 
 
 ![](assets/sprint-2/main-map-undefined.png)
 
+I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
