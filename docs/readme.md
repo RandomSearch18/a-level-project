@@ -189,6 +189,7 @@ A-level Computer Science programming project
       - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
         - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
         - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
+        - [Researching PyScript](#researching-pyscript)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -2403,7 +2404,7 @@ I have encountered a number of different methods for running Python code in the 
 
 ##### Potential tools for Python in the browser
 
-- Pyscript (<https://pyscript.net/>)
+- PyScript (<https://pyscript.net/>)
 - Pyodide (<https://pyodide.org/en/stable/>)
 - `py2wasm` (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>)
 
@@ -2414,6 +2415,24 @@ I have encountered a number of different methods for running Python code in the 
 However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add Webassembly support to CPython.
 
 [^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
+
+##### Researching PyScript
+
+I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like Pyscript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
+
+I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libaries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libaries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
+
+With that said, Pyodide doesn't have perfect libary support, as it uses Micropip, which only supports pure Python libaries and a select number of others.[^micropip-install] I shall check if my libaries are written in pure Python.
+
+- NetworkX claims to be written in pure Python.[^networkx-backends]
+- OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX
+
+Therefore, I feel reasonably confident that my libaries will work in a PyScript+Pyodide environment.
+
+[^pyscript-upy]: <https://www.anaconda.com/blog/pyscript-updates-bytecode-alliance-pyodide-and-micropython>
+[^micropip-install]: `micropip.install()`, Micropip API reference (<https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install>), accessed 2024-12-12
+[^networkx-backends]: Page "Install", section "Backends", NetworkX documentation (<https://networkx.org/documentation/stable/install.html#backends>), accessed 2024-12-12
+[^osmnx-installation]: Page "Installation", section "Pip", OSMnx 2.0.0 documentation (<https://osmnx.readthedocs.io/en/stable/installation.html#pip>)
 
 ### Sprint 2 development
 
