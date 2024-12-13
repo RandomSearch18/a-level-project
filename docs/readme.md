@@ -2616,6 +2616,8 @@ With this change, the classes on the buttons should update automatically, as the
 
 I tested my changes, and the bottom bar worked as expected, with the active button being highlighted when clicked, and the correct screen being displayed.
 
+I was happy with this change because it removed lines of code and made it code more reactive, which will hopefully improve maintainability and reduce bugs. I tested switching between the screens and everything updated perfectly.
+
 ##### Updating `BottomBar.tsx` to reduce manual observable updates
 
 It occurred to me that I was manually setting the value of the observables in the `bottomBarButtons` map, which seemed to go against the spirit of reactive programming. I changed the map to use `useMemo` hooks (which automatically recompute when their dependencies change) instead of simple observables.
