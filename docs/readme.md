@@ -191,6 +191,7 @@ A-level Computer Science programming project
         - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
         - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
         - [Researching `py2wasm`](#researching-py2wasm)
+      - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -2447,6 +2448,10 @@ Therefore, I feel reasonably confident that my libaries will work in a PyScript+
 It seems that `py2wasm`'s only advantage over PyScript is having a cool banner image at the top of its blog post, which I have included above.
 
 [^py2wasm]: Announcing py2wasm: A Python to Wasm compiler, wasmer.io (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>), accessed 2024-12-13
+
+#### Sprint 2 design: OSM tags to use in the routing engine
+
+<!-- TODO -->
 
 ### Sprint 2 development
 
