@@ -197,6 +197,8 @@ A-level Computer Science programming project
         - [Creating `App.tsx`](#creating-apptsx)
         - [Creating `BottomBar.tsx`](#creating-bottombartsx)
         - [Creating `CurrentLocationButton.tsx`](#creating-currentlocationbuttontsx)
+        - [Updating `BottomBar.tsx` to use observables](#updating-bottombartsx-to-use-observables)
+        - [Updating `BottomBar.tsx` to reduce manual observable updates](#updating-bottombartsx-to-reduce-manual-observable-updates)
 
 ## Analysis
 
@@ -2549,6 +2551,111 @@ I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` 
 ![](assets/sprint-2/main-map-undefined.png)
 
 I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
+
+##### Updating `BottomBar.tsx` to use observables
+
+I switched to storing the state for the bottom bar and the active screen in observables, to improve consistency in the UI and make use of the features provided by Voby.
+
+I'd already created `bottomBarButtons` as a map of names to observables, and I decided to create another observable (`activeScreen`) which would hold the name of the currently active button (which corresponds to the screen that should be active), and act as the source of truth for which screen is currently active.
+
+I then moved a lot of the logic that was in the `onClick` callback into a `useEffect` callback (a Voby feature that runs a function with side effects when any observables it uses change). It is clear from the comments in the code below which tasks are now performed in the `useEffect` hook.
+
+```ts
+// A map of botton names to observables representing their active state
+// Automatically updated when the `activeScreen` observable changes
+const bottomBarButtons = Object.fromEntries(
+  ["Map", "Route", "Options"].map((name) => [name, $(false)])
+)
+const activeScreen = $("Map")
+useEffect(() => {
+  // This is a handler function for when the active screen changes
+  const newActiveScreen = activeScreen()
+
+  // Update the bottom bar buttons (specifically their active state)
+  for (const [name, button] of Object.entries(bottomBarButtons)) {
+    button(name === newActiveScreen)
+  }
+
+  // Make the new active screen visible and hide the old one
+  const oldScreenElement = document.querySelector("#active-screen")
+  const newScreenElement = document.querySelector(
+    `[data-screen="${newActiveScreen.toLowerCase()}"]`
+  )
+  if (!newScreenElement) {
+    throw new Error(`No screen found for ${newActiveScreen}`)
+  }
+  if (oldScreenElement) {
+    oldScreenElement.id = ""
+  } else {
+    console.warn("No active screen to deactivate")
+  }
+  newScreenElement.id = "active-screen"
+})
+
+// Map is the default view
+activeScreen("Map")
+```
+
+I then updated the `onClick` event callback function to simply update the `activeScreen` observable, which will then trigger the `useEffect` hook to run and update the UI.
+
+```ts
+function onClick(event: MouseEvent) {
+  // Get the button element that was clicked on
+  const eventTarget = event.target as HTMLElement
+  const button = eventTarget.closest("button")
+  if (!button) {
+    throw new Error("Couldn't find button that was clicked on")
+  }
+  // Update the active screen to whichever screen our button corresponds to
+  const screenName = button.textContent!
+  activeScreen(screenName)
+}
+```
+
+With this change, the classes on the buttons should update automatically, as they were already specified based on the button's corresponding observable.
+
+I tested my changes, and the bottom bar worked as expected, with the active button being highlighted when clicked, and the correct screen being displayed.
+
+##### Updating `BottomBar.tsx` to reduce manual observable updates
+
+It occurred to me that I was manually setting the value of the observables in the `bottomBarButtons` map, which seemed to go against the spirit of reactive programming. I changed the map to use `useMemo` hooks (which automatically recompute when their dependencies change) instead of simple observables.
+
+Also note that I moved the `activeScreen` declaration to above the `bottomBarButtons` map, as it is referenced in the `useMemo` callback.
+
+```diff
++// Source of truth for the current active screen. "Map" is the default screen.
++const activeScreen = $("Map")
+ // A map of botton names to observables representing their active state
+-// Automatically updated when the `activeScreen` observable changes
+ const bottomBarButtons = Object.fromEntries(
+-  ["Map", "Route", "Options"].map((name) => [name, $(false)])
++  ["Map", "Route", "Options"].map((name) => [
++    name,
++    useMemo(() => activeScreen() === name),
++  ])
+ )
+-const activeScreen = $("Map")
+```
+
+I could then remove the code to manually set the value of the observables (which was now erroring anyway because `useMemo` returns a readonly observable):
+
+```diff
+ useEffect(() => {
+   // This is a handler function for when the active screen changes
+   const newActiveScreen = activeScreen()
+
+-  // Update the bottom bar buttons (specifically their active state)
+-  for (const [name, button] of Object.entries(bottomBarButtons)) {
+-    button(name === newActiveScreen)
+-  }
+```
+
+I also realised that I was already initialising `activeScreen` to have the value of `"Map"`, so I removed the line that set the active screen to `"Map"`:
+
+```diff
+-// Map is the default view
+-activeScreen("Map")
+```
 
 <div>
 
