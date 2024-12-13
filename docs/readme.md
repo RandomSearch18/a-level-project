@@ -189,7 +189,8 @@ A-level Computer Science programming project
       - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
         - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
         - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
-        - [Researching PyScript](#researching-pyscript)
+        - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
+        - [Researching `py2wasm`](#researching-py2wasm)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -2398,8 +2399,6 @@ I will need to complete two large pieces of research during the design phase of 
 
 #### Sprint 2 design: Running Python in the browser
 
-<!-- TODO cont -->
-
 I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
 
 ##### Potential tools for Python in the browser
@@ -2416,7 +2415,7 @@ However, this is not an issue as there are other Python interpreters available, 
 
 [^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
 
-##### Researching PyScript
+##### Researching PyScript (and Pyodide)
 
 I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like Pyscript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
 
@@ -2425,7 +2424,7 @@ I found out that PyScript supports either Pyodide or MicroPython as its runtime.
 With that said, Pyodide doesn't have perfect libary support, as it uses Micropip, which only supports pure Python libaries and a select number of others.[^micropip-install] I shall check if my libaries are written in pure Python.
 
 - NetworkX claims to be written in pure Python.[^networkx-backends]
-- OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX
+- OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX.
 
 Therefore, I feel reasonably confident that my libaries will work in a PyScript+Pyodide environment.
 
@@ -2433,6 +2432,19 @@ Therefore, I feel reasonably confident that my libaries will work in a PyScript+
 [^micropip-install]: `micropip.install()`, Micropip API reference (<https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install>), accessed 2024-12-12
 [^networkx-backends]: Page "Install", section "Backends", NetworkX documentation (<https://networkx.org/documentation/stable/install.html#backends>), accessed 2024-12-12
 [^osmnx-installation]: Page "Installation", section "Pip", OSMnx 2.0.0 documentation (<https://osmnx.readthedocs.io/en/stable/installation.html#pip>)
+
+##### Researching `py2wasm`
+
+![Cartoon banner image for py2wasm, from the Wasmer blog](assets/sprint-2/py2wasm.png)
+
+`py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promses to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
+
+- I'm not sure if it's intended to be used on the web, or just in WASI environments (like Wasmer)
+- It doesn't (yet) have a proper project page or documentation, just a blog post from the Wasmer company
+- It's more of a proof of concept for how Python could be run in the browser (or other WebAssembly environments) in the near future, whereas PyScript is a tool that has been used by a range of products and already has good developer experience.
+- The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libaries. I want a high chance that my libaries will work.
+
+[^py2wasm]: Announcing py2wasm: A Python to Wasm compiler, wasmer.io (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>), accessed 2024-12-13
 
 ### Sprint 2 development
 
