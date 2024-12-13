@@ -2444,6 +2444,8 @@ Therefore, I feel reasonably confident that my libaries will work in a PyScript+
 - It's more of a proof of concept for how Python could be run in the browser (or other WebAssembly environments) in the near future, whereas PyScript is a tool that has been used by a range of products and already has good developer experience.
 - The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libaries. I want a high chance that my libaries will work.
 
+It seems that `py2wasm`'s only advantage over PyScript is having a cool banner image at the top of its blog post, which I have included above.
+
 [^py2wasm]: Announcing py2wasm: A Python to Wasm compiler, wasmer.io (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>), accessed 2024-12-13
 
 ### Sprint 2 development
