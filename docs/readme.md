@@ -2539,7 +2539,7 @@ export default BottomBar
 
 ##### Creating `CurrentLocationButton.tsx`
 
-I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` component. However, when running it I got an error about `mainMap` not being defined. After a bit of investigation and debugging, I realised that I had a sort of circular logic problem, mainly resulting from the fact that the main map was being created in `mainMap.mts`, separate to the Voby component tree. I shall try to explain the conundrum as follows:
+I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` component. However, when running it I got an error about `mainMap` not being defined. After a bit of investigation and debugging, I realised that I had a sort of circular logic problem, mainly resulting from the fact that the main map was being created in `mainMap.mts`, separate to the Voby component tree. I shall explain the conundrum:
 
 <!-- 1. `CurrentLocationButton.tsx` imports the `mainMap` variable from `mainMap.mts` (in the same way as `showCurrentLocation.mts` did previously) -->
 
@@ -2551,6 +2551,34 @@ I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` 
 ![](assets/sprint-2/main-map-undefined.png)
 
 I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
+
+My next challenge was implementing `MainMap` as a Voby component. I knew that I couldn't simply tell Leaflet to create the map in the component function, as that code runs before the component's HTML is actually added to the DOM. To get around this, I took inspiration from a code example for creating a Leaflet map as a Solid component (as Voby is similar conceptually to Solid) at <https://github.com/chris31415926535/solid-leaflet-reprex/blob/master/src/components/Map.tsx>. It uses the `onMount()` hook to run code when the component is first rendered, which seemed logical to me. Voby doesn't have an `onMount()` hook, but I guessed that the `useEffect()` hook might be able to accomplish the same thing, so I tried that:
+
+```tsx
+import leaflet from "leaflet"
+import { $, useEffect } from "voby"
+
+export const mainMap = $<leaflet.Map>()
+
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  useEffect(() => {
+    const createdMap = leaflet.map("main-map").setView([51.27556, -0.37834], 15)
+    leaflet
+      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+      })
+      .addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+
+export default MainMap
+```
+
+I tested that component, and was happy to see that it worked correctly and consistently.
 
 ##### Updating `BottomBar.tsx` to use observables
 
