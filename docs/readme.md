@@ -199,6 +199,7 @@ A-level Computer Science programming project
         - [Creating `CurrentLocationButton.tsx`](#creating-currentlocationbuttontsx)
         - [Updating `BottomBar.tsx` to use observables](#updating-bottombartsx-to-use-observables)
         - [Updating `BottomBar.tsx` to reduce manual observable updates](#updating-bottombartsx-to-reduce-manual-observable-updates)
+      - [Sprint 2: Improving performance](#sprint-2-improving-performance)
 
 ## Analysis
 
@@ -2686,6 +2687,18 @@ I also realised that I was already initialising `activeScreen` to have the value
 -// Map is the default view
 -activeScreen("Map")
 ```
+
+#### Sprint 2: Improving performance
+
+I was considering how the current location button would behave while the Leaflet libary is loading, when I noticed that when loading the page, none of the UI renders until the Leaflet libary has loaded. I realised that this was because I was loading Leaflet with an `import` statement in `MainMap.tsx`, which is a component, so it's loaded while the UI is being rendered. This means that none of my UI elements show up until Leaflet has loaded, and Leaflet is a somewhat large libary, so I wanted to change this.
+
+I tested my suspicions using the Performance tab in the devtools in Brave browser, and could see that the "DOM loaded" event (representing when the UI is rendered) was delayed until the Leaflet library had finished downloading.
+
+![A screenshot of a performance trace in DevTools](assets/sprint-2/performance-trace.png)
+
+I had the idea to load the Leaflet libary asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
+
+![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
 
 <div>
 
