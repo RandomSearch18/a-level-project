@@ -2700,6 +2700,8 @@ I had the idea to load the Leaflet libary asynchronously using the `import()` fu
 
 ![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
 
+I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
