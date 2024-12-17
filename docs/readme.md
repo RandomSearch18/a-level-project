@@ -181,6 +181,25 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
       - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
+  - [Sprint 2 (2024-12-09 onwards)](#sprint-2-2024-12-09-onwards)
+    - [Sprint 2 goals](#sprint-2-goals)
+      - [Sprint 2 user stories](#sprint-2-user-stories)
+      - [Sprint 2 research tasks](#sprint-2-research-tasks)
+    - [Sprint 2 design](#sprint-2-design)
+      - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
+        - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
+        - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
+        - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
+        - [Researching `py2wasm`](#researching-py2wasm)
+      - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
+    - [Sprint 2 development](#sprint-2-development)
+      - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
+        - [Creating `App.tsx`](#creating-apptsx)
+        - [Creating `BottomBar.tsx`](#creating-bottombartsx)
+        - [Creating `CurrentLocationButton.tsx`](#creating-currentlocationbuttontsx)
+        - [Updating `BottomBar.tsx` to use observables](#updating-bottombartsx-to-use-observables)
+        - [Updating `BottomBar.tsx` to reduce manual observable updates](#updating-bottombartsx-to-reduce-manual-observable-updates)
+      - [Sprint 2: Improving performance](#sprint-2-improving-performance)
 
 ## Analysis
 
@@ -1435,10 +1454,12 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
+    Sprint 2: 2024-12-05,
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
+    Sprint 2: 2024-12-09,
 ```
 
 <!--
@@ -2358,6 +2379,375 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
    - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
 
 All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+
+## Sprint 2 (2024-12-09 onwards)
+
+### Sprint 2 goals
+
+#### Sprint 2 user stories
+
+1. As a user, I want to be able to use the program by simply visiting a URL in my web browser
+2. As a user, I want to see a basic route between two points that I choose
+3. As a user, I want to see the route highlighted on the map
+
+#### Sprint 2 research tasks
+
+I will need to complete two large pieces of research during the design phase of sprint 2.
+
+1. Investigate ways to run Python in the browser
+   - This is to integrate the routing engine into the web app
+2. Determine which OSM tags to use to help calculate the routing graph
+   - This is to meet my planned task of refining the routing graph
+
+### Sprint 2 design
+
+#### Sprint 2 design: Running Python in the browser
+
+I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
+
+##### Potential tools for Python in the browser
+
+- PyScript (<https://pyscript.net/>)
+- Pyodide (<https://pyodide.org/en/stable/>)
+- `py2wasm` (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>)
+
+##### Official WASM platform support from Python
+
+[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platfrom uses the WASI specifacation amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+
+However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add Webassembly support to CPython.
+
+[^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
+
+##### Researching PyScript (and Pyodide)
+
+I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like Pyscript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
+
+I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libaries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libaries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
+
+With that said, Pyodide doesn't have perfect libary support, as it uses Micropip, which only supports pure Python libaries and a select number of others.[^micropip-install] I shall check if my libaries are written in pure Python.
+
+- NetworkX claims to be written in pure Python.[^networkx-backends]
+- OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX.
+
+Therefore, I feel reasonably confident that my libaries will work in a PyScript+Pyodide environment.
+
+[^pyscript-upy]: <https://www.anaconda.com/blog/pyscript-updates-bytecode-alliance-pyodide-and-micropython>
+[^micropip-install]: `micropip.install()`, Micropip API reference (<https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install>), accessed 2024-12-12
+[^networkx-backends]: Page "Install", section "Backends", NetworkX documentation (<https://networkx.org/documentation/stable/install.html#backends>), accessed 2024-12-12
+[^osmnx-installation]: Page "Installation", section "Pip", OSMnx 2.0.0 documentation (<https://osmnx.readthedocs.io/en/stable/installation.html#pip>)
+
+##### Researching `py2wasm`
+
+![Cartoon banner image for py2wasm, from the Wasmer blog](assets/sprint-2/py2wasm.png)
+
+`py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promses to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
+
+- I'm not sure if it's intended to be used on the web, or just in WASI environments (like Wasmer)
+- It doesn't (yet) have a proper project page or documentation, just a blog post from the Wasmer company
+- It's more of a proof of concept for how Python could be run in the browser (or other WebAssembly environments) in the near future, whereas PyScript is a tool that has been used by a range of products and already has good developer experience.
+- The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libaries. I want a high chance that my libaries will work.
+
+It seems that `py2wasm`'s only advantage over PyScript is having a cool banner image at the top of its blog post, which I have included above.
+
+[^py2wasm]: Announcing py2wasm: A Python to Wasm compiler, wasmer.io (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>), accessed 2024-12-13
+
+#### Sprint 2 design: OSM tags to use in the routing engine
+
+<!-- TODO -->
+
+### Sprint 2 development
+
+#### Sprint 2: Converting the frontend code to JSX components
+
+Last sprint, I implemented the HTML structure for my components in the `index.html` file, and the logic in TypeScript files that I imported in `main.mts`.
+
+Since the code is much more maintainable when using JSX components, I will convert these parts of my code to `.tsx` files that will contain the markup and logic for each component.
+
+##### Creating `App.tsx`
+
+I started by putting all my HTML code for the app into `App.tsx`, rendering that with Voby, and then importing my logic files like I had before:
+
+```ts
+import { render } from "voby"
+import App from "./App"
+import "leaflet/dist/leaflet.css"
+
+const appElement = document.querySelector("#app")
+if (!appElement) {
+  throw new Error("No app element found")
+}
+
+render(<App />, appElement)
+
+import("./bottomBar.mjs")
+import("./showCurrentLocation.mjs")
+import("./mainMap.mjs")
+```
+
+##### Creating `BottomBar.tsx`
+
+I then moved the bottom bar markup into `BottomBar.tsx`, and included the logic from `bottomBar.mts`. Then, I decided to make use of observables so that I didn't have to manually toggle classes on the buttons when they are clicked. At the same time, I defined the bottom bar buttons as an array of button names, from which a map of names to observables is created, with the observable specifying if the button is active or not. The object is iterated through using the Voby `<For>` component, which dynamically creates the JSX elements.
+
+```jsx
+function BottomBar() {
+  function onClick(event: MouseEvent) {
+    // [...]
+  }
+
+  const bottomBarButtons = Object.fromEntries(
+    ["Map", "Route", "Options"].map((name) => [name, $(false)])
+  )
+
+  // Map is the default view
+  bottomBarButtons["Map"](true)
+
+  return (
+    <div class="btm-nav" id="bottom-bar" onClick={onClick}>
+      <For values={Object.entries(bottomBarButtons)}>
+        {([name, active]) => <BottomBarButton active={active} name={name} />}
+      </For>
+    </div>
+  )
+}
+```
+
+I split off the markup for each actual bottom bar button into a separate component, which uses observables to ensure its Tailwind styles are always correct:
+
+```tsx
+function BottomBarButton({
+  active,
+  name,
+}: {
+  active: () => boolean
+  name: string
+}) {
+  return (
+    <button
+      class={() =>
+        active()
+          ? "active border-t-4 border-pink-800 bg-pink-200 text-pink-800"
+          : "bg-pink-100 text-pink-800"
+      }
+    >
+      <span class="btm-nav-label">{name}</span>
+    </button>
+  )
+}
+
+export default BottomBar
+```
+
+##### Creating `CurrentLocationButton.tsx`
+
+I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` component. However, when running it I got an error about `mainMap` not being defined. After a bit of investigation and debugging, I realised that I had a sort of circular logic problem, mainly resulting from the fact that the main map was being created in `mainMap.mts`, separate to the Voby component tree. I shall explain the conundrum:
+
+<!-- 1. `CurrentLocationButton.tsx` imports the `mainMap` variable from `mainMap.mts` (in the same way as `showCurrentLocation.mts` did previously) -->
+
+1. `showCurrentLocation.mts` imports the `mainMap` variable from `mainMap.mts`, to add event listeners to it
+2. Therefore, `showCurrentLocation.mts` had to be ran (i.e. imported) after `mainMap.mts`.
+3. However, when converting `showCurrentLocation.mts` to a Voby component, its logic runs when the component is initialised in memory, which happens before the logic (e.g. `mainMap.mts`) files are imported
+4. But `mainMap.mts` must be imported after the Voby components are rendered, because the `#main-map` element must exist in the DOM before the Leaflet map is created
+
+![](assets/sprint-2/main-map-undefined.png)
+
+I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
+
+My next challenge was implementing `MainMap` as a Voby component. I knew that I couldn't simply tell Leaflet to create the map in the component function, as that code runs before the component's HTML is actually added to the DOM. To get around this, I took inspiration from a code example for creating a Leaflet map as a Solid component (as Voby is similar conceptually to Solid) at <https://github.com/chris31415926535/solid-leaflet-reprex/blob/master/src/components/Map.tsx>. It uses the `onMount()` hook to run code when the component is first rendered, which seemed logical to me. Voby doesn't have an `onMount()` hook, but I guessed that the `useEffect()` hook might be able to accomplish the same thing, so I tried that:
+
+```tsx
+import leaflet from "leaflet"
+import { $, useEffect } from "voby"
+
+export const mainMap = $<leaflet.Map>()
+
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  useEffect(() => {
+    const createdMap = leaflet.map("main-map").setView([51.27556, -0.37834], 15)
+    leaflet
+      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+      })
+      .addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+
+export default MainMap
+```
+
+I tested that component, and was happy to see that it worked correctly and consistently.
+
+##### Updating `BottomBar.tsx` to use observables
+
+I switched to storing the state for the bottom bar and the active screen in observables, to improve consistency in the UI and make use of the features provided by Voby.
+
+I'd already created `bottomBarButtons` as a map of names to observables, and I decided to create another observable (`activeScreen`) which would hold the name of the currently active button (which corresponds to the screen that should be active), and act as the source of truth for which screen is currently active.
+
+I then moved a lot of the logic that was in the `onClick` callback into a `useEffect` callback (a Voby feature that runs a function with side effects when any observables it uses change). It is clear from the comments in the code below which tasks are now performed in the `useEffect` hook.
+
+```ts
+// A map of botton names to observables representing their active state
+// Automatically updated when the `activeScreen` observable changes
+const bottomBarButtons = Object.fromEntries(
+  ["Map", "Route", "Options"].map((name) => [name, $(false)])
+)
+const activeScreen = $("Map")
+useEffect(() => {
+  // This is a handler function for when the active screen changes
+  const newActiveScreen = activeScreen()
+
+  // Update the bottom bar buttons (specifically their active state)
+  for (const [name, button] of Object.entries(bottomBarButtons)) {
+    button(name === newActiveScreen)
+  }
+
+  // Make the new active screen visible and hide the old one
+  const oldScreenElement = document.querySelector("#active-screen")
+  const newScreenElement = document.querySelector(
+    `[data-screen="${newActiveScreen.toLowerCase()}"]`
+  )
+  if (!newScreenElement) {
+    throw new Error(`No screen found for ${newActiveScreen}`)
+  }
+  if (oldScreenElement) {
+    oldScreenElement.id = ""
+  } else {
+    console.warn("No active screen to deactivate")
+  }
+  newScreenElement.id = "active-screen"
+})
+
+// Map is the default view
+activeScreen("Map")
+```
+
+I then updated the `onClick` event callback function to simply update the `activeScreen` observable, which will then trigger the `useEffect` hook to run and update the UI.
+
+```ts
+function onClick(event: MouseEvent) {
+  // Get the button element that was clicked on
+  const eventTarget = event.target as HTMLElement
+  const button = eventTarget.closest("button")
+  if (!button) {
+    throw new Error("Couldn't find button that was clicked on")
+  }
+  // Update the active screen to whichever screen our button corresponds to
+  const screenName = button.textContent!
+  activeScreen(screenName)
+}
+```
+
+With this change, the classes on the buttons should update automatically, as they were already specified based on the button's corresponding observable.
+
+I tested my changes, and the bottom bar worked as expected, with the active button being highlighted when clicked, and the correct screen being displayed.
+
+I was happy with this change because it removed lines of code and made it code more reactive, which will hopefully improve maintainability and reduce bugs. I tested switching between the screens and everything updated perfectly.
+
+##### Updating `BottomBar.tsx` to reduce manual observable updates
+
+It occurred to me that I was manually setting the value of the observables in the `bottomBarButtons` map, which seemed to go against the spirit of reactive programming. I changed the map to use `useMemo` hooks (which automatically recompute when their dependencies change) instead of simple observables.
+
+Also note that I moved the `activeScreen` declaration to above the `bottomBarButtons` map, as it is referenced in the `useMemo` callback.
+
+```diff
++// Source of truth for the current active screen. "Map" is the default screen.
++const activeScreen = $("Map")
+ // A map of botton names to observables representing their active state
+-// Automatically updated when the `activeScreen` observable changes
+ const bottomBarButtons = Object.fromEntries(
+-  ["Map", "Route", "Options"].map((name) => [name, $(false)])
++  ["Map", "Route", "Options"].map((name) => [
++    name,
++    useMemo(() => activeScreen() === name),
++  ])
+ )
+-const activeScreen = $("Map")
+```
+
+I could then remove the code to manually set the value of the observables (which was now erroring anyway because `useMemo` returns a readonly observable):
+
+```diff
+ useEffect(() => {
+   // This is a handler function for when the active screen changes
+   const newActiveScreen = activeScreen()
+
+-  // Update the bottom bar buttons (specifically their active state)
+-  for (const [name, button] of Object.entries(bottomBarButtons)) {
+-    button(name === newActiveScreen)
+-  }
+```
+
+I also realised that I was already initialising `activeScreen` to have the value of `"Map"`, so I removed the line that set the active screen to `"Map"`:
+
+```diff
+-// Map is the default view
+-activeScreen("Map")
+```
+
+#### Sprint 2: Improving performance
+
+I was considering how the current location button would behave while the Leaflet libary is loading, when I noticed that when loading the page, none of the UI renders until the Leaflet libary has loaded. I realised that this was because I was loading Leaflet with an `import` statement in `MainMap.tsx`, which is a component, so it's loaded while the UI is being rendered. This means that none of my UI elements show up until Leaflet has loaded, and Leaflet is a somewhat large libary, so I wanted to change this.
+
+I tested my suspicions using the Performance tab in the devtools in Brave browser, and could see that the "DOM loaded" event (representing when the UI is rendered) was delayed until the Leaflet library had finished downloading.
+
+![A screenshot of a performance trace in DevTools](assets/sprint-2/performance-trace.png)
+
+I had the idea to load the Leaflet libary asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
+
+![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
+
+I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
+
+I was satisfied with this, so worked on properly implementing a system for Leaflet to asynchronously load, and for any parts of the code that depend on it to automatically run once it has loaded.
+
+I decided to use an observable to implement this, as I already had a `mainMap` observable, and since this is a similar pattern, I want to implement it in a similar way for consistency.
+
+![A diff showing how I added a leaflet observable to MainMap.tsx](assets/sprint-2/leaflet-observable.png)
+
+This is the code for asynchronusly loading Leaflet and storing it as an observable:
+
+```ts
+export const leaflet = $<typeof import("leaflet")>()
+
+// We dynamically import the Leaflet library so that the UI rendering doesn't block on loading Leaflet
+import("leaflet").then(({ default: leafletImport }) => {
+  leaflet(leafletImport)
+})
+```
+
+And here's how I used it in the `MainMap` component:
+
+```tsx
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  // Separately, using a useEffect lets us run the code once the leaflet library has been loaded
+  useEffect(() => {
+    const L = leaflet()
+    if (!L) return
+    const createdMap = L.map("main-map").setView([51.27556, -0.37834], 15)
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+    }).addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+```
+
+Note that I unwrapped the `leaflet` observable at the start of the function, as it provides a convinient way to check if the library has loaded yet. However, this pattern does mean that I can't use `leaflet` as a variable name in the function, as it would conflict with the name of the `leaflet` observable. I could rename the observable, but I decided just to use the `L` variable name within the function (which is standard for Leaflet anyway). I decided I was happy with that situation.
+
+I questioned if `MainMap.tsx` was a good place to put the `leaflet` observable, because it felt weird to have the logic for loading a library in a component file, but I decided that it wouldn't cause any issues.
+
+I then migrated the `CurrentLocationButton.tsx` component to use the new `leaflet` observable, so it will only add its event listeners once Leaflet is loaded and the map is initialised. (Obviously the map can't be loaded before Leaflet is loaded, but I still added the guard clause for type safety and to be consistent with how I'm using these observables.)
+
+![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
+
+Commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e)
 
 <div>
 
