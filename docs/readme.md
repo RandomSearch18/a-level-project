@@ -2702,6 +2702,53 @@ I had the idea to load the Leaflet libary asynchronously using the `import()` fu
 
 I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
 
+I was satisfied with this, so worked on properly implementing a system for Leaflet to asynchronously load, and for any parts of the code that depend on it to automatically run once it has loaded.
+
+I decided to use an observable to implement this, as I already had a `mainMap` observable, and since this is a similar pattern, I want to implement it in a similar way for consistency.
+
+![A diff showing how I added a leaflet observable to MainMap.tsx](assets/sprint-2/leaflet-observable.png)
+
+This is the code for asynchronusly loading Leaflet and storing it as an observable:
+
+```ts
+export const leaflet = $<typeof import("leaflet")>()
+
+// We dynamically import the Leaflet library so that the UI rendering doesn't block on loading Leaflet
+import("leaflet").then(({ default: leafletImport }) => {
+  leaflet(leafletImport)
+})
+```
+
+And here's how I used it in the `MainMap` component:
+
+```tsx
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  // Separately, using a useEffect lets us run the code once the leaflet library has been loaded
+  useEffect(() => {
+    const L = leaflet()
+    if (!L) return
+    const createdMap = L.map("main-map").setView([51.27556, -0.37834], 15)
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+    }).addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+```
+
+Note that I unwrapped the `leaflet` observable at the start of the function, as it provides a convinient way to check if the library has loaded yet. However, this pattern does mean that I can't use `leaflet` as a variable name in the function, as it would conflict with the name of the `leaflet` observable. I could rename the observable, but I decided just to use the `L` variable name within the function (which is standard for Leaflet anyway). I decided I was happy with that situation.
+
+I questioned if `MainMap.tsx` was a good place to put the `leaflet` observable, because it felt weird to have the logic for loading a library in a component file, but I decided that it wouldn't cause any issues.
+
+I then migrated the `CurrentLocationButton.tsx` component to use the new `leaflet` observable, so it will only add its event listeners once Leaflet is loaded and the map is initialised. (Obviously the map can't be loaded before Leaflet is loaded, but I still added the guard clause for type safety and to be consistent with how I'm using these observables.)
+
+![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
+
+Commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
