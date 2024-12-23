@@ -202,6 +202,8 @@ A-level Computer Science programming project
       - [Sprint 2: Improving performance](#sprint-2-improving-performance)
         - [Proof of concept for async Leaflet loading](#proof-of-concept-for-async-leaflet-loading)
         - [Properly implementing async Leaflet loading](#properly-implementing-async-leaflet-loading)
+        - [Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet](#disabling-currentlocationbuttontsx-when-leaflet-hasnt-loaded-yet)
+        - [Evaluation of async Leaflet loading](#evaluation-of-async-leaflet-loading)
 
 ## Analysis
 
@@ -2754,6 +2756,39 @@ I then migrated the `CurrentLocationButton.tsx` component to use the new `leafle
 ![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
 
 I committed this work in commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e).
+
+##### Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet
+
+As a final touch, I decided to disable the "show current location" button during the time between the UI rendering and Leaflet being loaded. This will give a visual indication that the button isn't ready to be clicked on yet, just in case the user wants to interact with that part of the page before Leaflet has loaded.
+
+I didn't need to actually add any code for disabling the button while Leaflet is being loaded, as the button already had its `disabled` defined with the function `() => !mainMap()`, so it will wait for the `mainMap` to be loaded (which happens after Leaflet is loaded) before it becomes enabled. This keeps the UI consistent.
+
+However, I did make the tooltip change while the map is loading, to provide additional context to the user and to improve accessibility. I created a `useMemo` hook for the tooltip text, writing the function in a way that will allow me to add more versions of the tooltip in the future if I need to.
+
+```ts
+const tooltip = useMemo(() => {
+  const tip = "Show current location"
+  if (!mainMap()) return `${tip} (unavailable while map is loading)`
+  return tip
+})
+```
+
+I then used the observable in the JSX for the button:
+
+```diff
+-<div class="tooltip tooltip-left" data-tip="Show current location">
++<div class="tooltip tooltip-left" data-tip={tooltip}>
+```
+
+I tested the change using network throttling, and was happy to see that the button was disabled while the map was loading, and that the tooltip changed to reflect this.
+
+I am satisfied that this provides a neat little touch to the UI, and makes use of my observable-based asynchronous loading system.
+
+##### Evaluation of async Leaflet loading
+
+After making this change, I prepared to demonstrate my changes to my stakeholders, especially Andrew, by bringing up the production version of the site. Since Cloudflare Pages automatically deploys each branch on a separate subdomain, I could visit e.g. <https://performance-improvements.marvellous-mapping-machine.pages.dev> to see the site with the changes I had made, and compare it to a branch that didn't have the changes, e.g. <https://voby.marvellous-mapping-machine.pages.dev/>.
+
+However, when I enabled network throttling and visited the old version of the site (`voby` branch), the load time was much faster than I had been experiencing in the development build, and the delay caused by loading Leaflet was barely noticeable.
 
 <div>
 
