@@ -2790,6 +2790,12 @@ After making this change, I prepared to demonstrate my changes to my stakeholder
 
 However, when I enabled network throttling and visited the old version of the site (`voby` branch), the load time was much faster than I had been experiencing in the development build, and the delay caused by loading Leaflet was barely noticeable.
 
+I realised that the build tool I use, Vite, loads libraries in a significantly different way during development than it does in production. During development, the dependencies are loaded as separate, less-optimised JavaScript files, whereas during production, the dependencies are bundled together into a single file, which reduces the time taken to load the page. In my case, this seemed to make a significant difference when it came to loading Leaflet.
+
+I ran Lighthouse tests on the site before ([lighthouse-before-performance-work.json](assets/sprint-2/lighthouse-before-performance-work.json)) and after ([lighthouse-after-performance-work.json](assets/sprint-2/lighthouse-after-performance-work.json)) the change. The first contentful paint time dropped from 1.2 seconds to 1.1 seconds, and the time to interactive dropped from 3.1 seconds to 3.0 seconds. This confirms that the optimisation made a small improvement to page load times, but not a very significant one
+
+In conclusion, while my change has worked as intended, it was not as necessary as it first appeared. However, it did give me a chance to fine-tune the UI during loading, which Andrew and Ili were both happy with when I showed them.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
