@@ -200,6 +200,8 @@ A-level Computer Science programming project
         - [Updating `BottomBar.tsx` to use observables](#updating-bottombartsx-to-use-observables)
         - [Updating `BottomBar.tsx` to reduce manual observable updates](#updating-bottombartsx-to-reduce-manual-observable-updates)
       - [Sprint 2: Improving performance](#sprint-2-improving-performance)
+        - [Proof of concept for async Leaflet loading](#proof-of-concept-for-async-leaflet-loading)
+        - [Properly implementing async Leaflet loading](#properly-implementing-async-leaflet-loading)
 
 ## Analysis
 
@@ -2423,14 +2425,14 @@ However, this is not an issue as there are other Python interpreters available, 
 
 I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like Pyscript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
 
-I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libaries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libaries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
+I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libraries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libraries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
 
-With that said, Pyodide doesn't have perfect libary support, as it uses Micropip, which only supports pure Python libaries and a select number of others.[^micropip-install] I shall check if my libaries are written in pure Python.
+With that said, Pyodide doesn't have perfect library support, as it uses Micropip, which only supports pure Python libraries and a select number of others.[^micropip-install] I shall check if my libraries are written in pure Python.
 
 - NetworkX claims to be written in pure Python.[^networkx-backends]
 - OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX.
 
-Therefore, I feel reasonably confident that my libaries will work in a PyScript+Pyodide environment.
+Therefore, I feel reasonably confident that my libraries will work in a PyScript+Pyodide environment.
 
 [^pyscript-upy]: <https://www.anaconda.com/blog/pyscript-updates-bytecode-alliance-pyodide-and-micropython>
 [^micropip-install]: `micropip.install()`, Micropip API reference (<https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install>), accessed 2024-12-12
@@ -2446,7 +2448,7 @@ Therefore, I feel reasonably confident that my libaries will work in a PyScript+
 - I'm not sure if it's intended to be used on the web, or just in WASI environments (like Wasmer)
 - It doesn't (yet) have a proper project page or documentation, just a blog post from the Wasmer company
 - It's more of a proof of concept for how Python could be run in the browser (or other WebAssembly environments) in the near future, whereas PyScript is a tool that has been used by a range of products and already has good developer experience.
-- The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libaries. I want a high chance that my libaries will work.
+- The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libraries. I want a high chance that my libraries will work.
 
 It seems that `py2wasm`'s only advantage over PyScript is having a cool banner image at the top of its blog post, which I have included above.
 
@@ -2690,17 +2692,21 @@ I also realised that I was already initialising `activeScreen` to have the value
 
 #### Sprint 2: Improving performance
 
-I was considering how the current location button would behave while the Leaflet libary is loading, when I noticed that when loading the page, none of the UI renders until the Leaflet libary has loaded. I realised that this was because I was loading Leaflet with an `import` statement in `MainMap.tsx`, which is a component, so it's loaded while the UI is being rendered. This means that none of my UI elements show up until Leaflet has loaded, and Leaflet is a somewhat large libary, so I wanted to change this.
+I was considering how the current location button would behave while the Leaflet library is loading, when I noticed that when loading the page, none of the UI renders until the Leaflet library has loaded. I realised that this was because I was loading Leaflet with an `import` statement in `MainMap.tsx`, which is a component, so it's loaded while the UI is being rendered. This means that none of my UI elements show up until Leaflet has loaded, and Leaflet is a somewhat large library, so I wanted to change this.
 
 I tested my suspicions using the Performance tab in the devtools in Brave browser, and could see that the "DOM loaded" event (representing when the UI is rendered) was delayed until the Leaflet library had finished downloading.
 
 ![A screenshot of a performance trace in DevTools](assets/sprint-2/performance-trace.png)
 
-I had the idea to load the Leaflet libary asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
+##### Proof of concept for async Leaflet loading
+
+I had the idea to load the Leaflet library asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
 
 ![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
 
 I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
+
+##### Properly implementing async Leaflet loading
 
 I was satisfied with this, so worked on properly implementing a system for Leaflet to asynchronously load, and for any parts of the code that depend on it to automatically run once it has loaded.
 
@@ -2708,7 +2714,7 @@ I decided to use an observable to implement this, as I already had a `mainMap` o
 
 ![A diff showing how I added a leaflet observable to MainMap.tsx](assets/sprint-2/leaflet-observable.png)
 
-This is the code for asynchronusly loading Leaflet and storing it as an observable:
+This is the code for asynchronously loading Leaflet and storing it as an observable:
 
 ```ts
 export const leaflet = $<typeof import("leaflet")>()
@@ -2747,7 +2753,7 @@ I then migrated the `CurrentLocationButton.tsx` component to use the new `leafle
 
 ![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
 
-Commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e)
+I committed this work in commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e).
 
 <div>
 
