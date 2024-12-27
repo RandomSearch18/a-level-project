@@ -192,6 +192,8 @@ A-level Computer Science programming project
         - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
         - [Researching `py2wasm`](#researching-py2wasm)
       - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
+      - [Sprint 2 modules](#sprint-2-modules)
+        - [A\* algorithm design](#a-algorithm-design)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -2425,7 +2427,7 @@ However, this is not an issue as there are other Python interpreters available, 
 
 ##### Researching PyScript (and Pyodide)
 
-I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like Pyscript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
+I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like PyScript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
 
 I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libraries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libraries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
 
@@ -2459,6 +2461,32 @@ It seems that `py2wasm`'s only advantage over PyScript is having a cool banner i
 #### Sprint 2 design: OSM tags to use in the routing engine
 
 <!-- TODO -->
+
+#### Sprint 2 modules
+
+Sprint 2 has a number of goals across different parts of the project. The modules of code that I will implement in Sprint 2 are as follows:
+
+- An implementation of the A\* algorithm, which will be added to the `RouteCalculator` class
+  - This is an important module for the project, as it will be the part that allows me to generate a route between two points using a routing graph
+  - I will add it to the `RouteCalculator` class, becuase it only needs to access data that is present on attributes of that class, and it would make sense for the class named "route calculator" to contain the code that calculates routes
+  - I have decided to implement my own A\* algorithm, rather than using a built-in NetworkX method, because the routing algorithm is the core piece of value for this project, so I want to be able to fully understand and customise it
+- A function to generate the routing graph with precise control over which kinds of tags it uses
+  - At the moment, I am using OSMnx's `graph_from_xml()` method in a basic way to create a routing graph with its default filters for which ways to include. However, it is important that this is a pedestrian routing graph, not a car one, so I will need to ensure that foot-traversable paths are properly included. Its weights should also change based on the settings for the routing engine.
+- I will need to implement a simple communication system between the frontend and backend, so that the frontend can send the routing request to the backend, and the backend can send the route back to the frontend
+  - This is important because the routing engine is Python code and the frontend uses JavaScript, so they need a way to communicate
+  - This may be as simple as directly calling Python functions from JavaScript code, but I will need to investigate best practices for communicating with Python code with PyScript
+  - I won't need to worry about authentication or security, as the routing engine will simply be running in the browser, as if it's a piece of code within the website.
+- Implement the "route" screen on the frontend
+  - This will be its own component, probably called `RouteScreen`, and I will add it as a screen to the `App` component
+  - It will consist of a form for the user to input their start and end points, with a button to calculate the route
+  - This is important because calculating a route is what my stakeholders actually want to do with the app, and this part of the UI will be for inputting essential data to make that happen
+  - It is its own module of code because it is its own page, and distinct from the other parts of the app
+- I will need to implement a way to display the route on the map
+  - My stakeholders want the route to be displayed as a highlighted line on the map, so I will need to implement this
+  - I will need to find out the best way to draw a line along a series of coordinates on a Leaflet map, and then implement this in my code
+  - This will be implemented in the frontend, within the `MainMap` component, and it will likely access a global observable that contains the route data, to keep everything reactive
+
+##### A\* algorithm design
 
 ### Sprint 2 development
 
