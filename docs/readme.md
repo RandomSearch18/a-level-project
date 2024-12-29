@@ -2518,9 +2518,10 @@ I've used the article _Introduction to the A\* Algorithm_ by Red Blob Games (<ht
 
 ###### A\* algorithm pseudocode
 
-This method would exist in the `RouteCalculator` class. When implementing it in Python, I will likely split it into multiple functions, but I have kept it as a single one here so that the flow of the algorithm is clear.
+The `calculate_route_a_star()` method will exist in the `RouteCalculator` class. When implementing it in Python, I will likely split it into multiple functions, but I have kept it as a single one here so that the flow of the algorithm is clear.
 
-- method calculate_route_a_star(start: Coordinates, end: Coordinates):
+- RouteCalculator#calculate_route_a_star(start: Coordinates, end: Coordinates):
+
   - // Convert coordinates to nodes:
   - start_node = find_nearest_node(start)
   - end_node = find_nearest_node(end)
@@ -2541,7 +2542,7 @@ This method would exist in the `RouteCalculator` class. When implementing it in 
       - discovered_cost = weights[current_node] + calculate_edge_weight((current_node, discovered_node)) + calculate_node_weight(discovered_node)
       - if discovered_node not in weights or discovered_cost < weights[discovered_node]:
         - weights[discovered_node] = discovered_cost
-        - priority = discovered_cost + euclidean_distance(discovered_node, end_node)
+        - priority = discovered_cost + routing_graph.euclidean_distance(discovered_node, end_node)
         - frontier.add(discovered_node, priority)
         - pointers[discovered_node] = current_node
   - // Reconstruct a route to the end goal
@@ -2551,6 +2552,11 @@ This method would exist in the `RouteCalculator` class. When implementing it in 
     - route_nodes.prepend(current_node)
     - current_node = pointers[current_node]
   - return route_nodes
+
+- RoutingGraph#euclidean_distance(node_a, node_b):
+  - $a_x$, $a_y$ = node_a.coordinates
+  - $b_x$, $b_y$ = node_b.coordinates
+  - return $\sqrt{(a_x - b_x)^2 + (a_y - b_y)^2}$
 
 ### Sprint 2 development
 
