@@ -2524,6 +2524,7 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
   - However, if a footpath is at all near, that should be preferred
   - If a walker is well-equipped (e.g. high-visibility clothing) they may want to give these roads more of a consideration (potential for an option), but it would not be sensible to send pedestrians along them in most situations
 - `highway=unclassified`
+  - "Other non-residential roads in towns. Examples include: minor shopping streets, roads in commercial districts, and public roads in industrial areas. Country lanes." (from [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
 - `highway=residential`
 - `highway=motorway_link`
 - `highway=trunk_link`
