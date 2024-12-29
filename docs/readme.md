@@ -2518,9 +2518,11 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
   - However, I doubt that people would want to walk along them and would try and scramble along a grass verge instead (such scrambling outside of paths is outside of the scope of my project)
   - Therefore, they should also be avoided, apart from very small sections
 - `highway=tertiary`
-  - Quotes from UK-specific sections of the OSM Wiki:
-    - "significant minor road or C road (good surface, white lines)" (International highway classification equivalence)
-    - "Smaller through roads linking cities, towns or villages, or linking suburbs within built up areas. Generally used only on roads wide enough to allow two cars to pass safely where adequate road markings are in place; may have unsigned classifications such as C, D or U" ([Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+  - "Smaller through roads linking cities, towns or villages, or linking suburbs within built up areas. Generally used only on roads wide enough to allow two cars to pass safely where adequate road markings are in place; may have unsigned classifications such as C, D or U" (from [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+  - e.g. Effingham Common Road
+  - This is the first kind of road where it might be advisable and safe to walk along the road, depending on traffic levels, speed limits, as well as visibility of the pedestrian
+  - However, if a footpath is at all near, that should be preferred
+  - If a walker is well-equipped (e.g. high-visibility clothing) they may want to give these roads more of a consideration (potential for an option), but it would not be sensible to send pedestrians along them in most situations
 - `highway=unclassified`
 - `highway=residential`
 - `highway=motorway_link`
