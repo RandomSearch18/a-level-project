@@ -196,6 +196,7 @@ A-level Computer Science programming project
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
           - [A\* algorithm implementation plan](#a-algorithm-implementation-plan)
+          - [A\* algorithm pseudocode](#a-algorithm-pseudocode)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -2508,6 +2509,48 @@ I have decided to calculate node and edge weights within the A\* algorithm, rath
   - This will also mean I can likely generate the routing graph once for an area, and keep it in memory to be used for multiple routing requests, which should be more efficient but will require refactoring of my classes to implement.
 
 Specifically, I plan for the A\* algorithm subprogram to look at the OSM tags on the nodes and ways it encounters and follow logic that corresponds to my OSM tag research, as well as taking into account the settings of the routing engine, to calculate the weight of each edge and node. It is also important that I cache these weights in a dictionary, because the A\* algorithm accesses weights many times, and recalculating them each time would be inefficient.
+
+For my heuristic, I have decided to use Euclidean distance, as I understand it well, it's intuitive, and it's simple to calculate. It will also always be an underestimate of the actual distance, which is essential for the A\* algorithm to work properly.
+
+I considered alternative heuristics that would attempt to predict the cost between two points (i.e. considering weights) but decided that this would be far too complicated to implement in this project with its dynamic weights, and Euclidean distance is a common and suitable choice for my graph and what it represents (points in the real world).
+
+I've used the article _Introduction to the A\* Algorithm_ by Red Blob Games (<https://www.redblobgames.com/pathfinding/a-star/introduction.html>, accessed 2024-12-29) to help me understand the A\* algorithm and some best notes for implementing it.
+
+###### A\* algorithm pseudocode
+
+This method would exist in the `RouteCalculator` class. When implementing it in Python, I will likely split it into multiple functions, but I have kept it as a single one here so that the flow of the algorithm is clear.
+
+- method calculate_route_a_star(start: Coordinates, end: Coordinates):
+  - // Convert coordinates to nodes:
+  - start_node = find_nearest_node(start)
+  - end_node = find_nearest_node(end)
+  - // Initialise data structures
+  - frontier = PriorityQueue()
+  - pointers = {}
+  - weights = {}
+  - // Add the first node
+  - frontier.add(start_node, 0)
+  - pointers[start_node] = None
+  - weights[start_node] = 0
+  - // Perform the algorithm
+  - while frontier has items:
+    - current_node = frontier.pop()
+    - if current_node == end_node:
+      - break
+    - for discovered_node in routing_graph.neighbours_of(current_node):
+      - discovered_cost = weights[current_node] + calculate_edge_weight((current_node, discovered_node)) + calculate_node_weight(discovered_node)
+      - if discovered_node not in weights or discovered_cost < weights[discovered_node]:
+        - weights[discovered_node] = discovered_cost
+        - priority = discovered_cost + euclidean_distance(discovered_node, end_node)
+        - frontier.add(discovered_node, priority)
+        - pointers[discovered_node] = current_node
+  - // Reconstruct a route to the end goal
+  - route_nodes = []
+  - current_node = end_node
+  - until current_node is None:
+    - route_nodes.prepend(current_node)
+    - current_node = pointers[current_node]
+  - return route_nodes
 
 ### Sprint 2 development
 
