@@ -2514,7 +2514,7 @@ For my heuristic, I have decided to use Euclidean distance, as I understand it w
 
 I considered alternative heuristics that would attempt to predict the cost between two points (i.e. considering weights) but decided that this would be far too complicated to implement in this project with its dynamic weights, and Euclidean distance is a common and suitable choice for my graph and what it represents (points in the real world).
 
-I've used the article _Introduction to the A\* Algorithm_ by Red Blob Games (<https://www.redblobgames.com/pathfinding/a-star/introduction.html>, accessed 2024-12-29) to help me understand the A\* algorithm and some best notes for implementing it.
+I've used the article _Introduction to the A\* Algorithm_ by Red Blob Games (<https://www.redblobgames.com/pathfinding/a-star/introduction.html>, accessed 2024-12-29), as well as a bit of its accompanying [_Implementation of A\*_ article](https://www.redblobgames.com/pathfinding/a-star/implementation.html), to help me understand the A\* algorithm and some best practices for implementing it.
 
 ###### A\* algorithm pseudocode
 
