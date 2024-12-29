@@ -192,6 +192,8 @@ A-level Computer Science programming project
         - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
         - [Researching `py2wasm`](#researching-py2wasm)
       - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
+        - [Research approach for OSM tags](#research-approach-for-osm-tags)
+        - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2463,7 +2465,21 @@ It seems that `py2wasm`'s only advantage over PyScript is having a cool banner i
 
 #### Sprint 2 design: OSM tags to use in the routing engine
 
-<!-- TODO -->
+##### Research approach for OSM tags
+
+My main source of information will be the OpenStreetMap Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
+
+I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available.
+
+If necessary to help understand a tagging scheme, I could ask the community on the OSM Community Forum ([c.osm.org](https://community.openstreetmap.org/)) for clarification and discussion, although since highway tagging is relatively simple and well-specified and standardised, I don't expect to need to do this.
+
+##### General approach for parsing OSM tags
+
+I will adopt a relaxed, liberal approach to parsing OSM tags (i.e. following Postel's Law) to help me extract as much value out of OSM data, even if it is imperfect, missing detail, or no longer follows best practices.
+
+<!-- For example,  TODO think of an example -->
+
+This also matches the approach that other projects that consume OSM data take.
 
 #### Sprint 2 modules
 
