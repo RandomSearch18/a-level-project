@@ -2467,9 +2467,11 @@ It seems that `py2wasm`'s only advantage over PyScript is having a cool banner i
 
 ##### Research approach for OSM tags
 
+![A screenshot from Taginfo, a website used to research OSM tags](assets/sprint-2/taginfo.png)
+
 My main source of information will be the OpenStreetMap Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
 
-I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available.
+I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available. Similarly, I will use the Taginfo tool for Great Britain ([taginfo.openstreetmap.org.uk]), which displays statistics for different tags and tag+value pairs in the UK, to get a sense of what tags are most commonly used. For example, the image above shows the tags that are most-commonly present on `highway=path` objects in the UK.
 
 If necessary to help understand a tagging scheme, I could ask the community on the OSM Community Forum ([c.osm.org](https://community.openstreetmap.org/)) for clarification and discussion, although since highway tagging is relatively simple and well-specified and standardised, I don't expect to need to do this.
 
