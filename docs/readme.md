@@ -194,6 +194,7 @@ A-level Computer Science programming project
       - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
         - [Research approach for OSM tags](#research-approach-for-osm-tags)
         - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
+        - [OSM tags to parse for roads](#osm-tags-to-parse-for-roads)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2469,7 +2470,17 @@ It seems that `py2wasm`'s only advantage over PyScript is having a cool banner i
 
 ![A screenshot from Taginfo, a website used to research OSM tags](assets/sprint-2/taginfo.png)
 
-My main source of information will be the OpenStreetMap Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
+My main source of information will be the OSM Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
+
+The following pages from the OSM Wiki provide a very good summary of the top-level tags that I will need to use:
+
+- [Key:highway](https://wiki.openstreetmap.org/wiki/Key:highway)
+- [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom)
+
+Other very useful pages are:
+
+- [United Kingdom Tagging Guidelines](https://wiki.openstreetmap.org/wiki/United_Kingdom#Guidelines) lists other pages that document UK-specific tagging
+- [International highway classification equivalence](https://wiki.openstreetmap.org/wiki/International_highway_classification_equivalence) describes how OSM highway tags correspond to the legal road classifications in the UK
 
 I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available. Similarly, I will use the Taginfo tool for Great Britain ([taginfo.openstreetmap.org.uk]), which displays statistics for different tags and tag+value pairs in the UK, to get a sense of what tags are most commonly used. For example, the image above shows the tags that are most-commonly present on `highway=path` objects in the UK.
 
@@ -2482,6 +2493,53 @@ I will adopt a relaxed, liberal approach to parsing OSM tags (i.e. following Pos
 <!-- For example,  TODO think of an example -->
 
 This also matches the approach that other projects that consume OSM data take.
+
+##### OSM tags to parse for roads
+
+I will recognise a number of top-level tags to classify a way as a road, according to the [Key:highway#Highway](https://wiki.openstreetmap.org/wiki/Key:highway#Highway) section on the wiki. Roads may or may not be traversable by foot on the main road surface, and may or may not have sidewalk (i.e. pavement) tags that specifies that the road has a pavement that can be traversed. Naturally, a road with a pavement would be nearly as preferable, or more preferable (depending on additional tags and settings), than a footpath separate from a road. On the other hand, a road without a pavement would be less advisable to walk across, and its utility will depend on the classification of the road.
+
+In addition, for some roads, it may be illegal to walk along them, either explicitly specified by the `foot=*` access tag, or implicitly by the road's classification (motorways and motorway links cannot be walked on in the UK).
+
+Below is a list of road tags I will include, and notes regarding them, e.g. their suitability for walking along (ignoring pavements):
+
+- `highway=motorway`
+  - Corresponds to motorways (blue signs), e.g. M25
+  - Very very very bad, absolutely do not even think about it
+  - Assume `foot=no`
+- `highway=trunk`
+  - Corresponds to "primary" A-roads (with green signs), e.g. A3
+  - Contain multiple lanes of fast-flowing traffic, so very unsafe to walk along
+- `highway=primary`
+  - Corresponds to "non-primary" A-roads in UK terminology (white signs), e.g. A246
+  - While not as lethal as larger A-roads, drivers would not expect a pedestrian on the road, and you would likely feel unsafe, so they similarly should be avoided
+- `highway=secondary`
+  - Corresponds to B-roads
+  - There are not many B-roads in my area so I don't have a good sense for them
+  - However, I doubt that people would want to walk along them and would try and scramble along a grass verge instead (such scrambling outside of paths is outside of the scope of my project)
+  - Therefore, they should also be avoided, apart from very small sections
+- `highway=tertiary`
+  - Quotes from UK-specific sections of the OSM Wiki:
+    - "significant minor road or C road (good surface, white lines)" (International highway classification equivalence)
+    - "Smaller through roads linking cities, towns or villages, or linking suburbs within built up areas. Generally used only on roads wide enough to allow two cars to pass safely where adequate road markings are in place; may have unsigned classifications such as C, D or U" ([Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+- `highway=unclassified`
+- `highway=residential`
+- `highway=motorway_link`
+- `highway=trunk_link`
+- `highway=primary_link`
+- `highway=secondary_link`
+- `highway=tertiary_link`
+- `highway=living_street`
+- `highway=service`
+- `highway=pedestrian`
+- `highway=track`
+- `highway=road`
+
+I will not consider the following top-level highway tags:
+
+- `highway=bus_guideway` - These are bus tracks, where it would not be legal nor safe to walk in all or almost all situations
+- `highway=escape` - These are emergency escape lanes sometimes found on motorways, so it would be very unwise to instruct a pedestrian to walk along them
+- `highway=raceway` - It is unlikely that my users will want to walk along a race track or similar track/course
+- `highway=busway` - This is a kind of bus-only road, not meant to be used by pedestrians
 
 #### Sprint 2 modules
 
