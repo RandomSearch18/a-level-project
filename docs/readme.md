@@ -2547,8 +2547,44 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
 - `highway=living_street`
   - Corresponds to Home Zones in the UK road system
   - Home Zones are shared-use areas intended to be used for activities such as playing or community events,[^rule-218] where cars should be prepared to wait for pedestrians to move out of the way
-    -TODO
+  - Cars can still be present on these roads so they aren't as safe and convenient as footpaths, but they are the first road for which it would be advisable to walk along the road when a pavement isn't present
 - `highway=service`
+  - Corresponds to access roads or service roads. Roads used for more-or-less a single purpose, including driveways, car park aisles, or business/industrial access roads
+  - The exact nature of this road is described by the `service=*` key. If it isn't present, a safe assumption would be similar metrics to residential roads
+  - Many of these roads will be infrequently used by cars, but subjectively they aren't as "nice" to walk along as a footpath
+  - However, they are likely to be pretty narrow with pretty slow traffic speeds, so they can be used if other options aren't present, or if they would be a very efficient shortcut
+  - Notes specific to sub-types:
+    - `service=driveway`
+      - Likely to have very low traffic volume
+      - Most likely to be encountered at the very start or end of a route, as they are used for accessing one specific building
+      - However, we should assume `access=private`
+    - `service=parking_aisle`
+      - Car parks can be dangerous places due to cars moving in and out of spaces
+      - Again, likely to be found at the start/end of a route, but may also be valuable as a cut-through in more built-up areas
+      - `foot=yes` is probably a safe assumption, as even if you aren't allowed to park there, walking through is probably fine
+    - `service=alley`
+      - These are narrow roads used to access the rear of buildings, bins, and other utilities
+      - Not as nice ao walk along as a path, but can be used instead of a path if it's the most convenient route
+      - Should have a small penalty
+      - Similarly parking aisles, I expect them to be used as a way to access a precise destination, or sometimes as a cut-through (although they are usually dead-ends)
+    - `service=emergency_access`
+      - Roads for emergency access only
+      - Should be treated as `access=no` unless otherwise specified
+      - If foot access is allowed, should be treated as a generic service road
+      - There may be a risk of needing to move out of the way of emergency vehicles, but this should be a rare occurrence
+    - `service=drive-through`
+      - Drive-throughs, e.g. at fast food restaurants
+      - These are intended for cars only, and it would be awkward to walk there as a pedestrian, so they should have quite a high penalty
+      - However, they may be useful in some rarer cases where there aren't any desirable main paths, and if the drive-through isn't busy
+    - `service=slipway`
+      - This is a ramp used for launching boats into water
+      - It wouldn't make sense to route pedestrians along the slipway, but in a similar way to drive-throughs, some users may want to walk along them anyway
+      - In addition, there may be risk of obstructing boats, which are the designated users of the slipway
+      - They should have a high penalty
+    - `service=bus`
+      - This is a deprecated tag, but there are 381 instances in the UK, so following my Postel's Law approach, I will handle it
+      - `access=no` would be a safe assumption here as they are probably bus-only roads
+      - Otherwise, parse access tags as per usual and treat as a generic service road
 - `highway=pedestrian`
 - `highway=track`
 - `highway=road`
@@ -2559,7 +2595,7 @@ I will not consider the following top-level highway tags:
 
 - `highway=bus_guideway` - These are bus tracks, where it would not be legal nor safe to walk in all or almost all situations
 - `highway=escape` - These are emergency escape lanes sometimes found on motorways, so it would be very unwise to instruct a pedestrian to walk along them
-- `highway=raceway` - It is unlikely that my users will want to walk along a race track or similar track/course
+- `highway=raceway` - It is unlikely that my users will want to walk along a race track or a similar track/course
 - `highway=busway` - This is a kind of bus-only road, not meant to be used by pedestrians
 
 #### Sprint 2 modules
