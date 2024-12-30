@@ -2525,17 +2525,35 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
   - If a walker is well-equipped (e.g. high-visibility clothing) they may want to give these roads more of a consideration (potential for an option), but it would not be sensible to send pedestrians along them in most situations
 - `highway=unclassified`
   - "Other non-residential roads in towns. Examples include: minor shopping streets, roads in commercial districts, and public roads in industrial areas. Country lanes." (from [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+  - e.g. Manor House Lane
+  - Unclassified roads are likely to have slower traffic, with more reasons to slow down naturally present in the road.
+  - While a path would be preferred, walking along an unclassified road for a short distance, or where there is no nearby alternative available, would be acceptable
 - `highway=residential`
+  - Corresponds to residential roads, i.e. roads used for accessing the houses along them and general residential purposes. The majority of roads in UK villages are residential roads.
+  - e.g. Orestan Lane, Cock Lane, Sheeplands Avenue, etc.
+  - These roads aren't usually used for through traffic, so cars shouldn't be going too fast. Also, there might be children playing in the road and other residential activities, so hazards should be expected by drivers.
+  - Therefore, this road type is appropriate to walk along when required to get to a destination (I imagine this will often be the case, as residential roads form the start and/or end of many routes), and also acceptable to walk along if any nearby footpaths would be less convenient
+  - Of course, the routing engine should still prefer to route along pavements where possible
 - `highway=motorway_link`
-- `highway=trunk_link`
-- `highway=primary_link`
-- `highway=secondary_link`
-- `highway=tertiary_link`
+  - Corresponds to motorway slip roads
+  - Similarly to `highway=motorway`s, they are under motorway regulations and are unsafe and illegal to walk on
+  - Should have the same weight factor as motorways
+- `highway=trunk_link`, `highway=primary_link`
+  - Corresponds to A-road slip roads
+  - Should be treated the same as their respective road types
+- `highway=secondary_link`, `highway=tertiary_link`
+  - Corresponds to the short "shortcut" roads that you get at an intersection
+  - Should be treated the same as their respective road types
 - `highway=living_street`
+  - Corresponds to Home Zones in the UK road system
+  - Home Zones are shared-use areas intended to be used for activities such as playing or community events,[^rule-218] where cars should be prepared to wait for pedestrians to move out of the way
+    -TODO
 - `highway=service`
 - `highway=pedestrian`
 - `highway=track`
 - `highway=road`
+
+[^rule-218]: Rule 218, The Highway Code, GOV.UK (<https://www.gov.uk/guidance/the-highway-code/road-users-requiring-extra-care-204-to-225#rule218>), accessed 2024-12-13
 
 I will not consider the following top-level highway tags:
 
