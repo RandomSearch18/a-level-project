@@ -2598,8 +2598,42 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
       - There are 264 of these roads mapped in the UK
     - Any other uses of `service=*` on roads have <100 uses in the UK, so I won't give them any special behaviour past the generic service road behaviour
 - `highway=pedestrian`
+  - These are pedestrianised roads, intended for primarily pedestrians, often found in city/town centres
+  - e.g. Chapel Street and Friary Street (Guildford); High Street (Leatherhead); St Martin's Walk (Dorking)
+  - These are roads intended for walking, shopping, and other relaxed activities on foot, so they are probably even more desirable than most paths as they are wider and subjectively nicer
+  - These are the best roads to walk along
 - `highway=track`
+  - Tracks are part-way between a road that isn't part of the main road network, and a wide footpath
+  - They are used as minor land-access roads in farms, forests, or parks
+  - e.g. Chalkpit Lane, Connicut Lane (near Polesden Lacey)
+  - They are usually similar in function to a nice wide path, so they should be considered along with the other main OSM path types
+  - Default `access=*` assumptions on tracks is dubious in the UK, but the best way to handle this is probably to assume access is allowed by default, and let the user use their own discretion when they encounter the track on the ground
+  - Since these will only rarely or very rarely be used by cars, it's appropriate to consider them closer to paths than roads
+  - As with paths such as `highway=path`, their accompanying tags will be important for accurately determining their weight.
+  - Tracks in particular often (23% of the time) carry an accompanying `tracktype=*` value, which describes how well-maintained a track is, using surface firmness as a proxy indicator. The tracktype values and my notes are as follows:
+    - `tracktype=grade1`
+      - Solid surface, usually paved
+      - Should be very nice and easy to walk along, so should be highly preferred to a generic path
+    - `tracktype=grade2`
+      - Mostly-solid surface, usually unpaved with a mixture of materials of varying softness
+      - Quite nice to walk on, but could possibly become muddy or slippery in bad weather (this is relatively unlikely though, compared to the poorer tracktypes)
+      - Should be preferred to a generic path
+    - `tracktype=grade3`
+      - Even mixture of hard and soft materials
+      - Neutral preference to a generic path
+    - `tracktype=grade4`
+      - Mostly soft. An unpaved track with some hard materials like stones mixed in
+      - Still a perfectly fine path, so I won't have any weight penalty/advantage to this one either
+    - `tracktype=grade5`
+      - Soft surface, made up of soil, sand, grass, or similar
+      - This is closest to a path that hasn't been worn down by trampling, and is therefore less preferable than a generic path
+      - It could get quite muddy after bad weather, or be difficult to walk on
+      - It is usually especially unsuitable for wheelchair users
 - `highway=road`
+  - This is a generic road of an unknown type, meaning that the road could be any kind of road
+  - This is a difficult case to deal with and there aren't really any safe assumptions to make
+
+![An composite image showing examples of 5 different tracks, which correspond to the different tracktype=* grades](assets/sprint-2/tracktype.png)
 
 [^rule-218]: Rule 218, The Highway Code, GOV.UK (<https://www.gov.uk/guidance/the-highway-code/road-users-requiring-extra-care-204-to-225#rule218>), accessed 2024-12-13
 
