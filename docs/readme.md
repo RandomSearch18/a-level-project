@@ -195,6 +195,7 @@ A-level Computer Science programming project
         - [Research approach for OSM tags](#research-approach-for-osm-tags)
         - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
         - [OSM tags to parse for roads](#osm-tags-to-parse-for-roads)
+        - [OSM tags to parse for paths](#osm-tags-to-parse-for-paths)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2645,6 +2646,23 @@ I will not consider the following top-level highway tags:
 - `highway=escape` - These are emergency escape lanes sometimes found on motorways, so it would be very unwise to instruct a pedestrian to walk along them
 - `highway=raceway` - It is unlikely that my users will want to walk along a race track or a similar track/course
 - `highway=busway` - This is a kind of bus-only road, not meant to be used by pedestrians
+
+##### OSM tags to parse for paths
+
+Similarly to roads, there exist a number of `highway=*` keys for paths, which are often the best choices for pedestrian navigation paths.
+
+Note that despite `highway=path` being a specific key, I will continue to use the word "path" in this document to refer to any walkable footpath, pavement, or small road, because that keeps things simpler.
+
+These are the `highway=*` keys that are used as top-level tags for paths:
+
+- `highway=footway`
+  - These are footpaths intended to be primarily used by pedestrians
+  - They might be signed with a blue circular footpath sign (or might not), and are often paved because they are usually constructed with the intention of being easy to walk along
+  - They should have a pretty highly preference, as a smooth, well-lit, well-maintained, wide path with a nice surface is the best kind of path to walk along. These properties can be factored in using the standard OSM tags that I will consider for all paths
+- `highway=bridleway`
+  - These are paths designated for horse riders, and correspond to bridleway terminology in the UK
+  - They may or may not be public bridleways, i.e. have a legal right of way (this is specified with the `designation=*` key)
+  - They might have a range of surfaces, so weight factor should be neutral (subject to modification from other tags)
 
 #### Sprint 2 modules
 
