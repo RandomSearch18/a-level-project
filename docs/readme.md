@@ -2663,6 +2663,29 @@ These are the `highway=*` keys that are used as top-level tags for paths:
   - These are paths designated for horse riders, and correspond to bridleway terminology in the UK
   - They may or may not be public bridleways, i.e. have a legal right of way (this is specified with the `designation=*` key)
   - They might have a range of surfaces, so weight factor should be neutral (subject to modification from other tags)
+- `highway=steps`
+  - There's nothing wrong with steps, but they can be quite arduous to climb up, so I should add to their weight to reflect that
+  - I may also want to consider the `step_count=*` tag
+  - Since I'm using an undirected graph, I won't be able to have different weights for going up and down steps, so I'll have to pick a compromise
+  - A handrail can make steps easier and safer to climb, so the presence of a handrail would make the steps more preferable
+    - I will need to consider the `handrail=*` key, as well as `handrail:left=*`, `handrail:right=*`, and `handrail:center=*`
+  - Steps should be avoided wherever possible for wheelchair users, although if `step_count=*` is just one or two, that is perhaps acceptable
+  - I considered using the `step:height=*` tag to adjust the weight factor based on the step height, but it is a poorly-documented tag (only one mention on the wiki, [Stairs modelling#Parameter](https://wiki.openstreetmap.org/wiki/Stairs_modelling#Parameter)) with only 7 uses in the UK (with [way 1318084635](https://www.openstreetmap.org/way/1318084635) pretending that cm is the default unit, for an unknown reason)
+  - Instead, I could provide less of a weight penalty for steps with a truthy `flat_steps=*` value, because they should be easier to climb (although still problematic for wheelchair users)
+    - Sadly `flat_steps=*` seems to be pretty uncommon in the UK, with only 49 uses
+  - If the stairs have a ramp, this suggests that they're there as a potentially easier option for people who don't want to climb stairs, which should improve the weight a bit
+    - And for wheelchair users, this should almost entirely cancel out the weight penalty from stairs (but not entirely because ramps have a slight inconvenience usually)
+    - If `ramp=yes` is present, we will assume that the ramp is accessible to wheelchair users (which I reckon is a safe assumption as I feel that if mappers don't feel the need to specify a ramp type, it'll probably be a wheelchair ramp)
+      - If any `ramp:*=*` keys (e.g. `ramp:bicycle=*`, `ramp:stroller=*`, `ramp:wheelchair=*`) are present, it means that the type of ramp has been specified, so we won't make that assumption. Instead, we will use the `ramp:wheelchair=*` key to determine if there is a wheelchair ramp, and if that tag isn't present, assume that the ramp is only for a non-wheelchair purpose
+  - The extra wheelchair penalty should also be removed if the steps are tagged with `wheelchair=yes` or `wheelchair=designated`, as this states that the steps are wheelchair-accessible in one way or another
+  - If the user has stated that they prefer tactile paving, we should highly prioritise steps with tactile paving at the top and bottom (i.e. `tactile_paving=yes` or `tactile_paving=partial`) and increase the weight of steps without tactile paving (`tactile_paving=no`).
+    - If tactile paving is present but incorrect (`tactile_paving=incorrect`), we should also increase its weight, as the tactile paving could just lead someone into a wall or similar
+    - I won't bother dealing with the `tactile_paving=contrasted` value, because it only has 35 UK uses at the moment and is only mentioned in one bullet point on the wiki ([Key:tactile_paving#Common values](https://wiki.openstreetmap.org/wiki/Key:tactile_paving))
+  - I won't consider the `tactile_writing=*` key, as it only has 35 uses in the UK, and I've never personally encountered it in real life
+  - I won't consider the incline of the steps (`incline=*` when it has a numeric value), because I doubt many steps ways will specify the incline value (usually direction is just specified), and it'd require a lot of thinking to work out a formula for how the incline affects the weight for when the incline isn't a "normal"/"generic" incline of steps (that we would otherwise assume that the steps have for the sake of roughly calculating a weight)
+  - If `conveying=*` is truthy on a steps way, that means it's an escalator
+    - This tag won't change the wheelchair accessibility status
+    - But escalators are easier and more fun to use than steps, so any weight penalty from being steps should be eliminated (and perhaps a slight preference given, because they're moving so less effort is required per unit distance)
 
 #### Sprint 2 modules
 
