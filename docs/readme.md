@@ -2631,7 +2631,9 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
       - It is usually especially unsuitable for wheelchair users
 - `highway=road`
   - This is a generic road of an unknown type, meaning that the road could be any kind of road
-  - This is a difficult case to deal with and there aren't really any safe assumptions to make
+  - This is a difficult case to deal with and there aren't really any safe assumptions to make, apart from not routing on it at all
+  - Fortunately, there are only 325 occurrences of it in the UK
+  - Despite this, I shall follow Postel's Law and treat it as a generic path, perhaps raising a warning somewhere
 
 ![An composite image showing examples of 5 different tracks, which correspond to the different tracktype=* grades](assets/sprint-2/tracktype.png)
 
