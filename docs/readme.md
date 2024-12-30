@@ -2585,6 +2585,18 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
       - This is a deprecated tag, but there are 381 instances in the UK, so following my Postel's Law approach, I will handle it
       - `access=no` would be a safe assumption here as they are probably bus-only roads
       - Otherwise, parse access tags as per usual and treat as a generic service road
+    - `service=layby`
+      - This is an undocumented tag that appears 270 times in the UK database
+      - Based on examples of usage (from [an Overpass Turbo query of `service=layby`](https://overpass-turbo.eu/s/1Wnq)) and its name, I can safely assume that it refers to a "lay-by" lane, where cars can park for a short time
+      - They would be further from traffic than working on the road itself, so we should probably route along them where possible if a pavement isn't present and we're on a road
+      - Penalty should be similar to a generic service road, lower than most roads, but higher than pavements and home zones
+      - It is not clear what the documented way to tag these roads is, or if one even exists
+    - `service=parking` seems to be a synonym for `service=parking_aisle`, so I should treat it as such
+      - 252 objects with this tag in the UK
+    - `service=access`
+      - Undocumented but seems to be used to describe a generic access road, so I should treat it the same as a `highway=service` with no specific `service=*` tag
+      - There are 264 of these roads mapped in the UK
+    - Any other uses of `service=*` on roads have <100 uses in the UK, so I won't give them any special behaviour past the generic service road behaviour
 - `highway=pedestrian`
 - `highway=track`
 - `highway=road`
