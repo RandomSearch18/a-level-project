@@ -2686,6 +2686,20 @@ These are the `highway=*` keys that are used as top-level tags for paths:
   - If `conveying=*` is truthy on a steps way, that means it's an escalator
     - This tag won't change the wheelchair accessibility status
     - But escalators are easier and more fun to use than steps, so any weight penalty from being steps should be eliminated (and perhaps a slight preference given, because they're moving so less effort is required per unit distance)
+- `highway=corridor`
+  - Represents an indoor corridor
+  - Corridors can be assumed to have a good surface,be well-lit, and be covered, due to being indoors, which could make them very attractive to walk along
+  - Some people may not wish to walk indoors (e.g. they just want fresh air) so there should be an option to avoid indoor paths like corridors
+  - It will be especially important to consider access tags for corridors, as many indoor places have restricted access
+  - A `highway=corridor` way seems to be semantically equivalent to a `highway=footway` + `indoor=yes` way, so I will treat them the same
+  - `highway=corridor` implies `indoor=yes`
+- `highway=path`
+  - Represents a generic path. A less-specific tag than the ones above.
+  - Whilst it is likely that `highway=path`s are traversable by foot, this cannot be assumed, as things like mountaineering routes or near-impassable trails are all tagged using `highway=path`
+  - More than any other of the tags, it is important to consider the accompanying tags on a `highway=path` to determine its weight, especially `surface=*`, as well as `sac_scale=*` and `trail_visibility=*`
+- `highway=via_ferrata`
+  - This is a route intended to be traversed using climbing equipment
+  - Such mountaineering and climbing activities are outside of the scope of a pedestrian routing engine, so I will not consider these ways to be navigable
 
 #### Sprint 2 modules
 
