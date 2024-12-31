@@ -196,6 +196,7 @@ A-level Computer Science programming project
         - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
         - [OSM tags to parse for roads](#osm-tags-to-parse-for-roads)
         - [OSM tags to parse for paths](#osm-tags-to-parse-for-paths)
+          - [`highway=path` controversy](#highwaypath-controversy)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2482,6 +2483,7 @@ Other very useful pages are:
 
 - [United Kingdom Tagging Guidelines](https://wiki.openstreetmap.org/wiki/United_Kingdom#Guidelines) lists other pages that document UK-specific tagging
 - [International highway classification equivalence](https://wiki.openstreetmap.org/wiki/International_highway_classification_equivalence) describes how OSM highway tags correspond to the legal road classifications in the UK
+- [Guidelines for pedestrian navigation](https://wiki.openstreetmap.org/wiki/Guidelines_for_pedestrian_navigation)
 
 I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available. Similarly, I will use the Taginfo tool for Great Britain ([taginfo.openstreetmap.org.uk]), which displays statistics for different tags and tag+value pairs in the UK, to get a sense of what tags are most commonly used. For example, the image above shows the tags that are most-commonly present on `highway=path` objects in the UK.
 
@@ -2700,6 +2702,28 @@ These are the `highway=*` keys that are used as top-level tags for paths:
 - `highway=via_ferrata`
   - This is a route intended to be traversed using climbing equipment
   - Such mountaineering and climbing activities are outside of the scope of a pedestrian routing engine, so I will not consider these ways to be navigable
+
+###### `highway=path` controversy
+
+![A collage showing an urban paved path, a forest path, and a mountain with no clear path, to demonstrate the wide range of situations the tag is used in](assets/sprint-2/path-controversy.png)
+
+Image credit: [Openstreetmap Paths Collage.jpg](https://commons.wikimedia.org/wiki/File:Openstreetmap_Paths_Collage.jpg) by Hungerburg, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons
+
+Because of its broad scope, and no defined distinction between it and `highway=footway`, `highway=path` is notorious for being difficult to interpret as a data consumer, especially for routers like mine. From many people's prospectives, the there is no consensus on the distinction between a `highway=path` and a `highway=footway`, with the presence of one tag or another only showing the preference of the last editor, rather than any meaningful information about the path.
+
+> Right now I am consuming data for a cycling router and highway=path is the bane of my life. &mdash; Richard's OSM Diary[^richard-diary]
+
+[^richard-diary]: _What does the path say?_, Richard's Diary (<https://www.openstreetmap.org/user/Richard/diary/20333>), accessed 2024-12-31
+
+> Horridly complex tag, everyone uses it differently.[^cyclestreets]
+
+[^cyclestreets]: _Conversion from OpenStreetMap data_, CycleStreets Help and Documentation (<https://www.cyclestreets.net/help/journey/osmconversion/>), accessed 2024-12-31
+
+> Every mapper has their own opinions as to the difference between footway and path, they are all contradictory.
+>
+> For example, mapper A marks two paths, one as footway and path. Mapper B thinks "oh, that's path, that must mean it's unsurfaced, and the footway must be surfaced". Mapper C thinks "oh, that's path, that must mean it's open to all non-motorised traffic, and that's footway so that means it's only available for pedestrians". Mapper D thinks "oh, that's path, so it must have been created by people walking over open ground repeatedly, and that's footway, so it must have been constructed". Mapper E looks at these same two paths as everyone else and thinks "oh, that's path, so that must be in a rural area, but the footway means it's in an urban area". Mapper F looks and thinks "Oh, that's strange, why did mapper A not just use path for both since it's the modern way to tag all kinds of footpaths". Mapper G realises nobody has actually asked Mapper A why they used different tags, so everyone else has just been making false assumptions.[^gravitystorm]
+
+[^gravitystorm]: Quote from Andy Allan (@gravitystorm) in a GitHub issue comment (<https://github.com/gravitystorm/openstreetmap-carto/issues/1698#issuecomment-134905532>)
 
 #### Sprint 2 modules
 
