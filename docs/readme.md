@@ -2739,7 +2739,9 @@ The `trail_visibility=*` and `sac_scale=*` tags are the most important to determ
 
 - If a `highway=path` is paved (i.e. has a `surface=*` value listed in the Paved section of the table on the wiki at [Key:surface#Paved](https://wiki.openstreetmap.org/wiki/Key:surface#Paved)), I shall treat it equivalent to a generic or paved `highway=footway`
 - If a `highway=path` is unpaved (using the table section [Key:surface#Unpaved](https://wiki.openstreetmap.org/wiki/Key:surface#Unpaved)), it will be by default slightly worse than an unpaved `highway=footway`, as footways are in theory purpose-built for pedestrians, while paths might be only maintained by people walking on them
-- If a `highway=path` has no surface tag, and is also missing other important tags (i.e. `sac_scale=*`, `trail_visibility=*`, `informal=*`, `operator=*`, and possibly others if I find them to be useful), I will apply a penalty to it, as it is potentially unsafe to route users over a "path" that could be very perilous
+- If a `highway=path` has no surface tag, and is also missing other important tags (i.e. `sac_scale=*`, `trail_visibility=*`, `access=*`, `informal=*`, `operator=*`, and possibly others if I find them to be useful), I will apply a penalty to it, as it is potentially unsafe to route users over a "path" that could be very perilous
+- As per usual, it is imperative that access tags are checked to verify if pedestrian usage is legal or not
+- Because `highway=path` is used in the same way as `highway=footway` sometimes, I will need to make sure that any logic specific to `highway=footway` is also applied to `highway=path` ways
 
 [^uk-path-tagging]: "Paths kept mainly by the fact of people walking on them or paths that are only minimally constructed are usually tagged as highway=path. [...] However, in some countries like the UK or others, this distinction does not hold and highway=footway can be used for these too.", [Tag:highway=footway](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway), OSM Wiki, accessed 2025-01-01
 
