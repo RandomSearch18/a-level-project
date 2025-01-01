@@ -2711,7 +2711,9 @@ Image credit: [Openstreetmap Paths Collage.jpg](https://commons.wikimedia.org/wi
 
 Because of its broad scope, and no defined distinction between it and `highway=footway`, `highway=path` is notorious for being difficult to interpret as a data consumer, especially for routers like mine. From many people's prospectives, the there is no consensus on the distinction between a `highway=path` and a `highway=footway`, with the presence of one tag or another only showing the preference of the last editor, rather than any meaningful information about the path.
 
-> Right now I am consuming data for a cycling router and highway=path is the bane of my life. &mdash; Richard's OSM Diary[^richard-diary]
+I will include below a few quotes from members of the OSM community regarding this topic:
+
+> Right now I am consuming data for a cycling router and highway=path is the bane of my life.[^richard-diary]
 
 [^richard-diary]: _What does the path say?_, Richard's Diary (<https://www.openstreetmap.org/user/Richard/diary/20333>), accessed 2024-12-31
 
@@ -2724,6 +2726,22 @@ Because of its broad scope, and no defined distinction between it and `highway=f
 > For example, mapper A marks two paths, one as footway and path. Mapper B thinks "oh, that's path, that must mean it's unsurfaced, and the footway must be surfaced". Mapper C thinks "oh, that's path, that must mean it's open to all non-motorised traffic, and that's footway so that means it's only available for pedestrians". Mapper D thinks "oh, that's path, so it must have been created by people walking over open ground repeatedly, and that's footway, so it must have been constructed". Mapper E looks at these same two paths as everyone else and thinks "oh, that's path, so that must be in a rural area, but the footway means it's in an urban area". Mapper F looks and thinks "Oh, that's strange, why did mapper A not just use path for both since it's the modern way to tag all kinds of footpaths". Mapper G realises nobody has actually asked Mapper A why they used different tags, so everyone else has just been making false assumptions.[^gravitystorm]
 
 [^gravitystorm]: Quote from Andy Allan (@gravitystorm) in a GitHub issue comment (<https://github.com/gravitystorm/openstreetmap-carto/issues/1698#issuecomment-134905532>)
+
+However, despite it being difficult to interpret and considered "evil"[^path-evil] by some, `highway=path` is an important tag that has is very common in the UK (375k `highway=path`s, compared to 1518k `highway=footway`s). Therefore it's essential that put adequate thought into my plan for processing it.
+
+[^path-evil]: _New road style for the Default map style - highway=path is evil_, Mateusz Konieczny's Diary (<https://www.openstreetmap.org/user/Mateusz%20Konieczny/diary/35389>), accessed 2025-01-01
+
+The main principle I will follow to parse `highway=path` ways is to use their accompanying tags to differentiate between the different and varied uses of `highway=path`, which is also the practice recommended by the wiki, and the approach taken by the other routing engines I've researched, as well as some map renderers.
+
+The `trail_visibility=*` and `sac_scale=*` tags are the most important to determine if a path is walkable, but the way they should be treated for a `highway=path` is the same as they would be for any other path, so I won't go into them specifically here.
+
+`surface=*` will probably be the most useful tag to help interpret `highway=path` ways. While this isn't specified on the wiki, I will assume that a `highway=path` is unpaved by default, and that `highway=footway`s are likely to be paved or have a decent surface. This is despite the fact that the wiki says that the usage of `highway=path` can almost entirely overlap with what `highway=footway` is documented to be used for.[^uk-path-tagging]
+
+- If a `highway=path` is paved (i.e. has a `surface=*` value listed in the Paved section of the table on the wiki at [Key:surface#Paved](https://wiki.openstreetmap.org/wiki/Key:surface#Paved)), I shall treat it equivalent to a generic or paved `highway=footway`
+- If a `highway=path` is unpaved (using the table section [Key:surface#Unpaved](https://wiki.openstreetmap.org/wiki/Key:surface#Unpaved)), it will be by default slightly worse than an unpaved `highway=footway`, as footways are in theory purpose-built for pedestrians, while paths might be only maintained by people walking on them
+- If a `highway=path` has no surface tag, and is also missing other important tags (i.e. `sac_scale=*`, `trail_visibility=*`, `informal=*`, `operator=*`, and possibly others if I find them to be useful), I will apply a penalty to it, as it is potentially unsafe to route users over a "path" that could be very perilous
+
+[^uk-path-tagging]: "Paths kept mainly by the fact of people walking on them or paths that are only minimally constructed are usually tagged as highway=path. [...] However, in some countries like the UK or others, this distinction does not hold and highway=footway can be used for these too.", [Tag:highway=footway](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway), OSM Wiki, accessed 2025-01-01
 
 #### Sprint 2 modules
 
