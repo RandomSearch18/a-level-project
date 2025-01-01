@@ -194,9 +194,10 @@ A-level Computer Science programming project
       - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
         - [Research approach for OSM tags](#research-approach-for-osm-tags)
         - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
-        - [OSM tags to parse for roads](#osm-tags-to-parse-for-roads)
-        - [OSM tags to parse for paths](#osm-tags-to-parse-for-paths)
+        - [Top-level tags to parse for roads](#top-level-tags-to-parse-for-roads)
+        - [Top-level tags to parse for paths](#top-level-tags-to-parse-for-paths)
           - [`highway=path` controversy](#highwaypath-controversy)
+        - [Other routable features](#other-routable-features)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2497,7 +2498,7 @@ I will adopt a relaxed, liberal approach to parsing OSM tags (i.e. following Pos
 
 This also matches the approach that other projects that consume OSM data take.
 
-##### OSM tags to parse for roads
+##### Top-level tags to parse for roads
 
 I will recognise a number of top-level tags to classify a way as a road, according to the [Key:highway#Highway](https://wiki.openstreetmap.org/wiki/Key:highway#Highway) section on the wiki. Roads may or may not be traversable by foot on the main road surface, and may or may not have sidewalk (i.e. pavement) tags that specifies that the road has a pavement that can be traversed. Naturally, a road with a pavement would be nearly as preferable, or more preferable (depending on additional tags and settings), than a footpath separate from a road. On the other hand, a road without a pavement would be less advisable to walk across, and its utility will depend on the classification of the road.
 
@@ -2649,7 +2650,7 @@ I will not consider the following top-level highway tags:
 - `highway=raceway` - It is unlikely that my users will want to walk along a race track or a similar track/course
 - `highway=busway` - This is a kind of bus-only road, not meant to be used by pedestrians
 
-##### OSM tags to parse for paths
+##### Top-level tags to parse for paths
 
 Similarly to roads, there exist a number of `highway=*` keys for paths, which are often the best choices for pedestrian navigation paths.
 
@@ -2744,6 +2745,17 @@ The `trail_visibility=*` and `sac_scale=*` tags are the most important to determ
 - Because `highway=path` is used in the same way as `highway=footway` sometimes, I will need to make sure that any logic specific to `highway=footway` is also applied to `highway=path` ways
 
 [^uk-path-tagging]: "Paths kept mainly by the fact of people walking on them or paths that are only minimally constructed are usually tagged as highway=path. [...] However, in some countries like the UK or others, this distinction does not hold and highway=footway can be used for these too.", [Tag:highway=footway](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway), OSM Wiki, accessed 2025-01-01
+
+##### Other routable features
+
+Some features don't fall under any of the tags for `highway=*` features examined above, but can still be walked along by pedestrians and therefore are still a good idea to be considered routable.
+
+- `highway=emergency_bay`
+  - This corresponds to Emergency Refuge Areas (on motorways) in the UK
+  - They are only for emergency use, and I can't imagine them being used by pedestrians in day-to-day life
+  - However, if a user is in an emergency situation, it they might have to slightly walk along the emergency bay
+  - ~~They are similar to lay-bys but should have a higher weight as they are only for emergencies~~
+  - I have checked the usage of the tag in the UK using Overpass Turbo, and have noticed that the tag does not get used as a line representing the path of the emergency bay (because there is no physical separation between the bay and the road), and instead is either mapped as a node (which is correct but doesn't add anything to the routing graph), or incorrectly as an area (which isn't useful for routing either). Therefore, I will ignore this tag.
 
 #### Sprint 2 modules
 
