@@ -2842,6 +2842,20 @@ Here I will very briefly describe the purpose of the tags (additional informatio
     - These paths can be fun to traverse, but can also be a major inconvenience, so they should have a high weight factor and the user should be able to decide if they want to consider them, using the options system
   - `sac_scale=alpine_hiking` requires basic mountaineering skills (e.g. steep grassy pitches) so should have an even higher weight
   - `sac_scale=demanding_alpine_hiking` and `sac_scale=difficult_alpine_hiking` require climbing skills, so should be considered impassable for the purposes of this pedestrian navigation tool
+- `trail_visibility=*` describes how easy the path is to make out on the ground
+  - `trail_visibility=excellent` means that the path is obvious and can easily be followed, which makes them much easier to walk along than the other values. This should be given a slight preference.
+    - By default, we'll assume that purpose-built paths (`highway=footway`, `highway=cycleway`, anything with `operator=*`) will have `trail_visibility=excellent`
+    - For `highway=path`s, it's important that `trail_visibility=*` is tagged explicitly
+  - With `trail_visibility=good`, the route can mostly be followed, but you'd have to pay attention and check the map every so often. This is extra effort so we'll add a slight penalty.
+  - With any of the worse values, you'll need to follow along with a map.
+    - Since the user will have a map with live directions and GPS, it should still be okay to follow the path, even if it's entirely invisible on the ground (e.g. some less-used public footpaths)
+    - We'll add a slightly greater penalty than `trail_visibility=good` for these paths
+- If `trailblazed=*` has a truthy value, we should prefer it, because:
+  - It's more likely to be an upkept path, either officially or by the community
+  - It'd be easier to follow when there are markers
+- `width=*`
+  - Wider paths should be preferred because they're easier to walk along, and it's easier to pass people
+  - We should start reducing the weight of paths when they're more than 2 metres wide
 
 ###### Tags for walking along roads or attached pavements
 
