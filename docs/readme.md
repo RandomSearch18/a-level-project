@@ -2856,6 +2856,12 @@ Here I will very briefly describe the purpose of the tags (additional informatio
 - `width=*`
   - Wider paths should be preferred because they're easier to walk along, and it's easier to pass people
   - We should start reducing the weight of paths when they're more than 2 metres wide
+  - If `width=*` isn't tagged, we'll check `est_width=*` too
+  - I don't think we'll need to consider width of roads, since I'm not sure if wider or narrower roads should be preferred for walking
+- `designation=*`: In the UK this is used to mark public rights of way
+  - If a path is tagged with the value `public_footpath`, `public_bridleway`, `restricted_byway`, `byway_open_to_all_traffic`, or the generic `public_right_of_way`, we should prefer it, as they are legally guaranteed to be accessible and we can safely assume `foot=yes`
+  - Scotland has `designation=core_path`s, which are similar, so we should treat those in the same way
+  - <!-- TODO Northern Ireland? -->
 
 ###### Tags for walking along roads or attached pavements
 
