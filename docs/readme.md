@@ -206,8 +206,6 @@ A-level Computer Science programming project
           - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
           - [Tags for names and references](#tags-for-names-and-references)
           - [Access tags](#access-tags)
-          - [Access keys](#access-keys)
-          - [Access values](#access-values)
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
@@ -2907,15 +2905,11 @@ OSM has a system of "access tags", including a number of keys and values, that d
 
 I will consider access tags on both nodes and ways in the same way, but I won't consider access tags on areas as per my section about [tags on areas](#tags-on-areas-that-the-route-goes-through).
 
-###### Access keys
-
 Access keys cover a massive range of transport options, but since this is a pedestrian-only router, we will only need to consider the `foot=*` key, with the `access=*` key as a broader fallback. I won't be considering `dog=*` as none of my stakeholder plan to use my router for dog-walking.
 
 `wheelchair=*` describes a physical access restriction, not a legal one. That key has been addressed above.
 
-###### Access values
-
-For all of these values, we will fall back to checking the `access=*` key if the `foot=*` key isn't present.
+Below is a list of access tag values I will consider. For all of them, we will fall back to checking the `access=*` key if the `foot=*` key isn't present.
 
 - When `foot=yes` or `foot=permissive`, pedestrians are allowed to walk along the path, so we can proceed to route along them.
 - `foot=designated` should be treated as `foot=yes` and given a preference, as we should prefer to route pedestrians over paths designated for them
