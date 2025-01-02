@@ -198,6 +198,7 @@ A-level Computer Science programming project
         - [Top-level tags to parse for paths](#top-level-tags-to-parse-for-paths)
           - [`highway=path` controversy](#highwaypath-controversy)
         - [Other routable features](#other-routable-features)
+        - [Attribute tags to parse for paths](#attribute-tags-to-parse-for-paths)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2500,6 +2501,8 @@ This also matches the approach that other projects that consume OSM data take.
 
 ##### Top-level tags to parse for roads
 
+Top-level tags are OSM tags that define what an object actually _is_. In the case of the `highway=*` key, it groups roads and paths into broad categories depending on importance and function.
+
 I will recognise a number of top-level tags to classify a way as a road, according to the [Key:highway#Highway](https://wiki.openstreetmap.org/wiki/Key:highway#Highway) section on the wiki. Roads may or may not be traversable by foot on the main road surface, and may or may not have sidewalk (i.e. pavement) tags that specifies that the road has a pavement that can be traversed. Naturally, a road with a pavement would be nearly as preferable, or more preferable (depending on additional tags and settings), than a footpath separate from a road. On the other hand, a road without a pavement would be less advisable to walk across, and its utility will depend on the classification of the road.
 
 In addition, for some roads, it may be illegal to walk along them, either explicitly specified by the `foot=*` access tag, or implicitly by the road's classification (motorways and motorway links cannot be walked on in the UK).
@@ -2770,6 +2773,10 @@ Image credit: [Path and cycle path, Comber](https://commons.wikimedia.org/wiki/F
   - `highway=cycleway`s (along with `highway=footway`s) are the main path types that will use the `segregated=*` tag. I will describe how this tag will be treated in a below section, with all the other path attributes.
 
 [^uk-access-defaults]: [OSM tags for routing/Access restrictions#United Kingdom](https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions#United_Kingdom), OSM Wiki, accessed 2025-01-02
+
+##### Attribute tags to parse for paths
+
+Any OSM tags that aren't top-level tags provide additional information (or attributes, sometimes called metadata) about the path (or road) they are present on, and therefore I will call them "attribute tags". There is a large number of of documented tags for describing tags, and it is essential that I process them bo build a more accurate picture of the path in the real-world, to ensure my routing graph weights are as accurate and useful as possible.
 
 #### Sprint 2 modules
 
