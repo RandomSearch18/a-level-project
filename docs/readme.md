@@ -199,6 +199,7 @@ A-level Computer Science programming project
           - [`highway=path` controversy](#highwaypath-controversy)
         - [Other routable features](#other-routable-features)
         - [Attribute tags to parse for paths and roads](#attribute-tags-to-parse-for-paths-and-roads)
+          - [Tags that apply to paths (or roads being walked along)](#tags-that-apply-to-paths-or-roads-being-walked-along)
           - [Tags for walking along paths](#tags-for-walking-along-paths)
           - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
           - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
@@ -2792,6 +2793,8 @@ Because of the massive number of different attribute tags that exist for roads (
 
 Here I will very briefly describe the purpose of the tags (additional information is available on the OSM Wiki), and justify and explain how they will be used in the routing engine.
 
+###### Tags that apply to paths (or roads being walked along)
+
 - `ford=yes` should increase weight very significantly, as it is difficult for pedestrians to cross a ford
   - If it's a `ford=stepping_stones`, then that's much better for pedestrians, although they still need care to cross, and there is a possible risk of injury, so it should still increase weight by a similar amount to a `sac_scale=mountain_hiking` path
     - Any path with `surface=stepping_stones` should be treated this way too
@@ -2801,6 +2804,22 @@ Here I will very briefly describe the purpose of the tags (additional informatio
   - It has been suggested that the maximum incline that is suitable for wheelchair users is 2.5%[^wheelchair-incline]
   - Parsing numerical values of this tag will require me to convert degrees to percentages, where that is the unit used
   - For non-wheelchair users, I won't scale the penalty based on steepness of the incline, as this is difficult to get an intuition for so it would be hard to make a good formula for it
+- `smoothness=*` is an important tag that, where present, describes how smooth the surface is
+  - It'll be easier and nicer to walk along a smooth path
+  - Very rough paths might pose a trip hazard, which could be dangerous if unprepared
+  - `smoothness=intermediate` and above are all pretty good for walking along, so they should be preferred
+  - `smoothness=intermediate` and above should also bee good for wheelchair users
+  - `smoothness=very_bad` to `smoothness=very_horrible` paths are likely walkable but will be less pleasant to walk along
+  - `smoothness=impassable` refers to being impassable for wheeled vehicles, but might be traversable on foot. We should avoid unless `sac_scale=*` is present and indicates that it is a walkable path
+- `surface=*` is a very important tag for deciding how desirable a path will be
+  - Tarmac surfaces are usually nice and smooth, so we'll assume `smoothness=good` for `asphalt` and `chipseal`
+  - Similarly smooth paved surfaces: `paving_stones:lanes`, `paving_stones`, `bricks`, `concrete:plates`, `concrete:lanes`, `concrete`
+  - Other paved surfaces are still nice to walk on but may not be as smooth: `grass_paver`, `sett`, `unhewn_cobblestone`, `metal`, `metal_grid`, `wood`, `rubber`, `tiles`
+    - I will also include the generic value `paved`, the ambiguous value `cobblestone`, and the deprecated value `cobblestone:flattened` in this category, as the distinctions for these values doesn't matter in this case
+  - The following surfaces are unpaved but nice to walk on: `compacted`, `fine_gravel`, `gravel`, `shells`, `rock`, `pebblestone`, `woodchips`
+  - And the following surfaces are unpaved and bare ground, so not quite as nice to walk on: `dirt`, `grass`, `sand`, `snow`
+    - I will also include `earth` as an alias for `dirt`, as well as considering the generic `unpaved` value to be among these values
+  - `mud` isn't fun to walk on, so I should add a particularly high penalty for it
 
 [^wheelchair-incline]: "The thesis concludes that current crossfall guidelines of 2.5% seem reasonable, and that inexperienced users may struggle when these guidelines are exceeded.", _The Effect of Footway Crossfall Gradient on Wheelchair Accessibility_ by Catherine Holloway (<https://discovery.ucl.ac.uk/id/eprint/1310252/1/1310252.pdf>), accessed 2025-01-02
 
@@ -2833,6 +2852,8 @@ Here I will very briefly describe the purpose of the tags (additional informatio
 ###### Tags only for walking along roads
 
 - If `lanes=*` is above or equal to 2, we should add a large penalty, as it would feel dangerous to walk along a road with multiple lanes of car traffic
+- `shoulder=yes` (or another truthy value) suggests that the road might be a bit easier and safer to walk along
+  - e.g. Part of the A22 through East Grinstead is tagged as `shoulder=yes` and `sidewalk=no`
 
 ###### Tags for names and references
 
