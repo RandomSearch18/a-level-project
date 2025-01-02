@@ -2750,12 +2750,22 @@ The `trail_visibility=*` and `sac_scale=*` tags are the most important to determ
 
 Some features don't fall under any of the tags for `highway=*` features examined above, but can still be walked along by pedestrians and therefore are still a good idea to be considered routable.
 
+![Photo of a segregated path for pedestrians and cyclists in Comber, Northern Ireland](assets/sprint-2/cycle-path.png)
+
 - `highway=emergency_bay`
   - This corresponds to Emergency Refuge Areas (on motorways) in the UK
   - They are only for emergency use, and I can't imagine them being used by pedestrians in day-to-day life
   - However, if a user is in an emergency situation, it they might have to slightly walk along the emergency bay
   - ~~They are similar to lay-bys but should have a higher weight as they are only for emergencies~~
   - I have checked the usage of the tag in the UK using Overpass Turbo, and have noticed that the tag does not get used as a line representing the path of the emergency bay (because there is no physical separation between the bay and the road), and instead is either mapped as a node (which is correct but doesn't add anything to the routing graph), or incorrectly as an area (which isn't useful for routing either). Therefore, I will ignore this tag.
+- `highway=cycleway`
+  - This represents a cycle path (physically separated from any roads)
+  - While these are designated for cyclists, in the UK they are also accessible to pedestrians by default (i.e. we can assume `foot=yes`) so they should be considered in the routing graph
+  - Similarly to `highway=footway`, they are usually purpose-built, and therefore likely to be well-maintained, with a good surface, and nice to walk along
+  - Because they are mainly intended for cyclists, they should be less preferable than `highway=footway`s by default
+  - However, in many cases (e.g. the pavement on Lower Road), they are signposted as mixed-use paths (i.e. pedestrians and cyclists)
+    - This is indicated by the `foot=designated` tag being present, and/or `segregated=yes` or `segregated=no` (both of which indicate that a road sign has designated the path for both pedestrians and cyclists)
+  - `highway=cycleway`s (along with `highway=footway`s) are the main path types that will use the `segregated=*` tag. I will describe how this tag will be treated in a below section, with all the other path attributes.
 
 #### Sprint 2 modules
 
