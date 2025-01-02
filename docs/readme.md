@@ -1584,7 +1584,7 @@ OSMnx is also used by Routor, my beloved Python routing engine.
 
 ###### OSMnx citation
 
-Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/>
+Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/> <!-- cspell:disable-line -->
 
 ##### PyOsmium research
 
@@ -1925,7 +1925,7 @@ print(graph)
 
 ##### Connecting the graph to the OSM data
 
-I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was purplexing.
+I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was perplexing.
 
 ![](assets/sprint-1/my-first-graph-3.png)
 
@@ -2005,7 +2005,7 @@ This error suggested that I don't need to simplify the graph anyway, so I can dr
 
 ##### Creating classes
 
-The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a paremeter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
+The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a parameter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
 
 ```python
 class RoutingGraph:
@@ -2049,17 +2049,17 @@ I didn't want to have to set up a package and other things I don't yet understan
 from routing_engine import RoutingEngine
 ```
 
-I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backedn folder, so that it runs correctly when I press <kbd>F5</kbd>.
+I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backend folder, so that it runs correctly when I press <kbd>F5</kbd>.
 
 ##### Creating more classes
 
-I continued to work on creating the classes and data structres from my class diagram, implementing:
+I continued to work on creating the classes and data structures from my class diagram, implementing:
 
 - The `Coordinates` data structure (in a new `osm_data_types.py` file)
 - The `RouteCalculator` class
 - Stubs for the `RouteResult` and `RoutingOptions` classes
 
-I added `raise NotImplementedError` lines, and to-do comments where appropiate, because I will implement the logic for the other classes in future sprints.
+I added `raise NotImplementedError` lines, and to-do comments where appropriate, because I will implement the logic for the other classes in future sprints.
 
 #### Frontend: Implementing the UI design
 
@@ -2126,7 +2126,7 @@ I then added a bottom navigation bar using DaisyUI's `btm-nav` class, as well as
 
 ```html
 <div class="btm-nav">
-  <button class="active border-pinx-600 bg-pink-200 text-pink-600">
+  <button class="active border-pink-600 bg-pink-200 text-pink-600">
     <span class="btm-nav-label">Map</span>
   </button>
   <button class="bg-pink-200 text-pink-600">
@@ -2145,7 +2145,7 @@ I also adjusted the main map to have the correct height:
 +  height: calc(100dvh - 4rem);
 ```
 
-And made the page title screenreader-only, so that the view matches my mockup, while preserving accessibility:
+And made the page title screen-reader-only, so that the view matches my mockup, while preserving accessibility:
 
 ```diff
 -<h1>Marvellous mapping machine</h1>
@@ -2367,7 +2367,7 @@ I showed him the deployed site on a school computer. Overall, he liked the usabi
 
 He tested the "show my location" feature and we were both very impressed with its precision and accuracy, identifying us correctly down to the room we were in. He wanted to know how it was so accurate.
 
-He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noed that when zomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement. James was able to successfully and quickly find the Old Trafford football stadium, which proves that the app was intuitive and fast to use.
+He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noted that when zoomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement. James was able to successfully and quickly find the Old Trafford football stadium, which proves that the app was intuitive and fast to use.
 
 ##### Sprint 1 feedback from Ili
 
@@ -2394,11 +2394,11 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
 3. ✅ As a mobile user, I want the UI to fit well on my screen and be easy to use
    - The web app was developed mobile-first, and my stakeholders liked the mobile UI
 4. ✅ As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
-   - This sprint succesfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
+   - This sprint successfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
 5. ✅ As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
    - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
 
-All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+All user story requirements have been met with largely positive stakeholder responses, and I have also identified features I can touch up on in the next sprint.
 
 ## Sprint 2 (2024-12-09 onwards)
 
@@ -2433,9 +2433,9 @@ I have encountered a number of different methods for running Python code in the 
 
 ##### Official WASM platform support from Python
 
-[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platfrom uses the WASI specifacation amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platform uses the WASI specification amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
 
-However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add Webassembly support to CPython.
+However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add WebAssembly support to CPython.
 
 [^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
 
@@ -2461,7 +2461,7 @@ Therefore, I feel reasonably confident that my libraries will work in a PyScript
 
 ![Cartoon banner image for py2wasm, from the Wasmer blog](assets/sprint-2/py2wasm.png)
 
-`py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promses to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
+`py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promises to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
 
 - I'm not sure if it's intended to be used on the web, or just in WASI environments (like Wasmer)
 - It doesn't (yet) have a proper project page or documentation, just a blog post from the Wasmer company
@@ -3218,7 +3218,7 @@ function MainMap() {
 }
 ```
 
-Note that I unwrapped the `leaflet` observable at the start of the function, as it provides a convinient way to check if the library has loaded yet. However, this pattern does mean that I can't use `leaflet` as a variable name in the function, as it would conflict with the name of the `leaflet` observable. I could rename the observable, but I decided just to use the `L` variable name within the function (which is standard for Leaflet anyway). I decided I was happy with that situation.
+Note that I unwrapped the `leaflet` observable at the start of the function, as it provides a convenient way to check if the library has loaded yet. However, this pattern does mean that I can't use `leaflet` as a variable name in the function, as it would conflict with the name of the `leaflet` observable. I could rename the observable, but I decided just to use the `L` variable name within the function (which is standard for Leaflet anyway). I decided I was happy with that situation.
 
 I questioned if `MainMap.tsx` was a good place to put the `leaflet` observable, because it felt weird to have the logic for loading a library in a component file, but I decided that it wouldn't cause any issues.
 
