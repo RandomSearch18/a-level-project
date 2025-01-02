@@ -204,6 +204,7 @@ A-level Computer Science programming project
           - [Tags for pavements mapped as attributes on road ways](#tags-for-pavements-mapped-as-attributes-on-road-ways)
           - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
           - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
+          - [Tags for nodes encountered along a path or road](#tags-for-nodes-encountered-along-a-path-or-road)
           - [Tags for names and references](#tags-for-names-and-references)
           - [Access tags](#access-tags)
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
@@ -2870,6 +2871,8 @@ Here I will very briefly describe the purpose of the tags (additional informatio
   - This is because it'll likely to be more comfortable and safe to walk along a footpath where pedestrians and cyclists are segregated
   - If the tag is missing, we won't change the weight (although we also use `segregated=*` to decide if a `highway=cycleway` is mixed-use or not)
 - If `wheelchair=no`, we'll add a very high penalty if the user has requested a wheelchair-accessible route, and `wheelchair=yes` paths should be quite significantly preferred also
+- `obstacle=vegetation` should increase weight slightly, as it is slower to walk through these paths, more annoying, and there might be risk of injury.
+  - Other `obstacle=*` values exist, but are even rarer than the already-rare `obstacle=vegetation` value, and the proposal for specifying the key is inactive
 
 ###### Tags for pavements mapped as attributes on road ways
 
@@ -2888,6 +2891,12 @@ Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the U
 - If `lanes=*` is above or equal to 2, we should add a large penalty, as it would feel dangerous to walk along a road with multiple lanes of car traffic
 - `shoulder=yes` (or another truthy value) suggests that the road might be a bit easier and safer to walk along
   - e.g. Part of the A22 through East Grinstead is tagged as `shoulder=yes` and `sidewalk=no`
+
+###### Tags for nodes encountered along a path or road
+
+Nodes can sometimes contribute a nonzero weight value, if they present a hazard, restriction, or inconvenience to pedestrians.
+
+- `obstacle=vegetation` should be treated as is on ways
 
 ###### Tags for names and references
 
