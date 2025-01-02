@@ -198,7 +198,11 @@ A-level Computer Science programming project
         - [Top-level tags to parse for paths](#top-level-tags-to-parse-for-paths)
           - [`highway=path` controversy](#highwaypath-controversy)
         - [Other routable features](#other-routable-features)
-        - [Attribute tags to parse for paths](#attribute-tags-to-parse-for-paths)
+        - [Attribute tags to parse for paths and roads](#attribute-tags-to-parse-for-paths-and-roads)
+          - [Tags for walking along paths](#tags-for-walking-along-paths)
+          - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
+          - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
+          - [Tags for names and references](#tags-for-names-and-references)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2774,9 +2778,65 @@ Image credit: [Path and cycle path, Comber](https://commons.wikimedia.org/wiki/F
 
 [^uk-access-defaults]: [OSM tags for routing/Access restrictions#United Kingdom](https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions#United_Kingdom), OSM Wiki, accessed 2025-01-02
 
-##### Attribute tags to parse for paths
+##### Attribute tags to parse for paths and roads
 
 Any OSM tags that aren't top-level tags provide additional information (or attributes, sometimes called metadata) about the path (or road) they are present on, and therefore I will call them "attribute tags". There is a large number of of documented tags for describing tags, and it is essential that I process them bo build a more accurate picture of the path in the real-world, to ensure my routing graph weights are as accurate and useful as possible.
+
+Because of the massive number of different attribute tags that exist for roads (Taginfo UK lists 3070 different keys with at least 2 uses on `highway=*` objects, and 725 with at least 100 uses), I will have to carefully decide which tags will give me the most value, and avoid wasting time on other tags. For this reason, I will simply skip writing about a tag that won't be useful to me or the routing engine, which could be for one or more of the following reasons:
+
+- Tag is only useful for car routing, e.g. `change=*`
+- Tag doesn't seem relevant to the UK, or I have never encountered what it describes, e.g. `bicycle_road=*`
+- Tag describe the presence of something that isn't relevant to pedestrian routing, e.g. `bus_bay=*`
+- Tag describes an attribute that is very unlikely to be a useful thing to factor into weights, e.g. `abutters=*`
+- Tag is only useful for another mode of transport or sport, e.g. `mtb:scale=*`
+
+Here I will very briefly describe the purpose of the tags (additional information is available on the OSM Wiki), and justify and explain how they will be used in the routing engine.
+
+- `ford=yes` should increase weight very significantly, as it is difficult for pedestrians to cross a ford
+  - If it's a `ford=stepping_stones`, then that's much better for pedestrians, although they still need care to cross, and there is a possible risk of injury, so it should still increase weight by a similar amount to a `sac_scale=mountain_hiking` path
+    - Any path with `surface=stepping_stones` should be treated this way too
+    - We should assume `wheelchair=no` for stepping stones
+  - `ford=yes` can be present on a way or on a node on a way, and we should parse both
+- If `incline=*` is a non-zero value (including `up` or `down` or `yes`), we should add a slight penalty
+  - It has been suggested that the maximum incline that is suitable for wheelchair users is 2.5%[^wheelchair-incline]
+  - Parsing numerical values of this tag will require me to convert degrees to percentages, where that is the unit used
+  - For non-wheelchair users, I won't scale the penalty based on steepness of the incline, as this is difficult to get an intuition for so it would be hard to make a good formula for it
+
+[^wheelchair-incline]: "The thesis concludes that current crossfall guidelines of 2.5% seem reasonable, and that inexperienced users may struggle when these guidelines are exceeded.", _The Effect of Footway Crossfall Gradient on Wheelchair Accessibility_ by Catherine Holloway (<https://discovery.ucl.ac.uk/id/eprint/1310252/1/1310252.pdf>), accessed 2025-01-02
+
+###### Tags for walking along paths
+
+- `sac_scale=*` describes how difficult it is to walk along a path
+  - It has
+  - `sac_scale=strolling` paths can be very easily walked along, e.g. even with flip-flops, or using crutches, or pushing a pushchair
+    - We'll assume `smoothness=intermediate` for these paths, because they shouldn't have any obstacles that can be tripped over
+    - These are likely to be nice, accessible paths, so they should be highly preferred
+    - This is a very new tag (proposal accepted 2024-10-29) and unfortunately has no uses in the UK currently, but I will implement support for it anyway in preparation for when it becomes more widely used and to help encourage use of the tag
+  - `sac_scale=hiking` can be navigated with normal shoes
+    - Since paths that would now be categorised as `sac_scale=strolling` are still tagged as `sac_scale=hiking`, I won't add any penalties for this tag, even for wheelchair users
+  - `sac_scale=mountain_hiking` requires attention to be paid to the path, with "somewhat bigger obstacles like stones or smaller rocks"
+    - 29% of UK paths with `sac_scale=*` are `sac_scale=mountain_hiking`
+    - These paths should be avoided if a nice path is available, but they are still okay if they're the only path in an area
+    - We will assume `wheelchair=no` for this level and above
+  - `sac_scale=demanding_mountain_hiking` could be dangerous due to obstacles like boulders, and needing to use hands for balance
+    - This value is used 5% of the time in the UK
+    - These paths can be fun to traverse, but can also be a major inconvenience, so they should have a high weight factor and the user should be able to decide if they want to consider them, using the options system
+  - `sac_scale=alpine_hiking` requires basic mountaineering skills (e.g. steep grassy pitches) so should have an even higher weight
+  - `sac_scale=demanding_alpine_hiking` and `sac_scale=difficult_alpine_hiking` require climbing skills, so should be considered impassable for the purposes of this pedestrian navigation tool
+
+###### Tags for walking along roads or attached pavements
+
+- We should parse common `maxspeed=*` values, reducing weight if the limit is 20 or below, and increasing if it's 50 or above
+  - This is because pedestrians will likely feel more comfortable walking along or beside slower roads
+  - This factor should be significantly increased if we're walking on the actual road
+
+###### Tags only for walking along roads
+
+- If `lanes=*` is above or equal to 2, we should add a large penalty, as it would feel dangerous to walk along a road with multiple lanes of car traffic
+
+###### Tags for names and references
+
+- `destination=*` - I won't use, as it is a lot of effort to parse correctly, is mainly useful for drivers (especially on major roads), and including (e.g. "towards London") in instructions will be of very limited use to a pedestrian on a pavement
 
 #### Sprint 2 modules
 
