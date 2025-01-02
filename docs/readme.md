@@ -201,6 +201,7 @@ A-level Computer Science programming project
         - [Attribute tags to parse for paths and roads](#attribute-tags-to-parse-for-paths-and-roads)
           - [Tags that apply to paths (or roads being walked along)](#tags-that-apply-to-paths-or-roads-being-walked-along)
           - [Tags for walking along paths](#tags-for-walking-along-paths)
+          - [Tags for pavements mapped as attributes on road ways](#tags-for-pavements-mapped-as-attributes-on-road-ways)
           - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
           - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
           - [Tags for names and references](#tags-for-names-and-references)
@@ -2862,6 +2863,16 @@ Here I will very briefly describe the purpose of the tags (additional informatio
   - If a path is tagged with the value `public_footpath`, `public_bridleway`, `restricted_byway`, `byway_open_to_all_traffic`, or the generic `public_right_of_way`, we should prefer it, as they are legally guaranteed to be accessible and we can safely assume `foot=yes`
   - Scotland has `designation=core_path`s, which are similar, so we should treat those in the same way
   - <!-- TODO Northern Ireland? -->
+- `segregated=yes` paths should be preferred to paths where `segregated=no`
+  - This is because it'll likely to be more comfortable and safe to walk along a footpath where pedestrians and cyclists are segregated
+  - If the tag is missing, we won't change the weight (although we also use `segregated=*` to decide if a `highway=cycleway` is mixed-use or not)
+- If `wheelchair=no`, we'll add a very high penalty if the user has requested a wheelchair-accessible route, and `wheelchair=yes` paths should be quite significantly preferred also
+
+###### Tags for pavements mapped as attributes on road ways
+
+When routing along a pavement that is mapped by specifying `sidewalk=*` or `sidewalk:left=*`/`sidewalk:right=*`, the `sidewalk:left:surface` and `sidewalk:right:surface` tags should be interpreted in the same way as the `surface=*` tag for separately-mapped pavements (and paths in general).
+
+Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the UK to bother parsing.
 
 ###### Tags for walking along roads or attached pavements
 
@@ -2876,6 +2887,8 @@ Here I will very briefly describe the purpose of the tags (additional informatio
   - e.g. Part of the A22 through East Grinstead is tagged as `shoulder=yes` and `sidewalk=no`
 
 ###### Tags for names and references
+
+Tags like `name=*` and `ref=*` are used to specify names (e.g. Portsmouth Road) and references numbers (e.g. A3) for roads and paths. While they are useful when outputting a list of instructions, that is outside the scope of my routing engine, so I won't be including them.
 
 - `destination=*` - I won't use, as it is a lot of effort to parse correctly, is mainly useful for drivers (especially on major roads), and including (e.g. "towards London") in instructions will be of very limited use to a pedestrian on a pavement
 
