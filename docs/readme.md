@@ -205,6 +205,10 @@ A-level Computer Science programming project
           - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
           - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
           - [Tags for names and references](#tags-for-names-and-references)
+          - [Access tags](#access-tags)
+          - [Access keys](#access-keys)
+          - [Access values](#access-values)
+          - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2850,6 +2854,7 @@ Here I will very briefly describe the purpose of the tags (additional informatio
   - With `trail_visibility=good`, the route can mostly be followed, but you'd have to pay attention and check the map every so often. This is extra effort so we'll add a slight penalty.
   - With any of the worse values, you'll need to follow along with a map.
     - Since the user will have a map with live directions and GPS, it should still be okay to follow the path, even if it's entirely invisible on the ground (e.g. some less-used public footpaths)
+    - However, we should tell the user that the route won't be very visible on the ground
     - We'll add a slightly greater penalty than `trail_visibility=good` for these paths
 - If `trailblazed=*` has a truthy value, we should prefer it, because:
   - It's more likely to be an upkept path, either officially or by the community
@@ -2891,6 +2896,44 @@ Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the U
 Tags like `name=*` and `ref=*` are used to specify names (e.g. Portsmouth Road) and references numbers (e.g. A3) for roads and paths. While they are useful when outputting a list of instructions, that is outside the scope of my routing engine, so I won't be including them.
 
 - `destination=*` - I won't use, as it is a lot of effort to parse correctly, is mainly useful for drivers (especially on major roads), and including (e.g. "towards London") in instructions will be of very limited use to a pedestrian on a pavement
+
+###### Access tags
+
+While OSM data is community-contributed and therefore not a source of truth for legal access, it does have a system for describing legal access, and when the data is present it is quite accurate.
+
+As a routing engine, it is important to consider the legality of any route that is provided to users. While it can't guarantee that a route will be legal (users must ensure they respect any signs or laws they encounter while walking), it should make the most of the data it has, so that illegal routes aren't suggested.
+
+OSM has a system of "access tags", including a number of keys and values, that describe legal restrictions for areas, nodes, and paths.
+
+I will consider access tags on both nodes and ways in the same way, but I won't consider access tags on areas as per my section about [tags on areas](#tags-on-areas-that-the-route-goes-through).
+
+###### Access keys
+
+Access keys cover a massive range of transport options, but since this is a pedestrian-only router, we will only need to consider the `foot=*` key, with the `access=*` key as a broader fallback. I won't be considering `dog=*` as none of my stakeholder plan to use my router for dog-walking.
+
+`wheelchair=*` describes a physical access restriction, not a legal one. That key has been addressed above.
+
+###### Access values
+
+For all of these values, we will fall back to checking the `access=*` key if the `foot=*` key isn't present.
+
+- When `foot=yes` or `foot=permissive`, pedestrians are allowed to walk along the path, so we can proceed to route along them.
+- `foot=designated` should be treated as `foot=yes` and given a preference, as we should prefer to route pedestrians over paths designated for them
+- If `foot=private`, the route isn't intended to be used by members of the public
+  - We will assume that the user is not allowed to walk along these paths, so avoid routing over them
+  - However, it's possible that the user wants to route through a private-access area that they _do_ have permission to access, so we should provide an option to allow routing through private paths, but ensure we highlight private sections of the route so that the user can double-check that they have permission to walk there
+- If `foot=no`, it is entirely illegal to walk along this path, so we shouldn't allow it in any situations
+  - e.g. illegal railway crossings, roads you aren't allowed to walk along
+- For `foot=customers` (access for customers only), they should be allowed by default (with an option to avoid them), and the user should be notified of this restriction
+- For `foot=destination`, we will similarly assume that the user is allowed to walk along these paths, but they should be notified of the restriction and allowed to avoid them
+- We will treat `foot=agricultural`, `foot=forestry`, `foot=delivery`, and `foot=military` as `foot=private`, as we can assume that users of this routing engine won't be in any of those respective categories
+- If `foot=use_sidepath`, we will never route along the road itself, but allow routing along a pavement (i.e. tagged with `sidewalk=*` or similar)
+- We will treat `foot=permit` the same way as `foot=customers`, ensuring we point out that a permit may be required
+- `foot=official` is deprecated but we can treat it as `foot=yes`
+
+###### Tags on areas that the route goes through
+
+Ideally, I would like to consider tags added to areas that paths go through, e.g. `hazard=shooting_range` areas, or access tags on areas. However, I can't think of a way to implement this with my routing graph system, so for now, I won't consider any enclosing areas when calculating routes.
 
 #### Sprint 2 modules
 
