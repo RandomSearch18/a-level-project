@@ -209,6 +209,7 @@ A-level Computer Science programming project
           - [Access tags](#access-tags)
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
           - [Handling pavements](#handling-pavements)
+          - [Road crossings](#road-crossings)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2898,6 +2899,10 @@ Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the U
 Nodes can sometimes contribute a nonzero weight value, if they present a hazard, restriction, or inconvenience to pedestrians.
 
 - `obstacle=vegetation` should be treated as is on ways
+- Access tags should be considered as specified in the [access tags](#access-tags) section
+  - There is an exception to this behaviour for `highway=crossing` nodes on roads (where access tags only apply to users of the crossing, not the road).[^access-on-crossing] However, this is very unlikely to affect pedestrian access, so I won't consider it
+
+[^access-on-crossing]: "A `no` value for an access tag like `bicycle=*` or `horse=*` on a `highway=crossing` node is meant to apply only to traffic on the crossing, not on the main road: (`highway=crossing` + `bicycle=no`) means that cyclists must dismount before crossing the road; it does not mean that cyclists on road must do this.", [Key:crossing#Support](https://wiki.openstreetmap.org/wiki/Key:crossing#Support), OSM Wiki, accessed 2025-01-03
 
 ###### Tags for names and references
 
@@ -2987,6 +2992,19 @@ To correctly handle sidewalks mapped as separate ways, I will process the follow
   - This includes controlled (e.g. with traffic lights), marked, and unmarked crossings (e.g. dipped kerbs only)
   - While ideally, crossing sections would all be tagged as `footway=crossing`, when the mapping is less detailed, a `footway=sidewalk` way may just continue across the road. However, we can expect a `highway=crossing` node to be present at the intersection of the road and footway way
   - For this reason, we should check the tags on a `highway=crossing` node rather than on a `footway=crossing` way to find crossing information. I will detail how the various types of crossing should be handled in a section below.
+
+###### Road crossings
+
+Controlled crossings are safer and more comfortable to use than uncontrolled crossings, and it is road safety best practice to look for one, so we should prefer them as long as it doesn't come at a significant distance cost.
+
+- `crossing=traffic_signals` is the best kind of crossing so should be strongly preferred
+- Zebra crossings give pedestrians priority, so are the next best crossing
+  - They are represented by `crossing_ref=zebra`, or `crossing=zebra` tags
+- `crossing=uncontrolled` have road markings, so are somewhat safer than unmarked crossings
+  - `crossing=marked` is a synonym for `crossing=uncontrolled`, so we should treat it the same way
+- `crossing=unmarked` are the least preferable, but still valid if they're the only nearby option
+- `crossing=informal` is a place where pedestrians will likely want to cross, but isn't a designated crossing. They're the least ideal kind of crossings, but we can route over them.
+- If we encounter a `crossing=no` then crossing is impossible or illegal, so we should very much avoid it
 
 #### Sprint 2 modules
 
