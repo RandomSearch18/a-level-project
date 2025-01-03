@@ -2893,6 +2893,7 @@ Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the U
 - If `lanes=*` is above or equal to 2, we should add a large penalty, as it would feel dangerous to walk along a road with multiple lanes of car traffic
 - `shoulder=yes` (or another truthy value) suggests that the road might be a bit easier and safer to walk along
   - e.g. Part of the A22 through East Grinstead is tagged as `shoulder=yes` and `sidewalk=no`
+- `verge=yes` will similarly be better than a road with no verges (or a missing `verge=*` tag)
 
 ###### Tags for nodes encountered along a path or road
 
