@@ -2970,6 +2970,12 @@ I will parse sidewalk tags with the following rules:
 - `sidewalk=separate` is also ambiguous, but we will similarly assume `sidewalk:both=separate`
 - `sidewalk=lane` specifies that there is a lane for pedestrians painted onto the road. This is not a proper pavement, so we will treat it as no sidewalk, but reduce the weight for walking along the road.
 
+When a road has a pavement on at least one side, we should follow pavement rules for calculating weights for the road, i.e. assuming we're walking along a `surface=asphalt`, `smoothness=good` footpath, and considering any [tags for walking along attached pavements](#tags-for-walking-along-roads-or-attached-pavements) present on the road way.
+
+When a road has no pavement, we should follow the rules for walking along roads, depending on the [type of road](#top-level-tags-to-parse-for-roads) and any additional tags on the road way (see sections [tags only for walking along roads](#tags-only-for-walking-along-roads) and [tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)).
+
+When a road has a side with a pavement mapped separately, we should give the road a very high weight to ensure that the user is routed onto the pavement as soon as possible. In addition, when calculating the node to start a route on, we should look for a nearby pavement to start on before falling back to starting on the road.
+
 To correctly handle sidewalks mapped as separate ways, I will process the following tags on any path:
 
 - A `footway=sidewalk` is a pavement
