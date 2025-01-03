@@ -3006,6 +3006,17 @@ Controlled crossings are safer and more comfortable to use than uncontrolled cro
 - `crossing=informal` is a place where pedestrians will likely want to cross, but isn't a designated crossing. They're the least ideal kind of crossings, but we can route over them.
 - If we encounter a `crossing=no` then crossing is impossible or illegal, so we should very much avoid it
 
+Additional tags:
+
+- If `traffic_calming=table` is present, it's a raised crossing, which is safer so should be preferred
+- If `crossing:continuous=yes`, the path continues across the road (e.g. some residential streets in London), which is even nicer than a raised crossing, so prefer it a bit more
+- If `crossing:island`, the road is easier to cross, so prefer these crossings
+  - Ideally, we'd also consider cases where the crossing has an island and the carriageway is two separate ways, but since I don't consider tags on the road being crossed, this is out of scope
+- Follow the same rules as `highway=steps` for parsing `tactile_paving=*`
+- If the user has specified they prefer an audible signal, prefer `traffic_signals:sound=yes` or `traffic_signals:sound=walk` and deprioritise `traffic_signals:sound=no`
+- For wheelchair users, prefer `kerb=lowered`, and `kerb=flush` even more so
+- If the user prefers tactile paving, any crossings with `kerb=flush` but no tactile paving should be strongly avoided, as there is even less tactile indication than you'd get at a normal dipped-kerb crossing
+
 #### Sprint 2 modules
 
 Sprint 2 has a number of goals across different parts of the project. The modules of code that I will implement in Sprint 2 are as follows:
