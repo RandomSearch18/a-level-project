@@ -2993,6 +2993,8 @@ To correctly handle sidewalks mapped as separate ways, I will process the follow
   - This includes controlled (e.g. with traffic lights), marked, and unmarked crossings (e.g. dipped kerbs only)
   - While ideally, crossing sections would all be tagged as `footway=crossing`, when the mapping is less detailed, a `footway=sidewalk` way may just continue across the road. However, we can expect a `highway=crossing` node to be present at the intersection of the road and footway way
   - For this reason, we should check the tags on a `highway=crossing` node rather than on a `footway=crossing` way to find crossing information. I will detail how the various types of crossing should be handled in a section below.
+- `footway=traffic_island` ways are present where the crossing is mapped in high detail, and represent the bit of the crossing on a pedestrian island in the middle of the road
+  - This should have a significantly lower weight than `footway=crossing` ways, to encourage routing along crossings with islands
 
 ###### Road crossings
 
