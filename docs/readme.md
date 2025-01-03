@@ -208,6 +208,7 @@ A-level Computer Science programming project
           - [Tags for names and references](#tags-for-names-and-references)
           - [Access tags](#access-tags)
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
+          - [Handling pavements](#handling-pavements)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -2937,6 +2938,49 @@ Below is a list of access tag values I will consider. For all of them, we will f
 ###### Tags on areas that the route goes through
 
 Ideally, I would like to consider tags added to areas that paths go through, e.g. `hazard=shooting_range` areas, or access tags on areas. However, I can't think of a way to implement this with my routing graph system, so for now, I won't consider any enclosing areas when calculating routes.
+
+###### Handling pavements
+
+Pavements are a crucial piece of pedestrian infrastructure, and I expect many routes to almost entirely use pavements. However, they aren't as easy to deal with as other footpaths, because of how they are attached to a road.
+
+OpenStreetMap has two different (and valid) ways of describing pavements, both of which are widely used within the UK, so I will need to ensure I research them adequately and handle them thoroughly. Note that the OSM community uses the word "sidewalk" to describe pavements, to avoid the ambiguous international meaning of "pavement".
+
+![Screenshot of the iD OSM editor showing separately mapped pavements](assets/sprint-2/seperately-mapped-pavements.png)
+
+The first strategy is to represent pavements as `highway=footway` + `footway=sidewalk` ways that are drawn parallel to the road. This allows the pavement ways to be routed along just like any other path, which will mean it'll be the simplest for me to implement. The image above shows sidewalk and crossing ways (outlined in red) along the A246 (orange) and Groveside.
+
+Alternatively, the presence of a pavement can be described using sidewalk tags on the road itself, called the "refinement of the highway" approach. This is done with the `sidewalk:*` key, or the `sidewalk:left=*`/`sidewalk:right=*`/`sidewalk:both=*` keys. Things to note about this system:
+
+- By default, it naturally lends itself to representing a situation where pedestrians can cross at any part on the road
+- While I could write an algorithm to create virtual sidewalk ways before the routing graph is generated (so that they can be routed on in the same way as other paths), this would get messy and ambiguous in cases such as paths attached to the road (which pavement should they be attached to?), and intersections (geometry of pavements is not obvious). It would also be a lot of work to implement and hasn't been done by any existing routing engines I've researched.
+- So, when working with sidewalks as tags on a road, I will ignore crossings (`highway=crossing` nodes) and make the simplifying assumption that pedestrians can cross the road at any point
+
+I will parse sidewalk tags with the following rules:
+
+- The `sidewalk:left=*`, `sidewalk:right=*` and `sidewalk:both=*` keys unambiguously describe sidewalk status
+  - These keys take precedence over any `sidewalk=*` value (if also present)
+  - `sidewalk:both=*` sets a value for the left and right sides of the road
+  - If `sidewalk:both=*` and `sidewalk:left=*` or `sidewalk:right=*` are both present (which is bad mapping practice), `sidewalk:left=*`/`sidewalk:right=*` should take precedence
+  - For any of the keys, a value of `no` indicates a lack of a sidewalk, `yes` indicates a sidewalk is present (and being represented by this tag), and `separate` indicates that a sidewalk is present but mapped as a separate way (i.e. the above strategy)
+- `sidewalk=both` is equivalent to `sidewalk:both=yes`
+- `sidewalk=left` and `sidewalk=right` are equivalent to `sidewalk:left=yes` and `sidewalk:right=yes` respectively
+- `sidewalk=no` is equivalent to `sidewalk:both=no`
+- `sidewalk=none` is a deprecated synonym for `sidewalk=no`, so is equivalent to `sidewalk:both=no`
+- `sidewalk=yes` is ambiguous, but we will assume that both sides have a sidewalk, so `sidewalk:both=yes`
+- `sidewalk=separate` is also ambiguous, but we will similarly assume `sidewalk:both=separate`
+- `sidewalk=lane` specifies that there is a lane for pedestrians painted onto the road. This is not a proper pavement, so we will treat it as no sidewalk, but reduce the weight for walking along the road.
+
+To correctly handle sidewalks mapped as separate ways, I will process the following tags on any path:
+
+- A `footway=sidewalk` is a pavement
+  - We'll assume `surface=asphalt` and `smoothness=good`
+  - Provide an option to avoid pavements if users don't want to walk along roads
+  - Provide an option to prefer pavements, e.g. if users would feel safer on them
+  - Of course, tags on pavements would be processed in the same way as any other path to ensure that the desirability of different pavements is taken into account
+- A `footway=crossing` is a crossing, i.e. a path that crosses from one side of the road to the other, almost always by walking along the main carriageway surface
+  - This includes controlled (e.g. with traffic lights), marked, and unmarked crossings (e.g. dipped kerbs only)
+  - While ideally, crossing sections would all be tagged as `footway=crossing`, when the mapping is less detailed, a `footway=sidewalk` way may just continue across the road. However, we can expect a `highway=crossing` node to be present at the intersection of the road and footway way
+  - For this reason, we should check the tags on a `highway=crossing` node rather than on a `footway=crossing` way to find crossing information. I will detail how the various types of crossing should be handled in a section below.
 
 #### Sprint 2 modules
 
