@@ -2866,7 +2866,7 @@ Here I will very briefly describe the purpose of the tags (additional informatio
 - `designation=*`: In the UK this is used to mark public rights of way
   - If a path is tagged with the value `public_footpath`, `public_bridleway`, `restricted_byway`, `byway_open_to_all_traffic`, or the generic `public_right_of_way`, we should prefer it, as they are legally guaranteed to be accessible and we can safely assume `foot=yes`
   - Scotland has `designation=core_path`s, which are similar, so we should treat those in the same way
-  - <!-- TODO Northern Ireland? -->
+  - I am not aware of any equivalent for Northern Ireland
 - `segregated=yes` paths should be preferred to paths where `segregated=no`
   - This is because it'll likely to be more comfortable and safe to walk along a footpath where pedestrians and cyclists are segregated
   - If the tag is missing, we won't change the weight (although we also use `segregated=*` to decide if a `highway=cycleway` is mixed-use or not)
