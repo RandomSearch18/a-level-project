@@ -215,6 +215,10 @@ A-level Computer Science programming project
           - [A\* algorithm justification](#a-algorithm-justification)
           - [A\* algorithm implementation plan](#a-algorithm-implementation-plan)
           - [A\* algorithm pseudocode](#a-algorithm-pseudocode)
+        - [Routing graph generation design](#routing-graph-generation-design)
+          - [Routing graph generation justification](#routing-graph-generation-justification)
+          - [Routing graph generation implementation plan](#routing-graph-generation-implementation-plan)
+          - [Routing graph generation pseudocode](#routing-graph-generation-pseudocode)
     - [Sprint 2 development](#sprint-2-development)
       - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
         - [Creating `App.tsx`](#creating-apptsx)
@@ -3112,6 +3116,57 @@ The `calculate_route_a_star()` method will exist in the `RouteCalculator` class.
   - $a_x$, $a_y$ = node_a.coordinates
   - $b_x$, $b_y$ = node_b.coordinates
   - return $\sqrt{(a_x - b_x)^2 + (a_y - b_y)^2}$
+
+##### Routing graph generation design
+
+###### Routing graph generation justification
+
+While the use of the `osmnx.graph.graph_from_xml()` method worked for creating a proof-of-concept routing graph, I have limited understanding of the exact metadata attached to the graph and the way it's formatted. In addition, it's difficult for me to customise the types of elements that are included in the graph, and the OSM tags that are included as metadata on graph nodes and edges.
+
+For these reasons, I will write my own code for generating the routing graph from an OSM XML file. In addition, I will write an Overpass Query Language query that I can use when downloading the data, so that only the types of nodes and ways that I require are downloaded. This should be much more efficient in terms of download time, storage space, and processing requirements than downloading all OSM objects in an area.
+
+###### Routing graph generation implementation plan
+
+The Overpass query I plan to use is written below. I have written it as so to include all elements that I want to use in the routing engine, as per the [top-level tags to parse for roads](#top-level-tags-to-parse-for-roads) and [top-level tags to parse for paths](#top-level-tags-to-parse-for-paths) sections. `{{bbox}}` should be replaced by an appropriate bounding box that represents the area data should be downloaded for.
+
+Run this query in Overpass Turbo with the share link <https://overpass-turbo.eu/s/1WBt> to see it in action.
+
+```overpass
+[out:json][timeout:300];
+(
+  way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link|living_street|service|pedestrian|track|road|footway|bridleway|steps|corridor|path|emergency_bay|cycleway)$"]({{bbox}});
+  node(w);
+);
+
+out geom;
+```
+
+![A screenshot of the Overpass Turbo map showing the results for my query in a local area](assets/sprint-2/highways.png)
+
+I have also decided to adjust my `OSMElement` class to use less memory, becuase creating a `OSMTag` class for every tag might be too much.
+
+```mermaid
+classDiagram
+direction LR
+
+OSMElement "1" *-- "1" OSMTags : tags
+class OSMElement {
+  <<abstract>>
+  +type: str
+  +tags: OSMTags
+}
+
+class OSMTags {
+  -tags: dict[str, str]
+  +get(key): str | None
+  +has(key): bool
+  +__len__(): int
+  +empty(): bool
+  +is_truthy(key): bool
+}
+```
+
+###### Routing graph generation pseudocode
 
 ### Sprint 2 development
 
