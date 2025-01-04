@@ -3639,6 +3639,8 @@ I then added it as an attribute on my graph nodes:
  )
 ```
 
+[^geographiclib-se]: As recommended on the GIS StackExchange, <https://gis.stackexchange.com/a/84915>
+
 While testing with the `networkx.astar_path` function, I noticed that it accepts a function to be used for the weight, not necessarily a pre-calculated attribute on the graph. This means that it should be possible to use the built-in networkx A\* algorithm, which could make it quicker to implement and more efficient than my own implementation. I will try this out before I start implementing my own A\* algorithm.
 
 I started working on implementing the `RouteCalculator#calculate_route_a_star` method as specified in [A\* algorithm pseudocode](#a-algorithm-pseudocode). While the actual A\* algorithm will be replaced with a networkx method, I still need to turn the start and end coordinates into nodes, which I had written as a `find_nearest_node` function in the pseudocode. To implement this, I added a simple linear search method on `RoutingGraph` as `RoutingGraph#nearest_node()`:
@@ -3680,7 +3682,56 @@ I realised that my `node in graph` check was incorrect, as `node` is a dictionar
 
 ![](assets/sprint-2/nearest-node.png)
 
-[^geographiclib-se]: As recommended on the GIS StackExchange, <https://gis.stackexchange.com/a/84915>
+I then actually wrote in the route calculation part, just using length as a weight for now:
+
+```py
+def calculate_weight(self, node_a: int, node_b: int, data: dict[str, str]) -> float:
+    # TODO: do
+    return float(data["length"])
+
+def calculate_route_a_star(
+    self, start: Coordinates, end: Coordinates
+) -> RouteResult:
+    start_node = self.graph.nearest_node(start)
+    end_node = self.graph.nearest_node(end)
+
+    # Use a very simple heuristic of pretending that the coordinates are cartesian and using Euclidean distance
+    # maybe this can be refined in the future, maybe it won't be
+    def heuristic(node_from, node_to):
+        return euclidean_distance(
+            self.graph.graph.nodes[node_from]["pos"],
+            self.graph.graph.nodes[node_to]["pos"],
+        )
+
+    # So that we're not passing class methods around as callbacks:
+    def weight(node_from, node_to, data):
+        return self.calculate_weight(node_from, node_to, data)
+
+    nodes: list[int] = networkx.astar.astar_path(
+        self.graph.graph,
+        start_node,
+        end_node,
+        heuristic=heuristic,
+        weight=weight,  # type: ignore
+    )
+
+    for node in nodes:
+        print(f"https://www.openstreetmap.org/node/{node}")
+```
+
+I had also created a euclidean distance function, which I decided would be the easiest heuristic to use:
+
+```py
+def euclidean_distance(a: Coordinates, b: Coordinates) -> float:
+    """Euclidean distance for two sets of coordinates.
+
+    - Doesn't really make sense in terms of points on Earth, but it's useful as a simple heuristic
+    - Units: none really, the outputs only make sense relative to each other
+    """
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+```
+
+I tested it with my test data for before, and it correctly found the shortest path, which I checked by viewing the nodes on osm.org. I saw that it took a shortcut path through a small field, which shows it is working correctly.
 
 <div>
 
