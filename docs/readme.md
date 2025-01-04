@@ -3639,6 +3639,47 @@ I then added it as an attribute on my graph nodes:
  )
 ```
 
+While testing with the `networkx.astar_path` function, I noticed that it accepts a function to be used for the weight, not necessarily a pre-calculated attribute on the graph. This means that it should be possible to use the built-in networkx A\* algorithm, which could make it quicker to implement and more efficient than my own implementation. I will try this out before I start implementing my own A\* algorithm.
+
+I started working on implementing the `RouteCalculator#calculate_route_a_star` method as specified in [A\* algorithm pseudocode](#a-algorithm-pseudocode). While the actual A\* algorithm will be replaced with a networkx method, I still need to turn the start and end coordinates into nodes, which I had written as a `find_nearest_node` function in the pseudocode. To implement this, I added a simple linear search method on `RoutingGraph` as `RoutingGraph#nearest_node()`:
+
+```py
+def nearest_node(self, coordinates: Coordinates) -> int:
+    nearest_node = None
+    nearest_distance = float("inf")
+    for node_id, node_data in self.graph.nodes(data=True):
+        node_coordinates = node_data["pos"]
+        distance = distance_between_points(coordinates, node_coordinates)
+        if distance < nearest_distance:
+            nearest_distance = distance
+            nearest_node = node_id
+    if nearest_node is None:
+        raise ValueError("No nodes could be found")
+    return nearest_node
+```
+
+However upon testing it, I noticed an issue with my approach:
+
+![](assets/sprint-2/no-pos-for-you.png)
+
+I assumed that the `pos` attribute on my nodes would be present, but most of my nodes had empty metadata. I realised that this was because I was only adding the `pos` attribute to nodes with tags, instead of all nodes. I changed this, so my code for adding attributes to nodes now looks like this:
+
+```py
+for node_id, node in raw_nodes.items():
+    if node in graph:
+        graph.nodes[node_id]["pos"] = (node["lat"], node["lon"])
+        if "tags" in node:
+            graph.nodes[node_id]["tags"] = node["tags"]
+```
+
+However this still wasn't adding any attributes to nodes, so I debugged further.
+
+![](assets/sprint-2/debugging-further.png)
+
+I realised that my `node in graph` check was incorrect, as `node` is a dictionary of node data, and the graph uses node IDs as keys. So I changed that statement to `node["id"] in graph.nodes`. My code now ran without any errors, so I checked which nodes it selected as the nearest nodes. I was happy to see that it chose the node nearest to the end point I had specified (below), and the start note also seemed correct.
+
+![](assets/sprint-2/nearest-node.png)
+
 [^geographiclib-se]: As recommended on the GIS StackExchange, <https://gis.stackexchange.com/a/84915>
 
 <div>
