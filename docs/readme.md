@@ -3166,7 +3166,53 @@ class OSMTags {
 }
 ```
 
+I realised when writing the pseudocode for graph generation that attributes on my graph elements need to be serialisable, so I can't have an `OSMTags` class at all. Here's the simplified class diagram:
+
+```mermaid
+classDiagram
+direction LR
+class OSMElement {
+  <<abstract>>
+  +type: str
+  +tags: dict[str, str]
+}
+```
+
+I won't simplify my graph because I plan on relying on nodes when working out where the route should start/finish (which isn't ideal but should be easier to implement than somehow using the geometry of the ways). However, I may need to simplify the graph if I run into performance issues, in which case I will also have to ensure I preserve any nodes with tags.
+
 ###### Routing graph generation pseudocode
+
+- `RoutingEngine#download_osm_data(bbox: BoundingBox) -> list[OSMWay], dict`:
+
+  - construct Overpass query, substituting `bbox` into the pre-set query string
+  - send HTTP Get request to `https://overpass-api.de/api/interpreter`, with the `?data=` parameter set to the url-encoded query string
+  - decode the JSON response
+  - raw_nodes = {}
+  - ways = []
+  - for node in response_json:
+    - if node.type == "node":
+      - raw_nodes[node.id] = node
+  - for way in response_json:
+    - if way.type == "way":
+      - nodes = []
+      - for node_id in way.nodes:
+        - node = raw_nodes[node_id]
+        - nodes.append(OSMNode(pos=(node.lat, node.lon), tags=node.tags))
+      - ways.append(OSMWay(nodes=nodes, tags=way.tags))
+  - return ways, raw_nodes
+
+- `RoutingEngine#compute_graph(ways: list[OSMWay], nodes: dict) -> RoutingGraph`:
+  - graph = networkx.Graph()
+  - for way in ways:
+    - for i in range(len(way.nodes) - 1):
+      - node_from = way.nodes[i]
+      - node_to = way.nodes[i + 1]
+      - graph.add_edge(node_from, node_to, tags=way.tags)
+  - for node in (nodes with tags):
+    - if node in graph.nodes:
+      - graph.nodes[node\]["tags"] = node.tags
+      - graph.nodes[node\]["pos"] = (node.lat, node.lon)
+  - return RoutingGraph(graph)
 
 ### Sprint 2 development
 
