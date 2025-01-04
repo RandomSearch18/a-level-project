@@ -1486,7 +1486,7 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
-    Sprint 2: 2024-12-05,
+    Sprint 2: 2024-12-05, 2025-01-10
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
