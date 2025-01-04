@@ -3606,7 +3606,38 @@ def get_edges_from_way(self, target_way_id: int) -> list[tuple[int, int]]:
     return edges
 ```
 
+I tested with a way ID I knew, and it worked:
+
 ![](assets/sprint-2/way-id-to-edge.png)
+
+Before starting working on my own A\* algorithm, I decided to test using the `networkx` library's built-in A\* algorithm as an additional step to verify that my graph is sane and the number of nodes doesn't overwhelm the algorithm. I tested with a very simple case (just routing along a straight road), and it worked, which gave me confidence:
+
+![](assets/sprint-2/first-route.png)
+
+I then tested it with a simple route along two roads, and that returned a sensible route too. I then tested routing onto a pedestrian path, which also worked.
+
+I realise now that I will need to calculate the length of all my edges as a basis for my weight calculation. To ensure it's correct as possible, I will use the `geographiclib` library to calculate the geodesic distance between two points using the WGS84 spheroid model of the Earth:
+
+```py
+from geographiclib.geodesic import Geodesic
+geodesic_wgs84: Geodesic = Geodesic.WGS84  # type: ignore
+def distance_between_points(a: Coordinates, b: Coordinates) -> float:
+    result = geodesic_wgs84.Inverse(a[0], a[1], b[0], b[1])
+    distance_meters = result["s12"]
+    return distance_meters
+```
+
+I then added it as an attribute on my graph nodes:
+
+```diff
+ graph.add_edge(
+     node_from.id,
+     node_to.id,
+     tags=way.tags,
+     id=way.id,
++    length=distance_between_points(node_from.pos, node_to.pos),
+ )
+```
 
 <div>
 
