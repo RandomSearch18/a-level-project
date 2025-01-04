@@ -3585,6 +3585,29 @@ I tested the function with a sample small bounding box, and it succesfully retun
 
 ![Screenshot of my debugger showing the returned data](assets/sprint-2/osm-data-yay.png)
 
+I am worried that creating a `Coordinates` object for every representation of coordinates will be too inefficient, so I will switch to just using a simple tuple of floats for the coordinates. `Coordinates` is now a type alias:
+
+```py
+type Coordinates = tuple[float, float]
+```
+
+I then went on to implement the `compute_graph()` method, but realised that because my `OSMWay` objects contain an array of `OSMNode` objects with no information about the node IDs, I was using the actual `OSMNode` object as an index for my graph nodes, which is not what I want. So, I added an `id` attribute to the `OSMNode` class and made sure I use that when I'm adding graph edges:
+
+![](assets/sprint-2/osmnode-id.png)
+
+For debugging, I also wanted a way to be able to access edges from their OSM way ID, so I also started storing `OSMWay` IDs. I then wrote a `RoutingGraph#get_edges_from_way()` method
+
+```py
+def get_edges_from_way(self, target_way_id: int) -> list[tuple[int, int]]:
+    edges = []
+    for node_a, node_b, way_id in self.graph.edges.data("id", default=0):  # type: ignore
+        if way_id == target_way_id:
+            edges.append((node_a, node_b))
+    return edges
+```
+
+![](assets/sprint-2/way-id-to-edge.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
