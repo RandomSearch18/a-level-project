@@ -231,6 +231,7 @@ A-level Computer Science programming project
         - [Properly implementing async Leaflet loading](#properly-implementing-async-leaflet-loading)
         - [Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet](#disabling-currentlocationbuttontsx-when-leaflet-hasnt-loaded-yet)
         - [Evaluation of async Leaflet loading](#evaluation-of-async-leaflet-loading)
+      - [Sprint 2: Implementing the graph generation code](#sprint-2-implementing-the-graph-generation-code)
 
 ## Analysis
 
@@ -3549,6 +3550,40 @@ I realised that the build tool I use, Vite, loads libraries in a significantly d
 I ran Lighthouse tests on the site before ([lighthouse-before-performance-work.json](assets/sprint-2/lighthouse-before-performance-work.json)) and after ([lighthouse-after-performance-work.json](assets/sprint-2/lighthouse-after-performance-work.json)) the change. The first contentful paint time dropped from 1.2 seconds to 1.1 seconds, and the time to interactive dropped from 3.1 seconds to 3.0 seconds. This confirms that the optimisation made a small improvement to page load times, but not a very significant one
 
 In conclusion, while my change has worked as intended, it was not as necessary as it first appeared. However, it did give me a chance to fine-tune the UI during loading, which Andrew and Ili were both happy with when I showed them.
+
+#### Sprint 2: Implementing the graph generation code
+
+I used my pseudocode for [routing graph generation](#routing-graph-generation-pseudocode) and got to work implementing it in Python.
+
+I added a `BoundingBox` class to `osm_data_types.py`:
+
+```py
+class BoundingBox:
+    def __init__(self, min_lat, min_lon, max_lat, max_lon):
+        self.min_lat = min_lat
+        self.min_lon = min_lon
+        self.max_lat = max_lat
+        self.max_lon = max_lon
+```
+
+The only error that I encountered while implementing the pseudocode was with this logic:
+
+```py
+node = raw_nodes[node_id]
+nodes.append(OSMNode(pos=(node["lat"], node["lon"]), tags=node["tags"]))
+```
+
+If a node has no tags, the `tags` key doesn't exist on its object, so I got an `AttributeError`. I fixed this by using the `get()` method on the dictionary, which lets me specify a default value
+
+```py
+node: dict = raw_nodes[node_id]
+tags = node.get("tags", {})
+nodes.append(OSMNode(pos=(node["lat"], node["lon"]), tags=tags))
+```
+
+I tested the function with a sample small bounding box, and it succesfully retuned results:
+
+![Screenshot of my debugger showing the returned data](assets/sprint-2/osm-data-yay.png)
 
 <div>
 
