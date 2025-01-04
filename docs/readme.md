@@ -3616,7 +3616,7 @@ Before starting working on my own A\* algorithm, I decided to test using the `ne
 
 I then tested it with a simple route along two roads, and that returned a sensible route too. I then tested routing onto a pedestrian path, which also worked.
 
-I realise now that I will need to calculate the length of all my edges as a basis for my weight calculation. To ensure it's correct as possible, I will use the `geographiclib` library to calculate the geodesic distance between two points using the WGS84 spheroid model of the Earth:
+I realise now that I will need to calculate the length of all my edges as a basis for my weight calculation. To ensure it's correct as possible, I will use the `geographiclib` library[^geographiclib-se] to calculate the geodesic distance between two points using the WGS84 spheroid model of the Earth:
 
 ```py
 from geographiclib.geodesic import Geodesic
@@ -3638,6 +3638,8 @@ I then added it as an attribute on my graph nodes:
 +    length=distance_between_points(node_from.pos, node_to.pos),
  )
 ```
+
+[^geographiclib-se]: As recommended on the GIS StackExchange, <https://gis.stackexchange.com/a/84915>
 
 <div>
 
