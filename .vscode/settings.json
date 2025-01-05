@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "__getitem__",
+    "abstractmethod",
     "astar",
     "Chalkpit",
     "chipseal",
@@ -28,6 +29,7 @@
     "Groveside",
     "Hungerburg",
     "hypothesise",
+    "isinstance",
     "isochrones",
     "Konieczny",
     "latlng",
