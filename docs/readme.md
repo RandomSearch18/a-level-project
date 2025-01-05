@@ -2081,7 +2081,7 @@ To ensure that I am documenting my work, and to make it easier for me to develop
 
 ##### Getting Voby JSX working
 
-I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work hald of the time:
+I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work half of the time:
 
 ```tsx
 function App() {
@@ -3836,11 +3836,56 @@ def node_position(self, node_id: int) -> Coordinates:
     return self.graph.nodes[node_id]["pos"]
 ```
 
+I also added a simple `RouteCalculator#estimate_time()` method, placing it next to the `calculate_weight()` method because they are doing similar things (and in the future I may want to share logic between them):
+
+```py
+def estimate_time(self, way_data: dict) -> float:
+    # Based on my average walking speed of 3.3 km/h
+    # TO-DO this should be an option!
+    BASE_SPEED = 0.92  # meters per second
+    distance = way_data["length"]
+    # TO-DO we should take into account way attributes, obviously
+    return distance / BASE_SPEED
+```
+
 To help stop me from accidentally accessing the `RoutingGraph#graph` attribute directly (as theoretically it should be private), I prefixed it with an underscore:
 
 ![](assets/sprint-2/private_underscore.png)
 
 I still have one place where it's accessed outside of the class (when `networkx.astar.astar_path()` is called), but I decided that this would be acceptable, and not worth adding a whole new class method just to call one function.
+
+I then tested the updated `calculate_route_a_star()` method with my debugger. This test was successful.
+
+![](assets/sprint-2/route-result.png)
+
+However, I realised that I should probably include the start and end coordinates of each route progression, so that they can be rendered on the map. In the future I might also want to store the way data or ID for each route progression, so that I can display statistics like "40% on pavements, 20% on unpaved paths, ...". I added `start` and `end` attributes to the `RouteProgression` class:
+
+```diff
+ class RouteProgression(RoutePart):
+     def __init__(
+         self,
+         distance: float,
+         estimated_time: float,
++        start: Coordinates,
++        end: Coordinates,
+     ):
+         super().__init__(distance, estimated_time)
++        self.start = start
++        self.end = end
+```
+
+```diff
+ parts.append(
+     RouteProgression(
+         distance,
+         estimated_time,
++        start=self.graph.node_position(node_from),
++        end=self.graph.node_position(node_to),
+     )
+ )
+```
+
+I successfully verified that the start and end coordinates were present in the result and looked sensible.
 
 <div>
 
