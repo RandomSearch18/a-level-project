@@ -3732,6 +3732,7 @@ def euclidean_distance(a: Coordinates, b: Coordinates) -> float:
 ```
 
 I tested it with my test data for before, and it correctly found the shortest path, which I checked by viewing the nodes on osm.org. I saw that it took a shortcut path through a small field, which shows it is working correctly.
+I did note that the program now takes a second or two to execute on my PC, which suggests that I will have to investigate performance soon.
 
 <div>
 
