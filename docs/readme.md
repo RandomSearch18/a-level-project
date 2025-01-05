@@ -3742,6 +3742,7 @@ I made the following changes from my class diagram:
 - Same for the `description()` abstract method
 - Removing the `ChangePath` route manoeuvre, because it would unnecessarily add to the size of the output, as well as being difficult to work out when all we have is the nodes in the route, not the edges
 - `CrossRoad` is removed for now, because crossings mapped as separate ways are just treated as any other path (as per [chasing pavements](#chasing-pavements) section), and crossings without separate ways aren't handled by my engine (also as per [chasing pavements](#chasing-pavements)).
+- And I put `distance` as an attribute on `RoutePart` too, while overriding it to be 0 for a `RouteManoeuvre`. This'll make it easier to process route results.
 
 ```py
 class RoutePart(abc.ABC):
@@ -3799,6 +3800,47 @@ class RouteResult:
             part.distance for part in self.parts if isinstance(part, RouteProgression)
         )
 ```
+
+I then added onto the end of the `calculate_route_a_star()` method to convert the list of nodes returned by `networkx.astar_path()` into our `RouteResult` type:
+
+```py
+# Reconstruct the route, to get a list of RouteParts
+parts: list[RoutePart] = []
+parts.append(StartWalking(self.graph.node_position(start_node)))
+for i in range(1, len(nodes)):
+    node_from = nodes[i - 1]
+    node_to = nodes[i]
+    # Find the edge that we're routing along.
+    # This gets a bit weird when there are multiple edges between the same two nodes,
+    # but I'm ignoring that possibility for now
+    edge_data = self.graph.get_edge_between_nodes(node_from, node_to)
+    distance = edge_data["length"]
+    estimated_time = self.estimate_time(edge_data)
+    parts.append(RouteProgression(distance, estimated_time))
+parts.append(Arrive(self.graph.node_position(end_node)))
+return RouteResult(start_pos, end_pos, parts)
+```
+
+This included writing a few helper methods on the `RoutingGraph` class to get a node by ID, get a node's coordinates by ID, and get a corresponding edge's data given a pair of node IDs:
+
+```py
+def get_edge_between_nodes(self, node_a: int, node_b: int) -> dict:
+    # Here we're assuming that there aren't any ways (therefore edges) that share the same two consecutive nodes!
+    # This won't always be the case, but I'm not sure how to handle that edge case...
+    return self.graph.edges[node_a, node_b]
+
+def node(self, node_id: int) -> dict:
+    return self.graph.nodes[node_id]
+
+def node_position(self, node_id: int) -> Coordinates:
+    return self.graph.nodes[node_id]["pos"]
+```
+
+To help stop me from accidentally accessing the `RoutingGraph#graph` attribute directly (as theoretically it should be private), I prefixed it with an underscore:
+
+![](assets/sprint-2/private_underscore.png)
+
+I still have one place where it's accessed outside of the class (when `networkx.astar.astar_path()` is called), but I decided that this would be acceptable, and not worth adding a whole new class method just to call one function.
 
 <div>
 
