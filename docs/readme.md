@@ -232,6 +232,7 @@ A-level Computer Science programming project
         - [Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet](#disabling-currentlocationbuttontsx-when-leaflet-hasnt-loaded-yet)
         - [Evaluation of async Leaflet loading](#evaluation-of-async-leaflet-loading)
       - [Sprint 2: Implementing the graph generation code](#sprint-2-implementing-the-graph-generation-code)
+      - [Sprint 2: Embed the routing engine into the web app](#sprint-2-embed-the-routing-engine-into-the-web-app)
 
 ## Analysis
 
@@ -3886,6 +3887,95 @@ However, I realised that I should probably include the start and end coordinates
 ```
 
 I successfully verified that the start and end coordinates were present in the result and looked sensible.
+
+#### Sprint 2: Embed the routing engine into the web app
+
+I started by reading the PyScript user guide, which recommends linking Python files in your HTML using `<script type="py">` tags.
+
+I adjusted my Vite Config to allow accessing any Python files in the `backend` directory of my monorepo as static assets (so they won't be transformed by Vite):
+
+```ts
+const config = defineConfig({
+  // ...
+  assetsInclude: ["../backend/**/*.py"],
+})
+```
+
+I used the [Use Pyscript Offline](https://docs.pyscript.net/2024.2.1/user-guide/offline/) section of Pyscript's docs to double-check the correct NPM package to install (which is `@pyscript/core`). I (asynchronously) imported Pyscript in my `main.tsx`:
+
+```ts
+// @ts-ignore - No types for PyScript :(
+import("../node_modules/@pyscript/core/dist/core.js")
+```
+
+And added the reference to my HTML:
+
+```html
+<script type="py" src="../backend/main.py"></script>
+```
+
+However, this didn't work, and I saw that that path in my HTML resolved to `http://localhost:5173/backend/main.py`, which doesn't correspond to the `../backend` folder on my filesystem in any way. As a solution, I decided to add a step to my build process to copy the Python source code to a subfolder in `public`, so that it can be accessed as a static asset. I accomplished this by adding pre-dev and pre-build scripts to my `package.json`:
+
+```json
+{
+  // ...
+  "scripts": {
+    "predev": "cp -r ../backend ./public",
+    "prebuild": "cp -r ../backend ./public"
+  }
+}
+```
+
+This worked as expected, and will hopefully work on Windows systems too.
+
+I then went back to my preview of the site, and it was working, although it had thrown an error about the NetworkX library being missing, which was to be expected.
+
+To make NetworkX available, I should be able to just specify it in the [PyScript config file](https://docs.pyscript.net/2024.11.1/user-guide/configuration/#packages)
+
+Next, I had to figure out how to get imports for my own files functioning correctly. At the moment, they raise a `ModuleNotFoundError`:
+
+```py
+PythonError: Traceback (most recent call last):
+  File "/lib/python312.zip/_pyodide/_base.py", line 597, in eval_code_async
+    await CodeRunner(
+  File "/lib/python312.zip/_pyodide/_base.py", line 411, in run_async
+    coroutine = eval(self.code, globals, locals)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<exec>", line 5, in <module>
+ModuleNotFoundError: No module named 'osm_data_types'
+```
+
+I found that I could use the `pyscript.json` config file to add my Python files (accessible as static assets) to the Python virtual filesystem, as demonstrated below, which I confirmed did solve my import error
+
+```json
+{
+  "packages": ["networkx"],
+  "files": {
+    "backend/osm_data_types.py": "./osm_data_types.py"
+  }
+}
+```
+
+I disliked the fact that I have to manually specify each file, but this seems like the best way to do it for now.
+
+The next error I had to fix was the `requests` package being unavailable:
+
+```python
+PythonError: Traceback (most recent call last):
+  File "/lib/python312.zip/_pyodide/_base.py", line 597, in eval_code_async
+    await CodeRunner(
+  File "/lib/python312.zip/_pyodide/_base.py", line 411, in run_async
+    coroutine = eval(self.code, globals, locals)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<exec>", line 6, in <module>
+  File "/home/pyodide/routing_engine.py", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+```
+
+I added the `requests` package to my PyScript config, as well as the `geographiclib` package. While `geographiclib` isn't built-in to Pyodide, it seemed to automatically get downloaded from PyPI. With those changes, the Python routing engine code worked with no obvious issues (apart from taking a good few seconds to download all the packages and execute the code).
+
+![](assets/sprint-2/python-in-browser.png)
 
 <div>
 
