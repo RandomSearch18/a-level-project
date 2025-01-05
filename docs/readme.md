@@ -3734,6 +3734,19 @@ def euclidean_distance(a: Coordinates, b: Coordinates) -> float:
 I tested it with my test data for before, and it correctly found the shortest path, which I checked by viewing the nodes on osm.org. I saw that it took a shortcut path through a small field, which shows it is working correctly.
 I did note that the program now takes a second or two to execute on my PC, which suggests that I will have to investigate performance soon.
 
+I then needed to add the data types for the route result, so that `calculate_route_a_star()` could return something useful. Becuase this requires quite a few classes, I created `route_result.py` to keep them in one place.
+
+I made the following changes from my class diagram:
+
+- `estimated_time` is now an attribute on `RoutePart`, because both of its subclasses had it anyway
+- Same for the `description()` abstract method
+- Removing the `ChangePath` route manoeuvre, because it would unnecessarily add to the size of the output, as well as being difficult to work out when all we have is the nodes in the route, not the edges
+- `CrossRoad` is removed for now, because crossings mapped as separate ways are just treated as any other path (as per [handling pavements](#handling-pavements) section), and crossings without separate ways aren't handled by my engine (also as per [handling pavements](#handling-pavements)).
+
+```py
+# TODO
+```
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
