@@ -208,7 +208,7 @@ A-level Computer Science programming project
           - [Tags for names and references](#tags-for-names-and-references)
           - [Access tags](#access-tags)
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
-          - [Handling pavements](#handling-pavements)
+          - [Chasing pavements](#chasing-pavements)
           - [Road crossings](#road-crossings)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
@@ -2950,7 +2950,7 @@ Below is a list of access tag values I will consider. For all of them, we will f
 
 Ideally, I would like to consider tags added to areas that paths go through, e.g. `hazard=shooting_range` areas, or access tags on areas. However, I can't think of a way to implement this with my routing graph system, so for now, I won't consider any enclosing areas when calculating routes.
 
-###### Handling pavements
+###### Chasing pavements
 
 Pavements are a crucial piece of pedestrian infrastructure, and I expect many routes to almost entirely use pavements. However, they aren't as easy to deal with as other footpaths, because of how they are attached to a road.
 
@@ -3741,7 +3741,7 @@ I made the following changes from my class diagram:
 - `estimated_time` is now an attribute on `RoutePart`, because both of its subclasses had it anyway
 - Same for the `description()` abstract method
 - Removing the `ChangePath` route manoeuvre, because it would unnecessarily add to the size of the output, as well as being difficult to work out when all we have is the nodes in the route, not the edges
-- `CrossRoad` is removed for now, because crossings mapped as separate ways are just treated as any other path (as per [handling pavements](#handling-pavements) section), and crossings without separate ways aren't handled by my engine (also as per [handling pavements](#handling-pavements)).
+- `CrossRoad` is removed for now, because crossings mapped as separate ways are just treated as any other path (as per [chasing pavements](#chasing-pavements) section), and crossings without separate ways aren't handled by my engine (also as per [chasing pavements](#chasing-pavements)).
 
 ```py
 # TODO
