@@ -233,6 +233,8 @@ A-level Computer Science programming project
         - [Evaluation of async Leaflet loading](#evaluation-of-async-leaflet-loading)
       - [Sprint 2: Implementing the graph generation code](#sprint-2-implementing-the-graph-generation-code)
       - [Sprint 2: Embed the routing engine into the web app](#sprint-2-embed-the-routing-engine-into-the-web-app)
+        - [Making python classes accessible from JavaScript](#making-python-classes-accessible-from-javascript)
+        - [Stopping Pyscript from blocking the main tread](#stopping-pyscript-from-blocking-the-main-tread)
 
 ## Analysis
 
@@ -3976,6 +3978,73 @@ ModuleNotFoundError: No module named 'requests'
 I added the `requests` package to my PyScript config, as well as the `geographiclib` package. While `geographiclib` isn't built-in to Pyodide, it seemed to automatically get downloaded from PyPI. With those changes, the Python routing engine code worked with no obvious issues (apart from taking a good few seconds to download all the packages and execute the code).
 
 ![](assets/sprint-2/python-in-browser.png)
+
+##### Making python classes accessible from JavaScript
+
+I couldn't find any resources explaining how to directly call Python functions from JS wit PyScript, but I realised that adding classes I want to expose to the `window` object could be a good workaround, if it works. I added some code to do that to `main.py`:
+
+```py
+try:
+    from pyscript import window  # type: ignore
+
+    window.console.log("Hello from Python??!")
+    window.py = window.Object.new()
+    window.py.routingEngine = routing_engine
+    window.py.RoutingEngine = RoutingEngine
+    window.RoutingEngine = RoutingEngine
+    window.py.RouteCalculator = RouteCalculator
+    window.py.RoutingOptions = RoutingOptions
+    window.py.BoundingBox = BoundingBox
+
+except ImportError:
+    print("Not running in a browser environment")
+```
+
+Note that there are some duplicates as I simply wanted to test to see what would work. I was pleased to see that I could access `window.py` from the console. One peculiarity was that if I try to instantiate a Python class in JS with the `new` keyword, it returns an empty plain object, but if I "call" the class (e.g. `const routingEngine = window.py.RoutingEngine()`), it works as expected, and the methods on the `RoutingEngine` object are accessible. What a time to be alive!
+
+![](assets/sprint-2/python-called-from-js.png)
+
+I cleaned up the code for adding to `window.py` and extracted it to a function `export_to_js_window()` for better maintainability, and included a docstring.
+
+##### Stopping Pyscript from blocking the main tread
+
+I realised that the execution of Python code was blocking the main thread, and doing so for quite a few seconds while my routing engine executed. This is very bad for usability and will stop me from being able to show a "loading" spinner or similar while PyScript is initialising.
+
+I successfully fixed this issue by running the Python in a web worker instead, by setting the `worker` attribute.
+
+```diff
+ <script
+   type="py"
+   src="../backend/main.py"
+   config="pyscript.json"
++  worker
+ ></script>
+```
+
+However, I encountered an issue where my code failed because it couldn't access the `window` object:
+
+> Unable to use `window` or `document` -> <https://docs.pyscript.net/latest/faq/#sharedarraybuffer>
+
+This was because code running in a worker can't directly access `window`, so PyScript uses a feature called Atomics, but these weren't working in my environment. This is likely due to the Vite development server not providing the required HTTP headers to allow Atomics to be used. I verified this by checking `window.crossOriginIsolated` in the JS console, which came out as `false`.
+
+I updated my Vite config to add the required headers to comply with the cross-origin isolation requirements:
+
+```ts
+headers: {
+  // So that web workers can work, as per https://docs.pyscript.net/2024.11.1//user-guide/workers#http-headers
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "require-corp",
+  "Cross-Origin-Resource-Policy": "cross-origin",
+},
+```
+
+I succesfully confirmed that the Python code ran, and didn't block the main thread. However, after adding those new security headers, the tiles for my Leaflet map refused to load due to CORS errors.
+
+![A blank map and CORS errors in the console](assets/sprint-2/i-hate-cors.png)
+
+I read the MDN docs on cross-origin isolation,[^cors-mdn] which told me that `Cross-Origin-Resource-Policy` was not required, and `credentialless` is a valid alternative to `require-corp`. Luckily, when I changed the `Cross-Origin-Embedder-Policy` header to `credentialless`, the map tiles loaded correctly, and this didn't cause an issue for PyScript either.
+
+[^cors-mdn]: Window: crossOriginIsolated property, MDN Web Docs (<https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated>), accessed 2025-01-06
 
 <div>
 
