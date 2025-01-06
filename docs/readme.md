@@ -237,6 +237,7 @@ A-level Computer Science programming project
       - [Sprint 2: Embed the routing engine into the web app](#sprint-2-embed-the-routing-engine-into-the-web-app)
         - [Making python classes accessible from JavaScript](#making-python-classes-accessible-from-javascript)
         - [Stopping Pyscript from blocking the main tread](#stopping-pyscript-from-blocking-the-main-tread)
+        - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
 
 ## Analysis
 
@@ -4057,6 +4058,14 @@ I succesfully confirmed that the Python code ran, and didn't block the main thre
 I read the MDN docs on cross-origin isolation,[^cors-mdn] which told me that `Cross-Origin-Resource-Policy` was not required, and `credentialless` is a valid alternative to `require-corp`. Luckily, when I changed the `Cross-Origin-Embedder-Policy` header to `credentialless`, the map tiles loaded correctly, and this didn't cause an issue for PyScript either.
 
 [^cors-mdn]: Window: crossOriginIsolated property, MDN Web Docs (<https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated>), accessed 2025-01-06
+
+##### Ensuring PyScript works on Cloudflare Pages
+
+I set the node version to 20 using a `.nvmrc` file so that PyScript was satisfied when building the side with Cloudflare Pages.
+
+I also specified my CORS headers in a `_headers` file in `public` so that the appropriate headers for cross-origin isolation would be set when the production site is deployed. I verified this by visiting the preview deploy at <https://pyscript.marvellous-mapping-machine.pages.dev/>, and after those changes, everything worked well.
+
+One thing I noticed was that the size of files that had to be downloaded to run the routing engine was quite massive (60.83 MB total downloaded according to devtools). This would be a problem on a mobile data connection, so I will have to investigate further work out how to reduce this at some point.
 
 <div>
 
