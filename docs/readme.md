@@ -210,6 +210,8 @@ A-level Computer Science programming project
           - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
           - [Chasing pavements](#chasing-pavements)
           - [Road crossings](#road-crossings)
+      - [Sprint 2 UI design](#sprint-2-ui-design)
+        - [Route screen mockups](#route-screen-mockups)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -3027,6 +3029,16 @@ Additional tags:
 - If the user has specified they prefer an audible signal, prefer `traffic_signals:sound=yes` or `traffic_signals:sound=walk` and deprioritise `traffic_signals:sound=no`
 - For wheelchair users, prefer `kerb=lowered`, and `kerb=flush` even more so
 - If the user prefers tactile paving, any crossings with `kerb=flush` but no tactile paving should be strongly avoided, as there is even less tactile indication than you'd get at a normal dipped-kerb crossing
+
+#### Sprint 2 UI design
+
+##### Route screen mockups
+
+I used Excalidraw to create mockups for the route screen in various states. The purpose of this screen is to display the information about the route that doesn't go on a map (e.g. distance), and to give an intuitive way to input the start and end points of the route, by address or coordinates.
+
+![Mockups for 5 different states of the route screen](assets/sprint-2/route-screen-mockups.excalidraw.svg)
+
+I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
 
 #### Sprint 2 modules
 
