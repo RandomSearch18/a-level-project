@@ -238,6 +238,7 @@ A-level Computer Science programming project
         - [Making python classes accessible from JavaScript](#making-python-classes-accessible-from-javascript)
         - [Stopping Pyscript from blocking the main tread](#stopping-pyscript-from-blocking-the-main-tread)
         - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
+        - [Implementing a service worker](#implementing-a-service-worker)
 
 ## Analysis
 
@@ -4066,6 +4067,24 @@ I set the node version to 20 using a `.nvmrc` file so that PyScript was satisfie
 I also specified my CORS headers in a `_headers` file in `public` so that the appropriate headers for cross-origin isolation would be set when the production site is deployed. I verified this by visiting the preview deploy at <https://pyscript.marvellous-mapping-machine.pages.dev/>, and after those changes, everything worked well.
 
 One thing I noticed was that the size of files that had to be downloaded to run the routing engine was quite massive (60.83 MB total downloaded according to devtools). This would be a problem on a mobile data connection, so I will have to investigate further work out how to reduce this at some point.
+
+##### Implementing a service worker
+
+While adding offline support is out of this sprint's scope, it would be very useful to implement a basic service worker now, to avoid massive mobile data usage if I or my stakeholders want to try the app outside of the house.
+
+Since I plan on making the app an installable PWA, I also took the opportunity to add a `manifest.json` file to the page. This requires a logo, so I quickly designed a square logo for the app:
+
+![A pink square with the letters "MMMM" drawn in](assets/sprint-2/mmmm.excalidraw.svg)
+
+```json
+{
+  "name": "Mish's Marvellous Mapping Machine",
+  "short_name": "Mapping Machine",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffc0cb"
+}
+```
 
 <div>
 
