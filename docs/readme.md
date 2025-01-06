@@ -4076,6 +4076,10 @@ Since I plan on making the app an installable PWA, I also took the opportunity t
 
 ![A pink square with the letters "MMMM" drawn in](assets/sprint-2/mmmm.excalidraw.svg)
 
+I also created a maskable version, which is important to look good on certain platforms, including Android, where I expect the app to be used a lot.
+
+![The "MMMM" letters smaller in the middle of a pink borderless square](assets/sprint-2/mmmm-maskable.svg)
+
 ```json
 {
   "name": "Mish's Marvellous Mapping Machine",
@@ -4085,6 +4089,56 @@ Since I plan on making the app an installable PWA, I also took the opportunity t
   "theme_color": "#ffc0cb"
 }
 ```
+
+This was successful at getting the browser to offer to install the app as a PWA.
+
+![](assets/sprint-2/pwa-offer.png)
+
+I decided to use the `vite-plugin-pwa` library to handle adding PWA support. I moved the `manifest.json` file to a `manifest.mts` file that exports a JS object, and configured the plugin as below:
+
+```ts
+VitePWA({
+  manifest,
+  devOptions: {
+    enabled: true,
+  },
+  workbox: {
+    globPatterns: ["**/*.{js,css,html,png,svg,json,py}"],
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/cdn.jsdelivr.net\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "jsdelivr-cache",
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+      {
+        urlPattern: /https:\/\/\w.tile.openstreetmap.org\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "tile-cache",
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+    ],
+  },
+}),
+```
+
+Note that I implemented caches for two types of external resources: OSM Carto map tiles, and Python libaries from jsDelivr. I also set the `devOptions.enabled` to `true` so that I could test the service worker during development.
+
+To make caching of map tiles more reliable, I decided to drop the randomised subdomain for `tile.openstreetmap.org` URLs. While this might make downloading the tiles take longer, I believe that that issue is less of a problem with modern HTTP versions (e.g. HTTP/2). And, this change will mean that once a specific tile has been downloaded, it won't have to be downloaded again, which should decrease data usage, which is especially important on mobile data.
+
+I took a look at the console, where `workbox` logs each request, and saw that external resources were being cached during runtime, but local resources weren't.
+
+![](assets/sprint-2/workbox-logs.png)
+
+I couldn't work out how to get pre-caching of local resources working, so eventually I decided to create a "catch-all" runtime caching route, so that absolutely everything is cached at runtime. This is not ideal, partly because it means the page must be refreshed twice before it's ready to be used offline, but it does mean that it can fully work offline now (which I have tested).
 
 <div>
 
