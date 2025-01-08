@@ -239,6 +239,7 @@ A-level Computer Science programming project
         - [Stopping Pyscript from blocking the main tread](#stopping-pyscript-from-blocking-the-main-tread)
         - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
         - [Implementing a service worker](#implementing-a-service-worker)
+        - [More issues with PyScript workers](#more-issues-with-pyscript-workers)
 
 ## Analysis
 
@@ -4139,6 +4140,42 @@ I took a look at the console, where `workbox` logs each request, and saw that ex
 ![](assets/sprint-2/workbox-logs.png)
 
 I couldn't work out how to get pre-caching of local resources working, so eventually I decided to create a "catch-all" runtime caching route, so that absolutely everything is cached at runtime. This is not ideal, partly because it means the page must be refreshed twice before it's ready to be used offline, but it does mean that it can fully work offline now (which I have tested).
+
+##### More issues with PyScript workers
+
+While, at first, my Python code seemed to work fine on a worker, adding properties to the `window.py` object, when I actually attempted to use those properties, they turned out to be promises that returned an empty object. I checked if this was caused by the `worker` attribute being set on the `<script>` tag, and confirmed that that was indeed causing it.
+
+While testing, I also realised that my hacky "catch-all" caching meant that the browser would probably be stuck executing an ond cached version of my Python code, so I disabled it during development for now. This might also cause issues in production, so I will have to be prepared to manually clear caches if this becomes a problem.
+
+Also while trying to debug the worker issues, I encountered a very perplexing issue where parts of the `export_to_js_window()` procedure in `main.py` wouldn't run after I had edited it to test things. This issue also went away when I removed the `worker` attribute, but it made even less sense than the other issue (which I can guess is down to limitations when it comes to passing data between workers and the main thread).
+
+![Screenshot of my VSCode window and the JS console showing the Python code seeming to just give up](assets/sprint-2/python-gives-up.png)
+
+To test if the Python code could work without workers, I ported the code I had been using in `main.py` to test the routing engine to JS that accessed the Python classes and methods:
+
+```ts
+useEffect(() => {
+  const py = usePy()
+  if (!py) return
+  const routing_engine = py.RoutingEngine()
+  console.log(routing_engine)
+  const [ways, raw_nodes] = routing_engine.download_osm_data(
+    py.BoundingBox(51.26268, -0.41497, 51.27914, -0.36755)
+  )
+  const routing_graph = routing_engine.compute_graph(ways, raw_nodes)
+  const calculator = py.RouteCalculator(routing_graph, py.RoutingOptions())
+  const start = [51.27333, -0.39746]
+  const end = [51.274179, -0.391324]
+  const route = calculator.calculate_route_a_star(start, end)
+  console.log("Finished calculating route")
+})
+```
+
+This indeed worked:
+
+![](assets/sprint-2/calling-python-from-js.png)
+
+To prioritise creating something shippable for my stakeholders soon, I decided to keep Python running in the main thread by now, and hopefully find a solution later so that the app is more usable while the Python code is loading and running.
 
 <div>
 
