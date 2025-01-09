@@ -240,6 +240,7 @@ A-level Computer Science programming project
         - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
         - [Implementing a service worker](#implementing-a-service-worker)
         - [More issues with PyScript workers](#more-issues-with-pyscript-workers)
+        - [Implementing the Route screen and logic](#implementing-the-route-screen-and-logic)
 
 ## Analysis
 
@@ -4176,6 +4177,70 @@ This indeed worked:
 ![](assets/sprint-2/calling-python-from-js.png)
 
 To prioritise creating something shippable for my stakeholders soon, I decided to keep Python running in the main thread by now, and hopefully find a solution later so that the app is more usable while the Python code is loading and running.
+
+##### Implementing the Route screen and logic
+
+I created a `RouteScreen.tsx` file, featuring: a `routingEngineAvailable()` memo that checks if the `usePy()` hook is available yet or not; a `CalculateButton` floating action button (FAB) component based on the current location button from the Map screen; and the `RouteScreen` component itself, based on the mockup that was approved by my stakeholders.
+
+```tsx
+const routingEngineAvailable = useMemo(() => !!usePy())
+
+function CalculateButton() {
+  const tooltip = useMemo(() => {
+    return ""
+  })
+
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div class={() => tooltip() && "tooltip tooltip-left"} data-tip={tooltip}>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          id="calculate-route"
+          disabled={() => !routingEngineAvailable()}
+          onClick={calculateRoute}
+        >
+          ✅ Calculate
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function RouteScreen() {
+  const title = useMemo(() => "Calculate a route")
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">{title}</h2>
+        <form class="flex flex-col">
+          <label htmlFor="route-start-input" class="text-primary">
+            Start walking from
+          </label>
+          <input
+            id="route-start-input"
+            type="text"
+            placeholder="e.g. 51.24914, -0.56304"
+            class="input input-bordered input-primary w-full mt-2 mb-8 max-w-2xl"
+          />
+          <label htmlFor="route-end-input" class="text-primary">
+            Destination
+          </label>
+          <input
+            id="route-end-input"
+            type="text"
+            placeholder="e.g. 51.23724, -0.56456"
+            class="input input-bordered input-primary w-full my-2 max-w-2xl"
+          />
+        </form>
+      </div>
+      <CalculateButton />
+    </>
+  )
+}
+```
+
+![UI running in browser](assets/sprint-2/route-screen-1.png)
 
 <div>
 
