@@ -212,6 +212,7 @@ A-level Computer Science programming project
           - [Road crossings](#road-crossings)
       - [Sprint 2 UI design](#sprint-2-ui-design)
         - [Route screen mockups](#route-screen-mockups)
+        - [Stakeholder feedback for route screen mockups](#stakeholder-feedback-for-route-screen-mockups)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -3043,6 +3044,12 @@ I used Excalidraw to create mockups for the route screen in various states. The 
 ![Mockups for 5 different states of the route screen](assets/sprint-2/route-screen-mockups.excalidraw.svg)
 
 I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
+
+##### Stakeholder feedback for route screen mockups
+
+I gave the Excalidraw share link for the mockups to James and Andrew. James said that it "looks really good". Andrew loved the pink and also thinks it "looks really really good". He was concerned about the "Calculate" button being difficult to read on some of the screens, but I told him that that was representing the disabled state, so it would look cleaner in the real thing. He also wasn't sure about the loading spinner, but after I told him what it was he thought it would be a good idea. He especially liked the "route info" mockup.
+
+Since the feedback from my stakeholders is very positive, I will go forward with this design for my sprint.
 
 #### Sprint 2 modules
 
