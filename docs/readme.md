@@ -3049,6 +3049,12 @@ I will be able to use the [loading spinner](https://daisyui.com/components/loadi
 
 I gave the Excalidraw share link for the mockups to James and Andrew. James said that it "looks really good". Andrew loved the pink and also thinks it "looks really really good". He was concerned about the "Calculate" button being difficult to read on some of the screens, but I told him that that was representing the disabled state, so it would look cleaner in the real thing. He also wasn't sure about the loading spinner, but after I told him what it was he thought it would be a good idea. He especially liked the "route info" mockup.
 
+I showed the mockup to Ili in-person, and at first he found the way I had presented the different screens confusing, as it wasn't clear that they were transitions through a flow (he assumed they were different options to choose from). I explained this to him and also updated the diagram to have arrows to show progression.
+
+![](assets/sprint-2/route-screen-mockups-2.excalidraw.svg)
+
+Similarly to Andrew, I had to tell him what the hatched FAB and the loading spinner were, but that was just a limitation of my mockup. For the route info, he suggested putting the "walking from" and "walking to" next to each other, as well as showing the address for the destination instead of just the coordinates. These seemed like good small suggestions to me.
+
 Since the feedback from my stakeholders is very positive, I will go forward with this design for my sprint.
 
 #### Sprint 2 modules
