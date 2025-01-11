@@ -4317,6 +4317,16 @@ function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
 
 I plan to modify the `calculateBboxForRoute()` function as required to ensure that it fulfils its purpose of downloading enough data to include all the paths relevant to the route calculation, while not downloading too much data, and thus increasing data usage and the time taken to calculate the route. For now I have the expended the latitude and longitude by what I guess to be around 1 km.
 
+I then tested calculating a route with the UI, and while it eventually gave the route as expected in the console, it took a large number of minutes to do so, which is not usable at all, so I decided to investigate why the routing engine took so long.
+
+I tested calculating the same route by running the Python code outside of the browser, and it only took 1.058 seconds (according to the `time` command). This pointed the blame at how I'm running it in the browser, and I thought that the `calculateBboxForRoute()` function might be at fault, because that's a part of the code that's different between the two environments.
+
+To debug, I added a `console.debug()` call to the JS code to print the bbox, and found that it was much larger than it should be, stretching from a latitude of `42.695013` to `59.848470`. I realised that my expression `1000 * LAT_DEGREES_PER_M` from my code was modifying my latitude by ~8.8 degrees, which is massive.
+
+![Browser console screenshot](assets/sprint-2/image.png)
+
+![Browser console screenshot](assets/sprint-2/image-1.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
