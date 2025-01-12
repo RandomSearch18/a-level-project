@@ -241,7 +241,8 @@ A-level Computer Science programming project
         - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
         - [Implementing a service worker](#implementing-a-service-worker)
         - [More issues with PyScript workers](#more-issues-with-pyscript-workers)
-        - [Implementing the Route screen and logic](#implementing-the-route-screen-and-logic)
+        - [Implementing the Route screen and calculating a route](#implementing-the-route-screen-and-calculating-a-route)
+        - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
 
 ## Analysis
 
@@ -4191,7 +4192,7 @@ This indeed worked:
 
 To prioritise creating something shippable for my stakeholders soon, I decided to keep Python running in the main thread by now, and hopefully find a solution later so that the app is more usable while the Python code is loading and running.
 
-##### Implementing the Route screen and logic
+##### Implementing the Route screen and calculating a route
 
 I created a `RouteScreen.tsx` file, featuring: a `routingEngineAvailable()` memo that checks if the `usePy()` hook is available yet or not; a `CalculateButton` floating action button (FAB) component based on the current location button from the Map screen; and the `RouteScreen` component itself, based on the mockup that was approved by my stakeholders.
 
@@ -4409,6 +4410,12 @@ Thinking about this, it would probably still be better to increase the bbox by a
 With that change, the routing worked, and it only took 1.8 seconds, which subjectively, made it feel much more responsive.
 
 In the future, I could potentially dynamically download OSM data during the route calculation, or retry with a larger bbox if the A\* algorithm can't find a route. But for now, this is a good solution.
+
+##### Adding the loading state to the UI
+
+As per my mockup, I will attempt to add a indicator that the route is being calculated, and generally improve the user experience while PyScript is loading/processing/running. However, this will be difficult due to PyScript still running in the main thread.
+
+I will use observables to store the progress of the route calculation, so that the UI can easily be reactively updated, and also store the current route result (once calculated) in an observable so that the main map can show it.
 
 <div>
 
