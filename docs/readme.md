@@ -243,6 +243,7 @@ A-level Computer Science programming project
         - [More issues with PyScript workers](#more-issues-with-pyscript-workers)
         - [Implementing the Route screen and calculating a route](#implementing-the-route-screen-and-calculating-a-route)
         - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
+        - [Debugging bounding boxes on the map](#debugging-bounding-boxes-on-the-map)
 
 ## Analysis
 
@@ -4553,6 +4554,41 @@ I added a tooltip for the calculate button to be shown while the routing engine 
 
 ![](assets/sprint-2/tooltip-code.png)
 ![](assets/sprint-2/tooltip.png)
+
+##### Debugging bounding boxes on the map
+
+I thought it would be very useful to show the expanded and unexpanded bounding boxes for downloading map data on the map. So I did that. I wrote a helper function in `MainMap.tsx`:
+
+```ts
+export function drawBbox(
+  bbox: [number, number, number, number],
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) return
+  const rectangle = L.rectangle(
+    [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ],
+    options
+  )
+  rectangle.addTo(map)
+  return rectangle
+}
+```
+
+And used it in `calculateRoute()`:
+
+```ts
+const bbox = calculateBboxForRoute(startPos, endPos, 0.1)
+console.debug("Using bounding box for route", bbox)
+drawBbox(calculateBboxForRoute(startPos, endPos, 0), { color: "red" })
+drawBbox(bbox, { color: "green" })
+```
+
+![](assets/sprint-1/bboxes-on-map.png)
 
 <div>
 
