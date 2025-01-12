@@ -4379,6 +4379,37 @@ function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
 }
 ```
 
+Here's a visualisation of what that bbox would look like for the same route:
+
+![Small bbox](assets/sprint-2/bbox-1pc-better.png)
+
+As you can see, this bbox is now much too small. This caused an error when trying to calculate the route:
+
+```py
+Uncaught PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 101, in calculate_route_a_star
+    nodes: list[int] = networkx.astar.astar_path(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/decorators.py", line 789, in func
+    return argmap._lazy_compile(__wrapper)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<class 'networkx.utils.decorators.argmap'> compilation 4", line 3, in argmap_astar_path_1
+    import gzip
+            ^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/backends.py", line 633, in __call__
+    return self.orig_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/algorithms/shortest_paths/astar.py", line 171, in astar_path
+    raise nx.NetworkXNoPath(f"Node {target} not reachable from {source}")
+networkx.exception.NetworkXNoPath: Node 5128359607 not reachable from 11865781885
+```
+
+Thinking about this, it would probably still be better to increase the bbox by a constant value like 1-2 km, but because I've already implemented the percentage-based expansion, I will just increase the `expansionPercentage`. I increased it to 10%.
+
+With that change, the routing worked, and it only took 1.8 seconds, which subjectively, made it feel much more responsive.
+
+In the future, I could potentially dynamically download OSM data during the route calculation, or retry with a larger bbox if the A\* algorithm can't find a route. But for now, this is a good solution.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
