@@ -4512,6 +4512,41 @@ I also tried using a `useMemo` + native JS `if` instead of Voby's `If`, but this
 }
 ```
 
+I thought that surely if I run the Python code within a `setTimeout`, Voby will have time to update the UI in between this being called and the Python code starting. I set up a test:
+
+```ts
+routeCalculationProgress(CalculationState.Downloading)
+tick()
+const routing_engine = py.RoutingEngine()
+const bbox = calculateBboxForRoute(startPos, endPos)
+console.debug("Using bounding box for route", bbox)
+setTimeout(() => {
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+}, 100)
+```
+
+This was successful in the sense that the loading spinner did render at the right time, although it froze while the code was actually running, which I had half-expected.
+
+I made use of this discovery to create a `tickUI` async function, which resolves once the oby `tick()` procedure has been called (to guarantee all the `useEffect` hooks have run), as well as after a delay of 1ms has passed (using `setTimeout()`), to be reasonably certain that the UI has updated:
+
+```ts
+function tickUI(): Promise<void> {
+  return new Promise((resolve) => {
+    tick()
+    setTimeout(resolve, 1)
+  })
+}
+```
+
+I then turned `calculateRoute()` into an async function (which didn't require any changes to where it's called) and updated my `tick()` calls to be `await tickUI()` statements. Now the loading spinner still freezes once it's shown, but at least it shows up.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
