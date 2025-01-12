@@ -4470,6 +4470,36 @@ I also implemented a loading spinner to go below the form:
 
 However, this part of the UI, with its reactive `If` component, suffered from the same issue of not having a chance to update while the main thread is blocked, so it never showed.
 
+I tried implementing a system where the cursor would become a loading spiral while the page is unresponsive (providing nostalgia for unresponsive Windows apps), but this didn't work, so I removed the code, but I will paste it here anyway:
+
+```ts
+useEffect(() => {
+  if (routeCalculationProgress()) {
+    document.body.style.cursor = "wait"
+  }
+  document.body.style.cursor = ""
+})
+```
+
+To fix the issue with the main thread being blocked, I tested executing the Python code in a promise:
+
+```ts
+async function downloadMapData(routing_engine: any, bbox: any) {
+  const [ways, raw_nodes] = routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routeCalculationProgress(CalculationState.ComputingGraph)
+  tick()
+  return [ways, raw_nodes]
+}
+```
+
+However, this function still froze the UI while it was running.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
