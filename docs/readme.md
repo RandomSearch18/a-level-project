@@ -4417,6 +4417,59 @@ As per my mockup, I will attempt to add a indicator that the route is being calc
 
 I will use observables to store the progress of the route calculation, so that the UI can easily be reactively updated, and also store the current route result (once calculated) in an observable so that the main map can show it.
 
+I added an observable called `routeCalculationProgress`:
+
+```ts
+enum CalculationState {
+  Idle,
+  Downloading,
+  ComputingGraph,
+  CalculatingRoute,
+}
+
+const routingEngineAvailable = useMemo(() => !!usePy())
+const routeCalculationProgress = $<CalculationState>(CalculationState.Idle)
+```
+
+And I added some lines `calculateRoute()` to update it appropriately, as well as some `useEffect` hooks to print the state of the observable when it updates:
+
+![](assets/sprint-2/route-calculation-progress.png)
+
+However, I noticed that I could only ever see the observable being set to `0` (`CalculationState.Idle`). I think it's likely that this is because `useEffect` hooks aren't executed immediately, and because PyScript blocks the main thread, they never get a chance to run until the route calculation is finished.
+
+Fortunately, I discovered that `oby` has a `$.tick()` procedure that can force the `useEffect` hooks to run immediately:
+
+> `$.tick`: This function forces effects scheduled for execution to be executed immediately, bypassing automatic or manual batching.
+
+Calling this function after updating the observable (and before the long synchronous task) fixed that issue.
+
+I also implemented a loading spinner to go below the form:
+
+```tsx
+<If when={() => routeCalculationProgress()}>
+  <div class="mt-8 flex items-center gap-8">
+    <span class="loading loading-spinner loading-lg text-primary"></span>
+    <div class="h-full">
+      {() => {
+        switch (routeCalculationProgress()) {
+          case CalculationState.Idle:
+            console.warn("Loading spinner visible when idle")
+            return "Idle"
+          case CalculationState.Downloading:
+            return "Downloading OSM data..."
+          case CalculationState.ComputingGraph:
+            return "Computing routing graph..."
+          case CalculationState.CalculatingRoute:
+            return "Calculating route..."
+        }
+      }}
+    </div>
+  </div>
+</If>
+```
+
+However, this part of the UI, with its reactive `If` component, suffered from the same issue of not having a chance to update while the main thread is blocked, so it never showed.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
