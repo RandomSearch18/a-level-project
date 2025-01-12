@@ -4500,6 +4500,18 @@ async function downloadMapData(routing_engine: any, bbox: any) {
 
 However, this function still froze the UI while it was running.
 
+I also tried using a `useMemo` + native JS `if` instead of Voby's `If`, but this too didn't change anything:
+
+```jsx
+{
+  useMemo(() =>
+    routeCalculationProgress() ? (
+      <div class="mt-8 flex items-center gap-8">{/* ... */}</div>
+    ) : undefined
+  )
+}
+```
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
