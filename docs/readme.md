@@ -3160,7 +3160,7 @@ For these reasons, I will write my own code for generating the routing graph fro
 
 ###### Routing graph generation implementation plan
 
-The Overpass query I plan to use is written below. I have written it as so to include all elements that I want to use in the routing engine, as per the [top-level tags to parse for roads](#top-level-tags-to-parse-for-roads) and [top-level tags to parse for paths](#top-level-tags-to-parse-for-paths) sections. `{{bbox}}` should be replaced by an appropriate bounding box that represents the area data should be downloaded for.
+The Overpass query I plan to use is written below. I have written it as so to include all elements that I want to use in the routing engine, as per the [top-level tags to parse for roads](#top-level-tags-to-parse-for-roads) and [top-level tags to parse for paths](#top-level-tags-to-parse-for-paths) sections. `{{bbox}}` should be replaced by an appropriate bounding box (shortened to "bbox") that represents the area data should be downloaded for.
 
 Run this query in Overpass Turbo with the share link <https://overpass-turbo.eu/s/1WBt> to see it in action.
 
@@ -4326,6 +4326,58 @@ To debug, I added a `console.debug()` call to the JS code to print the bbox, and
 ![Browser console screenshot](assets/sprint-2/image.png)
 
 ![Browser console screenshot](assets/sprint-2/image-1.png)
+
+I mentioned this issue to my stakeholder Ili, and he suggested increasing the bbox by a percentage instead of a fixed amount, which seemed sensible to me. I decided to try using 1% as the percentage value. I implemented this in a modification to `calculateBboxForRoute()`:
+
+```ts
+function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
+  // We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  const expansionPercentage = 0.01
+  const min_lat = Math.min(start[0], end[0]) * 1 - expansionPercentage
+  const min_lon = Math.min(start[1], end[1]) * 1 - expansionPercentage
+  const max_lat = Math.max(start[0], end[0]) * 1 + expansionPercentage
+  const max_lon = Math.max(start[1], end[1]) * 1 + expansionPercentage
+  return [min_lat, min_lon, max_lat, max_lon] as [
+    number,
+    number,
+    number,
+    number
+  ]
+}
+```
+
+Visualisation of the bbox before being expanded (i.e. with the start and end points as its corners):
+
+![Very small bbox](assets/sprint-2/bbox-0pc.png)
+
+Visualisation of the bbox expanded by 1% is below. Note that it's quite tall because we're at 51&deg; latitude, which is a decently big number. Ideally, it would expand by a percentage (or constant) based on meters on the surface of the Earth, but that is more complicated to implement.
+
+![Tall bbox](assets/sprint-2/bbox-1pc.png)
+
+This worked and the route calculated in a more reasonable time (5.4 seconds, timed with JS `performance.now()`). While I'd definitely like to improve this further, it's a lot better than what it was previously doing.
+
+I then realised that expanding the bbox based on the magnitude of the coordinate values is stupid, and it should instead be proportional to the width and height of the bbox. Here's the modified function:
+
+```ts
+function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
+  // We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  const expansionPercentage = 0.01
+  const width = Math.abs(start[1] - end[1])
+  const height = Math.abs(start[0] - end[0])
+  const lonExpansionPercentage = expansionPercentage * width
+  const latExpansionPercentage = expansionPercentage * height
+  const min_lat = Math.min(start[0], end[0]) * 1 - latExpansionPercentage
+  const min_lon = Math.min(start[1], end[1]) * 1 - lonExpansionPercentage
+  const max_lat = Math.max(start[0], end[0]) * 1 + latExpansionPercentage
+  const max_lon = Math.max(start[1], end[1]) * 1 + lonExpansionPercentage
+  return [min_lat, min_lon, max_lat, max_lon] as [
+    number,
+    number,
+    number,
+    number
+  ]
+}
+```
 
 <div>
 
