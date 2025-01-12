@@ -4549,6 +4549,11 @@ I then turned `calculateRoute()` into an async function (which didn't require an
 
 I successfully tested it in Firefox (Developer Edition) and Brave, so I can be pretty sure that I'm not relying on any browser-specific quirks.
 
+I added a tooltip for the calculate button to be shown while the routing engine isn't ready:
+
+![](assets/sprint-2/tooltip-code.png)
+![](assets/sprint-2/tooltip.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
