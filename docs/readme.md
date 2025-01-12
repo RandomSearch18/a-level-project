@@ -4547,6 +4547,8 @@ function tickUI(): Promise<void> {
 
 I then turned `calculateRoute()` into an async function (which didn't require any changes to where it's called) and updated my `tick()` calls to be `await tickUI()` statements. Now the loading spinner still freezes once it's shown, but at least it shows up.
 
+I successfully tested it in Firefox (Developer Edition) and Brave, so I can be pretty sure that I'm not relying on any browser-specific quirks.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
