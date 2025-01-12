@@ -244,6 +244,7 @@ A-level Computer Science programming project
         - [Implementing the Route screen and calculating a route](#implementing-the-route-screen-and-calculating-a-route)
         - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
         - [Debugging bounding boxes on the map](#debugging-bounding-boxes-on-the-map)
+        - [Rendering route on map](#rendering-route-on-map)
 
 ## Analysis
 
@@ -4589,6 +4590,57 @@ drawBbox(bbox, { color: "green" })
 ```
 
 ![](assets/sprint-1/bboxes-on-map.png)
+
+##### Rendering route on map
+
+I expanded the `CurrentRoute` interface to include more information from the Python `RouteResult`:
+
+```ts
+export interface RoutePart {
+  distance: number
+  estimated_time: number
+  description(): string
+}
+
+export interface CurrentRoute {
+  unexpandedBbox: BboxTuple
+  expandedBbox: BboxTuple
+  start: Coordinates
+  end: Coordinates
+  parts: RoutePart[]
+  lines: Line[]
+  totalTime: number
+  totalDistance: number
+}
+```
+
+Added some more types to `types.mts`:
+
+```ts
+export type Coordinates = [number, number]
+export type Line = [Coordinates, Coordinates]
+```
+
+And updated `calculateRoute` to support the new attributes on `CurrentRoute`:
+
+```ts
+currentRoute({
+  expandedBbox: bbox,
+  unexpandedBbox: calculateBboxForRoute(startPos, endPos, 0),
+  start: startPos,
+  end: endPos,
+  parts: route.parts,
+  lines: (route.parts.toJs() as any[])
+    .filter((part) => "start" in part)
+    .map((part) => [part.start.toJs(), part.end.toJs()] as Line),
+  totalTime: route.total_time(),
+  totalDistance: route.total_distance(),
+})
+```
+
+The screenshot below shows the route lines being calculated correctly. I used the `toJs()` method because `part.start`/`part.end` are tuples in Python, which are proxied by default. I didn't need this link between Python and JS for those objects, so I converted them to plain JS arrays, which makes them easier to look at in the console.
+
+![](assets/sprint-2/lots-of-lines.png)
 
 <div>
 
