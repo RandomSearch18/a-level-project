@@ -1702,21 +1702,23 @@ I will download OSM data files from <https://www.openstreetmap.org/export> for t
 
 ###### During development
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome |
-| ---- | --------------- | ---- | --------- | ---------------- |
-| Accepts file | Ensure the program uses the provided CLI arg | Normal | `my-data-file.osm` (a valid data file) | Output shows that data was loaded from that file |
-| File exists | Program should check that the file exists | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
-| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
+<!-- prettier-ignore-ignore -->
+
+| Test                        | Reason for test                            | Type                                      | Test data                                | Expected outcome                        |
+| --------------------------- | ------------------------------------------ | ----------------------------------------- | ---------------------------------------- | --------------------------------------- | ------------------------------------------------ |
+| Accepts file                | Ens                                        | ure the program uses the provided CLI arg | Normal                                   | `my-data-file.osm` (a valid data file)  | Output shows that data was loaded from that file |
+| File exists                 | Program should check that the file exists  | Erroneous                                 | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
+| Graph is created with edges | Ensure that the graph is created correctly | Normal                                    | `my-data-file.osm` (small region file)   | Graph is printed, containing some edges |
 
 ###### After development
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome |
-| ---- | --------------- | ---- | --------- | ---------------- |
-| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
-| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+<!-- prettier-ignore-ignore -->
+
+| Test                   | Reason for test                                                      | Type                                                                       | Test data                                        | Expected outcome                                                                            |
+| ---------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------- |
+| File is a file         | P                                                                    | aths should only be accepted if they point to files that are file-y enough | Erroneous                                        | `/tmp` (a directory)                                                                        | Print "Cannot access /tmp: not a file" |
+| File is readable       | Should notify the user if it can't read the file due to permissions  | Erroneous                                                                  | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied"                              |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous                                                                  | `.osm` file with a missing `>`                   | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
 
 ### Sprint 1 development
 
@@ -2320,12 +2322,13 @@ Note that my "during development" tests have been discussed in the above section
 
 I have adjusted the input data slightly from my initial test plan for the backend, to make it slightly easier to run the tests in a way that can be captured in a single screenshot. This won't materially affect the tests, as the data still matches the test reason, type, and outcome that should be expected.
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
-| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
-| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" | "Cannot access /tmp: is a directory" | ✅\* |
-| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied" | "Cannot access file ../map.osm: permission denied" | ✅ |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with an extra `</invalid>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx | ❌ |
+<!-- prettier-ignore-ignore -->
+
+| Test                   | Reason for test                                                      | Type                                                                       | Test data                                  | Expected outcome                                                                            | Actual outcome                                     | Pass?                                |
+| ---------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------ | ---- |
+| File is a file         | P                                                                    | aths should only be accepted if they point to files that are file-y enough | Erroneous                                  | `/tmp` (a directory)                                                                        | Print "Cannot access /tmp: not a file"             | "Cannot access /tmp: is a directory" | ✅\* |
+| File is readable       | Should notify the user if it can't read the file due to permissions  | Erroneous                                                                  | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied"                                    | "Cannot access file ../map.osm: permission denied" | ✅                                   |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous                                                                  | `.osm` file with an extra `</invalid>`     | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx      | ❌                                   |
 
 ##### Sprint 1 post-development test log
 
@@ -4641,6 +4644,136 @@ currentRoute({
 The screenshot below shows the route lines being calculated correctly. I used the `toJs()` method because `part.start`/`part.end` are tuples in Python, which are proxied by default. I didn't need this link between Python and JS for those objects, so I converted them to plain JS arrays, which makes them easier to look at in the console.
 
 ![](assets/sprint-2/lots-of-lines.png)
+
+With this information, I was finally able to render the route on the map. I drew a semitransparent line along the route, as requested by my stakeholders, and also added circles to mark the start and end points of the route, dotted lines between the first/final node and the start/end points (respectively), and a popup that appears when you click on the start/destination.
+
+I added some helper functions to `MainMap.tsx`:
+
+```ts
+export function drawBbox(
+  bbox: [number, number, number, number],
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const rectangle = L.rectangle(
+    [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ],
+    options
+  )
+  rectangle.addTo(map)
+  return rectangle
+}
+
+export function drawStraightLine(
+  from: Coordinates,
+  to: Coordinates,
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const polyline = L.polyline([from, to], options)
+  polyline.addTo(map)
+  return polyline
+}
+
+/** Draws an array of line segments as a single polyline */
+export function drawLines(lines: Line[], options: PolylineOptions) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  // We assume that each line segment starts where the previous one ended,
+  // so we can just take the first point of each line segment + the final point
+  const points = lines.map((line) => line[0])
+  points.push(lines.at(-1)![1])
+  const polyline = L.polyline(points, options)
+  polyline.addTo(map)
+  return polyline
+}
+
+export function drawCircle(
+  coordinates: [number, number],
+  options: CircleOptions,
+  popup?: string | HTMLElement | Popup
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const circle = L.circle(coordinates, options)
+  if (popup) circle.bindPopup(popup)
+  circle.addTo(map)
+  return circle
+}
+```
+
+And I also wrote a `useEffect` hook in the same file to draw all the elements of the route onto the map, whenever the `currentRoute` observable updates:
+
+```ts
+let layersForCurrentRoute: Layer[] = []
+
+const waypointCircleOptions: CircleOptions = {
+  radius: 4,
+  color: "#9d174d",
+  opacity: 0,
+  fillOpacity: 0.7,
+}
+
+const waypointLineOptions: PolylineOptions = {
+  color: "#9d174d",
+  opacity: 0.5,
+  dashArray: "1 6",
+}
+
+useEffect(() => {
+  const L = leaflet()
+  const map = mainMap()
+  const route = currentRoute()
+  if (!L || !map || !route) return
+  layersForCurrentRoute.forEach((layer) => {
+    layer.remove()
+  })
+  layersForCurrentRoute = [
+    // drawBbox(route.expandedBbox, {
+    //   color: "green",
+    //   fillOpacity: 0.1,
+    //   fill: false,
+    // }),
+    // drawBbox(route.unexpandedBbox, { color: "red" }),
+    // Mark start and end points with circles
+    drawCircle(
+      route.start,
+      waypointCircleOptions,
+      "Start at " + route.start.join(", ")
+    ),
+    drawCircle(
+      route.end,
+      waypointCircleOptions,
+      "Destination at " + route.start.join(", ")
+    ),
+    // Draw line to start point
+    drawStraightLine(route.start, route.lines[0][0], waypointLineOptions),
+    // Draw the actual route
+    drawLines(route.lines, { color: "#9d174d", opacity: 0.5 }),
+    // Draw line to end point
+    drawStraightLine(route.end, route.lines.at(-1)![1], waypointLineOptions),
+  ]
+
+  console.log(route.lines)
+})
+```
+
+As you can see, I also migrated the bbox debug overlays to this same `useEffect` hook, but commented them out because I'm no longer working on debugging the bounding boxes.
+
+I tested the overlay with a route from school to The Bakery, because that's what Andrew mentioned he would like to use the routing engine for:
+
+<!-- prettier-ignore -->
+| Start | Whole route | End |
+|---|---|---|
+| ![Screenshot of the route getting out of school](assets/sprint-2/out-of-school.png) | ![Screenshot of the whole route](assets/sprint-2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/sprint-2/to-the-bakery.png) |
 
 <div>
 
