@@ -247,7 +247,8 @@ A-level Computer Science programming project
         - [Rendering route on map](#rendering-route-on-map)
     - [Sprint 2 evaluation](#sprint-2-evaluation)
       - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
-      - [Sprint 2 terminal testing](#sprint-2-terminal-testing)
+      - [Sprint 2 post-development testing](#sprint-2-post-development-testing)
+        - [Sprint 2 post-development test table](#sprint-2-post-development-test-table)
         - [Sprint 2 stress-testing](#sprint-2-stress-testing)
 
 ## Analysis
@@ -4791,7 +4792,14 @@ Another challenge was getting a service worker working to cache all of the web a
 
 Despite these challenges and the current implementation limitations, I managed to create a working end-to-end prototype that contains features that my stakeholders have asked for, including showing the route as an overlay on the map and offline support once the route has been calculated. It works on mobile and is reasonably performant.
 
-#### Sprint 2 terminal testing
+#### Sprint 2 post-development testing
+
+##### Sprint 2 post-development test table
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
+| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
+| Routes along a straight road | Test the most basic case of routing engine | Normal | From 51.272639,-0.399783 to 51.274479,-0.393767
 
 ##### Sprint 2 stress-testing
 
