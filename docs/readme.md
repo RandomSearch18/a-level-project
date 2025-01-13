@@ -245,6 +245,8 @@ A-level Computer Science programming project
         - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
         - [Debugging bounding boxes on the map](#debugging-bounding-boxes-on-the-map)
         - [Rendering route on map](#rendering-route-on-map)
+    - [Sprint 2 evaluation](#sprint-2-evaluation)
+      - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
 
 ## Analysis
 
@@ -4774,6 +4776,18 @@ I tested the overlay with a route from school to The Bakery, because that's what
 | Start | Whole route | End |
 |---|---|---|
 | ![Screenshot of the route getting out of school](assets/sprint-2/out-of-school.png) | ![Screenshot of the whole route](assets/sprint-2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/sprint-2/to-the-bakery.png) |
+
+### Sprint 2 evaluation
+
+#### Sprint 2 qualitative evaluation
+
+In this sprint, I encountered a number of challenges, including deciding to write my own routing graph generation code for the routing engine. However, that went quite well, and has given me ore flexibility with the routing graph, even if it's not the most optimised graph, and I may have figure out how to store the geometry of a way in the future. In addition, I am currently using the NetworkX A\* implementation, which I may need to replace with my own implementation as my requirements for specific treatment of ways grows in the next sprints.
+
+The main issue I had, and tried to solve, was PyScript blocking the main thread when I run it normally, and causing a number of difficult-to-debug issues when running it in a web worker. At the moment, I have accepted that the UI freezes for a while while PyScript is working, but it makes the app feel much less responsive, especially on first load, so I plan on investigating it further in later sprints. I may want to look into switching to a MicroPython runtime for faster load times and perhaps working workers, but I have doubts about the various libaries I use working under MicroPython.
+
+Another challenge was getting a service worker working to cache all of the web app's resources so that it works offline. My solution of caching everything at runtime is not ideal due to cache invalidation challenges, potential wasted storage space, and needing to reload the page a couple of times before it works offline, but it does work and will hopefully be good enough for my stakeholders for now.
+
+Despite these challenges, I managed to create a working end-to-end prototype that contains features that my stakeholders have asked for, including showing the route as an overlay on the map and offline support once the route has been calculated.
 
 <div>
 
