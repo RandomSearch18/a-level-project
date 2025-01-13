@@ -247,6 +247,8 @@ A-level Computer Science programming project
         - [Rendering route on map](#rendering-route-on-map)
     - [Sprint 2 evaluation](#sprint-2-evaluation)
       - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
+      - [Sprint 2 terminal testing](#sprint-2-terminal-testing)
+        - [Sprint 2 stress-testing](#sprint-2-stress-testing)
 
 ## Analysis
 
@@ -4788,6 +4790,18 @@ The main issue I had, and tried to solve, was PyScript blocking the main thread 
 Another challenge was getting a service worker working to cache all of the web app's resources so that it works offline. My solution of caching everything at runtime is not ideal due to cache invalidation challenges, potential wasted storage space, and needing to reload the page a couple of times before it works offline, but it does work and will hopefully be good enough for my stakeholders for now.
 
 Despite these challenges and the current implementation limitations, I managed to create a working end-to-end prototype that contains features that my stakeholders have asked for, including showing the route as an overlay on the map and offline support once the route has been calculated. It works on mobile and is reasonably performant.
+
+#### Sprint 2 terminal testing
+
+##### Sprint 2 stress-testing
+
+To stress-test the routing engine, I attempted to route from Effingham to the Old Trafford football stadium. It took 5.0 minutes to download the map data from Overpass (335 MB), before the Chrome tab ran out of memory and crashed.
+
+As a slightly more reasonable test, I tried routing to London Heathrow Airport from Effingham. This time, the map data was 3.8 MB and downloaded in 3.81 s. Calculating the whole route took 44.99 seconds, and returned a route with 1069 parts.
+
+![Screenshot of the route to Heathrow](assets/sprint-2/heathrow-route.png)
+
+In conclusion, the routing engine performed reasonable well under stress testing, considering that my routing graph is rather unoptimised.
 
 <div>
 
