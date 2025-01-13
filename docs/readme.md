@@ -245,6 +245,8 @@ A-level Computer Science programming project
         - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
         - [Debugging bounding boxes on the map](#debugging-bounding-boxes-on-the-map)
         - [Rendering route on map](#rendering-route-on-map)
+      - [Sprint 2: Implementing the route info screen](#sprint-2-implementing-the-route-info-screen)
+      - [Sprint 2: Fixing colours in light mode](#sprint-2-fixing-colours-in-light-mode)
     - [Sprint 2 evaluation](#sprint-2-evaluation)
       - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
       - [Sprint 2 post-development testing](#sprint-2-post-development-testing)
@@ -4779,6 +4781,120 @@ I tested the overlay with a route from school to The Bakery, because that's what
 | Start | Whole route | End |
 |---|---|---|
 | ![Screenshot of the route getting out of school](assets/sprint-2/out-of-school.png) | ![Screenshot of the whole route](assets/sprint-2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/sprint-2/to-the-bakery.png) |
+
+#### Sprint 2: Implementing the route info screen
+
+As per my mockups that were well-loved by my stakeholders, I implemented the Route Info screen to show stats about the route.
+
+I used a Voby `Ternary` to show a `RouteInfoScreen` component when there's a current route, and the normal `RouteScreen` (with the input fields) when there isn't:
+
+```diff
+ <div class="screen" data-screen="route">
++  <Ternary when={() => currentRoute()}>
++    <RouteInfoScreen route={currentRoute()!} />
+     <RouteScreen />
++  </Ternary>
+ </div>
+```
+
+I then implemented the route info screen to match the design of my mockup:
+
+```tsx
+function ClearRouteButton() {
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          type="button"
+          onClick={() => {
+            currentRoute(undefined)
+          }}
+        >
+          🗑️ Clear route
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function RouteInfoScreen({ route }: { route: CurrentRoute }) {
+  const meters = displayInteger(route.totalDistance)
+  const minutes = displayInteger(route.totalTime / 60)
+  const ETA = useMemo(() => new Date(timestampNow() + route.totalTime * 1000))
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">Route info</h2>
+        <div class="flex flex-col gap-4">
+          <p>📍 Walking from {route.start}</p>
+          <p>📌 Walking to {route.end}</p>
+          <p>
+            🪜{meters} metres, {minutes} minutes remaining
+            <br />⌚ Estimated to arrive at {() =>
+              ETA().toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })
+            }
+          </p>
+        </div>
+      </div>
+      <ClearRouteButton />
+    </>
+  )
+}
+```
+
+This included writing some utility functions and observables for working with time and displaying localised numerical values, which I put into a file called `localization.ts`:
+
+```ts
+export const timestampNow = $(Date.now())
+
+setInterval(() => {
+  timestampNow(Date.now())
+}, 1000)
+
+export function displayInteger(num: number): string {
+  return num.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  })
+}
+```
+
+The `timestampNow` observable ensures the route ETA stays accurate, and the `displayInteger` function makes it easy to display numbers correctly according to the user's preference.
+
+![Screenshot of the screen](assets/sprint-2/route-info.png)
+
+I succesfully tested that:
+
+- The screen shows up when a route has been calculated
+- The screen doesn't incorrectly show up before a route has been calculated
+- The coordinates, numbers, and times are displayed based on the route result
+- The values are printed in a friendly format
+- The ETA updates automatically
+- The route can be cleared by pressing the "Clear route" button
+- The app goes back to the "calculate a route" screen when the route is cleared
+
+Therefore I consider this implementation very successful.
+
+#### Sprint 2: Fixing colours in light mode
+
+I noticed that the pink accent colour provides poor text contrast when used as a text colour in light theme on the route input labels.
+
+![Light pink text on white background](assets/sprint-2/pink-on-white.png)
+
+I edited the labels and inputs to use `pink-800` in light theme (to match the bottom bar text), and `primary` in dark theme (because that already looked good):
+
+![Diff for changing Tailwind classes](assets/sprint-2/tailwind-yay.png)
+
+It is now much more readable in light theme:
+
+![Dark pink text on white background](assets/sprint-2/dark-pink-on-white.png)
+
+This is an important fix to make, because many of my users may prefer light theme, and it's easier to use light theme in bright sunlight, so it should be usable with good contrast.
 
 ### Sprint 2 evaluation
 
