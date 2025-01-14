@@ -181,6 +181,80 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
       - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
+  - [Sprint 2 (2024-12-09 onwards)](#sprint-2-2024-12-09-onwards)
+    - [Sprint 2 goals](#sprint-2-goals)
+      - [Sprint 2 user stories](#sprint-2-user-stories)
+      - [Sprint 2 research tasks](#sprint-2-research-tasks)
+    - [Sprint 2 design](#sprint-2-design)
+      - [Sprint 2 design: Running Python in the browser](#sprint-2-design-running-python-in-the-browser)
+        - [Potential tools for Python in the browser](#potential-tools-for-python-in-the-browser)
+        - [Official WASM platform support from Python](#official-wasm-platform-support-from-python)
+        - [Researching PyScript (and Pyodide)](#researching-pyscript-and-pyodide)
+        - [Researching `py2wasm`](#researching-py2wasm)
+      - [Sprint 2 design: OSM tags to use in the routing engine](#sprint-2-design-osm-tags-to-use-in-the-routing-engine)
+        - [Research approach for OSM tags](#research-approach-for-osm-tags)
+        - [General approach for parsing OSM tags](#general-approach-for-parsing-osm-tags)
+        - [Top-level tags to parse for roads](#top-level-tags-to-parse-for-roads)
+        - [Top-level tags to parse for paths](#top-level-tags-to-parse-for-paths)
+          - [`highway=path` controversy](#highwaypath-controversy)
+        - [Other routable features](#other-routable-features)
+        - [Attribute tags to parse for paths and roads](#attribute-tags-to-parse-for-paths-and-roads)
+          - [Tags that apply to paths (or roads being walked along)](#tags-that-apply-to-paths-or-roads-being-walked-along)
+          - [Tags for walking along paths](#tags-for-walking-along-paths)
+          - [Tags for pavements mapped as attributes on road ways](#tags-for-pavements-mapped-as-attributes-on-road-ways)
+          - [Tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)
+          - [Tags only for walking along roads](#tags-only-for-walking-along-roads)
+          - [Tags for nodes encountered along a path or road](#tags-for-nodes-encountered-along-a-path-or-road)
+          - [Tags for names and references](#tags-for-names-and-references)
+          - [Access tags](#access-tags)
+          - [Tags on areas that the route goes through](#tags-on-areas-that-the-route-goes-through)
+          - [Chasing pavements](#chasing-pavements)
+          - [Road crossings](#road-crossings)
+      - [Sprint 2 UI design](#sprint-2-ui-design)
+        - [Route screen mockups](#route-screen-mockups)
+        - [Stakeholder feedback for route screen mockups](#stakeholder-feedback-for-route-screen-mockups)
+        - [Sprint 2 UI validation table](#sprint-2-ui-validation-table)
+      - [Sprint 2 modules](#sprint-2-modules)
+        - [A\* algorithm design](#a-algorithm-design)
+          - [A\* algorithm justification](#a-algorithm-justification)
+          - [A\* algorithm implementation plan](#a-algorithm-implementation-plan)
+          - [A\* algorithm pseudocode](#a-algorithm-pseudocode)
+          - [A\* algorithm test plan](#a-algorithm-test-plan)
+        - [Routing graph generation design](#routing-graph-generation-design)
+          - [Routing graph generation justification](#routing-graph-generation-justification)
+          - [Routing graph generation implementation plan](#routing-graph-generation-implementation-plan)
+          - [Routing graph generation pseudocode](#routing-graph-generation-pseudocode)
+    - [Sprint 2 development](#sprint-2-development)
+      - [Sprint 2: Converting the frontend code to JSX components](#sprint-2-converting-the-frontend-code-to-jsx-components)
+        - [Creating `App.tsx`](#creating-apptsx)
+        - [Creating `BottomBar.tsx`](#creating-bottombartsx)
+        - [Creating `CurrentLocationButton.tsx`](#creating-currentlocationbuttontsx)
+        - [Updating `BottomBar.tsx` to use observables](#updating-bottombartsx-to-use-observables)
+        - [Updating `BottomBar.tsx` to reduce manual observable updates](#updating-bottombartsx-to-reduce-manual-observable-updates)
+      - [Sprint 2: Improving performance](#sprint-2-improving-performance)
+        - [Proof of concept for async Leaflet loading](#proof-of-concept-for-async-leaflet-loading)
+        - [Properly implementing async Leaflet loading](#properly-implementing-async-leaflet-loading)
+        - [Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet](#disabling-currentlocationbuttontsx-when-leaflet-hasnt-loaded-yet)
+        - [Evaluation of async Leaflet loading](#evaluation-of-async-leaflet-loading)
+      - [Sprint 2: Implementing the graph generation code](#sprint-2-implementing-the-graph-generation-code)
+      - [Sprint 2: Embed the routing engine into the web app](#sprint-2-embed-the-routing-engine-into-the-web-app)
+        - [Making python classes accessible from JavaScript](#making-python-classes-accessible-from-javascript)
+        - [Stopping Pyscript from blocking the main tread](#stopping-pyscript-from-blocking-the-main-tread)
+        - [Ensuring PyScript works on Cloudflare Pages](#ensuring-pyscript-works-on-cloudflare-pages)
+        - [Implementing a service worker](#implementing-a-service-worker)
+        - [More issues with PyScript workers](#more-issues-with-pyscript-workers)
+        - [Implementing the Route screen and calculating a route](#implementing-the-route-screen-and-calculating-a-route)
+        - [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui)
+        - [Debugging bounding boxes on the map](#debugging-bounding-boxes-on-the-map)
+        - [Rendering route on map](#rendering-route-on-map)
+      - [Sprint 2: Implementing the route info screen](#sprint-2-implementing-the-route-info-screen)
+      - [Sprint 2: Fixing colours in light mode](#sprint-2-fixing-colours-in-light-mode)
+    - [Sprint 2 evaluation](#sprint-2-evaluation)
+      - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
+      - [Sprint 2 post-development testing](#sprint-2-post-development-testing)
+        - [Sprint 2 post-development test table](#sprint-2-post-development-test-table)
+          - [Sprint 2 post-development test evidence](#sprint-2-post-development-test-evidence)
+        - [Sprint 2 stress-testing](#sprint-2-stress-testing)
 
 ## Analysis
 
@@ -1435,10 +1509,12 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
+    Sprint 2: 2024-12-05, 2025-01-10
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
+    Sprint 2: 2024-12-09,
 ```
 
 <!--
@@ -1543,7 +1619,7 @@ OSMnx is also used by Routor, my beloved Python routing engine.
 
 ###### OSMnx citation
 
-Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/>
+Boeing, G. 2024. "Modeling and Analyzing Urban Networks and Amenities with OSMnx." Working paper. URL: <https://geoffboeing.com/publications/osmnx-paper/> <!-- cspell:disable-line -->
 
 ##### PyOsmium research
 
@@ -1636,21 +1712,23 @@ I will download OSM data files from <https://www.openstreetmap.org/export> for t
 
 ###### During development
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome |
-| ---- | --------------- | ---- | --------- | ---------------- |
-| Accepts file | Ensure the program uses the provided CLI arg | Normal | `my-data-file.osm` (a valid data file) | Output shows that data was loaded from that file |
-| File exists | Program should check that the file exists | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
-| Graph is created with edges | Ensure that the graph is created correctly | Normal | `my-data-file.osm` (small region file) | Graph is printed, containing some edges |
+<!-- prettier-ignore-ignore -->
+
+| Test                        | Reason for test                              | Type      | Test data                                | Expected outcome                                 |
+| --------------------------- | -------------------------------------------- | --------- | ---------------------------------------- | ------------------------------------------------ |
+| Accepts file                | Ensure the program uses the provided CLI arg | Normal    | `my-data-file.osm` (a valid data file)   | Output shows that data was loaded from that file |
+| File exists                 | Program should check that the file exists    | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found"          |
+| Graph is created with edges | Ensure that the graph is created correctly   | Normal    | `my-data-file.osm` (small region file)   | Graph is printed, containing some edges          |
 
 ###### After development
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome |
-| ---- | --------------- | ---- | --------- | ---------------- |
-| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" |
-| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied" |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with a missing `>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+<!-- prettier-ignore-ignore -->
+
+| Test                   | Reason for test                                                             | Type      | Test data                                        | Expected outcome                                                                            |
+| ---------------------- | --------------------------------------------------------------------------- | --------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| File is a file         | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory)                             | Print "Cannot access /tmp: not a file"                                                      |
+| File is readable       | Should notify the user if it can't read the file due to permissions         | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied"                              |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified        | Erroneous | `.osm` file with a missing `>`                   | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
 
 ### Sprint 1 development
 
@@ -1884,7 +1962,7 @@ print(graph)
 
 ##### Connecting the graph to the OSM data
 
-I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was purplexing.
+I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was perplexing.
 
 ![](assets/sprint-1/my-first-graph-3.png)
 
@@ -1964,7 +2042,7 @@ This error suggested that I don't need to simplify the graph anyway, so I can dr
 
 ##### Creating classes
 
-The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a paremeter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
+The next step, now that I had logic implemented, was to align my code to [my class diagrams](#class-diagrams-for-routing). I created a `routing_engine.py` file to hold my routing engine class. Within it, I created a `RoutingEngine` class, leaving a blank `__init__` method, and a `compute_graph` method that would contain the graph-generating logic I had already written, and return a `RoutingGraph`. With this return type came for a need to create the `RoutingGraph` class, which I promptly added to the top of my file. Deciding that it would be best for the `RoutingGraph` class to simply be a storage object for the routing engine data, I made it take in the routing graph as a parameter and store it in an attribute. My class diagram also called for an `osm_data` attribute, but since I don't yet have a representation for OSM data, I've set the attribute to `None` and added a to-do comment.
 
 ```python
 class RoutingGraph:
@@ -2008,17 +2086,17 @@ I didn't want to have to set up a package and other things I don't yet understan
 from routing_engine import RoutingEngine
 ```
 
-I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backedn folder, so that it runs correctly when I press <kbd>F5</kbd>.
+I also adjusted my VSCode `launch.json` configuration file to set the working directory to the backend folder, so that it runs correctly when I press <kbd>F5</kbd>.
 
 ##### Creating more classes
 
-I continued to work on creating the classes and data structres from my class diagram, implementing:
+I continued to work on creating the classes and data structures from my class diagram, implementing:
 
 - The `Coordinates` data structure (in a new `osm_data_types.py` file)
 - The `RouteCalculator` class
 - Stubs for the `RouteResult` and `RoutingOptions` classes
 
-I added `raise NotImplementedError` lines, and to-do comments where appropiate, because I will implement the logic for the other classes in future sprints.
+I added `raise NotImplementedError` lines, and to-do comments where appropriate, because I will implement the logic for the other classes in future sprints.
 
 #### Frontend: Implementing the UI design
 
@@ -2028,7 +2106,7 @@ To ensure that I am documenting my work, and to make it easier for me to develop
 
 ##### Getting Voby JSX working
 
-I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work hald of the time:
+I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work half of the time:
 
 ```tsx
 function App() {
@@ -2085,7 +2163,7 @@ I then added a bottom navigation bar using DaisyUI's `btm-nav` class, as well as
 
 ```html
 <div class="btm-nav">
-  <button class="active border-pinx-600 bg-pink-200 text-pink-600">
+  <button class="active border-pink-600 bg-pink-200 text-pink-600">
     <span class="btm-nav-label">Map</span>
   </button>
   <button class="bg-pink-200 text-pink-600">
@@ -2104,7 +2182,7 @@ I also adjusted the main map to have the correct height:
 +  height: calc(100dvh - 4rem);
 ```
 
-And made the page title screenreader-only, so that the view matches my mockup, while preserving accessibility:
+And made the page title screen-reader-only, so that the view matches my mockup, while preserving accessibility:
 
 ```diff
 -<h1>Marvellous mapping machine</h1>
@@ -2254,12 +2332,13 @@ Note that my "during development" tests have been discussed in the above section
 
 I have adjusted the input data slightly from my initial test plan for the backend, to make it slightly easier to run the tests in a way that can be captured in a single screenshot. This won't materially affect the tests, as the data still matches the test reason, type, and outcome that should be expected.
 
-<!-- prettier-ignore -->
-| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
-| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
-| File is a file | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory) | Print "Cannot access /tmp: not a file" | "Cannot access /tmp: is a directory" | ✅\* |
-| File is readable | Should notify the user if it can't read the file due to permissions | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied" | "Cannot access file ../map.osm: permission denied" | ✅ |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous |`.osm` file with an extra `</invalid>` | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx | ❌ |
+<!-- prettier-ignore-ignore -->
+
+| Test                   | Reason for test                                                             | Type      | Test data                                  | Expected outcome                                                                            | Actual outcome                                     | Pass? |
+| ---------------------- | --------------------------------------------------------------------------- | --------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----- |
+| File is a file         | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory)                       | Print "Cannot access /tmp: not a file"                                                      | "Cannot access /tmp: is a directory"               | ✅\*  |
+| File is readable       | Should notify the user if it can't read the file due to permissions         | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied"                                    | "Cannot access file ../map.osm: permission denied" | ✅    |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified        | Erroneous | `.osm` file with an extra `</invalid>`     | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx      | ❌    |
 
 ##### Sprint 1 post-development test log
 
@@ -2326,7 +2405,7 @@ I showed him the deployed site on a school computer. Overall, he liked the usabi
 
 He tested the "show my location" feature and we were both very impressed with its precision and accuracy, identifying us correctly down to the room we were in. He wanted to know how it was so accurate.
 
-He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noed that when zomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement. James was able to successfully and quickly find the Old Trafford football stadium, which proves that the app was intuitive and fast to use.
+He also enjoyed zooming through the map, and although tiles occasionally took a moment to load on the lower zoom levels, this didn't bother him. He noted that when zoomed far out, multiple copies of the world are visible, but our location was only visible on one. He asked if it could be visible on all of them, if that wouldn't be too hard to implement. James was able to successfully and quickly find the Old Trafford football stadium, which proves that the app was intuitive and fast to use.
 
 ##### Sprint 1 feedback from Ili
 
@@ -2353,11 +2432,2549 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
 3. ✅ As a mobile user, I want the UI to fit well on my screen and be easy to use
    - The web app was developed mobile-first, and my stakeholders liked the mobile UI
 4. ✅ As a stakeholder, I want to get an initial idea of the UI layout so that I can give feedback
-   - This sprint succesfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
+   - This sprint successfully displayed a basic UI layout, and I got a useful range of positive and negative feedback from my stakeholders
 5. ✅ As a technically-minded stakeholder, I want to see a proof of concept of the start of the routing engine
    - I showed Andrew a representation of the the routing graph in my debugger, and he was satisfied that I was getting backend work done
 
-All user story requirements have been met with largely positve stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+All user story requirements have been met with largely positive stakeholder responses, and I have also identified features I can touch up on in the next sprint.
+
+## Sprint 2 (2024-12-09 onwards)
+
+### Sprint 2 goals
+
+#### Sprint 2 user stories
+
+1. As a user, I want to be able to use the program by simply visiting a URL in my web browser
+2. As a user, I want to see a basic route between two points that I choose
+3. As a user, I want to see the route highlighted on the map
+
+#### Sprint 2 research tasks
+
+I will need to complete two large pieces of research during the design phase of sprint 2.
+
+1. Investigate ways to run Python in the browser
+   - This is to integrate the routing engine into the web app
+2. Determine which OSM tags to use to help calculate the routing graph
+   - This is to meet my planned task of refining the routing graph
+
+### Sprint 2 design
+
+#### Sprint 2 design: Running Python in the browser
+
+I have encountered a number of different methods for running Python code in the browser, and I will need to investigate them to determine which is the best for my project.
+
+##### Potential tools for Python in the browser
+
+- PyScript (<https://pyscript.net/>)
+- Pyodide (<https://pyodide.org/en/stable/>)
+- `py2wasm` (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>)
+
+##### Official WASM platform support from Python
+
+[Python Enhancement Proposal 11 (PEP 11)](https://peps.python.org/pep-0011/) describes the platforms supported by CPython, the most-used Python interpreter. The `wasm32-unknown-wasip1` target is included in Tier 2 support, which means it's officially supported by the CPython project. However, this platform uses the WASI specification amd a runtime called Wasmtime, which is intended for running outside of browsers, so it won't help me here. The `wasm32-unknown-emscripten` target, which uses Emscripten and therefore runs in the browser, used to be supported, but this is no longer the case as of 2024.[^cpython-emscripten-support]
+
+However, this is not an issue as there are other Python interpreters available, as well as projects in the broader Python community that add WebAssembly support to CPython.
+
+[^cpython-emscripten-support]: "Looking for a new sponsor for `wasm32-unknown-emscripten`", Discussions on Python.org, accessed 2024-12-09 (<https://discuss.python.org/t/looking-for-a-new-sponsor-for-wasm32-unknown-emscripten/41063>)
+
+##### Researching PyScript (and Pyodide)
+
+I found out that PyScript is built on top of Pyodide, so it won't be a choice between two competitors as I had assumed. This makes me meel like PyScript would be a very good choice, as it should provide quite a user-friendly interface for Python in the browser.
+
+I found out that PyScript supports either Pyodide or MicroPython as its runtime.[^pyscript-upy] I will likely want to use Pyodide, as I have relatively large libraries that my project depends on, as well as things like file access that will probably be more difficult to implement with MicroPython, and my libraries are likely to be more compatible with Pyodide. In addition, it's acceptable to have to wait a few moments for the Pyodide runtime to load, and I will be able to cache it for repeat visits.
+
+With that said, Pyodide doesn't have perfect library support, as it uses Micropip, which only supports pure Python libraries and a select number of others.[^micropip-install] I shall check if my libraries are written in pure Python.
+
+- NetworkX claims to be written in pure Python.[^networkx-backends]
+- OSMnx is also written in pure Python,[^osmnx-installation] which makes sense as it uses NetworkX.
+
+Therefore, I feel reasonably confident that my libraries will work in a PyScript+Pyodide environment.
+
+[^pyscript-upy]: <https://www.anaconda.com/blog/pyscript-updates-bytecode-alliance-pyodide-and-micropython>
+[^micropip-install]: `micropip.install()`, Micropip API reference (<https://micropip.pyodide.org/en/v0.2.2/project/api.html#micropip.install>), accessed 2024-12-12
+[^networkx-backends]: Page "Install", section "Backends", NetworkX documentation (<https://networkx.org/documentation/stable/install.html#backends>), accessed 2024-12-12
+[^osmnx-installation]: Page "Installation", section "Pip", OSMnx 2.0.0 documentation (<https://osmnx.readthedocs.io/en/stable/installation.html#pip>)
+
+##### Researching `py2wasm`
+
+![Cartoon banner image for py2wasm, from the Wasmer blog](assets/sprint-2/py2wasm.png)
+
+`py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promises to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
+
+- I'm not sure if it's intended to be used on the web, or just in WASI environments (like Wasmer)
+- It doesn't (yet) have a proper project page or documentation, just a blog post from the Wasmer company
+- It's more of a proof of concept for how Python could be run in the browser (or other WebAssembly environments) in the near future, whereas PyScript is a tool that has been used by a range of products and already has good developer experience.
+- The blog posts describes targeting a subset of Python features, prioritising speed over compatibility, and not supporting all libraries. I want a high chance that my libraries will work.
+
+It seems that `py2wasm`'s only advantage over PyScript is having a cool banner image at the top of its blog post, which I have included above.
+
+[^py2wasm]: Announcing py2wasm: A Python to Wasm compiler, wasmer.io (<https://wasmer.io/posts/py2wasm-a-python-to-wasm-compiler>), accessed 2024-12-13
+
+#### Sprint 2 design: OSM tags to use in the routing engine
+
+##### Research approach for OSM tags
+
+![A screenshot from Taginfo, a website used to research OSM tags](assets/sprint-2/taginfo.png)
+
+My main source of information will be the OSM Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
+
+The following pages from the OSM Wiki provide a very good summary of the top-level tags that I will need to use:
+
+- [Key:highway](https://wiki.openstreetmap.org/wiki/Key:highway)
+- [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom)
+
+Other very useful pages are:
+
+- [United Kingdom Tagging Guidelines](https://wiki.openstreetmap.org/wiki/United_Kingdom#Guidelines) lists other pages that document UK-specific tagging
+- [International highway classification equivalence](https://wiki.openstreetmap.org/wiki/International_highway_classification_equivalence) describes how OSM highway tags correspond to the legal road classifications in the UK
+- [Guidelines for pedestrian navigation](https://wiki.openstreetmap.org/wiki/Guidelines_for_pedestrian_navigation)
+
+I will also investigate the OSM tags commonly used in my local area to get a sense of what tags are used in practice, to ensure I'm making the most of the data available. Similarly, I will use the Taginfo tool for Great Britain ([taginfo.openstreetmap.org.uk]), which displays statistics for different tags and tag+value pairs in the UK, to get a sense of what tags are most commonly used. For example, the image above shows the tags that are most-commonly present on `highway=path` objects in the UK.
+
+If necessary to help understand a tagging scheme, I could ask the community on the OSM Community Forum ([c.osm.org](https://community.openstreetmap.org/)) for clarification and discussion, although since highway tagging is relatively simple and well-specified and standardised, I don't expect to need to do this.
+
+##### General approach for parsing OSM tags
+
+I will adopt a relaxed, liberal approach to parsing OSM tags (i.e. following Postel's Law) to help me extract as much value out of OSM data, even if it is imperfect, missing detail, or no longer follows best practices.
+
+<!-- For example,  TODO think of an example -->
+
+This also matches the approach that other projects that consume OSM data take.
+
+##### Top-level tags to parse for roads
+
+Top-level tags are OSM tags that define what an object actually _is_. In the case of the `highway=*` key, it groups roads and paths into broad categories depending on importance and function.
+
+I will recognise a number of top-level tags to classify a way as a road, according to the [Key:highway#Highway](https://wiki.openstreetmap.org/wiki/Key:highway#Highway) section on the wiki. Roads may or may not be traversable by foot on the main road surface, and may or may not have sidewalk (i.e. pavement) tags that specifies that the road has a pavement that can be traversed. Naturally, a road with a pavement would be nearly as preferable, or more preferable (depending on additional tags and settings), than a footpath separate from a road. On the other hand, a road without a pavement would be less advisable to walk across, and its utility will depend on the classification of the road.
+
+In addition, for some roads, it may be illegal to walk along them, either explicitly specified by the `foot=*` access tag, or implicitly by the road's classification (motorways and motorway links cannot be walked on in the UK).
+
+Below is a list of road tags I will include, and notes regarding them, e.g. their suitability for walking along (ignoring pavements):
+
+- `highway=motorway`
+  - Corresponds to motorways (blue signs), e.g. M25
+  - Very very very bad, absolutely do not even think about it
+  - Assume `foot=no`
+- `highway=trunk`
+  - Corresponds to "primary" A-roads (with green signs), e.g. A3
+  - Contain multiple lanes of fast-flowing traffic, so very unsafe to walk along
+- `highway=primary`
+  - Corresponds to "non-primary" A-roads in UK terminology (white signs), e.g. A246
+  - While not as lethal as larger A-roads, drivers would not expect a pedestrian on the road, and you would likely feel unsafe, so they similarly should be avoided
+- `highway=secondary`
+  - Corresponds to B-roads
+  - There are not many B-roads in my area so I don't have a good sense for them
+  - However, I doubt that people would want to walk along them and would try and scramble along a grass verge instead (such scrambling outside of paths is outside of the scope of my project)
+  - Therefore, they should also be avoided, apart from very small sections
+- `highway=tertiary`
+  - "Smaller through roads linking cities, towns or villages, or linking suburbs within built up areas. Generally used only on roads wide enough to allow two cars to pass safely where adequate road markings are in place; may have unsigned classifications such as C, D or U" (from [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+  - e.g. Effingham Common Road
+  - This is the first kind of road where it might be advisable and safe to walk along the road, depending on traffic levels, speed limits, as well as visibility of the pedestrian
+  - However, if a footpath is at all near, that should be preferred
+  - If a walker is well-equipped (e.g. high-visibility clothing) they may want to give these roads more of a consideration (potential for an option), but it would not be sensible to send pedestrians along them in most situations
+- `highway=unclassified`
+  - "Other non-residential roads in towns. Examples include: minor shopping streets, roads in commercial districts, and public roads in industrial areas. Country lanes." (from [Roads in the United Kingdom](https://wiki.openstreetmap.org/wiki/Roads_in_the_United_Kingdom))
+  - e.g. Manor House Lane
+  - Unclassified roads are likely to have slower traffic, with more reasons to slow down naturally present in the road.
+  - While a path would be preferred, walking along an unclassified road for a short distance, or where there is no nearby alternative available, would be acceptable
+- `highway=residential`
+  - Corresponds to residential roads, i.e. roads used for accessing the houses along them and general residential purposes. The majority of roads in UK villages are residential roads.
+  - e.g. Orestan Lane, Cock Lane, Sheeplands Avenue, etc.
+  - These roads aren't usually used for through traffic, so cars shouldn't be going too fast. Also, there might be children playing in the road and other residential activities, so hazards should be expected by drivers.
+  - Therefore, this road type is appropriate to walk along when required to get to a destination (I imagine this will often be the case, as residential roads form the start and/or end of many routes), and also acceptable to walk along if any nearby footpaths would be less convenient
+  - Of course, the routing engine should still prefer to route along pavements where possible
+- `highway=motorway_link`
+  - Corresponds to motorway slip roads
+  - Similarly to `highway=motorway`s, they are under motorway regulations and are unsafe and illegal to walk on
+  - Should have the same weight factor as motorways
+- `highway=trunk_link`, `highway=primary_link`
+  - Corresponds to A-road slip roads
+  - Should be treated the same as their respective road types
+- `highway=secondary_link`, `highway=tertiary_link`
+  - Corresponds to the short "shortcut" roads that you get at an intersection
+  - Should be treated the same as their respective road types
+- `highway=living_street`
+  - Corresponds to Home Zones in the UK road system
+  - Home Zones are shared-use areas intended to be used for activities such as playing or community events,[^rule-218] where cars should be prepared to wait for pedestrians to move out of the way
+  - Cars can still be present on these roads so they aren't as safe and convenient as footpaths, but they are the first road for which it would be advisable to walk along the road when a pavement isn't present
+- `highway=service`
+  - Corresponds to access roads or service roads. Roads used for more-or-less a single purpose, including driveways, car park aisles, or business/industrial access roads
+  - The exact nature of this road is described by the `service=*` key. If it isn't present, a safe assumption would be similar metrics to residential roads
+  - Many of these roads will be infrequently used by cars, but subjectively they aren't as "nice" to walk along as a footpath
+  - However, they are likely to be pretty narrow with pretty slow traffic speeds, so they can be used if other options aren't present, or if they would be a very efficient shortcut
+  - Notes specific to sub-types:
+    - `service=driveway`
+      - Likely to have very low traffic volume
+      - Most likely to be encountered at the very start or end of a route, as they are used for accessing one specific building
+      - However, we should assume `access=private`
+    - `service=parking_aisle`
+      - Car parks can be dangerous places due to cars moving in and out of spaces
+      - Again, likely to be found at the start/end of a route, but may also be valuable as a cut-through in more built-up areas
+      - `foot=yes` is probably a safe assumption, as even if you aren't allowed to park there, walking through is probably fine
+    - `service=alley`
+      - These are narrow roads used to access the rear of buildings, bins, and other utilities
+      - Not as nice ao walk along as a path, but can be used instead of a path if it's the most convenient route
+      - Should have a small penalty
+      - Similarly parking aisles, I expect them to be used as a way to access a precise destination, or sometimes as a cut-through (although they are usually dead-ends)
+    - `service=emergency_access`
+      - Roads for emergency access only
+      - Should be treated as `access=no` unless otherwise specified
+      - If foot access is allowed, should be treated as a generic service road
+      - There may be a risk of needing to move out of the way of emergency vehicles, but this should be a rare occurrence
+    - `service=drive-through`
+      - Drive-throughs, e.g. at fast food restaurants
+      - These are intended for cars only, and it would be awkward to walk there as a pedestrian, so they should have quite a high penalty
+      - However, they may be useful in some rarer cases where there aren't any desirable main paths, and if the drive-through isn't busy
+    - `service=slipway`
+      - This is a ramp used for launching boats into water
+      - It wouldn't make sense to route pedestrians along the slipway, but in a similar way to drive-throughs, some users may want to walk along them anyway
+      - In addition, there may be risk of obstructing boats, which are the designated users of the slipway
+      - They should have a high penalty
+    - `service=bus`
+      - This is a deprecated tag, but there are 381 instances in the UK, so following my Postel's Law approach, I will handle it
+      - `access=no` would be a safe assumption here as they are probably bus-only roads
+      - Otherwise, parse access tags as per usual and treat as a generic service road
+    - `service=layby`
+      - This is an undocumented tag that appears 270 times in the UK database
+      - Based on examples of usage (from [an Overpass Turbo query of `service=layby`](https://overpass-turbo.eu/s/1Wnq)) and its name, I can safely assume that it refers to a "lay-by" lane, where cars can park for a short time
+      - They would be further from traffic than working on the road itself, so we should probably route along them where possible if a pavement isn't present and we're on a road
+      - Penalty should be similar to a generic service road, lower than most roads, but higher than pavements and home zones
+      - It is not clear what the documented way to tag these roads is, or if one even exists
+    - `service=parking` seems to be a synonym for `service=parking_aisle`, so I should treat it as such
+      - 252 objects with this tag in the UK
+    - `service=access`
+      - Undocumented but seems to be used to describe a generic access road, so I should treat it the same as a `highway=service` with no specific `service=*` tag
+      - There are 264 of these roads mapped in the UK
+    - Any other uses of `service=*` on roads have <100 uses in the UK, so I won't give them any special behaviour past the generic service road behaviour
+- `highway=pedestrian`
+  - These are pedestrianised roads, intended for primarily pedestrians, often found in city/town centres
+  - e.g. Chapel Street and Friary Street (Guildford); High Street (Leatherhead); St Martin's Walk (Dorking)
+  - These are roads intended for walking, shopping, and other relaxed activities on foot, so they are probably even more desirable than most paths as they are wider and subjectively nicer
+  - These are the best roads to walk along
+- `highway=track`
+  - Tracks are part-way between a road that isn't part of the main road network, and a wide footpath
+  - They are used as minor land-access roads in farms, forests, or parks
+  - e.g. Chalkpit Lane, Connicut Lane (near Polesden Lacey)
+  - They are usually similar in function to a nice wide path, so they should be considered along with the other main OSM path types
+  - Default `access=*` assumptions on tracks is dubious in the UK, but the best way to handle this is probably to assume access is allowed by default, and let the user use their own discretion when they encounter the track on the ground
+  - Since these will only rarely or very rarely be used by cars, it's appropriate to consider them closer to paths than roads
+  - As with paths such as `highway=path`, their accompanying tags will be important for accurately determining their weight.
+  - Tracks in particular often (23% of the time) carry an accompanying `tracktype=*` value, which describes how well-maintained a track is, using surface firmness as a proxy indicator. The tracktype values and my notes are as follows:
+    - `tracktype=grade1`
+      - Solid surface, usually paved
+      - Should be very nice and easy to walk along, so should be highly preferred to a generic path
+    - `tracktype=grade2`
+      - Mostly-solid surface, usually unpaved with a mixture of materials of varying softness
+      - Quite nice to walk on, but could possibly become muddy or slippery in bad weather (this is relatively unlikely though, compared to the poorer tracktypes)
+      - Should be preferred to a generic path
+    - `tracktype=grade3`
+      - Even mixture of hard and soft materials
+      - Neutral preference to a generic path
+    - `tracktype=grade4`
+      - Mostly soft. An unpaved track with some hard materials like stones mixed in
+      - Still a perfectly fine path, so I won't have any weight penalty/advantage to this one either
+    - `tracktype=grade5`
+      - Soft surface, made up of soil, sand, grass, or similar
+      - This is closest to a path that hasn't been worn down by trampling, and is therefore less preferable than a generic path
+      - It could get quite muddy after bad weather, or be difficult to walk on
+      - It is usually especially unsuitable for wheelchair users
+- `highway=road`
+  - This is a generic road of an unknown type, meaning that the road could be any kind of road
+  - This is a difficult case to deal with and there aren't really any safe assumptions to make, apart from not routing on it at all
+  - Fortunately, there are only 325 occurrences of it in the UK
+  - Despite this, I shall follow Postel's Law and treat it as a generic path, perhaps raising a warning somewhere
+
+![An composite image showing examples of 5 different tracks, which correspond to the different tracktype=* grades](assets/sprint-2/tracktype.png)
+
+[^rule-218]: Rule 218, The Highway Code, GOV.UK (<https://www.gov.uk/guidance/the-highway-code/road-users-requiring-extra-care-204-to-225#rule218>), accessed 2024-12-13
+
+I will not consider the following top-level highway tags:
+
+- `highway=bus_guideway` - These are bus tracks, where it would not be legal nor safe to walk in all or almost all situations
+- `highway=escape` - These are emergency escape lanes sometimes found on motorways, so it would be very unwise to instruct a pedestrian to walk along them
+- `highway=raceway` - It is unlikely that my users will want to walk along a race track or a similar track/course
+- `highway=busway` - This is a kind of bus-only road, not meant to be used by pedestrians
+
+##### Top-level tags to parse for paths
+
+Similarly to roads, there exist a number of `highway=*` keys for paths, which are often the best choices for pedestrian navigation paths.
+
+Note that despite `highway=path` being a specific key, I will continue to use the word "path" in this document to refer to any walkable footpath, pavement, or small road, because that keeps things simpler.
+
+These are the `highway=*` keys that are used as top-level tags for paths:
+
+- `highway=footway`
+  - These are footpaths intended to be primarily used by pedestrians
+  - They might be signed with a blue circular footpath sign (or might not), and are often paved because they are usually constructed with the intention of being easy to walk along
+  - They should have a pretty highly preference, as a smooth, well-lit, well-maintained, wide path with a nice surface is the best kind of path to walk along. These properties can be factored in using the standard OSM tags that I will consider for all paths
+- `highway=bridleway`
+  - These are paths designated for horse riders, and correspond to bridleway terminology in the UK
+  - They may or may not be public bridleways, i.e. have a legal right of way (this is specified with the `designation=*` key)
+  - They might have a range of surfaces, so weight factor should be neutral (subject to modification from other tags)
+- `highway=steps`
+  - There's nothing wrong with steps, but they can be quite arduous to climb up, so I should add to their weight to reflect that
+  - I may also want to consider the `step_count=*` tag
+  - Since I'm using an undirected graph, I won't be able to have different weights for going up and down steps, so I'll have to pick a compromise
+  - A handrail can make steps easier and safer to climb, so the presence of a handrail would make the steps more preferable
+    - I will need to consider the `handrail=*` key, as well as `handrail:left=*`, `handrail:right=*`, and `handrail:center=*`
+  - Steps should be avoided wherever possible for wheelchair users, although if `step_count=*` is just one or two, that is perhaps acceptable
+  - I considered using the `step:height=*` tag to adjust the weight factor based on the step height, but it is a poorly-documented tag (only one mention on the wiki, [Stairs modelling#Parameter](https://wiki.openstreetmap.org/wiki/Stairs_modelling#Parameter)) with only 7 uses in the UK (with [way 1318084635](https://www.openstreetmap.org/way/1318084635) pretending that cm is the default unit, for an unknown reason)
+  - Instead, I could provide less of a weight penalty for steps with a truthy `flat_steps=*` value, because they should be easier to climb (although still problematic for wheelchair users)
+    - Sadly `flat_steps=*` seems to be pretty uncommon in the UK, with only 49 uses
+  - If the stairs have a ramp, this suggests that they're there as a potentially easier option for people who don't want to climb stairs, which should improve the weight a bit
+    - And for wheelchair users, this should almost entirely cancel out the weight penalty from stairs (but not entirely because ramps have a slight inconvenience usually)
+    - If `ramp=yes` is present, we will assume that the ramp is accessible to wheelchair users (which I reckon is a safe assumption as I feel that if mappers don't feel the need to specify a ramp type, it'll probably be a wheelchair ramp)
+      - If any `ramp:*=*` keys (e.g. `ramp:bicycle=*`, `ramp:stroller=*`, `ramp:wheelchair=*`) are present, it means that the type of ramp has been specified, so we won't make that assumption. Instead, we will use the `ramp:wheelchair=*` key to determine if there is a wheelchair ramp, and if that tag isn't present, assume that the ramp is only for a non-wheelchair purpose
+  - The extra wheelchair penalty should also be removed if the steps are tagged with `wheelchair=yes` or `wheelchair=designated`, as this states that the steps are wheelchair-accessible in one way or another
+  - If the user has stated that they prefer tactile paving, we should highly prioritise steps with tactile paving at the top and bottom (i.e. `tactile_paving=yes` or `tactile_paving=partial`) and increase the weight of steps without tactile paving (`tactile_paving=no`).
+    - If tactile paving is present but incorrect (`tactile_paving=incorrect`), we should also increase its weight, as the tactile paving could just lead someone into a wall or similar
+    - I won't bother dealing with the `tactile_paving=contrasted` value, because it only has 35 UK uses at the moment and is only mentioned in one bullet point on the wiki ([Key:tactile_paving#Common values](https://wiki.openstreetmap.org/wiki/Key:tactile_paving))
+  - I won't consider the `tactile_writing=*` key, as it only has 35 uses in the UK, and I've never personally encountered it in real life
+  - I won't consider the incline of the steps (`incline=*` when it has a numeric value), because I doubt many steps ways will specify the incline value (usually direction is just specified), and it'd require a lot of thinking to work out a formula for how the incline affects the weight for when the incline isn't a "normal"/"generic" incline of steps (that we would otherwise assume that the steps have for the sake of roughly calculating a weight)
+  - If `conveying=*` is truthy on a steps way, that means it's an escalator
+    - This tag won't change the wheelchair accessibility status
+    - But escalators are easier and more fun to use than steps, so any weight penalty from being steps should be eliminated (and perhaps a slight preference given, because they're moving so less effort is required per unit distance)
+- `highway=corridor`
+  - Represents an indoor corridor
+  - Corridors can be assumed to have a good surface,be well-lit, and be covered, due to being indoors, which could make them very attractive to walk along
+  - Some people may not wish to walk indoors (e.g. they just want fresh air) so there should be an option to avoid indoor paths like corridors
+  - It will be especially important to consider access tags for corridors, as many indoor places have restricted access
+  - A `highway=corridor` way seems to be semantically equivalent to a `highway=footway` + `indoor=yes` way, so I will treat them the same
+  - `highway=corridor` implies `indoor=yes`
+- `highway=path`
+  - Represents a generic path. A less-specific tag than the ones above.
+  - Whilst it is likely that `highway=path`s are traversable by foot, this cannot be assumed, as things like mountaineering routes or near-impassable trails are all tagged using `highway=path`
+  - More than any other of the tags, it is important to consider the accompanying tags on a `highway=path` to determine its weight, especially `surface=*`, as well as `sac_scale=*` and `trail_visibility=*`
+- `highway=via_ferrata`
+  - This is a route intended to be traversed using climbing equipment
+  - Such mountaineering and climbing activities are outside of the scope of a pedestrian routing engine, so I will not consider these ways to be navigable
+
+###### `highway=path` controversy
+
+![A collage showing an urban paved path, a forest path, and a mountain with no clear path, to demonstrate the wide range of situations the tag is used in](assets/sprint-2/path-controversy.png)
+
+Image credit: [Openstreetmap Paths Collage.jpg](https://commons.wikimedia.org/wiki/File:Openstreetmap_Paths_Collage.jpg) by Hungerburg, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons
+
+Because of its broad scope, and no defined distinction between it and `highway=footway`, `highway=path` is notorious for being difficult to interpret as a data consumer, especially for routers like mine. From many people's prospectives, the there is no consensus on the distinction between a `highway=path` and a `highway=footway`, with the presence of one tag or another only showing the preference of the last editor, rather than any meaningful information about the path.
+
+I will include below a few quotes from members of the OSM community regarding this topic:
+
+> Right now I am consuming data for a cycling router and highway=path is the bane of my life.[^richard-diary]
+
+[^richard-diary]: _What does the path say?_, Richard's Diary (<https://www.openstreetmap.org/user/Richard/diary/20333>), accessed 2024-12-31
+
+> Horridly complex tag, everyone uses it differently.[^cyclestreets]
+
+[^cyclestreets]: _Conversion from OpenStreetMap data_, CycleStreets Help and Documentation (<https://www.cyclestreets.net/help/journey/osmconversion/>), accessed 2024-12-31
+
+> Every mapper has their own opinions as to the difference between footway and path, they are all contradictory.
+>
+> For example, mapper A marks two paths, one as footway and path. Mapper B thinks "oh, that's path, that must mean it's unsurfaced, and the footway must be surfaced". Mapper C thinks "oh, that's path, that must mean it's open to all non-motorised traffic, and that's footway so that means it's only available for pedestrians". Mapper D thinks "oh, that's path, so it must have been created by people walking over open ground repeatedly, and that's footway, so it must have been constructed". Mapper E looks at these same two paths as everyone else and thinks "oh, that's path, so that must be in a rural area, but the footway means it's in an urban area". Mapper F looks and thinks "Oh, that's strange, why did mapper A not just use path for both since it's the modern way to tag all kinds of footpaths". Mapper G realises nobody has actually asked Mapper A why they used different tags, so everyone else has just been making false assumptions.[^gravitystorm]
+
+[^gravitystorm]: Quote from Andy Allan (@gravitystorm) in a GitHub issue comment (<https://github.com/gravitystorm/openstreetmap-carto/issues/1698#issuecomment-134905532>)
+
+However, despite it being difficult to interpret and considered "evil"[^path-evil] by some, `highway=path` is an important tag that has is very common in the UK (375k `highway=path`s, compared to 1518k `highway=footway`s). Therefore it's essential that put adequate thought into my plan for processing it.
+
+[^path-evil]: _New road style for the Default map style - highway=path is evil_, Mateusz Konieczny's Diary (<https://www.openstreetmap.org/user/Mateusz%20Konieczny/diary/35389>), accessed 2025-01-01
+
+The main principle I will follow to parse `highway=path` ways is to use their accompanying tags to differentiate between the different and varied uses of `highway=path`, which is also the practice recommended by the wiki, and the approach taken by the other routing engines I've researched, as well as some map renderers.
+
+The `trail_visibility=*` and `sac_scale=*` tags are the most important to determine if a path is walkable, but the way they should be treated for a `highway=path` is the same as they would be for any other path, so I won't go into them specifically here.
+
+`surface=*` will probably be the most useful tag to help interpret `highway=path` ways. While this isn't specified on the wiki, I will assume that a `highway=path` is unpaved by default, and that `highway=footway`s are likely to be paved or have a decent surface. This is despite the fact that the wiki says that the usage of `highway=path` can almost entirely overlap with what `highway=footway` is documented to be used for.[^uk-path-tagging]
+
+- If a `highway=path` is paved (i.e. has a `surface=*` value listed in the Paved section of the table on the wiki at [Key:surface#Paved](https://wiki.openstreetmap.org/wiki/Key:surface#Paved)), I shall treat it equivalent to a generic or paved `highway=footway`
+- If a `highway=path` is unpaved (using the table section [Key:surface#Unpaved](https://wiki.openstreetmap.org/wiki/Key:surface#Unpaved)), it will be by default slightly worse than an unpaved `highway=footway`, as footways are in theory purpose-built for pedestrians, while paths might be only maintained by people walking on them
+- If a `highway=path` has no surface tag, and is also missing other important tags (i.e. `sac_scale=*`, `trail_visibility=*`, `access=*`, `informal=*`, `operator=*`, and possibly others if I find them to be useful), I will apply a penalty to it, as it is potentially unsafe to route users over a "path" that could be very perilous
+- As per usual, it is imperative that access tags are checked to verify if pedestrian usage is legal or not
+- Because `highway=path` is used in the same way as `highway=footway` sometimes, I will need to make sure that any logic specific to `highway=footway` is also applied to `highway=path` ways
+
+[^uk-path-tagging]: "Paths kept mainly by the fact of people walking on them or paths that are only minimally constructed are usually tagged as highway=path. [...] However, in some countries like the UK or others, this distinction does not hold and highway=footway can be used for these too.", [Tag:highway=footway](https://wiki.openstreetmap.org/wiki/Tag:highway%3Dfootway), OSM Wiki, accessed 2025-01-01
+
+##### Other routable features
+
+Some features don't fall under any of the tags for `highway=*` features examined above, but can still be walked along by pedestrians and therefore are still a good idea to be considered routable.
+
+![Photo of a segregated path for pedestrians and cyclists in Comber, Northern Ireland](assets/sprint-2/cycle-path.png)
+
+Image credit: [Path and cycle path, Comber](https://commons.wikimedia.org/wiki/File:Path_and_cycle_path,_Comber_-_geograph.org.uk_-_3575344.jpg) by Albert Bridge, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0), via Geograph and Wikimedia Commons
+
+- `highway=emergency_bay`
+  - This corresponds to Emergency Refuge Areas (on motorways) in the UK
+  - They are only for emergency use, and I can't imagine them being used by pedestrians in day-to-day life
+  - However, if a user is in an emergency situation, it they might have to slightly walk along the emergency bay
+  - ~~They are similar to lay-bys but should have a higher weight as they are only for emergencies~~
+  - I have checked the usage of the tag in the UK using Overpass Turbo, and have noticed that the tag does not get used as a line representing the path of the emergency bay (because there is no physical separation between the bay and the road), and instead is either mapped as a node (which is correct but doesn't add anything to the routing graph), or incorrectly as an area (which isn't useful for routing either). Therefore, I will ignore this tag.
+- `highway=cycleway`
+  - This represents a cycle path (physically separated from any roads)
+  - While these are designated for cyclists, in the UK they are also accessible to pedestrians by default (i.e. we can assume `foot=yes`)[^uk-access-defaults] so they should be considered in the routing graph
+  - Similarly to `highway=footway`, they are usually purpose-built, and therefore likely to be well-maintained, with a good surface, and nice to walk along
+  - Because they are mainly intended for cyclists, they should be less preferable than `highway=footway`s by default
+  - However, in many cases (e.g. the pavement on Lower Road), they are signposted as mixed-use paths (i.e. pedestrians and cyclists)
+    - This is indicated by the `foot=designated` tag being present, and/or `segregated=yes` or `segregated=no` (both of which indicate that a road sign has designated the path for both pedestrians and cyclists)
+  - `highway=cycleway`s (along with `highway=footway`s) are the main path types that will use the `segregated=*` tag. I will describe how this tag will be treated in a below section, with all the other path attributes.
+
+[^uk-access-defaults]: [OSM tags for routing/Access restrictions#United Kingdom](https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access_restrictions#United_Kingdom), OSM Wiki, accessed 2025-01-02
+
+##### Attribute tags to parse for paths and roads
+
+Any OSM tags that aren't top-level tags provide additional information (or attributes, sometimes called metadata) about the path (or road) they are present on, and therefore I will call them "attribute tags". There is a large number of of documented tags for describing tags, and it is essential that I process them bo build a more accurate picture of the path in the real-world, to ensure my routing graph weights are as accurate and useful as possible.
+
+Because of the massive number of different attribute tags that exist for roads (Taginfo UK lists 3070 different keys with at least 2 uses on `highway=*` objects, and 725 with at least 100 uses), I will have to carefully decide which tags will give me the most value, and avoid wasting time on other tags. For this reason, I will simply skip writing about a tag that won't be useful to me or the routing engine, which could be for one or more of the following reasons:
+
+- Tag is only useful for car routing, e.g. `change=*`
+- Tag doesn't seem relevant to the UK, or I have never encountered what it describes, e.g. `bicycle_road=*`
+- Tag describe the presence of something that isn't relevant to pedestrian routing, e.g. `bus_bay=*`
+- Tag describes an attribute that is very unlikely to be a useful thing to factor into weights, e.g. `abutters=*`
+- Tag is only useful for another mode of transport or sport, e.g. `mtb:scale=*`
+
+Here I will very briefly describe the purpose of the tags (additional information is available on the OSM Wiki), and justify and explain how they will be used in the routing engine.
+
+###### Tags that apply to paths (or roads being walked along)
+
+- `ford=yes` should increase weight very significantly, as it is difficult for pedestrians to cross a ford
+  - If it's a `ford=stepping_stones`, then that's much better for pedestrians, although they still need care to cross, and there is a possible risk of injury, so it should still increase weight by a similar amount to a `sac_scale=mountain_hiking` path
+    - Any path with `surface=stepping_stones` should be treated this way too
+    - We should assume `wheelchair=no` for stepping stones
+  - `ford=yes` can be present on a way or on a node on a way, and we should parse both
+- If `incline=*` is a non-zero value (including `up` or `down` or `yes`), we should add a slight penalty
+  - It has been suggested that the maximum incline that is suitable for wheelchair users is 2.5%[^wheelchair-incline]
+  - Parsing numerical values of this tag will require me to convert degrees to percentages, where that is the unit used
+  - For non-wheelchair users, I won't scale the penalty based on steepness of the incline, as this is difficult to get an intuition for so it would be hard to make a good formula for it
+- `smoothness=*` is an important tag that, where present, describes how smooth the surface is
+  - It'll be easier and nicer to walk along a smooth path
+  - Very rough paths might pose a trip hazard, which could be dangerous if unprepared
+  - `smoothness=intermediate` and above are all pretty good for walking along, so they should be preferred
+  - `smoothness=intermediate` and above should also bee good for wheelchair users
+  - `smoothness=very_bad` to `smoothness=very_horrible` paths are likely walkable but will be less pleasant to walk along
+  - `smoothness=impassable` refers to being impassable for wheeled vehicles, but might be traversable on foot. We should avoid unless `sac_scale=*` is present and indicates that it is a walkable path
+- `surface=*` is a very important tag for deciding how desirable a path will be
+  - Tarmac surfaces are usually nice and smooth, so we'll assume `smoothness=good` for `asphalt` and `chipseal`
+  - Similarly smooth paved surfaces: `paving_stones:lanes`, `paving_stones`, `bricks`, `concrete:plates`, `concrete:lanes`, `concrete`
+  - Other paved surfaces are still nice to walk on but may not be as smooth: `grass_paver`, `sett`, `unhewn_cobblestone`, `metal`, `metal_grid`, `wood`, `rubber`, `tiles`
+    - I will also include the generic value `paved`, the ambiguous value `cobblestone`, and the deprecated value `cobblestone:flattened` in this category, as the distinctions for these values doesn't matter in this case
+  - The following surfaces are unpaved but nice to walk on: `compacted`, `fine_gravel`, `gravel`, `shells`, `rock`, `pebblestone`, `woodchips`
+  - And the following surfaces are unpaved and bare ground, so not quite as nice to walk on: `dirt`, `grass`, `sand`, `snow`
+    - I will also include `earth` as an alias for `dirt`, as well as considering the generic `unpaved` value to be among these values
+  - `mud` isn't fun to walk on, so I should add a particularly high penalty for it
+
+[^wheelchair-incline]: "The thesis concludes that current crossfall guidelines of 2.5% seem reasonable, and that inexperienced users may struggle when these guidelines are exceeded.", _The Effect of Footway Crossfall Gradient on Wheelchair Accessibility_ by Catherine Holloway (<https://discovery.ucl.ac.uk/id/eprint/1310252/1/1310252.pdf>), accessed 2025-01-02
+
+###### Tags for walking along paths
+
+- `sac_scale=*` describes how difficult it is to walk along a path
+  - It has
+  - `sac_scale=strolling` paths can be very easily walked along, e.g. even with flip-flops, or using crutches, or pushing a pushchair
+    - We'll assume `smoothness=intermediate` for these paths, because they shouldn't have any obstacles that can be tripped over
+    - These are likely to be nice, accessible paths, so they should be highly preferred
+    - This is a very new tag (proposal accepted 2024-10-29) and unfortunately has no uses in the UK currently, but I will implement support for it anyway in preparation for when it becomes more widely used and to help encourage use of the tag
+  - `sac_scale=hiking` can be navigated with normal shoes
+    - Since paths that would now be categorised as `sac_scale=strolling` are still tagged as `sac_scale=hiking`, I won't add any penalties for this tag, even for wheelchair users
+  - `sac_scale=mountain_hiking` requires attention to be paid to the path, with "somewhat bigger obstacles like stones or smaller rocks"
+    - 29% of UK paths with `sac_scale=*` are `sac_scale=mountain_hiking`
+    - These paths should be avoided if a nice path is available, but they are still okay if they're the only path in an area
+    - We will assume `wheelchair=no` for this level and above
+  - `sac_scale=demanding_mountain_hiking` could be dangerous due to obstacles like boulders, and needing to use hands for balance
+    - This value is used 5% of the time in the UK
+    - These paths can be fun to traverse, but can also be a major inconvenience, so they should have a high weight factor and the user should be able to decide if they want to consider them, using the options system
+  - `sac_scale=alpine_hiking` requires basic mountaineering skills (e.g. steep grassy pitches) so should have an even higher weight
+  - `sac_scale=demanding_alpine_hiking` and `sac_scale=difficult_alpine_hiking` require climbing skills, so should be considered impassable for the purposes of this pedestrian navigation tool
+- `trail_visibility=*` describes how easy the path is to make out on the ground
+  - `trail_visibility=excellent` means that the path is obvious and can easily be followed, which makes them much easier to walk along than the other values. This should be given a slight preference.
+    - By default, we'll assume that purpose-built paths (`highway=footway`, `highway=cycleway`, anything with `operator=*`) will have `trail_visibility=excellent`
+    - For `highway=path`s, it's important that `trail_visibility=*` is tagged explicitly
+  - With `trail_visibility=good`, the route can mostly be followed, but you'd have to pay attention and check the map every so often. This is extra effort so we'll add a slight penalty.
+  - With any of the worse values, you'll need to follow along with a map.
+    - Since the user will have a map with live directions and GPS, it should still be okay to follow the path, even if it's entirely invisible on the ground (e.g. some less-used public footpaths)
+    - However, we should tell the user that the route won't be very visible on the ground
+    - We'll add a slightly greater penalty than `trail_visibility=good` for these paths
+- If `trailblazed=*` has a truthy value, we should prefer it, because:
+  - It's more likely to be an upkept path, either officially or by the community
+  - It'd be easier to follow when there are markers
+- `width=*`
+  - Wider paths should be preferred because they're easier to walk along, and it's easier to pass people
+  - We should start reducing the weight of paths when they're more than 2 metres wide
+  - If `width=*` isn't tagged, we'll check `est_width=*` too
+  - I don't think we'll need to consider width of roads, since I'm not sure if wider or narrower roads should be preferred for walking
+- `designation=*`: In the UK this is used to mark public rights of way
+  - If a path is tagged with the value `public_footpath`, `public_bridleway`, `restricted_byway`, `byway_open_to_all_traffic`, or the generic `public_right_of_way`, we should prefer it, as they are legally guaranteed to be accessible and we can safely assume `foot=yes`
+  - Scotland has `designation=core_path`s, which are similar, so we should treat those in the same way
+  - I am not aware of any equivalent for Northern Ireland
+- `segregated=yes` paths should be preferred to paths where `segregated=no`
+  - This is because it'll likely to be more comfortable and safe to walk along a footpath where pedestrians and cyclists are segregated
+  - If the tag is missing, we won't change the weight (although we also use `segregated=*` to decide if a `highway=cycleway` is mixed-use or not)
+- If `wheelchair=no`, we'll add a very high penalty if the user has requested a wheelchair-accessible route, and `wheelchair=yes` paths should be quite significantly preferred also
+- `obstacle=vegetation` should increase weight slightly, as it is slower to walk through these paths, more annoying, and there might be risk of injury.
+  - Other `obstacle=*` values exist, but are even rarer than the already-rare `obstacle=vegetation` value, and the proposal for specifying the key is inactive
+
+###### Tags for pavements mapped as attributes on road ways
+
+When routing along a pavement that is mapped by specifying `sidewalk=*` or `sidewalk:left=*`/`sidewalk:right=*`, the `sidewalk:left:surface` and `sidewalk:right:surface` tags should be interpreted in the same way as the `surface=*` tag for separately-mapped pavements (and paths in general).
+
+Other `sidewalk:*:*=*` keys (e.g. `sidewalk:left:width=*`) are too rare in the UK to bother parsing.
+
+###### Tags for walking along roads or attached pavements
+
+- We should parse common `maxspeed=*` values, reducing weight if the limit is 20 or below, and increasing if it's 50 or above
+  - This is because pedestrians will likely feel more comfortable walking along or beside slower roads
+  - This factor should be significantly increased if we're walking on the actual road
+
+###### Tags only for walking along roads
+
+- If `lanes=*` is above or equal to 2, we should add a large penalty, as it would feel dangerous to walk along a road with multiple lanes of car traffic
+- `shoulder=yes` (or another truthy value) suggests that the road might be a bit easier and safer to walk along
+  - e.g. Part of the A22 through East Grinstead is tagged as `shoulder=yes` and `sidewalk=no`
+- `verge=yes` will similarly be better than a road with no verges (or a missing `verge=*` tag)
+
+###### Tags for nodes encountered along a path or road
+
+Nodes can sometimes contribute a nonzero weight value, if they present a hazard, restriction, or inconvenience to pedestrians.
+
+- `obstacle=vegetation` should be treated as is on ways
+- Access tags should be considered as specified in the [access tags](#access-tags) section
+  - There is an exception to this behaviour for `highway=crossing` nodes on roads (where access tags only apply to users of the crossing, not the road).[^access-on-crossing] However, this is very unlikely to affect pedestrian access, so I won't consider it
+
+[^access-on-crossing]: "A `no` value for an access tag like `bicycle=*` or `horse=*` on a `highway=crossing` node is meant to apply only to traffic on the crossing, not on the main road: (`highway=crossing` + `bicycle=no`) means that cyclists must dismount before crossing the road; it does not mean that cyclists on road must do this.", [Key:crossing#Support](https://wiki.openstreetmap.org/wiki/Key:crossing#Support), OSM Wiki, accessed 2025-01-03
+
+###### Tags for names and references
+
+Tags like `name=*` and `ref=*` are used to specify names (e.g. Portsmouth Road) and references numbers (e.g. A3) for roads and paths. While they are useful when outputting a list of instructions, that is outside the scope of my routing engine, so I won't be including them.
+
+- `destination=*` - I won't use, as it is a lot of effort to parse correctly, is mainly useful for drivers (especially on major roads), and including (e.g. "towards London") in instructions will be of very limited use to a pedestrian on a pavement
+
+###### Access tags
+
+While OSM data is community-contributed and therefore not a source of truth for legal access, it does have a system for describing legal access, and when the data is present it is quite accurate.
+
+As a routing engine, it is important to consider the legality of any route that is provided to users. While it can't guarantee that a route will be legal (users must ensure they respect any signs or laws they encounter while walking), it should make the most of the data it has, so that illegal routes aren't suggested.
+
+OSM has a system of "access tags", including a number of keys and values, that describe legal restrictions for areas, nodes, and paths.
+
+I will consider access tags on both nodes and ways in the same way, but I won't consider access tags on areas as per my section about [tags on areas](#tags-on-areas-that-the-route-goes-through).
+
+Access keys cover a massive range of transport options, but since this is a pedestrian-only router, we will only need to consider the `foot=*` key, with the `access=*` key as a broader fallback. I won't be considering `dog=*` as none of my stakeholder plan to use my router for dog-walking.
+
+`wheelchair=*` describes a physical access restriction, not a legal one. That key has been addressed above.
+
+Below is a list of access tag values I will consider. For all of them, we will fall back to checking the `access=*` key if the `foot=*` key isn't present.
+
+- When `foot=yes` or `foot=permissive`, pedestrians are allowed to walk along the path, so we can proceed to route along them.
+- `foot=designated` should be treated as `foot=yes` and given a preference, as we should prefer to route pedestrians over paths designated for them
+- If `foot=private`, the route isn't intended to be used by members of the public
+  - We will assume that the user is not allowed to walk along these paths, so avoid routing over them
+  - However, it's possible that the user wants to route through a private-access area that they _do_ have permission to access, so we should provide an option to allow routing through private paths, but ensure we highlight private sections of the route so that the user can double-check that they have permission to walk there
+- If `foot=no`, it is entirely illegal to walk along this path, so we shouldn't allow it in any situations
+  - e.g. illegal railway crossings, roads you aren't allowed to walk along
+- For `foot=customers` (access for customers only), they should be allowed by default (with an option to avoid them), and the user should be notified of this restriction
+- For `foot=destination`, we will similarly assume that the user is allowed to walk along these paths, but they should be notified of the restriction and allowed to avoid them
+- We will treat `foot=agricultural`, `foot=forestry`, `foot=delivery`, and `foot=military` as `foot=private`, as we can assume that users of this routing engine won't be in any of those respective categories
+- If `foot=use_sidepath`, we will never route along the road itself, but allow routing along a pavement (i.e. tagged with `sidewalk=*` or similar)
+- We will treat `foot=permit` the same way as `foot=customers`, ensuring we point out that a permit may be required
+- `foot=official` is deprecated but we can treat it as `foot=yes`
+
+###### Tags on areas that the route goes through
+
+Ideally, I would like to consider tags added to areas that paths go through, e.g. `hazard=shooting_range` areas, or access tags on areas. However, I can't think of a way to implement this with my routing graph system, so for now, I won't consider any enclosing areas when calculating routes.
+
+###### Chasing pavements
+
+Pavements are a crucial piece of pedestrian infrastructure, and I expect many routes to almost entirely use pavements. However, they aren't as easy to deal with as other footpaths, because of how they are attached to a road.
+
+OpenStreetMap has two different (and valid) ways of describing pavements, both of which are widely used within the UK, so I will need to ensure I research them adequately and handle them thoroughly. Note that the OSM community uses the word "sidewalk" to describe pavements, to avoid the ambiguous international meaning of "pavement".
+
+![Screenshot of the iD OSM editor showing separately mapped pavements](assets/sprint-2/seperately-mapped-pavements.png)
+
+The first strategy is to represent pavements as `highway=footway` + `footway=sidewalk` ways that are drawn parallel to the road. This allows the pavement ways to be routed along just like any other path, which will mean it'll be the simplest for me to implement. The image above shows sidewalk and crossing ways (outlined in red) along the A246 (orange) and Groveside.
+
+Alternatively, the presence of a pavement can be described using sidewalk tags on the road itself, called the "refinement of the highway" approach. This is done with the `sidewalk:*` key, or the `sidewalk:left=*`/`sidewalk:right=*`/`sidewalk:both=*` keys. Things to note about this system:
+
+- By default, it naturally lends itself to representing a situation where pedestrians can cross at any part on the road
+- While I could write an algorithm to create virtual sidewalk ways before the routing graph is generated (so that they can be routed on in the same way as other paths), this would get messy and ambiguous in cases such as paths attached to the road (which pavement should they be attached to?), and intersections (geometry of pavements is not obvious). It would also be a lot of work to implement and hasn't been done by any existing routing engines I've researched.
+- So, when working with sidewalks as tags on a road, I will ignore crossings (`highway=crossing` nodes) and make the simplifying assumption that pedestrians can cross the road at any point
+
+I will parse sidewalk tags with the following rules:
+
+- The `sidewalk:left=*`, `sidewalk:right=*` and `sidewalk:both=*` keys unambiguously describe sidewalk status
+  - These keys take precedence over any `sidewalk=*` value (if also present)
+  - `sidewalk:both=*` sets a value for the left and right sides of the road
+  - If `sidewalk:both=*` and `sidewalk:left=*` or `sidewalk:right=*` are both present (which is bad mapping practice), `sidewalk:left=*`/`sidewalk:right=*` should take precedence
+  - For any of the keys, a value of `no` indicates a lack of a sidewalk, `yes` indicates a sidewalk is present (and being represented by this tag), and `separate` indicates that a sidewalk is present but mapped as a separate way (i.e. the above strategy)
+- `sidewalk=both` is equivalent to `sidewalk:both=yes`
+- `sidewalk=left` and `sidewalk=right` are equivalent to `sidewalk:left=yes` and `sidewalk:right=yes` respectively
+- `sidewalk=no` is equivalent to `sidewalk:both=no`
+- `sidewalk=none` is a deprecated synonym for `sidewalk=no`, so is equivalent to `sidewalk:both=no`
+- `sidewalk=yes` is ambiguous, but we will assume that both sides have a sidewalk, so `sidewalk:both=yes`
+- `sidewalk=separate` is also ambiguous, but we will similarly assume `sidewalk:both=separate`
+- `sidewalk=lane` specifies that there is a lane for pedestrians painted onto the road. This is not a proper pavement, so we will treat it as no sidewalk, but reduce the weight for walking along the road.
+
+When a road has a pavement on at least one side, we should follow pavement rules for calculating weights for the road, i.e. assuming we're walking along a `surface=asphalt`, `smoothness=good` footpath, and considering any [tags for walking along attached pavements](#tags-for-walking-along-roads-or-attached-pavements) present on the road way.
+
+When a road has no pavement, we should follow the rules for walking along roads, depending on the [type of road](#top-level-tags-to-parse-for-roads) and any additional tags on the road way (see sections [tags only for walking along roads](#tags-only-for-walking-along-roads) and [tags for walking along roads or attached pavements](#tags-for-walking-along-roads-or-attached-pavements)).
+
+When a road has a side with a pavement mapped separately, we should give the road a very high weight to ensure that the user is routed onto the pavement as soon as possible. In addition, when calculating the node to start a route on, we should look for a nearby pavement to start on before falling back to starting on the road.
+
+To correctly handle sidewalks mapped as separate ways, I will process the following tags on any path:
+
+- A `footway=sidewalk` is a pavement
+  - We'll assume `surface=asphalt` and `smoothness=good`
+  - Provide an option to avoid pavements if users don't want to walk along roads
+  - Provide an option to prefer pavements, e.g. if users would feel safer on them
+  - Of course, tags on pavements would be processed in the same way as any other path to ensure that the desirability of different pavements is taken into account
+- A `footway=crossing` is a crossing, i.e. a path that crosses from one side of the road to the other, almost always by walking along the main carriageway surface
+  - This includes controlled (e.g. with traffic lights), marked, and unmarked crossings (e.g. dipped kerbs only)
+  - While ideally, crossing sections would all be tagged as `footway=crossing`, when the mapping is less detailed, a `footway=sidewalk` way may just continue across the road. However, we can expect a `highway=crossing` node to be present at the intersection of the road and footway way
+  - For this reason, we should check the tags on a `highway=crossing` node rather than on a `footway=crossing` way to find crossing information. I will detail how the various types of crossing should be handled in a section below.
+- `footway=traffic_island` ways are present where the crossing is mapped in high detail, and represent the bit of the crossing on a pedestrian island in the middle of the road
+  - This should have a significantly lower weight than `footway=crossing` ways, to encourage routing along crossings with islands
+
+###### Road crossings
+
+Controlled crossings are safer and more comfortable to use than uncontrolled crossings, and it is road safety best practice to look for one, so we should prefer them as long as it doesn't come at a significant distance cost.
+
+- `crossing=traffic_signals` is the best kind of crossing so should be strongly preferred
+- Zebra crossings give pedestrians priority, so are the next best crossing
+  - They are represented by `crossing_ref=zebra`, or `crossing=zebra` tags
+- `crossing=uncontrolled` have road markings, so are somewhat safer than unmarked crossings
+  - `crossing=marked` is a synonym for `crossing=uncontrolled`, so we should treat it the same way
+- `crossing=unmarked` are the least preferable, but still valid if they're the only nearby option
+- `crossing=informal` is a place where pedestrians will likely want to cross, but isn't a designated crossing. They're the least ideal kind of crossings, but we can route over them.
+- If we encounter a `crossing=no` then crossing is impossible or illegal, so we should very much avoid it
+
+Additional tags:
+
+- If `traffic_calming=table` is present, it's a raised crossing, which is safer so should be preferred
+- If `crossing:continuous=yes`, the path continues across the road (e.g. some residential streets in London), which is even nicer than a raised crossing, so prefer it a bit more
+- If `crossing:island`, the road is easier to cross, so prefer these crossings
+  - Ideally, we'd also consider cases where the crossing has an island and the carriageway is two separate ways, but since I don't consider tags on the road being crossed, this is out of scope
+- Follow the same rules as `highway=steps` for parsing `tactile_paving=*`
+- If the user has specified they prefer an audible signal, prefer `traffic_signals:sound=yes` or `traffic_signals:sound=walk` and deprioritise `traffic_signals:sound=no`
+- For wheelchair users, prefer `kerb=lowered`, and `kerb=flush` even more so
+- If the user prefers tactile paving, any crossings with `kerb=flush` but no tactile paving should be strongly avoided, as there is even less tactile indication than you'd get at a normal dipped-kerb crossing
+
+#### Sprint 2 UI design
+
+##### Route screen mockups
+
+I used Excalidraw to create mockups for the route screen in various states. The purpose of this screen is to display the information about the route that doesn't go on a map (e.g. distance), and to give an intuitive way to input the start and end points of the route, by address or coordinates.
+
+![Mockups for 5 different states of the route screen](assets/sprint-2/route-screen-mockups.excalidraw.svg)
+
+I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
+
+##### Stakeholder feedback for route screen mockups
+
+I gave the Excalidraw share link for the mockups to James and Andrew. James said that it "looks really good". Andrew loved the pink and also thinks it "looks really really good". He was concerned about the "Calculate" button being difficult to read on some of the screens, but I told him that that was representing the disabled state, so it would look cleaner in the real thing. He also wasn't sure about the loading spinner, but after I told him what it was he thought it would be a good idea. He especially liked the "route info" mockup.
+
+I showed the mockup to Ili in-person, and at first he found the way I had presented the different screens confusing, as it wasn't clear that they were transitions through a flow (he assumed they were different options to choose from). I explained this to him and also updated the diagram to have arrows to show progression.
+
+![](assets/sprint-2/route-screen-mockups-2.excalidraw.svg)
+
+Similarly to Andrew, I had to tell him what the hatched FAB and the loading spinner were, but that was just a limitation of my mockup. For the route info, he suggested putting the "walking from" and "walking to" next to each other, as well as showing the address for the destination instead of just the coordinates. These seemed like good small suggestions to me.
+
+Since the feedback from my stakeholders is very positive, I will go forward with this design for my sprint.
+
+##### Sprint 2 UI validation table
+
+This sprint will implement the route screen with two inputs (which will have the same validation logic), one button, and one floating action button. They will need validation as follows:
+
+<!-- prettier-ignore -->
+| Element | Condition | If valid | If invalid | Example invalid data/state |
+| ------- | --------- | -------- | ---------- | -------------------------- |
+| Inputs  | Not empty | Allow calculation | Show `alert` | Empty string |
+| Inputs  | If coordinates, must valid coordinates | Allow calculation | Show `alert` | `51.0, -170.1` |
+| Inputs  | Any text that isn't in a coordinates format is processed as address | Geocode address and allow calculation | N/A | N/A |
+| FAB  | Can't be pressed when routing engine is loading | Calculate route | Noop | Pyscript is downloading |
+| FAB  | Can't be pressed when route is being calculated | Calculate route | Noop | A\* algo is running |
+| Toggle button | Can't be pressed when route is being calculated | Toggle GPS/address mode | Noop | A\* algo is running |
+| Inputs | Can't be edited when route is being calculated | Allow editing | Disallow editing | A\* algo is running |
+
+#### Sprint 2 modules
+
+Sprint 2 has a number of goals across different parts of the project. The modules of code that I will implement in Sprint 2 are as follows:
+
+- An implementation of the A\* algorithm, which will be added to the `RouteCalculator` class
+  - This is an important module for the project, as it will be the part that allows me to generate a route between two points using a routing graph
+  - I will add it to the `RouteCalculator` class, becuase it only needs to access data that is present on attributes of that class, and it would make sense for the class named "route calculator" to contain the code that calculates routes
+  - I have decided to implement my own A\* algorithm, rather than using a built-in NetworkX method, because the routing algorithm is the core piece of value for this project, so I want to be able to fully understand and customise it
+    - Implementing the routing algorithm myself will also let me calculate weights within the routing algorithm, which I plan to do as per the [A\* algorithm implementation plan](#a-algorithm-implementation-plan) below
+- A function to generate the routing graph with precise control over which kinds of tags it uses
+  - At the moment, I am using OSMnx's `graph_from_xml()` method in a basic way to create a routing graph with its default filters for which ways to include. However, it is important that this is a pedestrian routing graph, not a car one, so I will need to ensure that foot-traversable paths are properly included. Its weights should also change based on the settings for the routing engine.
+- I will need to implement a simple communication system between the frontend and backend, so that the frontend can send the routing request to the backend, and the backend can send the route back to the frontend
+  - This is important because the routing engine is Python code and the frontend uses JavaScript, so they need a way to communicate
+  - This may be as simple as directly calling Python functions from JavaScript code, but I will need to investigate best practices for communicating with Python code with PyScript
+  - I won't need to worry about authentication or security, as the routing engine will simply be running in the browser, as if it's a piece of code within the website.
+- Implement the "route" screen on the frontend
+  - This will be its own component, probably called `RouteScreen`, and I will add it as a screen to the `App` component
+  - It will consist of a form for the user to input their start and end points, with a button to calculate the route
+  - This is important because calculating a route is what my stakeholders actually want to do with the app, and this part of the UI will be for inputting essential data to make that happen
+  - It is its own module of code because it is its own page, and distinct from the other parts of the app
+- I will need to implement a way to display the route on the map
+  - My stakeholders want the route to be displayed as a highlighted line on the map, so I will need to implement this
+  - I will need to find out the best way to draw a line along a series of coordinates on a Leaflet map, and then implement this in my code
+  - This will be implemented in the frontend, within the `MainMap` component, and it will likely access a global observable that contains the route data, to keep everything reactive
+
+##### A\* algorithm design
+
+###### A\* algorithm justification
+
+I have chosen to use the A\* algorithm for routing for the following reasons:
+
+- It's a common algorithm, which should make it easier to find resources and help if I get stuck
+- Its use of heuristics makes it more efficient than Dijkstra's algorithm, and users will definitely appreciate the route being calculated quickly
+- It is simple enough to implement myself, and I can customise how it deals with weights and heuristics to match the requirements and settings of the routing engine
+
+###### A\* algorithm implementation plan
+
+I have decided to calculate node and edge weights within the A\* algorithm, rather than in the graph generation code. This was for two main reasons:
+
+- In the current iteration of my program, the routing graph is generated by OSMnx, which means adding my own weights to it would either require changing OSMnx's behaviour in some way, or computing a second graph with my weights.
+- The weights for different paths will depend on the settings of the routing engine, which can be frequently changed by the user. This means it would make more sense to calculate the weights during the actual routing part of each routing request, rather than when the graph is generated.
+  - This will also mean I can likely generate the routing graph once for an area, and keep it in memory to be used for multiple routing requests, which should be more efficient but will require refactoring of my classes to implement.
+
+Specifically, I plan for the A\* algorithm subprogram to look at the OSM tags on the nodes and ways it encounters and follow logic that corresponds to my OSM tag research, as well as taking into account the settings of the routing engine, to calculate the weight of each edge and node. It is also important that I cache these weights in a dictionary, because the A\* algorithm accesses weights many times, and recalculating them each time would be inefficient.
+
+For my heuristic, I have decided to use Euclidean distance, as I understand it well, it's intuitive, and it's simple to calculate. It will also always be an underestimate of the actual distance, which is essential for the A\* algorithm to work properly.
+
+I considered alternative heuristics that would attempt to predict the cost between two points (i.e. considering weights) but decided that this would be far too complicated to implement in this project with its dynamic weights, and Euclidean distance is a common and suitable choice for my graph and what it represents (points in the real world). In mathematical terms, this ensures that the heuristic is admissible ([Wikipedia](https://en.wikipedia.org/wiki/Admissible_heuristic)) and consistent ([Wikipedia](https://en.wikipedia.org/wiki/Consistent_heuristic)).
+
+I've used the article _Introduction to the A\* Algorithm_ by Red Blob Games (<https://www.redblobgames.com/pathfinding/a-star/introduction.html>, accessed 2024-12-29), as well as a bit of its accompanying [_Implementation of A\*_ article](https://www.redblobgames.com/pathfinding/a-star/implementation.html), to help me understand the A\* algorithm and some best practices for implementing it.
+
+###### A\* algorithm pseudocode
+
+The `calculate_route_a_star()` method will exist in the `RouteCalculator` class. When implementing it in Python, I will likely split it into multiple functions, but I have kept it as a single one here so that the flow of the algorithm is clear.
+
+- RouteCalculator#calculate_route_a_star(start: Coordinates, end: Coordinates):
+
+  - // Convert coordinates to nodes:
+  - start_node = find_nearest_node(start)
+  - end_node = find_nearest_node(end)
+  - // Initialise data structures
+  - frontier = PriorityQueue()
+  - pointers = {}
+  - weights = {}
+  - // Add the first node
+  - frontier.add(start_node, 0)
+  - pointers[start_node] = None
+  - weights[start_node] = 0
+  - // Perform the algorithm
+  - while frontier has items:
+    - current_node = frontier.pop()
+    - if current_node == end_node:
+      - break
+    - for discovered_node in routing_graph.neighbours_of(current_node):
+      - discovered_cost = weights[current_node] + calculate_edge_weight((current_node, discovered_node)) + calculate_node_weight(discovered_node)
+      - if discovered_node not in weights or discovered_cost < weights[discovered_node]:
+        - weights[discovered_node] = discovered_cost
+        - priority = discovered_cost + routing_graph.euclidean_distance(discovered_node, end_node)
+        - frontier.add(discovered_node, priority)
+        - pointers[discovered_node] = current_node
+  - // Reconstruct a route to the end goal
+  - route_nodes = []
+  - current_node = end_node
+  - until current_node is None:
+    - route_nodes.prepend(current_node)
+    - current_node = pointers[current_node]
+  - return route_nodes
+
+- RoutingGraph#euclidean_distance(node_a, node_b):
+  - $a_x$, $a_y$ = node_a.coordinates
+  - $b_x$, $b_y$ = node_b.coordinates
+  - return $\sqrt{(a_x - b_x)^2 + (a_y - b_y)^2}$
+
+###### A\* algorithm test plan
+
+<!-- prettier-ignore -->
+| Test                        | Reason for test                              | Type      | Test data                                       | Expected outcome                                |
+|-----------------------------|----------------------------------------------|-----------|-------------------------------------------------|-------------------------------------------------|
+| Routes along a straight road| Test the most basic case of routing engine   | Normal    | From 51.272639,-0.399783 to 51.274479,-0.393767 | Returns corresponding nodes along that road     |
+| Routes along multiple roads | Test if it can turn onto other roads         | Normal    | From 51.272639,-0.399783 to 51.270939,-0.390562 | A route that goes along both roads              |
+| Routes along paths          | Test if paths are properly considered        | Normal    | From 51.272642,-0.394765 to 51.269150,-0.394298 | A route that follows tracks and pavements       |
+| Prefers pavements           | Router should go from a road to a pavement ASAP | Normal | From 51.269016,-0.394413 to 51.270395,-0.384361 | Routes goes mostly along pavement               |
+| Routes through St Lawrence churchyard instead of road | Test if it can use nearby footpaths when pavements are absent | Normal | 51.272612,-0.399660 to 51.270404,-0.399223 | Route prefers paths through graveyard to road   |
+
+##### Routing graph generation design
+
+###### Routing graph generation justification
+
+While the use of the `osmnx.graph.graph_from_xml()` method worked for creating a proof-of-concept routing graph, I have limited understanding of the exact metadata attached to the graph and the way it's formatted. In addition, it's difficult for me to customise the types of elements that are included in the graph, and the OSM tags that are included as metadata on graph nodes and edges.
+
+For these reasons, I will write my own code for generating the routing graph from an OSM XML file. In addition, I will write an Overpass Query Language query that I can use when downloading the data, so that only the types of nodes and ways that I require are downloaded. This should be much more efficient in terms of download time, storage space, and processing requirements than downloading all OSM objects in an area.
+
+###### Routing graph generation implementation plan
+
+The Overpass query I plan to use is written below. I have written it as so to include all elements that I want to use in the routing engine, as per the [top-level tags to parse for roads](#top-level-tags-to-parse-for-roads) and [top-level tags to parse for paths](#top-level-tags-to-parse-for-paths) sections. `{{bbox}}` should be replaced by an appropriate bounding box (shortened to "bbox") that represents the area data should be downloaded for.
+
+Run this query in Overpass Turbo with the share link <https://overpass-turbo.eu/s/1WBt> to see it in action.
+
+```overpass
+[out:json][timeout:300];
+(
+  way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|motorway_link|trunk_link|primary_link|secondary_link|tertiary_link|living_street|service|pedestrian|track|road|footway|bridleway|steps|corridor|path|emergency_bay|cycleway)$"]({{bbox}});
+  node(w);
+);
+
+out geom;
+```
+
+![A screenshot of the Overpass Turbo map showing the results for my query in a local area](assets/sprint-2/highways.png)
+
+I have also decided to adjust my `OSMElement` class to use less memory, becuase creating a `OSMTag` class for every tag might be too much.
+
+```mermaid
+classDiagram
+direction LR
+
+OSMElement "1" *-- "1" OSMTags : tags
+class OSMElement {
+  <<abstract>>
+  +type: str
+  +tags: OSMTags
+}
+
+class OSMTags {
+  -tags: dict[str, str]
+  +get(key): str | None
+  +has(key): bool
+  +__len__(): int
+  +empty(): bool
+  +is_truthy(key): bool
+}
+```
+
+I realised when writing the pseudocode for graph generation that attributes on my graph elements need to be serialisable, so I can't have an `OSMTags` class at all. Here's the simplified class diagram:
+
+```mermaid
+classDiagram
+direction LR
+class OSMElement {
+  <<abstract>>
+  +type: str
+  +tags: dict[str, str]
+}
+```
+
+I won't simplify my graph because I plan on relying on nodes when working out where the route should start/finish (which isn't ideal but should be easier to implement than somehow using the geometry of the ways). However, I may need to simplify the graph if I run into performance issues, in which case I will also have to ensure I preserve any nodes with tags.
+
+###### Routing graph generation pseudocode
+
+- `RoutingEngine#download_osm_data(bbox: BoundingBox) -> list[OSMWay], dict`:
+
+  - construct Overpass query, substituting `bbox` into the pre-set query string
+  - send HTTP Get request to `https://overpass-api.de/api/interpreter`, with the `?data=` parameter set to the url-encoded query string
+  - decode the JSON response
+  - raw_nodes = {}
+  - ways = []
+  - for node in response_json:
+    - if node.type == "node":
+      - raw_nodes[node.id] = node
+  - for way in response_json:
+    - if way.type == "way":
+      - nodes = []
+      - for node_id in way.nodes:
+        - node = raw_nodes[node_id]
+        - nodes.append(OSMNode(pos=(node.lat, node.lon), tags=node.tags))
+      - ways.append(OSMWay(nodes=nodes, tags=way.tags))
+  - return ways, raw_nodes
+
+- `RoutingEngine#compute_graph(ways: list[OSMWay], nodes: dict) -> RoutingGraph`:
+  - graph = networkx.Graph()
+  - for way in ways:
+    - for i in range(len(way.nodes) - 1):
+      - node_from = way.nodes[i]
+      - node_to = way.nodes[i + 1]
+      - graph.add_edge(node_from, node_to, tags=way.tags)
+  - for node in (nodes with tags):
+    - if node in graph.nodes:
+      - graph.nodes[node\]["tags"] = node.tags
+      - graph.nodes[node\]["pos"] = (node.lat, node.lon)
+  - return RoutingGraph(graph)
+
+### Sprint 2 development
+
+#### Sprint 2: Converting the frontend code to JSX components
+
+Last sprint, I implemented the HTML structure for my components in the `index.html` file, and the logic in TypeScript files that I imported in `main.mts`.
+
+Since the code is much more maintainable when using JSX components, I will convert these parts of my code to `.tsx` files that will contain the markup and logic for each component.
+
+##### Creating `App.tsx`
+
+I started by putting all my HTML code for the app into `App.tsx`, rendering that with Voby, and then importing my logic files like I had before:
+
+```ts
+import { render } from "voby"
+import App from "./App"
+import "leaflet/dist/leaflet.css"
+
+const appElement = document.querySelector("#app")
+if (!appElement) {
+  throw new Error("No app element found")
+}
+
+render(<App />, appElement)
+
+import("./bottomBar.mjs")
+import("./showCurrentLocation.mjs")
+import("./mainMap.mjs")
+```
+
+##### Creating `BottomBar.tsx`
+
+I then moved the bottom bar markup into `BottomBar.tsx`, and included the logic from `bottomBar.mts`. Then, I decided to make use of observables so that I didn't have to manually toggle classes on the buttons when they are clicked. At the same time, I defined the bottom bar buttons as an array of button names, from which a map of names to observables is created, with the observable specifying if the button is active or not. The object is iterated through using the Voby `<For>` component, which dynamically creates the JSX elements.
+
+```jsx
+function BottomBar() {
+  function onClick(event: MouseEvent) {
+    // [...]
+  }
+
+  const bottomBarButtons = Object.fromEntries(
+    ["Map", "Route", "Options"].map((name) => [name, $(false)])
+  )
+
+  // Map is the default view
+  bottomBarButtons["Map"](true)
+
+  return (
+    <div class="btm-nav" id="bottom-bar" onClick={onClick}>
+      <For values={Object.entries(bottomBarButtons)}>
+        {([name, active]) => <BottomBarButton active={active} name={name} />}
+      </For>
+    </div>
+  )
+}
+```
+
+I split off the markup for each actual bottom bar button into a separate component, which uses observables to ensure its Tailwind styles are always correct:
+
+```tsx
+function BottomBarButton({
+  active,
+  name,
+}: {
+  active: () => boolean
+  name: string
+}) {
+  return (
+    <button
+      class={() =>
+        active()
+          ? "active border-t-4 border-pink-800 bg-pink-200 text-pink-800"
+          : "bg-pink-100 text-pink-800"
+      }
+    >
+      <span class="btm-nav-label">{name}</span>
+    </button>
+  )
+}
+
+export default BottomBar
+```
+
+##### Creating `CurrentLocationButton.tsx`
+
+I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` component. However, when running it I got an error about `mainMap` not being defined. After a bit of investigation and debugging, I realised that I had a sort of circular logic problem, mainly resulting from the fact that the main map was being created in `mainMap.mts`, separate to the Voby component tree. I shall explain the conundrum:
+
+<!-- 1. `CurrentLocationButton.tsx` imports the `mainMap` variable from `mainMap.mts` (in the same way as `showCurrentLocation.mts` did previously) -->
+
+1. `showCurrentLocation.mts` imports the `mainMap` variable from `mainMap.mts`, to add event listeners to it
+2. Therefore, `showCurrentLocation.mts` had to be ran (i.e. imported) after `mainMap.mts`.
+3. However, when converting `showCurrentLocation.mts` to a Voby component, its logic runs when the component is initialised in memory, which happens before the logic (e.g. `mainMap.mts`) files are imported
+4. But `mainMap.mts` must be imported after the Voby components are rendered, because the `#main-map` element must exist in the DOM before the Leaflet map is created
+
+![](assets/sprint-2/main-map-undefined.png)
+
+I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
+
+My next challenge was implementing `MainMap` as a Voby component. I knew that I couldn't simply tell Leaflet to create the map in the component function, as that code runs before the component's HTML is actually added to the DOM. To get around this, I took inspiration from a code example for creating a Leaflet map as a Solid component (as Voby is similar conceptually to Solid) at <https://github.com/chris31415926535/solid-leaflet-reprex/blob/master/src/components/Map.tsx>. It uses the `onMount()` hook to run code when the component is first rendered, which seemed logical to me. Voby doesn't have an `onMount()` hook, but I guessed that the `useEffect()` hook might be able to accomplish the same thing, so I tried that:
+
+```tsx
+import leaflet from "leaflet"
+import { $, useEffect } from "voby"
+
+export const mainMap = $<leaflet.Map>()
+
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  useEffect(() => {
+    const createdMap = leaflet.map("main-map").setView([51.27556, -0.37834], 15)
+    leaflet
+      .tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+      })
+      .addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+
+export default MainMap
+```
+
+I tested that component, and was happy to see that it worked correctly and consistently.
+
+##### Updating `BottomBar.tsx` to use observables
+
+I switched to storing the state for the bottom bar and the active screen in observables, to improve consistency in the UI and make use of the features provided by Voby.
+
+I'd already created `bottomBarButtons` as a map of names to observables, and I decided to create another observable (`activeScreen`) which would hold the name of the currently active button (which corresponds to the screen that should be active), and act as the source of truth for which screen is currently active.
+
+I then moved a lot of the logic that was in the `onClick` callback into a `useEffect` callback (a Voby feature that runs a function with side effects when any observables it uses change). It is clear from the comments in the code below which tasks are now performed in the `useEffect` hook.
+
+```ts
+// A map of botton names to observables representing their active state
+// Automatically updated when the `activeScreen` observable changes
+const bottomBarButtons = Object.fromEntries(
+  ["Map", "Route", "Options"].map((name) => [name, $(false)])
+)
+const activeScreen = $("Map")
+useEffect(() => {
+  // This is a handler function for when the active screen changes
+  const newActiveScreen = activeScreen()
+
+  // Update the bottom bar buttons (specifically their active state)
+  for (const [name, button] of Object.entries(bottomBarButtons)) {
+    button(name === newActiveScreen)
+  }
+
+  // Make the new active screen visible and hide the old one
+  const oldScreenElement = document.querySelector("#active-screen")
+  const newScreenElement = document.querySelector(
+    `[data-screen="${newActiveScreen.toLowerCase()}"]`
+  )
+  if (!newScreenElement) {
+    throw new Error(`No screen found for ${newActiveScreen}`)
+  }
+  if (oldScreenElement) {
+    oldScreenElement.id = ""
+  } else {
+    console.warn("No active screen to deactivate")
+  }
+  newScreenElement.id = "active-screen"
+})
+
+// Map is the default view
+activeScreen("Map")
+```
+
+I then updated the `onClick` event callback function to simply update the `activeScreen` observable, which will then trigger the `useEffect` hook to run and update the UI.
+
+```ts
+function onClick(event: MouseEvent) {
+  // Get the button element that was clicked on
+  const eventTarget = event.target as HTMLElement
+  const button = eventTarget.closest("button")
+  if (!button) {
+    throw new Error("Couldn't find button that was clicked on")
+  }
+  // Update the active screen to whichever screen our button corresponds to
+  const screenName = button.textContent!
+  activeScreen(screenName)
+}
+```
+
+With this change, the classes on the buttons should update automatically, as they were already specified based on the button's corresponding observable.
+
+I tested my changes, and the bottom bar worked as expected, with the active button being highlighted when clicked, and the correct screen being displayed.
+
+I was happy with this change because it removed lines of code and made it code more reactive, which will hopefully improve maintainability and reduce bugs. I tested switching between the screens and everything updated perfectly.
+
+##### Updating `BottomBar.tsx` to reduce manual observable updates
+
+It occurred to me that I was manually setting the value of the observables in the `bottomBarButtons` map, which seemed to go against the spirit of reactive programming. I changed the map to use `useMemo` hooks (which automatically recompute when their dependencies change) instead of simple observables.
+
+Also note that I moved the `activeScreen` declaration to above the `bottomBarButtons` map, as it is referenced in the `useMemo` callback.
+
+```diff
++// Source of truth for the current active screen. "Map" is the default screen.
++const activeScreen = $("Map")
+ // A map of botton names to observables representing their active state
+-// Automatically updated when the `activeScreen` observable changes
+ const bottomBarButtons = Object.fromEntries(
+-  ["Map", "Route", "Options"].map((name) => [name, $(false)])
++  ["Map", "Route", "Options"].map((name) => [
++    name,
++    useMemo(() => activeScreen() === name),
++  ])
+ )
+-const activeScreen = $("Map")
+```
+
+I could then remove the code to manually set the value of the observables (which was now erroring anyway because `useMemo` returns a readonly observable):
+
+```diff
+ useEffect(() => {
+   // This is a handler function for when the active screen changes
+   const newActiveScreen = activeScreen()
+
+-  // Update the bottom bar buttons (specifically their active state)
+-  for (const [name, button] of Object.entries(bottomBarButtons)) {
+-    button(name === newActiveScreen)
+-  }
+```
+
+I also realised that I was already initialising `activeScreen` to have the value of `"Map"`, so I removed the line that set the active screen to `"Map"`:
+
+```diff
+-// Map is the default view
+-activeScreen("Map")
+```
+
+#### Sprint 2: Improving performance
+
+I was considering how the current location button would behave while the Leaflet library is loading, when I noticed that when loading the page, none of the UI renders until the Leaflet library has loaded. I realised that this was because I was loading Leaflet with an `import` statement in `MainMap.tsx`, which is a component, so it's loaded while the UI is being rendered. This means that none of my UI elements show up until Leaflet has loaded, and Leaflet is a somewhat large library, so I wanted to change this.
+
+I tested my suspicions using the Performance tab in the devtools in Brave browser, and could see that the "DOM loaded" event (representing when the UI is rendered) was delayed until the Leaflet library had finished downloading.
+
+![A screenshot of a performance trace in DevTools](assets/sprint-2/performance-trace.png)
+
+##### Proof of concept for async Leaflet loading
+
+I had the idea to load the Leaflet library asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
+
+![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
+
+I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
+
+##### Properly implementing async Leaflet loading
+
+I was satisfied with this, so worked on properly implementing a system for Leaflet to asynchronously load, and for any parts of the code that depend on it to automatically run once it has loaded.
+
+I decided to use an observable to implement this, as I already had a `mainMap` observable, and since this is a similar pattern, I want to implement it in a similar way for consistency.
+
+![A diff showing how I added a leaflet observable to MainMap.tsx](assets/sprint-2/leaflet-observable.png)
+
+This is the code for asynchronously loading Leaflet and storing it as an observable:
+
+```ts
+export const leaflet = $<typeof import("leaflet")>()
+
+// We dynamically import the Leaflet library so that the UI rendering doesn't block on loading Leaflet
+import("leaflet").then(({ default: leafletImport }) => {
+  leaflet(leafletImport)
+})
+```
+
+And here's how I used it in the `MainMap` component:
+
+```tsx
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  // Separately, using a useEffect lets us run the code once the leaflet library has been loaded
+  useEffect(() => {
+    const L = leaflet()
+    if (!L) return
+    const createdMap = L.map("main-map").setView([51.27556, -0.37834], 15)
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+    }).addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+```
+
+Note that I unwrapped the `leaflet` observable at the start of the function, as it provides a convenient way to check if the library has loaded yet. However, this pattern does mean that I can't use `leaflet` as a variable name in the function, as it would conflict with the name of the `leaflet` observable. I could rename the observable, but I decided just to use the `L` variable name within the function (which is standard for Leaflet anyway). I decided I was happy with that situation.
+
+I questioned if `MainMap.tsx` was a good place to put the `leaflet` observable, because it felt weird to have the logic for loading a library in a component file, but I decided that it wouldn't cause any issues.
+
+I then migrated the `CurrentLocationButton.tsx` component to use the new `leaflet` observable, so it will only add its event listeners once Leaflet is loaded and the map is initialised. (Obviously the map can't be loaded before Leaflet is loaded, but I still added the guard clause for type safety and to be consistent with how I'm using these observables.)
+
+![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
+
+I committed this work in commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e).
+
+##### Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet
+
+As a final touch, I decided to disable the "show current location" button during the time between the UI rendering and Leaflet being loaded. This will give a visual indication that the button isn't ready to be clicked on yet, just in case the user wants to interact with that part of the page before Leaflet has loaded.
+
+I didn't need to actually add any code for disabling the button while Leaflet is being loaded, as the button already had its `disabled` defined with the function `() => !mainMap()`, so it will wait for the `mainMap` to be loaded (which happens after Leaflet is loaded) before it becomes enabled. This keeps the UI consistent.
+
+However, I did make the tooltip change while the map is loading, to provide additional context to the user and to improve accessibility. I created a `useMemo` hook for the tooltip text, writing the function in a way that will allow me to add more versions of the tooltip in the future if I need to.
+
+```ts
+const tooltip = useMemo(() => {
+  const tip = "Show current location"
+  if (!mainMap()) return `${tip} (unavailable while map is loading)`
+  return tip
+})
+```
+
+I then used the observable in the JSX for the button:
+
+```diff
+-<div class="tooltip tooltip-left" data-tip="Show current location">
++<div class="tooltip tooltip-left" data-tip={tooltip}>
+```
+
+I tested the change using network throttling, and was happy to see that the button was disabled while the map was loading, and that the tooltip changed to reflect this.
+
+I am satisfied that this provides a neat little touch to the UI, and makes use of my observable-based asynchronous loading system.
+
+##### Evaluation of async Leaflet loading
+
+After making this change, I prepared to demonstrate my changes to my stakeholders, especially Andrew, by bringing up the production version of the site. Since Cloudflare Pages automatically deploys each branch on a separate subdomain, I could visit e.g. <https://performance-improvements.marvellous-mapping-machine.pages.dev> to see the site with the changes I had made, and compare it to a branch that didn't have the changes, e.g. <https://voby.marvellous-mapping-machine.pages.dev/>.
+
+However, when I enabled network throttling and visited the old version of the site (`voby` branch), the load time was much faster than I had been experiencing in the development build, and the delay caused by loading Leaflet was barely noticeable.
+
+I realised that the build tool I use, Vite, loads libraries in a significantly different way during development than it does in production. During development, the dependencies are loaded as separate, less-optimised JavaScript files, whereas during production, the dependencies are bundled together into a single file, which reduces the time taken to load the page. In my case, this seemed to make a significant difference when it came to loading Leaflet.
+
+I ran Lighthouse tests on the site before ([lighthouse-before-performance-work.json](assets/sprint-2/lighthouse-before-performance-work.json)) and after ([lighthouse-after-performance-work.json](assets/sprint-2/lighthouse-after-performance-work.json)) the change. The first contentful paint time dropped from 1.2 seconds to 1.1 seconds, and the time to interactive dropped from 3.1 seconds to 3.0 seconds. This confirms that the optimisation made a small improvement to page load times, but not a very significant one
+
+In conclusion, while my change has worked as intended, it was not as necessary as it first appeared. However, it did give me a chance to fine-tune the UI during loading, which Andrew and Ili were both happy with when I showed them.
+
+#### Sprint 2: Implementing the graph generation code
+
+I used my pseudocode for [routing graph generation](#routing-graph-generation-pseudocode) and got to work implementing it in Python.
+
+I added a `BoundingBox` class to `osm_data_types.py`:
+
+```py
+class BoundingBox:
+    def __init__(self, min_lat, min_lon, max_lat, max_lon):
+        self.min_lat = min_lat
+        self.min_lon = min_lon
+        self.max_lat = max_lat
+        self.max_lon = max_lon
+```
+
+The only error that I encountered while implementing the pseudocode was with this logic:
+
+```py
+node = raw_nodes[node_id]
+nodes.append(OSMNode(pos=(node["lat"], node["lon"]), tags=node["tags"]))
+```
+
+If a node has no tags, the `tags` key doesn't exist on its object, so I got an `AttributeError`. I fixed this by using the `get()` method on the dictionary, which lets me specify a default value
+
+```py
+node: dict = raw_nodes[node_id]
+tags = node.get("tags", {})
+nodes.append(OSMNode(pos=(node["lat"], node["lon"]), tags=tags))
+```
+
+I tested the function with a sample small bounding box, and it succesfully retuned results:
+
+![Screenshot of my debugger showing the returned data](assets/sprint-2/osm-data-yay.png)
+
+I am worried that creating a `Coordinates` object for every representation of coordinates will be too inefficient, so I will switch to just using a simple tuple of floats for the coordinates. `Coordinates` is now a type alias:
+
+```py
+type Coordinates = tuple[float, float]
+```
+
+I then went on to implement the `compute_graph()` method, but realised that because my `OSMWay` objects contain an array of `OSMNode` objects with no information about the node IDs, I was using the actual `OSMNode` object as an index for my graph nodes, which is not what I want. So, I added an `id` attribute to the `OSMNode` class and made sure I use that when I'm adding graph edges:
+
+![](assets/sprint-2/osmnode-id.png)
+
+For debugging, I also wanted a way to be able to access edges from their OSM way ID, so I also started storing `OSMWay` IDs. I then wrote a `RoutingGraph#get_edges_from_way()` method
+
+```py
+def get_edges_from_way(self, target_way_id: int) -> list[tuple[int, int]]:
+    edges = []
+    for node_a, node_b, way_id in self.graph.edges.data("id", default=0):  # type: ignore
+        if way_id == target_way_id:
+            edges.append((node_a, node_b))
+    return edges
+```
+
+I tested with a way ID I knew, and it worked:
+
+![](assets/sprint-2/way-id-to-edge.png)
+
+Before starting working on my own A\* algorithm, I decided to test using the `networkx` library's built-in A\* algorithm as an additional step to verify that my graph is sane and the number of nodes doesn't overwhelm the algorithm. I tested with a very simple case (just routing along a straight road), and it worked, which gave me confidence:
+
+![](assets/sprint-2/first-route.png)
+
+I then tested it with a simple route along two roads, and that returned a sensible route too. I then tested routing onto a pedestrian path, which also worked.
+
+I realise now that I will need to calculate the length of all my edges as a basis for my weight calculation. To ensure it's correct as possible, I will use the `geographiclib` library[^geographiclib-se] to calculate the geodesic distance between two points using the WGS84 spheroid model of the Earth:
+
+```py
+from geographiclib.geodesic import Geodesic
+geodesic_wgs84: Geodesic = Geodesic.WGS84  # type: ignore
+def distance_between_points(a: Coordinates, b: Coordinates) -> float:
+    result = geodesic_wgs84.Inverse(a[0], a[1], b[0], b[1])
+    distance_meters = result["s12"]
+    return distance_meters
+```
+
+I then added it as an attribute on my graph nodes:
+
+```diff
+ graph.add_edge(
+     node_from.id,
+     node_to.id,
+     tags=way.tags,
+     id=way.id,
++    length=distance_between_points(node_from.pos, node_to.pos),
+ )
+```
+
+[^geographiclib-se]: As recommended on the GIS StackExchange, <https://gis.stackexchange.com/a/84915>
+
+While testing with the `networkx.astar_path` function, I noticed that it accepts a function to be used for the weight, not necessarily a pre-calculated attribute on the graph. This means that it should be possible to use the built-in networkx A\* algorithm, which could make it quicker to implement and more efficient than my own implementation. I will try this out before I start implementing my own A\* algorithm.
+
+I started working on implementing the `RouteCalculator#calculate_route_a_star` method as specified in [A\* algorithm pseudocode](#a-algorithm-pseudocode). While the actual A\* algorithm will be replaced with a networkx method, I still need to turn the start and end coordinates into nodes, which I had written as a `find_nearest_node` function in the pseudocode. To implement this, I added a simple linear search method on `RoutingGraph` as `RoutingGraph#nearest_node()`:
+
+```py
+def nearest_node(self, coordinates: Coordinates) -> int:
+    nearest_node = None
+    nearest_distance = float("inf")
+    for node_id, node_data in self.graph.nodes(data=True):
+        node_coordinates = node_data["pos"]
+        distance = distance_between_points(coordinates, node_coordinates)
+        if distance < nearest_distance:
+            nearest_distance = distance
+            nearest_node = node_id
+    if nearest_node is None:
+        raise ValueError("No nodes could be found")
+    return nearest_node
+```
+
+However upon testing it, I noticed an issue with my approach:
+
+![](assets/sprint-2/no-pos-for-you.png)
+
+I assumed that the `pos` attribute on my nodes would be present, but most of my nodes had empty metadata. I realised that this was because I was only adding the `pos` attribute to nodes with tags, instead of all nodes. I changed this, so my code for adding attributes to nodes now looks like this:
+
+```py
+for node_id, node in raw_nodes.items():
+    if node in graph:
+        graph.nodes[node_id]["pos"] = (node["lat"], node["lon"])
+        if "tags" in node:
+            graph.nodes[node_id]["tags"] = node["tags"]
+```
+
+However this still wasn't adding any attributes to nodes, so I debugged further.
+
+![](assets/sprint-2/debugging-further.png)
+
+I realised that my `node in graph` check was incorrect, as `node` is a dictionary of node data, and the graph uses node IDs as keys. So I changed that statement to `node["id"] in graph.nodes`. My code now ran without any errors, so I checked which nodes it selected as the nearest nodes. I was happy to see that it chose the node nearest to the end point I had specified (below), and the start note also seemed correct.
+
+![](assets/sprint-2/nearest-node.png)
+
+I then actually wrote in the route calculation part, just using length as a weight for now:
+
+```py
+def calculate_weight(self, node_a: int, node_b: int, data: dict[str, str]) -> float:
+    # TODO: do
+    return float(data["length"])
+
+def calculate_route_a_star(
+    self, start: Coordinates, end: Coordinates
+) -> RouteResult:
+    start_node = self.graph.nearest_node(start)
+    end_node = self.graph.nearest_node(end)
+
+    # Use a very simple heuristic of pretending that the coordinates are cartesian and using Euclidean distance
+    # maybe this can be refined in the future, maybe it won't be
+    def heuristic(node_from, node_to):
+        return euclidean_distance(
+            self.graph.graph.nodes[node_from]["pos"],
+            self.graph.graph.nodes[node_to]["pos"],
+        )
+
+    # So that we're not passing class methods around as callbacks:
+    def weight(node_from, node_to, data):
+        return self.calculate_weight(node_from, node_to, data)
+
+    nodes: list[int] = networkx.astar.astar_path(
+        self.graph.graph,
+        start_node,
+        end_node,
+        heuristic=heuristic,
+        weight=weight,  # type: ignore
+    )
+
+    for node in nodes:
+        print(f"https://www.openstreetmap.org/node/{node}")
+```
+
+I had also created a euclidean distance function, which I decided would be the easiest heuristic to use:
+
+```py
+def euclidean_distance(a: Coordinates, b: Coordinates) -> float:
+    """Euclidean distance for two sets of coordinates.
+
+    - Doesn't really make sense in terms of points on Earth, but it's useful as a simple heuristic
+    - Units: none really, the outputs only make sense relative to each other
+    """
+    return ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2) ** 0.5
+```
+
+I tested it with my test data for before, and it correctly found the shortest path, which I checked by viewing the nodes on osm.org. I saw that it took a shortcut path through a small field, which shows it is working correctly.
+I did note that the program now takes a second or two to execute on my PC, which suggests that I will have to investigate performance soon.
+
+I then needed to add the data types for the route result, so that `calculate_route_a_star()` could return something useful. Becuase this requires quite a few classes, I created `route_result.py` to keep them in one place.
+
+I made the following changes from my class diagram:
+
+- `estimated_time` is now an attribute on `RoutePart`, because both of its subclasses had it anyway
+- Same for the `description()` abstract method
+- Removing the `ChangePath` route manoeuvre, because it would unnecessarily add to the size of the output, as well as being difficult to work out when all we have is the nodes in the route, not the edges
+- `CrossRoad` is removed for now, because crossings mapped as separate ways are just treated as any other path (as per [chasing pavements](#chasing-pavements) section), and crossings without separate ways aren't handled by my engine (also as per [chasing pavements](#chasing-pavements)).
+- And I put `distance` as an attribute on `RoutePart` too, while overriding it to be 0 for a `RouteManoeuvre`. This'll make it easier to process route results.
+
+```py
+class RoutePart(abc.ABC):
+    def __init__(self, estimated_time: float):
+        self.estimated_time = estimated_time
+
+    @abc.abstractmethod
+    def description(self) -> str:
+        raise NotImplementedError
+
+
+class RouteProgression(RoutePart):
+    def __init__(self, distance: float, estimated_time: float):
+        super().__init__(estimated_time)
+        self.distance = distance
+
+    def description(self) -> str:
+        return f"Walk {self.distance:.2f} meters ({self.estimated_time:.2f} s)"
+
+
+class RouteManoeuvre(RoutePart):
+    def __init__(self, estimated_time: float):
+        super().__init__(estimated_time)
+
+
+class StartWalking(RouteManoeuvre):
+    def __init__(self, position: Coordinates):
+        super().__init__(estimated_time=0)
+        self.position = position
+
+    def description(self) -> str:
+        return f"Start walking from {self.position}"
+
+
+class Arrive(RouteManoeuvre):
+    def __init__(self, position: Coordinates):
+        super().__init__(estimated_time=0)
+        self.position = position
+
+    def description(self) -> str:
+        return f"Arrive at {self.position}"
+
+
+class RouteResult:
+    def __init__(self, start: Coordinates, end: Coordinates, parts: list[RoutePart]):
+        self.start = start
+        self.end = end
+        self.parts = parts
+
+    def total_time(self) -> float:
+        return sum(part.estimated_time for part in self.parts)
+
+    def total_distance(self) -> float:
+        return sum(
+            part.distance for part in self.parts if isinstance(part, RouteProgression)
+        )
+```
+
+I then added onto the end of the `calculate_route_a_star()` method to convert the list of nodes returned by `networkx.astar_path()` into our `RouteResult` type:
+
+```py
+# Reconstruct the route, to get a list of RouteParts
+parts: list[RoutePart] = []
+parts.append(StartWalking(self.graph.node_position(start_node)))
+for i in range(1, len(nodes)):
+    node_from = nodes[i - 1]
+    node_to = nodes[i]
+    # Find the edge that we're routing along.
+    # This gets a bit weird when there are multiple edges between the same two nodes,
+    # but I'm ignoring that possibility for now
+    edge_data = self.graph.get_edge_between_nodes(node_from, node_to)
+    distance = edge_data["length"]
+    estimated_time = self.estimate_time(edge_data)
+    parts.append(RouteProgression(distance, estimated_time))
+parts.append(Arrive(self.graph.node_position(end_node)))
+return RouteResult(start_pos, end_pos, parts)
+```
+
+This included writing a few helper methods on the `RoutingGraph` class to get a node by ID, get a node's coordinates by ID, and get a corresponding edge's data given a pair of node IDs:
+
+```py
+def get_edge_between_nodes(self, node_a: int, node_b: int) -> dict:
+    # Here we're assuming that there aren't any ways (therefore edges) that share the same two consecutive nodes!
+    # This won't always be the case, but I'm not sure how to handle that edge case...
+    return self.graph.edges[node_a, node_b]
+
+def node(self, node_id: int) -> dict:
+    return self.graph.nodes[node_id]
+
+def node_position(self, node_id: int) -> Coordinates:
+    return self.graph.nodes[node_id]["pos"]
+```
+
+I also added a simple `RouteCalculator#estimate_time()` method, placing it next to the `calculate_weight()` method because they are doing similar things (and in the future I may want to share logic between them):
+
+```py
+def estimate_time(self, way_data: dict) -> float:
+    # Based on my average walking speed of 3.3 km/h
+    # TO-DO this should be an option!
+    BASE_SPEED = 0.92  # meters per second
+    distance = way_data["length"]
+    # TO-DO we should take into account way attributes, obviously
+    return distance / BASE_SPEED
+```
+
+To help stop me from accidentally accessing the `RoutingGraph#graph` attribute directly (as theoretically it should be private), I prefixed it with an underscore:
+
+![](assets/sprint-2/private_underscore.png)
+
+I still have one place where it's accessed outside of the class (when `networkx.astar.astar_path()` is called), but I decided that this would be acceptable, and not worth adding a whole new class method just to call one function.
+
+I then tested the updated `calculate_route_a_star()` method with my debugger. This test was successful.
+
+![](assets/sprint-2/route-result.png)
+
+However, I realised that I should probably include the start and end coordinates of each route progression, so that they can be rendered on the map. In the future I might also want to store the way data or ID for each route progression, so that I can display statistics like "40% on pavements, 20% on unpaved paths, ...". I added `start` and `end` attributes to the `RouteProgression` class:
+
+```diff
+ class RouteProgression(RoutePart):
+     def __init__(
+         self,
+         distance: float,
+         estimated_time: float,
++        start: Coordinates,
++        end: Coordinates,
+     ):
+         super().__init__(distance, estimated_time)
++        self.start = start
++        self.end = end
+```
+
+```diff
+ parts.append(
+     RouteProgression(
+         distance,
+         estimated_time,
++        start=self.graph.node_position(node_from),
++        end=self.graph.node_position(node_to),
+     )
+ )
+```
+
+I successfully verified that the start and end coordinates were present in the result and looked sensible.
+
+#### Sprint 2: Embed the routing engine into the web app
+
+I started by reading the PyScript user guide, which recommends linking Python files in your HTML using `<script type="py">` tags.
+
+I adjusted my Vite Config to allow accessing any Python files in the `backend` directory of my monorepo as static assets (so they won't be transformed by Vite):
+
+```ts
+const config = defineConfig({
+  // ...
+  assetsInclude: ["../backend/**/*.py"],
+})
+```
+
+I used the [Use Pyscript Offline](https://docs.pyscript.net/2024.2.1/user-guide/offline/) section of Pyscript's docs to double-check the correct NPM package to install (which is `@pyscript/core`). I (asynchronously) imported Pyscript in my `main.tsx`:
+
+```ts
+// @ts-ignore - No types for PyScript :(
+import("../node_modules/@pyscript/core/dist/core.js")
+```
+
+And added the reference to my HTML:
+
+```html
+<script type="py" src="../backend/main.py"></script>
+```
+
+However, this didn't work, and I saw that that path in my HTML resolved to `http://localhost:5173/backend/main.py`, which doesn't correspond to the `../backend` folder on my filesystem in any way. As a solution, I decided to add a step to my build process to copy the Python source code to a subfolder in `public`, so that it can be accessed as a static asset. I accomplished this by adding pre-dev and pre-build scripts to my `package.json`:
+
+```json
+{
+  // ...
+  "scripts": {
+    "predev": "cp -r ../backend ./public",
+    "prebuild": "cp -r ../backend ./public"
+  }
+}
+```
+
+This worked as expected, and will hopefully work on Windows systems too.
+
+I then went back to my preview of the site, and it was working, although it had thrown an error about the NetworkX library being missing, which was to be expected.
+
+To make NetworkX available, I should be able to just specify it in the [PyScript config file](https://docs.pyscript.net/2024.11.1/user-guide/configuration/#packages)
+
+Next, I had to figure out how to get imports for my own files functioning correctly. At the moment, they raise a `ModuleNotFoundError`:
+
+```py
+PythonError: Traceback (most recent call last):
+  File "/lib/python312.zip/_pyodide/_base.py", line 597, in eval_code_async
+    await CodeRunner(
+  File "/lib/python312.zip/_pyodide/_base.py", line 411, in run_async
+    coroutine = eval(self.code, globals, locals)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<exec>", line 5, in <module>
+ModuleNotFoundError: No module named 'osm_data_types'
+```
+
+I found that I could use the `pyscript.json` config file to add my Python files (accessible as static assets) to the Python virtual filesystem, as demonstrated below, which I confirmed did solve my import error
+
+```json
+{
+  "packages": ["networkx"],
+  "files": {
+    "backend/osm_data_types.py": "./osm_data_types.py"
+  }
+}
+```
+
+I disliked the fact that I have to manually specify each file, but this seems like the best way to do it for now.
+
+The next error I had to fix was the `requests` package being unavailable:
+
+```python
+PythonError: Traceback (most recent call last):
+  File "/lib/python312.zip/_pyodide/_base.py", line 597, in eval_code_async
+    await CodeRunner(
+  File "/lib/python312.zip/_pyodide/_base.py", line 411, in run_async
+    coroutine = eval(self.code, globals, locals)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<exec>", line 6, in <module>
+  File "/home/pyodide/routing_engine.py", line 2, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+```
+
+I added the `requests` package to my PyScript config, as well as the `geographiclib` package. While `geographiclib` isn't built-in to Pyodide, it seemed to automatically get downloaded from PyPI. With those changes, the Python routing engine code worked with no obvious issues (apart from taking a good few seconds to download all the packages and execute the code).
+
+![](assets/sprint-2/python-in-browser.png)
+
+##### Making python classes accessible from JavaScript
+
+I couldn't find any resources explaining how to directly call Python functions from JS wit PyScript, but I realised that adding classes I want to expose to the `window` object could be a good workaround, if it works. I added some code to do that to `main.py`:
+
+```py
+try:
+    from pyscript import window  # type: ignore
+
+    window.console.log("Hello from Python??!")
+    window.py = window.Object.new()
+    window.py.routingEngine = routing_engine
+    window.py.RoutingEngine = RoutingEngine
+    window.RoutingEngine = RoutingEngine
+    window.py.RouteCalculator = RouteCalculator
+    window.py.RoutingOptions = RoutingOptions
+    window.py.BoundingBox = BoundingBox
+
+except ImportError:
+    print("Not running in a browser environment")
+```
+
+Note that there are some duplicates as I simply wanted to test to see what would work. I was pleased to see that I could access `window.py` from the console. One peculiarity was that if I try to instantiate a Python class in JS with the `new` keyword, it returns an empty plain object, but if I "call" the class (e.g. `const routingEngine = window.py.RoutingEngine()`), it works as expected, and the methods on the `RoutingEngine` object are accessible. What a time to be alive!
+
+![](assets/sprint-2/python-called-from-js.png)
+
+I cleaned up the code for adding to `window.py` and extracted it to a function `export_to_js_window()` for better maintainability, and included a docstring.
+
+##### Stopping Pyscript from blocking the main tread
+
+I realised that the execution of Python code was blocking the main thread, and doing so for quite a few seconds while my routing engine executed. This is very bad for usability and will stop me from being able to show a "loading" spinner or similar while PyScript is initialising.
+
+I successfully fixed this issue by running the Python in a web worker instead, by setting the `worker` attribute.
+
+```diff
+ <script
+   type="py"
+   src="../backend/main.py"
+   config="pyscript.json"
++  worker
+ ></script>
+```
+
+However, I encountered an issue where my code failed because it couldn't access the `window` object:
+
+> Unable to use `window` or `document` -> <https://docs.pyscript.net/latest/faq/#sharedarraybuffer>
+
+This was because code running in a worker can't directly access `window`, so PyScript uses a feature called Atomics, but these weren't working in my environment. This is likely due to the Vite development server not providing the required HTTP headers to allow Atomics to be used. I verified this by checking `window.crossOriginIsolated` in the JS console, which came out as `false`.
+
+I updated my Vite config to add the required headers to comply with the cross-origin isolation requirements:
+
+```ts
+headers: {
+  // So that web workers can work, as per https://docs.pyscript.net/2024.11.1//user-guide/workers#http-headers
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "require-corp",
+  "Cross-Origin-Resource-Policy": "cross-origin",
+},
+```
+
+I succesfully confirmed that the Python code ran, and didn't block the main thread. However, after adding those new security headers, the tiles for my Leaflet map refused to load due to CORS errors.
+
+![A blank map and CORS errors in the console](assets/sprint-2/i-hate-cors.png)
+
+I read the MDN docs on cross-origin isolation,[^cors-mdn] which told me that `Cross-Origin-Resource-Policy` was not required, and `credentialless` is a valid alternative to `require-corp`. Luckily, when I changed the `Cross-Origin-Embedder-Policy` header to `credentialless`, the map tiles loaded correctly, and this didn't cause an issue for PyScript either.
+
+[^cors-mdn]: Window: crossOriginIsolated property, MDN Web Docs (<https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated>), accessed 2025-01-06
+
+##### Ensuring PyScript works on Cloudflare Pages
+
+I set the node version to 20 using a `.nvmrc` file so that PyScript was satisfied when building the side with Cloudflare Pages.
+
+I also specified my CORS headers in a `_headers` file in `public` so that the appropriate headers for cross-origin isolation would be set when the production site is deployed. I verified this by visiting the preview deploy at <https://pyscript.marvellous-mapping-machine.pages.dev/>, and after those changes, everything worked well.
+
+One thing I noticed was that the size of files that had to be downloaded to run the routing engine was quite massive (60.83 MB total downloaded according to devtools). This would be a problem on a mobile data connection, so I will have to investigate further work out how to reduce this at some point.
+
+##### Implementing a service worker
+
+While adding offline support is out of this sprint's scope, it would be very useful to implement a basic service worker now, to avoid massive mobile data usage if I or my stakeholders want to try the app outside of the house.
+
+Since I plan on making the app an installable PWA, I also took the opportunity to add a `manifest.json` file to the page. This requires a logo, so I quickly designed a square logo for the app:
+
+![A pink square with the letters "MMMM" drawn in](assets/sprint-2/mmmm.excalidraw.svg)
+
+I also created a maskable version, which is important to look good on certain platforms, including Android, where I expect the app to be used a lot.
+
+![The "MMMM" letters smaller in the middle of a pink borderless square](assets/sprint-2/mmmm-maskable.svg)
+
+```json
+{
+  "name": "Mish's Marvellous Mapping Machine",
+  "short_name": "Mapping Machine",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#ffc0cb"
+}
+```
+
+This was successful at getting the browser to offer to install the app as a PWA.
+
+![](assets/sprint-2/pwa-offer.png)
+
+I decided to use the `vite-plugin-pwa` library to handle adding PWA support. I moved the `manifest.json` file to a `manifest.mts` file that exports a JS object, and configured the plugin as below:
+
+```ts
+VitePWA({
+  manifest,
+  devOptions: {
+    enabled: true,
+  },
+  workbox: {
+    globPatterns: ["**/*.{js,css,html,png,svg,json,py}"],
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/cdn.jsdelivr.net\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "jsdelivr-cache",
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+      {
+        urlPattern: /https:\/\/\w.tile.openstreetmap.org\/.*/i,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "tile-cache",
+          cacheableResponse: {
+            statuses: [0, 200],
+          },
+        },
+      },
+    ],
+  },
+}),
+```
+
+Note that I implemented caches for two types of external resources: OSM Carto map tiles, and Python libaries from jsDelivr. I also set the `devOptions.enabled` to `true` so that I could test the service worker during development.
+
+To make caching of map tiles more reliable, I decided to drop the randomised subdomain for `tile.openstreetmap.org` URLs. While this might make downloading the tiles take longer, I believe that that issue is less of a problem with modern HTTP versions (e.g. HTTP/2). And, this change will mean that once a specific tile has been downloaded, it won't have to be downloaded again, which should decrease data usage, which is especially important on mobile data.
+
+I took a look at the console, where `workbox` logs each request, and saw that external resources were being cached during runtime, but local resources weren't.
+
+![](assets/sprint-2/workbox-logs.png)
+
+I couldn't work out how to get pre-caching of local resources working, so eventually I decided to create a "catch-all" runtime caching route, so that absolutely everything is cached at runtime. This is not ideal, partly because it means the page must be refreshed twice before it's ready to be used offline, but it does mean that it can fully work offline now (which I have tested).
+
+##### More issues with PyScript workers
+
+While, at first, my Python code seemed to work fine on a worker, adding properties to the `window.py` object, when I actually attempted to use those properties, they turned out to be promises that returned an empty object. I checked if this was caused by the `worker` attribute being set on the `<script>` tag, and confirmed that that was indeed causing it.
+
+While testing, I also realised that my hacky "catch-all" caching meant that the browser would probably be stuck executing an ond cached version of my Python code, so I disabled it during development for now. This might also cause issues in production, so I will have to be prepared to manually clear caches if this becomes a problem.
+
+Also while trying to debug the worker issues, I encountered a very perplexing issue where parts of the `export_to_js_window()` procedure in `main.py` wouldn't run after I had edited it to test things. This issue also went away when I removed the `worker` attribute, but it made even less sense than the other issue (which I can guess is down to limitations when it comes to passing data between workers and the main thread).
+
+![Screenshot of my VSCode window and the JS console showing the Python code seeming to just give up](assets/sprint-2/python-gives-up.png)
+
+To test if the Python code could work without workers, I ported the code I had been using in `main.py` to test the routing engine to JS that accessed the Python classes and methods:
+
+```ts
+useEffect(() => {
+  const py = usePy()
+  if (!py) return
+  const routing_engine = py.RoutingEngine()
+  console.log(routing_engine)
+  const [ways, raw_nodes] = routing_engine.download_osm_data(
+    py.BoundingBox(51.26268, -0.41497, 51.27914, -0.36755)
+  )
+  const routing_graph = routing_engine.compute_graph(ways, raw_nodes)
+  const calculator = py.RouteCalculator(routing_graph, py.RoutingOptions())
+  const start = [51.27333, -0.39746]
+  const end = [51.274179, -0.391324]
+  const route = calculator.calculate_route_a_star(start, end)
+  console.log("Finished calculating route")
+})
+```
+
+This indeed worked:
+
+![](assets/sprint-2/calling-python-from-js.png)
+
+To prioritise creating something shippable for my stakeholders soon, I decided to keep Python running in the main thread by now, and hopefully find a solution later so that the app is more usable while the Python code is loading and running.
+
+##### Implementing the Route screen and calculating a route
+
+I created a `RouteScreen.tsx` file, featuring: a `routingEngineAvailable()` memo that checks if the `usePy()` hook is available yet or not; a `CalculateButton` floating action button (FAB) component based on the current location button from the Map screen; and the `RouteScreen` component itself, based on the mockup that was approved by my stakeholders.
+
+```tsx
+const routingEngineAvailable = useMemo(() => !!usePy())
+
+function CalculateButton() {
+  const tooltip = useMemo(() => {
+    return ""
+  })
+
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div class={() => tooltip() && "tooltip tooltip-left"} data-tip={tooltip}>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          id="calculate-route"
+          disabled={() => !routingEngineAvailable()}
+          onClick={calculateRoute}
+        >
+          ✅ Calculate
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function RouteScreen() {
+  const title = useMemo(() => "Calculate a route")
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">{title}</h2>
+        <form class="flex flex-col">
+          <label htmlFor="route-start-input" class="text-primary">
+            Start walking from
+          </label>
+          <input
+            id="route-start-input"
+            type="text"
+            placeholder="e.g. 51.24914, -0.56304"
+            class="input input-bordered input-primary w-full mt-2 mb-8 max-w-2xl"
+          />
+          <label htmlFor="route-end-input" class="text-primary">
+            Destination
+          </label>
+          <input
+            id="route-end-input"
+            type="text"
+            placeholder="e.g. 51.23724, -0.56456"
+            class="input input-bordered input-primary w-full my-2 max-w-2xl"
+          />
+        </form>
+      </div>
+      <CalculateButton />
+    </>
+  )
+}
+```
+
+![UI running in browser](assets/sprint-2/route-screen-1.png)
+
+I then wrote a `calculateRoute()` method that uses the Python classes exported by PyScript, basing it on the Python code I had written before to test the routing engine:
+
+```ts
+function calculateRoute() {
+  const py = usePy()
+  if (!py) return
+
+  const startPos = getCoordsFromInput("route-start-input")
+  const endPos = getCoordsFromInput("route-end-input")
+  if (!startPos || !endPos) {
+    window.alert("Please enter valid start and end coordinates")
+    return
+  }
+
+  const routing_engine = py.RoutingEngine()
+  console.debug("Initialised routing engine")
+  const [ways, raw_nodes] = routing_engine.download_osm_data(
+    py.BoundingBox(...calculateBboxForRoute(startPos, endPos))
+  )
+  console.debug("Downloaded OSM data")
+  const routing_graph = routing_engine.compute_graph(ways, raw_nodes)
+  console.debug("Computed routing graph")
+  const calculator = py.RouteCalculator(routing_graph, py.RoutingOptions())
+  console.debug("Initialised route calculator")
+  const route = calculator.calculate_route_a_star(startPos, endPos)
+  console.log(route)
+  console.log("Finished calculating route")
+}
+```
+
+This included writing two helper functions to provide important functionality adjacent to the route calculation logic, writing them as pure functions for maintainability and readability:
+
+```ts
+function getCoordsFromInput(inputId: string): Coordinates | null {
+  const input = document.getElementById(inputId) as HTMLInputElement
+  if (!input) throw new Error(`No input found with ID ${inputId}`)
+  const coords = input.value.split(",").map(parseFloat)
+  if (coords.length !== 2) return null
+  return coords as Coordinates
+}
+
+function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
+  // We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  // 0.015 degrees of longitude is roughly 1 km in the UK (I think)
+  const lon_expansion = 0.015
+  const LAT_DEGREES_PER_M = 0.008575
+  const lat_expansion = 1000 * LAT_DEGREES_PER_M
+  const min_lat = Math.min(start[0], end[0]) - lat_expansion
+  const min_lon = Math.min(start[1], end[1]) - lon_expansion
+  const max_lat = Math.max(start[0], end[0]) + lat_expansion
+  const max_lon = Math.max(start[1], end[1]) + lon_expansion
+  return [min_lat, min_lon, max_lat, max_lon] as [
+    number,
+    number,
+    number,
+    number
+  ]
+}
+```
+
+I plan to modify the `calculateBboxForRoute()` function as required to ensure that it fulfils its purpose of downloading enough data to include all the paths relevant to the route calculation, while not downloading too much data, and thus increasing data usage and the time taken to calculate the route. For now I have the expended the latitude and longitude by what I guess to be around 1 km.
+
+I then tested calculating a route with the UI, and while it eventually gave the route as expected in the console, it took a large number of minutes to do so, which is not usable at all, so I decided to investigate why the routing engine took so long.
+
+I tested calculating the same route by running the Python code outside of the browser, and it only took 1.058 seconds (according to the `time` command). This pointed the blame at how I'm running it in the browser, and I thought that the `calculateBboxForRoute()` function might be at fault, because that's a part of the code that's different between the two environments.
+
+To debug, I added a `console.debug()` call to the JS code to print the bbox, and found that it was much larger than it should be, stretching from a latitude of `42.695013` to `59.848470`. I realised that my expression `1000 * LAT_DEGREES_PER_M` from my code was modifying my latitude by ~8.8 degrees, which is massive.
+
+![Browser console screenshot](assets/sprint-2/image.png)
+
+![Browser console screenshot](assets/sprint-2/image-1.png)
+
+I mentioned this issue to my stakeholder Ili, and he suggested increasing the bbox by a percentage instead of a fixed amount, which seemed sensible to me. I decided to try using 1% as the percentage value. I implemented this in a modification to `calculateBboxForRoute()`:
+
+```ts
+function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
+  // We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  const expansionPercentage = 0.01
+  const min_lat = Math.min(start[0], end[0]) * 1 - expansionPercentage
+  const min_lon = Math.min(start[1], end[1]) * 1 - expansionPercentage
+  const max_lat = Math.max(start[0], end[0]) * 1 + expansionPercentage
+  const max_lon = Math.max(start[1], end[1]) * 1 + expansionPercentage
+  return [min_lat, min_lon, max_lat, max_lon] as [
+    number,
+    number,
+    number,
+    number
+  ]
+}
+```
+
+Visualisation of the bbox before being expanded (i.e. with the start and end points as its corners):
+
+![Very small bbox](assets/sprint-2/bbox-0pc.png)
+
+Visualisation of the bbox expanded by 1% is below. Note that it's quite tall because we're at 51&deg; latitude, which is a decently big number. Ideally, it would expand by a percentage (or constant) based on meters on the surface of the Earth, but that is more complicated to implement.
+
+![Tall bbox](assets/sprint-2/bbox-1pc.png)
+
+This worked and the route calculated in a more reasonable time (5.4 seconds, timed with JS `performance.now()`). While I'd definitely like to improve this further, it's a lot better than what it was previously doing.
+
+I then realised that expanding the bbox based on the magnitude of the coordinate values is stupid, and it should instead be proportional to the width and height of the bbox. Here's the modified function:
+
+```ts
+function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
+  // We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  const expansionPercentage = 0.01
+  const width = Math.abs(start[1] - end[1])
+  const height = Math.abs(start[0] - end[0])
+  const lonExpansionPercentage = expansionPercentage * width
+  const latExpansionPercentage = expansionPercentage * height
+  const min_lat = Math.min(start[0], end[0]) * 1 - latExpansionPercentage
+  const min_lon = Math.min(start[1], end[1]) * 1 - lonExpansionPercentage
+  const max_lat = Math.max(start[0], end[0]) * 1 + latExpansionPercentage
+  const max_lon = Math.max(start[1], end[1]) * 1 + lonExpansionPercentage
+  return [min_lat, min_lon, max_lat, max_lon] as [
+    number,
+    number,
+    number,
+    number
+  ]
+}
+```
+
+Here's a visualisation of what that bbox would look like for the same route:
+
+![Small bbox](assets/sprint-2/bbox-1pc-better.png)
+
+As you can see, this bbox is now much too small. This caused an error when trying to calculate the route:
+
+```py
+Uncaught PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 101, in calculate_route_a_star
+    nodes: list[int] = networkx.astar.astar_path(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/decorators.py", line 789, in func
+    return argmap._lazy_compile(__wrapper)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<class 'networkx.utils.decorators.argmap'> compilation 4", line 3, in argmap_astar_path_1
+    import gzip
+            ^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/backends.py", line 633, in __call__
+    return self.orig_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/algorithms/shortest_paths/astar.py", line 171, in astar_path
+    raise nx.NetworkXNoPath(f"Node {target} not reachable from {source}")
+networkx.exception.NetworkXNoPath: Node 5128359607 not reachable from 11865781885
+```
+
+Thinking about this, it would probably still be better to increase the bbox by a constant value like 1-2 km, but because I've already implemented the percentage-based expansion, I will just increase the `expansionPercentage`. I increased it to 10%.
+
+With that change, the routing worked, and it only took 1.8 seconds, which subjectively, made it feel much more responsive.
+
+In the future, I could potentially dynamically download OSM data during the route calculation, or retry with a larger bbox if the A\* algorithm can't find a route. But for now, this is a good solution.
+
+##### Adding the loading state to the UI
+
+As per my mockup, I will attempt to add a indicator that the route is being calculated, and generally improve the user experience while PyScript is loading/processing/running. However, this will be difficult due to PyScript still running in the main thread.
+
+I will use observables to store the progress of the route calculation, so that the UI can easily be reactively updated, and also store the current route result (once calculated) in an observable so that the main map can show it.
+
+I added an observable called `routeCalculationProgress`:
+
+```ts
+enum CalculationState {
+  Idle,
+  Downloading,
+  ComputingGraph,
+  CalculatingRoute,
+}
+
+const routingEngineAvailable = useMemo(() => !!usePy())
+const routeCalculationProgress = $<CalculationState>(CalculationState.Idle)
+```
+
+And I added some lines `calculateRoute()` to update it appropriately, as well as some `useEffect` hooks to print the state of the observable when it updates:
+
+![](assets/sprint-2/route-calculation-progress.png)
+
+However, I noticed that I could only ever see the observable being set to `0` (`CalculationState.Idle`). I think it's likely that this is because `useEffect` hooks aren't executed immediately, and because PyScript blocks the main thread, they never get a chance to run until the route calculation is finished.
+
+Fortunately, I discovered that `oby` has a `$.tick()` procedure that can force the `useEffect` hooks to run immediately:
+
+> `$.tick`: This function forces effects scheduled for execution to be executed immediately, bypassing automatic or manual batching.
+
+Calling this function after updating the observable (and before the long synchronous task) fixed that issue.
+
+I also implemented a loading spinner to go below the form:
+
+```tsx
+<If when={() => routeCalculationProgress()}>
+  <div class="mt-8 flex items-center gap-8">
+    <span class="loading loading-spinner loading-lg text-primary"></span>
+    <div class="h-full">
+      {() => {
+        switch (routeCalculationProgress()) {
+          case CalculationState.Idle:
+            console.warn("Loading spinner visible when idle")
+            return "Idle"
+          case CalculationState.Downloading:
+            return "Downloading OSM data..."
+          case CalculationState.ComputingGraph:
+            return "Computing routing graph..."
+          case CalculationState.CalculatingRoute:
+            return "Calculating route..."
+        }
+      }}
+    </div>
+  </div>
+</If>
+```
+
+However, this part of the UI, with its reactive `If` component, suffered from the same issue of not having a chance to update while the main thread is blocked, so it never showed.
+
+I tried implementing a system where the cursor would become a loading spiral while the page is unresponsive (providing nostalgia for unresponsive Windows apps), but this didn't work, so I removed the code, but I will paste it here anyway:
+
+```ts
+useEffect(() => {
+  if (routeCalculationProgress()) {
+    document.body.style.cursor = "wait"
+  }
+  document.body.style.cursor = ""
+})
+```
+
+To fix the issue with the main thread being blocked, I tested executing the Python code in a promise:
+
+```ts
+async function downloadMapData(routing_engine: any, bbox: any) {
+  const [ways, raw_nodes] = routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routing_engine.download_osm_data(bbox)
+  routeCalculationProgress(CalculationState.ComputingGraph)
+  tick()
+  return [ways, raw_nodes]
+}
+```
+
+However, this function still froze the UI while it was running.
+
+I also tried using a `useMemo` + native JS `if` instead of Voby's `If`, but this too didn't change anything:
+
+```jsx
+{
+  useMemo(() =>
+    routeCalculationProgress() ? (
+      <div class="mt-8 flex items-center gap-8">{/* ... */}</div>
+    ) : undefined
+  )
+}
+```
+
+I thought that surely if I run the Python code within a `setTimeout`, Voby will have time to update the UI in between this being called and the Python code starting. I set up a test:
+
+```ts
+routeCalculationProgress(CalculationState.Downloading)
+tick()
+const routing_engine = py.RoutingEngine()
+const bbox = calculateBboxForRoute(startPos, endPos)
+console.debug("Using bounding box for route", bbox)
+setTimeout(() => {
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+  routing_engine.download_osm_data(py.BoundingBox(...bbox))
+}, 100)
+```
+
+This was successful in the sense that the loading spinner did render at the right time, although it froze while the code was actually running, which I had half-expected.
+
+I made use of this discovery to create a `tickUI` async function, which resolves once the oby `tick()` procedure has been called (to guarantee all the `useEffect` hooks have run), as well as after a delay of 1ms has passed (using `setTimeout()`), to be reasonably certain that the UI has updated:
+
+```ts
+function tickUI(): Promise<void> {
+  return new Promise((resolve) => {
+    tick()
+    setTimeout(resolve, 1)
+  })
+}
+```
+
+I then turned `calculateRoute()` into an async function (which didn't require any changes to where it's called) and updated my `tick()` calls to be `await tickUI()` statements. Now the loading spinner still freezes once it's shown, but at least it shows up.
+
+I successfully tested it in Firefox (Developer Edition) and Brave, so I can be pretty sure that I'm not relying on any browser-specific quirks.
+
+I added a tooltip for the calculate button to be shown while the routing engine isn't ready:
+
+![](assets/sprint-2/tooltip-code.png)
+![](assets/sprint-2/tooltip.png)
+
+##### Debugging bounding boxes on the map
+
+I thought it would be very useful to show the expanded and unexpanded bounding boxes for downloading map data on the map. So I did that. I wrote a helper function in `MainMap.tsx`:
+
+```ts
+export function drawBbox(
+  bbox: [number, number, number, number],
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) return
+  const rectangle = L.rectangle(
+    [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ],
+    options
+  )
+  rectangle.addTo(map)
+  return rectangle
+}
+```
+
+And used it in `calculateRoute()`:
+
+```ts
+const bbox = calculateBboxForRoute(startPos, endPos, 0.1)
+console.debug("Using bounding box for route", bbox)
+drawBbox(calculateBboxForRoute(startPos, endPos, 0), { color: "red" })
+drawBbox(bbox, { color: "green" })
+```
+
+![](assets/sprint-1/bboxes-on-map.png)
+
+##### Rendering route on map
+
+I expanded the `CurrentRoute` interface to include more information from the Python `RouteResult`:
+
+```ts
+export interface RoutePart {
+  distance: number
+  estimated_time: number
+  description(): string
+}
+
+export interface CurrentRoute {
+  unexpandedBbox: BboxTuple
+  expandedBbox: BboxTuple
+  start: Coordinates
+  end: Coordinates
+  parts: RoutePart[]
+  lines: Line[]
+  totalTime: number
+  totalDistance: number
+}
+```
+
+Added some more types to `types.mts`:
+
+```ts
+export type Coordinates = [number, number]
+export type Line = [Coordinates, Coordinates]
+```
+
+And updated `calculateRoute` to support the new attributes on `CurrentRoute`:
+
+```ts
+currentRoute({
+  expandedBbox: bbox,
+  unexpandedBbox: calculateBboxForRoute(startPos, endPos, 0),
+  start: startPos,
+  end: endPos,
+  parts: route.parts,
+  lines: (route.parts.toJs() as any[])
+    .filter((part) => "start" in part)
+    .map((part) => [part.start.toJs(), part.end.toJs()] as Line),
+  totalTime: route.total_time(),
+  totalDistance: route.total_distance(),
+})
+```
+
+The screenshot below shows the route lines being calculated correctly. I used the `toJs()` method because `part.start`/`part.end` are tuples in Python, which are proxied by default. I didn't need this link between Python and JS for those objects, so I converted them to plain JS arrays, which makes them easier to look at in the console.
+
+![](assets/sprint-2/lots-of-lines.png)
+
+With this information, I was finally able to render the route on the map. I drew a semitransparent line along the route, as requested by my stakeholders, and also added circles to mark the start and end points of the route, dotted lines between the first/final node and the start/end points (respectively), and a popup that appears when you click on the start/destination.
+
+I added some helper functions to `MainMap.tsx`:
+
+```ts
+export function drawBbox(
+  bbox: [number, number, number, number],
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const rectangle = L.rectangle(
+    [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ],
+    options
+  )
+  rectangle.addTo(map)
+  return rectangle
+}
+
+export function drawStraightLine(
+  from: Coordinates,
+  to: Coordinates,
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const polyline = L.polyline([from, to], options)
+  polyline.addTo(map)
+  return polyline
+}
+
+/** Draws an array of line segments as a single polyline */
+export function drawLines(lines: Line[], options: PolylineOptions) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  // We assume that each line segment starts where the previous one ended,
+  // so we can just take the first point of each line segment + the final point
+  const points = lines.map((line) => line[0])
+  points.push(lines.at(-1)![1])
+  const polyline = L.polyline(points, options)
+  polyline.addTo(map)
+  return polyline
+}
+
+export function drawCircle(
+  coordinates: [number, number],
+  options: CircleOptions,
+  popup?: string | HTMLElement | Popup
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const circle = L.circle(coordinates, options)
+  if (popup) circle.bindPopup(popup)
+  circle.addTo(map)
+  return circle
+}
+```
+
+And I also wrote a `useEffect` hook in the same file to draw all the elements of the route onto the map, whenever the `currentRoute` observable updates:
+
+```ts
+let layersForCurrentRoute: Layer[] = []
+
+const waypointCircleOptions: CircleOptions = {
+  radius: 4,
+  color: "#9d174d",
+  opacity: 0,
+  fillOpacity: 0.7,
+}
+
+const waypointLineOptions: PolylineOptions = {
+  color: "#9d174d",
+  opacity: 0.5,
+  dashArray: "1 6",
+}
+
+useEffect(() => {
+  const L = leaflet()
+  const map = mainMap()
+  const route = currentRoute()
+  if (!L || !map || !route) return
+  layersForCurrentRoute.forEach((layer) => {
+    layer.remove()
+  })
+  layersForCurrentRoute = [
+    // drawBbox(route.expandedBbox, {
+    //   color: "green",
+    //   fillOpacity: 0.1,
+    //   fill: false,
+    // }),
+    // drawBbox(route.unexpandedBbox, { color: "red" }),
+    // Mark start and end points with circles
+    drawCircle(
+      route.start,
+      waypointCircleOptions,
+      "Start at " + route.start.join(", ")
+    ),
+    drawCircle(
+      route.end,
+      waypointCircleOptions,
+      "Destination at " + route.start.join(", ")
+    ),
+    // Draw line to start point
+    drawStraightLine(route.start, route.lines[0][0], waypointLineOptions),
+    // Draw the actual route
+    drawLines(route.lines, { color: "#9d174d", opacity: 0.5 }),
+    // Draw line to end point
+    drawStraightLine(route.end, route.lines.at(-1)![1], waypointLineOptions),
+  ]
+
+  console.log(route.lines)
+})
+```
+
+As you can see, I also migrated the bbox debug overlays to this same `useEffect` hook, but commented them out because I'm no longer working on debugging the bounding boxes.
+
+I tested the overlay with a route from school to The Bakery, because that's what Andrew mentioned he would like to use the routing engine for:
+
+<!-- prettier-ignore -->
+| Start | Whole route | End |
+|---|---|---|
+| ![Screenshot of the route getting out of school](assets/sprint-2/out-of-school.png) | ![Screenshot of the whole route](assets/sprint-2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/sprint-2/to-the-bakery.png) |
+
+#### Sprint 2: Implementing the route info screen
+
+As per my mockups that were well-loved by my stakeholders, I implemented the Route Info screen to show stats about the route.
+
+I used a Voby `Ternary` to show a `RouteInfoScreen` component when there's a current route, and the normal `RouteScreen` (with the input fields) when there isn't:
+
+```diff
+ <div class="screen" data-screen="route">
++  <Ternary when={() => currentRoute()}>
++    <RouteInfoScreen route={currentRoute()!} />
+     <RouteScreen />
++  </Ternary>
+ </div>
+```
+
+I then implemented the route info screen to match the design of my mockup:
+
+```tsx
+function ClearRouteButton() {
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          type="button"
+          onClick={() => {
+            currentRoute(undefined)
+          }}
+        >
+          🗑️ Clear route
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function RouteInfoScreen({ route }: { route: CurrentRoute }) {
+  const meters = displayInteger(route.totalDistance)
+  const minutes = displayInteger(route.totalTime / 60)
+  const ETA = useMemo(() => new Date(timestampNow() + route.totalTime * 1000))
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">Route info</h2>
+        <div class="flex flex-col gap-4">
+          <p>📍 Walking from {route.start}</p>
+          <p>📌 Walking to {route.end}</p>
+          <p>
+            🪜{meters} metres, {minutes} minutes remaining
+            <br />⌚ Estimated to arrive at {() =>
+              ETA().toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })
+            }
+          </p>
+        </div>
+      </div>
+      <ClearRouteButton />
+    </>
+  )
+}
+```
+
+This included writing some utility functions and observables for working with time and displaying localised numerical values, which I put into a file called `localization.ts`:
+
+```ts
+export const timestampNow = $(Date.now())
+
+setInterval(() => {
+  timestampNow(Date.now())
+}, 1000)
+
+export function displayInteger(num: number): string {
+  return num.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  })
+}
+```
+
+The `timestampNow` observable ensures the route ETA stays accurate, and the `displayInteger` function makes it easy to display numbers correctly according to the user's preference.
+
+![Screenshot of the screen](assets/sprint-2/route-info.png)
+
+I succesfully tested that:
+
+- The screen shows up when a route has been calculated
+- The screen doesn't incorrectly show up before a route has been calculated
+- The coordinates, numbers, and times are displayed based on the route result
+- The values are printed in a friendly format
+- The ETA updates automatically
+- The route can be cleared by pressing the "Clear route" button
+- The app goes back to the "calculate a route" screen when the route is cleared
+
+Therefore I consider this implementation very successful.
+
+#### Sprint 2: Fixing colours in light mode
+
+I noticed that the pink accent colour provides poor text contrast when used as a text colour in light theme on the route input labels.
+
+![Light pink text on white background](assets/sprint-2/pink-on-white.png)
+
+I edited the labels and inputs to use `pink-800` in light theme (to match the bottom bar text), and `primary` in dark theme (because that already looked good):
+
+![Diff for changing Tailwind classes](assets/sprint-2/tailwind-yay.png)
+
+It is now much more readable in light theme:
+
+![Dark pink text on white background](assets/sprint-2/dark-pink-on-white.png)
+
+This is an important fix to make, because many of my users may prefer light theme, and it's easier to use light theme in bright sunlight, so it should be usable with good contrast.
+
+### Sprint 2 evaluation
+
+#### Sprint 2 qualitative evaluation
+
+In this sprint, I encountered a number of challenges, including deciding to write my own routing graph generation code for the routing engine. However, that went quite well, and has given me ore flexibility with the routing graph, even if it's not the most optimised graph, and I may have figure out how to store the geometry of a way in the future. In addition, I am currently using the NetworkX A\* implementation, which I may need to replace with my own implementation as my requirements for specific treatment of ways grows in the next sprints.
+
+The main issue I had, and tried to solve, was PyScript blocking the main thread when I run it normally, and causing a number of difficult-to-debug issues when running it in a web worker. At the moment, I have accepted that the UI freezes for a while while PyScript is working, but it makes the app feel much less responsive, especially on first load, so I plan on investigating it further in later sprints. I may want to look into switching to a MicroPython runtime for faster load times and perhaps working workers, but I have doubts about the various libaries I use working under MicroPython.
+
+Another challenge was getting a service worker working to cache all of the web app's resources so that it works offline. My solution of caching everything at runtime is not ideal due to cache invalidation challenges, potential wasted storage space, and needing to reload the page a couple of times before it works offline, but it does work and will hopefully be good enough for my stakeholders for now.
+
+Despite these challenges and the current implementation limitations, I managed to create a working end-to-end prototype that contains features that my stakeholders have asked for, including showing the route as an overlay on the map and offline support once the route has been calculated. It works on mobile and is reasonably performant.
+
+#### Sprint 2 post-development testing
+
+##### Sprint 2 post-development test table
+
+I tested the routing engine as per my [A\* algorithm test plan](#a-algorithm-test-plan).
+
+<!-- prettier-ignore -->
+| Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
+| ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
+| Routes along a straight road | Test the most basic case of routing engine | Normal | From 51.272639,-0.399783 to 51.274479,-0.393767 | Returns corresponding nodes along that road | Calculated route (see evidence below) | ✅ |
+| Routes along multiple roads | Test if it can turn onto other roads | Normal | From 51.272639,-0.399783 to 51.270939,-0.390562 | A route that goes along both roads | Calculated route with 85 parts in 3,499.46 ms | ✅ |
+| Routes along paths | Test if paths are properly considered | Normal | From 51.272642,-0.394765 to 51.269150,-0.394298 | A route that follows tracks and pavements | Calculated route with 26 parts in 3,379.28 ms | ✅ |
+| Prefers pavements | Router should go from a road to a pavement ASAP | Normal | From 51.269016,-0.394413 to 51.270395,-0.384361 | Routes goes mostly along pavement | Route goes straight along road | ❌ |
+| Routes through St Lawrence churchyard instead of road | Test if it can use nearby footpaths when pavements are absent | Normal | 51.272612,-0.399660 to 51.270404,-0.399223 | Route prefers paths through graveyard to road | Route goes straight along road | ❌ |
+
+While the basic tests succeeded, anything that required more complicated weights than `edge["length"]` failed, because I wasn't able to implement that in the time I had for this sprint, amongst the other challenges. However, I had already allocated time in sprint 4 to work on refining the routing graph and weights, and I have fully planned how weights will be determined in the design for this sprint, so I am confident that I will have time to fix this.
+
+###### Sprint 2 post-development test evidence
+
+![](assets/sprint-2/straight.png)
+![](assets/sprint-2/2-roads.png)
+![](assets/sprint-2/track+pavement.png)
+![](assets/sprint-2/unsafe-route.png)
+![](assets/sprint-2/ignores-charchyard.png)
+
+Also, just for fun, I tested a route that goes along motorway slip roads, because I knew it would treat them the same as any other path. (Note that the pink route highlight isn't very visible on top of the pink motorways.)
+
+![](assets/sprint-2/motorway-zoom.png)
+
+##### Sprint 2 stress-testing
+
+To stress-test the routing engine, I attempted to route from Effingham to the Old Trafford football stadium. It took 5.0 minutes to download the map data from Overpass (335 MB), before the Chrome tab ran out of memory and crashed.
+
+As a slightly more reasonable test, I tried routing to London Heathrow Airport from Effingham. This time, the map data was 3.8 MB and downloaded in 3.81 s. Calculating the whole route took 44.99 seconds, and returned a route with 1069 parts.
+
+![Screenshot of the route to Heathrow](assets/sprint-2/heathrow-route.png)
+
+In conclusion, the routing engine performed reasonable well under stress testing, considering that my routing graph is rather unoptimised.
 
 <div>
 
