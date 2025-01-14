@@ -256,6 +256,9 @@ A-level Computer Science programming project
         - [Sprint 2 post-development test table](#sprint-2-post-development-test-table)
           - [Sprint 2 post-development test evidence](#sprint-2-post-development-test-evidence)
         - [Sprint 2 stress-testing](#sprint-2-stress-testing)
+  - [Sprint 3 (2025-01-14 onwards)](#sprint-3-2025-01-14-onwards)
+    - [Sprint 3 goals](#sprint-3-goals)
+      - [Sprint 3 user stories](#sprint-3-user-stories)
 
 ## Analysis
 
@@ -4987,6 +4990,24 @@ As a slightly more reasonable test, I tried routing to London Heathrow Airport f
 ![Screenshot of the route to Heathrow](assets/sprint-2/heathrow-route.png)
 
 In conclusion, the routing engine performed reasonable well under stress testing, considering that my routing graph is rather unoptimised.
+
+## Sprint 3 (2025-01-14 onwards)
+
+### Sprint 3 goals
+
+In my [upfront plan for sprint 3](#sprint-3-upfront-plan), I allocated it for adding the options to the routing engine. However, because I didn't manage to implement the weight function for the routing engine in sprint 2, I will change my plan to allocate some time for implementing the weight calculation logic, and then implement a small number of options that are selectable in the frontend, and that are considered in the routing engine. If time allows, I will also improve the route details screen to include any warnings encountered during the route calculation process.
+
+#### Sprint 3 user stories
+
+With this new plan in mind, below are my user stories for sprint 3:
+
+1. As a user, I want to walk along a safe route
+2. As a user, I want the app to provide routes that are nice to walk along
+3. As a user, I want an intuitive UI for selecting routing options
+4. As a responsible user, I want to avoid private paths
+5. As a user, I want to allow routing through private paths, for when I have permission
+6. As a user, I want to avoid any paths that are physically impassable
+7. As a user, I want to avoid any paths that are illegal to walk along
 
 <div>
 
