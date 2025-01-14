@@ -218,6 +218,7 @@ A-level Computer Science programming project
           - [A\* algorithm justification](#a-algorithm-justification)
           - [A\* algorithm implementation plan](#a-algorithm-implementation-plan)
           - [A\* algorithm pseudocode](#a-algorithm-pseudocode)
+          - [A\* algorithm test plan](#a-algorithm-test-plan)
         - [Routing graph generation design](#routing-graph-generation-design)
           - [Routing graph generation justification](#routing-graph-generation-justification)
           - [Routing graph generation implementation plan](#routing-graph-generation-implementation-plan)
@@ -1712,21 +1713,21 @@ I will download OSM data files from <https://www.openstreetmap.org/export> for t
 
 <!-- prettier-ignore-ignore -->
 
-| Test                        | Reason for test                            | Type                                      | Test data                                | Expected outcome                        |
-| --------------------------- | ------------------------------------------ | ----------------------------------------- | ---------------------------------------- | --------------------------------------- | ------------------------------------------------ |
-| Accepts file                | Ens                                        | ure the program uses the provided CLI arg | Normal                                   | `my-data-file.osm` (a valid data file)  | Output shows that data was loaded from that file |
-| File exists                 | Program should check that the file exists  | Erroneous                                 | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found" |
-| Graph is created with edges | Ensure that the graph is created correctly | Normal                                    | `my-data-file.osm` (small region file)   | Graph is printed, containing some edges |
+| Test                        | Reason for test                              | Type      | Test data                                | Expected outcome                                 |
+| --------------------------- | -------------------------------------------- | --------- | ---------------------------------------- | ------------------------------------------------ |
+| Accepts file                | Ensure the program uses the provided CLI arg | Normal    | `my-data-file.osm` (a valid data file)   | Output shows that data was loaded from that file |
+| File exists                 | Program should check that the file exists    | Erroneous | `missing-file.osm` (a non-existent file) | Print "File missing-file.osm not found"          |
+| Graph is created with edges | Ensure that the graph is created correctly   | Normal    | `my-data-file.osm` (small region file)   | Graph is printed, containing some edges          |
 
 ###### After development
 
 <!-- prettier-ignore-ignore -->
 
-| Test                   | Reason for test                                                      | Type                                                                       | Test data                                        | Expected outcome                                                                            |
-| ---------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------- |
-| File is a file         | P                                                                    | aths should only be accepted if they point to files that are file-y enough | Erroneous                                        | `/tmp` (a directory)                                                                        | Print "Cannot access /tmp: not a file" |
-| File is readable       | Should notify the user if it can't read the file due to permissions  | Erroneous                                                                  | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied"                              |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous                                                                  | `.osm` file with a missing `>`                   | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
+| Test                   | Reason for test                                                             | Type      | Test data                                        | Expected outcome                                                                            |
+| ---------------------- | --------------------------------------------------------------------------- | --------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| File is a file         | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory)                             | Print "Cannot access /tmp: not a file"                                                      |
+| File is readable       | Should notify the user if it can't read the file due to permissions         | Erroneous | `my-data-file.osm` (file with permissions `333`) | Print "Cannot access file my-data-file.osm: permission denied"                              |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified        | Erroneous | `.osm` file with a missing `>`                   | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem |
 
 ### Sprint 1 development
 
@@ -2332,11 +2333,11 @@ I have adjusted the input data slightly from my initial test plan for the backen
 
 <!-- prettier-ignore-ignore -->
 
-| Test                   | Reason for test                                                      | Type                                                                       | Test data                                  | Expected outcome                                                                            | Actual outcome                                     | Pass?                                |
-| ---------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------ | ---- |
-| File is a file         | P                                                                    | aths should only be accepted if they point to files that are file-y enough | Erroneous                                  | `/tmp` (a directory)                                                                        | Print "Cannot access /tmp: not a file"             | "Cannot access /tmp: is a directory" | ✅\* |
-| File is readable       | Should notify the user if it can't read the file due to permissions  | Erroneous                                                                  | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied"                                    | "Cannot access file ../map.osm: permission denied" | ✅                                   |
-| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified | Erroneous                                                                  | `.osm` file with an extra `</invalid>`     | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx      | ❌                                   |
+| Test                   | Reason for test                                                             | Type      | Test data                                  | Expected outcome                                                                            | Actual outcome                                     | Pass? |
+| ---------------------- | --------------------------------------------------------------------------- | --------- | ------------------------------------------ | ------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----- |
+| File is a file         | Paths should only be accepted if they point to files that are file-y enough | Erroneous | `/tmp` (a directory)                       | Print "Cannot access /tmp: not a file"                                                      | "Cannot access /tmp: is a directory"               | ✅\*  |
+| File is readable       | Should notify the user if it can't read the file due to permissions         | Erroneous | `../map.osm` (file with permissions `333`) | Print "Cannot access file ../map.osm: permission denied"                                    | "Cannot access file ../map.osm: permission denied" | ✅    |
+| Check data file syntax | Errors from OSMnx should be handled, and the user should be notified        | Erroneous | `.osm` file with an extra `</invalid>`     | Print "Failed to parse OSM data" and some error from OSMnx relating to the specific problem | A long traceback and error message from OSMnx      | ❌    |
 
 ##### Sprint 1 post-development test log
 
@@ -3163,6 +3164,17 @@ The `calculate_route_a_star()` method will exist in the `RouteCalculator` class.
   - $a_x$, $a_y$ = node_a.coordinates
   - $b_x$, $b_y$ = node_b.coordinates
   - return $\sqrt{(a_x - b_x)^2 + (a_y - b_y)^2}$
+
+###### A\* algorithm test plan
+
+<!-- prettier-ignore -->
+| Test                        | Reason for test                              | Type      | Test data                                       | Expected outcome                                |
+|-----------------------------|----------------------------------------------|-----------|-------------------------------------------------|-------------------------------------------------|
+| Routes along a straight road| Test the most basic case of routing engine   | Normal    | From 51.272639,-0.399783 to 51.274479,-0.393767 | Returns corresponding nodes along that road     |
+| Routes along multiple roads | Test if it can turn onto other roads         | Normal    | From 51.272639,-0.399783 to 51.270939,-0.390562 | A route that goes along both roads              |
+| Routes along paths          | Test if paths are properly considered        | Normal    | From 51.272642,-0.394765 to 51.269150,-0.394298 | A route that follows tracks and pavements       |
+| Prefers pavements           | Router should go from a road to a pavement ASAP | Normal | From 51.269016,-0.394413 to 51.270395,-0.384361 | Routes goes mostly along pavement               |
+| Routes through St Lawrence churchyard instead of road | Test if it can use nearby footpaths when pavements are absent | Normal | 51.272612,-0.399660 to 51.270404,-0.399223 | Route prefers paths through graveyard to road   |
 
 ##### Routing graph generation design
 
@@ -4913,14 +4925,30 @@ Despite these challenges and the current implementation limitations, I managed t
 
 ##### Sprint 2 post-development test table
 
+I tested the routing engine as per my [A\* algorithm test plan](#a-algorithm-test-plan).
+
 <!-- prettier-ignore -->
 | Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
 | ---- | --------------- | ---- | --------- | ---------------- | -------------- | ----- |
-| Routes along a straight road | Test the most basic case of routing engine | Normal | From 51.272639,-0.399783 to 51.274479,-0.393767 | Returns corresponding nodes along that road | See evidence below | ✅ |
+| Routes along a straight road | Test the most basic case of routing engine | Normal | From 51.272639,-0.399783 to 51.274479,-0.393767 | Returns corresponding nodes along that road | Calculated route (see evidence below) | ✅ |
+| Routes along multiple roads | Test if it can turn onto other roads | Normal | From 51.272639,-0.399783 to 51.270939,-0.390562 | A route that goes along both roads | Calculated route with 85 parts in 3,499.46 ms | ✅ |
+| Routes along paths | Test if paths are properly considered | Normal | From 51.272642,-0.394765 to 51.269150,-0.394298 | A route that follows tracks and pavements | Calculated route with 26 parts in 3,379.28 ms | ✅ |
+| Prefers pavements | Router should go from a road to a pavement ASAP | Normal | From 51.269016,-0.394413 to 51.270395,-0.384361 | Routes goes mostly along pavement | Route goes straight along road | ❌ |
+| Routes through St Lawrence churchyard instead of road | Test if it can use nearby footpaths when pavements are absent | Normal | 51.272612,-0.399660 to 51.270404,-0.399223 | Route prefers paths through graveyard to road | Route goes straight along road | ❌ |
+
+While the basic tests succeeded, anything that required more complicated weights than `edge["length"]` failed, because I wasn't able to implement that in the time I had for this sprint, amongst the other challenges. However, I had already allocated time in sprint 4 to work on refining the routing graph and weights, and I have fully planned how weights will be determined in the design for this sprint, so I am confident that I will have time to fix this.
 
 ###### Sprint 2 post-development test evidence
 
 ![](assets/sprint-2/straight.png)
+![](assets/sprint-2/2-roads.png)
+![](assets/sprint-2/track+pavement.png)
+![](assets/sprint-2/unsafe-route.png)
+![](assets/sprint-2/ignores-charchyard.png)
+
+Also, just for fun, I tested a route that goes along motorway slip roads, because I knew it would treat them the same as any other path. (Note that the pink route highlight isn't very visible on top of the pink motorways.)
+
+![](assets/sprint-2/motorway-zoom.png)
 
 ##### Sprint 2 stress-testing
 
