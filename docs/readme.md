@@ -251,6 +251,7 @@ A-level Computer Science programming project
       - [Sprint 2: Fixing colours in light mode](#sprint-2-fixing-colours-in-light-mode)
     - [Sprint 2 evaluation](#sprint-2-evaluation)
       - [Sprint 2 qualitative evaluation](#sprint-2-qualitative-evaluation)
+      - [Sprint 2 user story checklist](#sprint-2-user-story-checklist)
       - [Sprint 2 post-development testing](#sprint-2-post-development-testing)
         - [Sprint 2 post-development test table](#sprint-2-post-development-test-table)
           - [Sprint 2 post-development test evidence](#sprint-2-post-development-test-evidence)
@@ -4938,6 +4939,15 @@ The main issue I had, and tried to solve, was PyScript blocking the main thread 
 Another challenge was getting a service worker working to cache all of the web app's resources so that it works offline. My solution of caching everything at runtime is not ideal due to cache invalidation challenges, potential wasted storage space, and needing to reload the page a couple of times before it works offline, but it does work and will hopefully be good enough for my stakeholders for now.
 
 Despite these challenges and the current implementation limitations, I managed to create a working end-to-end prototype that contains features that my stakeholders have asked for, including showing the route as an overlay on the map and offline support once the route has been calculated. It works on mobile and is reasonably performant.
+
+#### Sprint 2 user story checklist
+
+1. ✅ As a user, I want to be able to use the program by simply visiting a URL in my web browser
+   - The web app has been deployed to <https://marvellous-mapping-machine.pages.dev/>, and the Python routing engine automatically loads and runs within the browser, with no extra steps from the user
+2. ✅ As a user, I want to see a basic route between two points that I choose
+   - The user can enter two sets of coordinates into the input fields on the "Calculate a route" screen, and pressing "Calculate" calls the routing engine to calculate a basic route
+3. ✅ As a user, I want to see the route highlighted on the map
+   - The frontend highlights the route on the map, as well as showing the start and end points with circles
 
 #### Sprint 2 post-development testing
 
