@@ -181,7 +181,7 @@ A-level Computer Science programming project
         - [Sprint 1 feedback from James](#sprint-1-feedback-from-james)
         - [Sprint 1 feedback from Ili](#sprint-1-feedback-from-ili)
       - [Sprint 1 user story checklist](#sprint-1-user-story-checklist)
-  - [Sprint 2 (2024-12-09 onwards)](#sprint-2-2024-12-09-onwards)
+  - [Sprint 2 (2024-12-09 to 2025-01-14)](#sprint-2-2024-12-09-to-2025-01-14)
     - [Sprint 2 goals](#sprint-2-goals)
       - [Sprint 2 user stories](#sprint-2-user-stories)
       - [Sprint 2 research tasks](#sprint-2-research-tasks)
@@ -1509,12 +1509,14 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
-    Sprint 2: 2024-12-05, 2025-01-10
+    Sprint 2: 2024-12-05, 2025-01-14
+    Sprint 3: 2025-01-14,
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
-    Sprint 2: 2024-12-09,
+    Sprint 2: 2024-12-09, 2025-01-14
+    Sprint 3: 2025-01-14,
 ```
 
 <!--
@@ -2438,7 +2440,7 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
 
 All user story requirements have been met with largely positive stakeholder responses, and I have also identified features I can touch up on in the next sprint.
 
-## Sprint 2 (2024-12-09 onwards)
+## Sprint 2 (2024-12-09 to 2025-01-14)
 
 ### Sprint 2 goals
 
