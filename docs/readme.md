@@ -213,6 +213,7 @@ A-level Computer Science programming project
       - [Sprint 2 UI design](#sprint-2-ui-design)
         - [Route screen mockups](#route-screen-mockups)
         - [Stakeholder feedback for route screen mockups](#stakeholder-feedback-for-route-screen-mockups)
+        - [Sprint 2 UI validation table](#sprint-2-ui-validation-table)
       - [Sprint 2 modules](#sprint-2-modules)
         - [A\* algorithm design](#a-algorithm-design)
           - [A\* algorithm justification](#a-algorithm-justification)
@@ -3071,6 +3072,21 @@ I showed the mockup to Ili in-person, and at first he found the way I had presen
 Similarly to Andrew, I had to tell him what the hatched FAB and the loading spinner were, but that was just a limitation of my mockup. For the route info, he suggested putting the "walking from" and "walking to" next to each other, as well as showing the address for the destination instead of just the coordinates. These seemed like good small suggestions to me.
 
 Since the feedback from my stakeholders is very positive, I will go forward with this design for my sprint.
+
+##### Sprint 2 UI validation table
+
+This sprint will implement the route screen with two inputs (which will have the same validation logic), one button, and one floating action button. They will need validation as follows:
+
+<!-- prettier-ignore -->
+| Element | Condition | If valid | If invalid | Example invalid data/state |
+| ------- | --------- | -------- | ---------- | -------------------------- |
+| Inputs  | Not empty | Allow calculation | Show `alert` | Empty string |
+| Inputs  | If coordinates, must valid coordinates | Allow calculation | Show `alert` | `51.0, -170.1` |
+| Inputs  | Any text that isn't in a coordinates format is processed as address | Geocode address and allow calculation | N/A | N/A |
+| FAB  | Can't be pressed when routing engine is loading | Calculate route | Noop | Pyscript is downloading |
+| FAB  | Can't be pressed when route is being calculated | Calculate route | Noop | A\* algo is running |
+| Toggle button | Can't be pressed when route is being calculated | Toggle GPS/address mode | Noop | A\* algo is running |
+| Inputs | Can't be edited when route is being calculated | Allow editing | Disallow editing | A\* algo is running |
 
 #### Sprint 2 modules
 
