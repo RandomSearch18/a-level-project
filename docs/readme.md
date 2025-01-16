@@ -261,6 +261,7 @@ A-level Computer Science programming project
       - [Sprint 3 user stories](#sprint-3-user-stories)
     - [Sprint 3 design](#sprint-3-design)
       - [Sprint 3 UI mockups](#sprint-3-ui-mockups)
+      - [Geocoding design](#geocoding-design)
 
 ## Analysis
 
@@ -5025,6 +5026,14 @@ Since the options screen will use my combination button component, I designed al
 | ![Avoid state mockup](assets/sprint-3/avoid.svg) | ![Neutral state mockup](assets/sprint-3/neutral.svg) | ![Prefer state mockup](assets/sprint-3/prefer.svg) |
 
 ![](assets/sprint-3/Untitled-2025-01-16-1015.excalidraw.svg)
+
+#### Geocoding design
+
+I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, becuase it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
+
+I chose Nominatim because it's widely used in the OSM community, parses a wide range of address tags, and I have personally tried it and had a good experience. The app won't be running a massive number of Nominatim queries, so I won't have to host it myself, because the free service will be more than sufficient.
+
+One thing I should consider when using Nominatim is restricting the area that it will search in, because my app is only intended for the UK, so users won't be expecting the app to return addresses from other countries. I could do this by simply appending ", United Kingdom" to the query, which will hint to Nominatim that the address is in the UK. Or, I could force restricting it to the UK with the [`countrycodes` parameter](https://nominatim.org/release-docs/develop/api/Search/#result-restriction).
 
 <div>
 
