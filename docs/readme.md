@@ -259,6 +259,8 @@ A-level Computer Science programming project
   - [Sprint 3 (2025-01-14 onwards)](#sprint-3-2025-01-14-onwards)
     - [Sprint 3 goals](#sprint-3-goals)
       - [Sprint 3 user stories](#sprint-3-user-stories)
+    - [Sprint 3 design](#sprint-3-design)
+      - [Sprint 3 UI mockups](#sprint-3-ui-mockups)
 
 ## Analysis
 
@@ -5006,6 +5008,18 @@ With this new plan in mind, below are my user stories for sprint 3:
 5. As a user, I want to allow routing through private paths, for when I have permission
 6. As a user, I want to avoid any paths that are physically impassable
 7. As a user, I want to avoid any paths that are illegal to walk along
+
+### Sprint 3 design
+
+#### Sprint 3 UI mockups
+
+In this sprint, I plan to add options to the UI to customise the routing engine's behaviour. This is important so that [UR3](#user-requirements) is met. The options screen should be intuitive but provide but give the user lots of control over what kind of route they should prefer.
+
+Since the options screen will use my combination button component, I designed all three states to use in my mockup.
+
+| Avoid state                                      | Neutral state                                        | Prefer state                                       |
+| ------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------- |
+| ![Avoid state mockup](assets/sprint-3/avoid.svg) | ![Neutral state mockup](assets/sprint-3/neutral.svg) | ![Prefer state mockup](assets/sprint-3/prefer.svg) |
 
 <div>
 
