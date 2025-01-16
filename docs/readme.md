@@ -4997,6 +4997,8 @@ In conclusion, the routing engine performed reasonable well under stress testing
 
 In my [upfront plan for sprint 3](#sprint-3-upfront-plan), I allocated it for adding the options to the routing engine. However, because I didn't manage to implement the weight function for the routing engine in sprint 2, I will change my plan to allocate some time for implementing the weight calculation logic, and then implement a small number of options that are selectable in the frontend, and that are considered in the routing engine. If time allows, I will also improve the route details screen to include any warnings encountered during the route calculation process.
 
+In sprint 2, I implemented specifying start and end points as coordinates, but in many cases it's easier and more user friendly to query an address. I will update the Route screen in this sprint to allow the user to enter an address, and then geocode that address to get coordinates.
+
 #### Sprint 3 user stories
 
 With this new plan in mind, below are my user stories for sprint 3:
@@ -5008,6 +5010,7 @@ With this new plan in mind, below are my user stories for sprint 3:
 5. As a user, I want to allow routing through private paths, for when I have permission
 6. As a user, I want to avoid any paths that are physically impassable
 7. As a user, I want to avoid any paths that are illegal to walk along
+8. As a user, I want to select start/end points by address
 
 ### Sprint 3 design
 
