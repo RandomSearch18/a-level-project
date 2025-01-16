@@ -262,6 +262,8 @@ A-level Computer Science programming project
     - [Sprint 3 design](#sprint-3-design)
       - [Sprint 3 UI mockups](#sprint-3-ui-mockups)
       - [Geocoding design](#geocoding-design)
+        - [Geocoding UI mockup](#geocoding-ui-mockup)
+        - [Geocoding pseudocode](#geocoding-pseudocode)
 
 ## Analysis
 
@@ -5034,6 +5036,16 @@ I plan to use the Nominatim API for geocoding, specifically, the `https://nomina
 I chose Nominatim because it's widely used in the OSM community, parses a wide range of address tags, and I have personally tried it and had a good experience. The app won't be running a massive number of Nominatim queries, so I won't have to host it myself, because the free service will be more than sufficient.
 
 One thing I should consider when using Nominatim is restricting the area that it will search in, because my app is only intended for the UK, so users won't be expecting the app to return addresses from other countries. I could do this by simply appending ", United Kingdom" to the query, which will hint to Nominatim that the address is in the UK. Or, I could force restricting it to the UK with the [`countrycodes` parameter](https://nominatim.org/release-docs/develop/api/Search/#result-restriction).
+
+On the frontend, if the user enters coordinates in a commonly-recognised format, I should parse it as coordinates. Otherwise, we will assume it's an address and pass it through the geocoding logic.
+
+##### Geocoding UI mockup
+
+Same as the current UI.
+
+##### Geocoding pseudocode
+
+<!-- TODO -->
 
 <div>
 
