@@ -5021,6 +5021,8 @@ Since the options screen will use my combination button component, I designed al
 | ------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------- |
 | ![Avoid state mockup](assets/sprint-3/avoid.svg) | ![Neutral state mockup](assets/sprint-3/neutral.svg) | ![Prefer state mockup](assets/sprint-3/prefer.svg) |
 
+![](assets/sprint-3/Untitled-2025-01-16-1015.excalidraw.svg)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
