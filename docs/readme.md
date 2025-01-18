@@ -262,6 +262,7 @@ A-level Computer Science programming project
     - [Sprint 3 design](#sprint-3-design)
       - [Sprint 3 UI mockups](#sprint-3-ui-mockups)
         - [Sprint 3 combination button mockups](#sprint-3-combination-button-mockups)
+        - [Sprint 3 routing options mockups](#sprint-3-routing-options-mockups)
       - [Geocoding design](#geocoding-design)
         - [Geocoding UI mockup](#geocoding-ui-mockup)
         - [Geocoding pseudocode](#geocoding-pseudocode)
@@ -5049,6 +5050,12 @@ After compiling the table, I decided to change the "Default/Prefer more" button 
 | ------------------------------------------------------------------------------------------------ |
 | ![Prefer/Prefer more (Prefer selected)](assets/sprint-3/prefer-prefer-more-prefer.svg)           |
 | ![Prefer/Prefer more (Prefer more selected)](assets/sprint-3/prefer-prefer-more-prefer-more.svg) |
+
+##### Sprint 3 routing options mockups
+
+I then created a mockup of the navigations options (i.e. route options) screen, using my new combination buttons. I made sure to include any options I had mentioned in my design for sprint 2, as well as options previously requested by my stakeholders.
+
+![Navigation options screen mockup](assets/sprint-3/options-mockup-1.excalidraw.svg)
 
 #### Geocoding design
 
