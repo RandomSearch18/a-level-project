@@ -5050,8 +5050,6 @@ After compiling the table, I decided to change the "Default/Prefer more" button 
 | ![Prefer/Prefer more (Prefer selected)](assets/sprint-3/prefer-prefer-more-prefer.svg)           |
 | ![Prefer/Prefer more (Prefer more selected)](assets/sprint-3/prefer-prefer-more-prefer-more.svg) |
 
-![](assets/sprint-3/Untitled-2025-01-16-1015.excalidraw.svg)
-
 #### Geocoding design
 
 I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, becuase it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
