@@ -261,6 +261,7 @@ A-level Computer Science programming project
       - [Sprint 3 user stories](#sprint-3-user-stories)
     - [Sprint 3 design](#sprint-3-design)
       - [Sprint 3 UI mockups](#sprint-3-ui-mockups)
+        - [Sprint 3 combination button mockups](#sprint-3-combination-button-mockups)
       - [Geocoding design](#geocoding-design)
         - [Geocoding UI mockup](#geocoding-ui-mockup)
         - [Geocoding pseudocode](#geocoding-pseudocode)
@@ -5022,11 +5023,32 @@ With this new plan in mind, below are my user stories for sprint 3:
 
 In this sprint, I plan to add options to the UI to customise the routing engine's behaviour. This is important so that [UR3](#user-requirements) is met. The options screen should be intuitive but provide but give the user lots of control over what kind of route they should prefer.
 
+##### Sprint 3 combination button mockups
+
 Since the options screen will use my combination button component, I designed all three states to use in my mockup.
 
 | Avoid state                                      | Neutral state                                        | Prefer state                                       |
 | ------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------- |
 | ![Avoid state mockup](assets/sprint-3/avoid.svg) | ![Neutral state mockup](assets/sprint-3/neutral.svg) | ![Prefer state mockup](assets/sprint-3/prefer.svg) |
+
+While designing a mockup for the route screen, I realised that the "Avoid/Neutral/Prefer" tri-state wouldn't make sense for all options, e.g. private paths, walking on roads. I designed more variants of the combination buttons in Figma. I spend a while considering the phrasing on the buttons, trying to keep them concise, accurate, but also making them seem consistent and understandable.
+
+<!-- prettier-ignore -->
+| Never/Reduce | Default/Prefer more | Avoid/Neutral | Disallow/Allow |
+| ------------ | ------------------- | ------------- | -------------- |
+| Attributes that are avoided ("reduced") by default | Attributes that are preferred by default | Attributes that are avoided by default, but can be neutral | When legal restrictions are involved |
+| e.g. walking on roads | e.g. controlled crossings | e.g.  | e.g. private paths |
+| ![Never/Reduce (Never selected)](assets/sprint-3/never-reduce-never.svg) | ![Default/Prefer more (Default selected)](assets/sprint-3/default-prefer-2.svg) | ![Avoid/Neutral (Avoid selected)](assets/sprint-3/avoid-normal-1.svg) | ![Disallow/Allow (Disallow selected)](assets/sprint-3/disallow-allow-1.svg) |
+| ![Never/Reduce (Reduce selected)](assets/sprint-3/never-reduce-reduce.svg) | ![Default/Prefer more (Prefer more selected)](assets/sprint-3/default-prefer-1.svg) | ![Avoid/Neutral (Neutral selected)](assets/sprint-3/avoid-normal-2.svg) | ![Disallow/Allow (Allow selected)](assets/sprint-3/disallow-allow-2.svg) |
+
+<!-- prioritise is a word -->
+
+After compiling the table, I decided to change the "Default/Prefer more" button to "Prefer/Prefer more" to be consistent with the other buttons, which all actually tell you if the default state is neutral, a preference, or a dispreference. I have added the updated version below.
+
+| Prefer/Prefer more                                                                               |
+| ------------------------------------------------------------------------------------------------ |
+| ![Prefer/Prefer more (Prefer selected)](assets/sprint-3/prefer-prefer-more-prefer.svg)           |
+| ![Prefer/Prefer more (Prefer more selected)](assets/sprint-3/prefer-prefer-more-prefer-more.svg) |
 
 ![](assets/sprint-3/Untitled-2025-01-16-1015.excalidraw.svg)
 
