@@ -264,6 +264,7 @@ A-level Computer Science programming project
       - [Geocoding design](#geocoding-design)
         - [Geocoding UI mockup](#geocoding-ui-mockup)
         - [Geocoding pseudocode](#geocoding-pseudocode)
+        - [Geocoding implementation notes](#geocoding-implementation-notes)
 
 ## Analysis
 
@@ -5039,13 +5040,40 @@ One thing I should consider when using Nominatim is restricting the area that it
 
 On the frontend, if the user enters coordinates in a commonly-recognised format, I should parse it as coordinates. Otherwise, we will assume it's an address and pass it through the geocoding logic.
 
+In addition, I think it'd be useful to have a button to just look up the address from the input, before the user presses Calculate, so that they can check that the address has resolved as they want it.
+
 ##### Geocoding UI mockup
 
 Same as the current UI.
 
 ##### Geocoding pseudocode
 
-<!-- TODO -->
+- when address validation button is pressed, or on form submit:
+  - if input matches `^[\d\.]+,\s*[\d\.]+$` (<https://regex101.com/r/vrNCaP/1>):
+    - use existing coordinate parsing logic
+    - store the parsed coordinates in a global observable
+  - else:
+    - build request URL
+      - base `https://nominatim.openstreetmap.org/search`
+      - `q` parameter set to the input
+      - `format` parameter set to `jsonv2`
+    - HTTP GET request to the URL
+    - parse the JSON response
+    - if it's an empty array:
+      - show an `alert()` to display an error message
+    - pick the first result to use as the start/end point
+    - replace the input value with the `display_name` of the result
+    - store the `lat` and `lon` of the result in a global observable
+- on form submit:
+  - use the coordinates from the observable
+  - use existing logic to calculate the route
+
+##### Geocoding implementation notes
+
+- I'll specify the `format` as `jsonv2` because JSON is easy to parse in JS, and specifying the format will help prevent breaking changes affecting my app
+- I used the following documentation pages from the Nominatim Manual (accessed 2025-01-18):
+  - [Search queries](https://nominatim.org/release-docs/develop/api/Search/)
+  - [Place output formats (JSONv2)](https://nominatim.org/release-docs/develop/api/Output/#jsonv2)
 
 <div>
 
