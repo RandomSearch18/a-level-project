@@ -270,6 +270,9 @@ A-level Computer Science programming project
     - [Sprint 3 development](#sprint-3-development)
       - [Sprint 3: Adding more options for specifying start/end points](#sprint-3-adding-more-options-for-specifying-startend-points)
         - [Adding geocoding support](#adding-geocoding-support)
+          - [Helper function for parsing simple coordinates](#helper-function-for-parsing-simple-coordinates)
+          - [Updating `getCoordsFromInput()` to match pseudocode](#updating-getcoordsfrominput-to-match-pseudocode)
+          - [Validation and error handling for Route screen inputs](#validation-and-error-handling-for-route-screen-inputs)
 
 ## Analysis
 
@@ -5116,7 +5119,9 @@ Same as the current UI.
 
 ##### Adding geocoding support
 
-Since I already had a `getCoordsFromInput()` function to process a start/end input and get coordinates, I edited this function to add the geocoding logic as per my pseudocode.
+Since I already had a `getCoordsFromInput()` function to process a start/end input and get coordinates, I will edit this function to add the geocoding logic as per my pseudocode.
+
+###### Helper function for parsing simple coordinates
 
 I added a `parseSimpleCoordinates()` helper function to parse coordinates that might be in the simple format. I adjusted my regex from my pseudocode to allow for the hyphen-minus character in the coordinate numbers. At first, I did validation with `alert()` calls in the `parseSimpleCoordinates()` function:
 
@@ -5155,6 +5160,84 @@ function parseSimpleCoordinates(input: string): Coordinates | null {
   return [lat, lon]
 }
 ```
+
+###### Updating `getCoordsFromInput()` to match pseudocode
+
+I then implemented all the logic apart from the geocoding itself, including falling back go a `geocodeAddress()` function:
+
+```ts
+function geocodeAddress(address: string): Coordinates {
+  throw new ValidationError("Geocoding not implemented yet")
+}
+
+function getCoordsFromInput(inputId: string): Coordinates {
+  const input = document.getElementById(inputId) as HTMLInputElement
+  if (!input) throw new Error(`No input found with ID ${inputId}`)
+  if (!input.value) throw new ValidationError("No coordinates provided")
+  const simpleCoords = parseSimpleCoordinates(input.value)
+  if (simpleCoords) return simpleCoords
+  const geocodedCoords = geocodeAddress(input.value)
+  return geocodedCoords
+}
+```
+
+###### Validation and error handling for Route screen inputs
+
+And added error handling to `calculateRoute()`:
+
+```ts
+function getStartCoords(): Coordinates | null {
+  try {
+    return getCoordsFromInput("route-start-input")
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      window.alert(`Start position: ${error.message}`)
+      return null
+    }
+    throw error
+  }
+}
+
+function getEndCoords(): Coordinates | null {
+  try {
+    return getCoordsFromInput("route-end-input")
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      window.alert(`Destination: ${error.message}`)
+      return null
+    }
+    throw error
+  }
+}
+
+async function calculateRoute() {
+  const py = usePy()
+  if (!py) return
+
+  const performanceStart = performance.now()
+  const startPos = getStartCoords()
+  if (!startPos) return
+  const endPos = getEndCoords()
+  if (!endPos) return
+  // [...]
+}
+```
+
+Apart from the `getStartCoords()`/`getEndCoords()` functions being a bit repetitive, I was happy with this code.
+
+I then tested the validation. While testing, I realised that I should probably allow the `+` character in the numbers, so I updated the regex to allow for that:
+
+```regexp
+^[\-\+\d\.]+,\s*[\-\+\d\.]+$
+```
+
+I took screenshots of my testing of the validation. The top row of the table shows testing of the start input, and the bottom row shows testing of the destination input.
+
+<!-- prettier-ignore -->
+| No coordinates provided | Latitude out of bounds | Longitude out of bounds |
+| ----------------------- | ---------------------- | ----------------------- |
+| ![No coordinates provided](assets/sprint-3/no-start.png) | ![Latitude out of bounds](assets/sprint-3/start-oob.png) | ![Start position: Longitude (2048°) must be between -180° and 180°](assets/sprint-3/start-long-oob.png) |
+| ![No coordinates provided](assets/sprint-3/no-end.png) | ![Destination: Latitude (852.203°) must be between -90° and 90°](assets/sprint-3/end-lat-oob.png) | ![Longitude out of bounds](assets/sprint-3/end-oob.png) |
 
 <div>
 
