@@ -267,6 +267,9 @@ A-level Computer Science programming project
         - [Geocoding UI mockup](#geocoding-ui-mockup)
         - [Geocoding pseudocode](#geocoding-pseudocode)
         - [Geocoding implementation notes](#geocoding-implementation-notes)
+    - [Sprint 3 development](#sprint-3-development)
+      - [Sprint 3: Adding more options for specifying start/end points](#sprint-3-adding-more-options-for-specifying-startend-points)
+        - [Adding geocoding support](#adding-geocoding-support)
 
 ## Analysis
 
@@ -5003,7 +5006,7 @@ In conclusion, the routing engine performed reasonable well under stress testing
 
 In my [upfront plan for sprint 3](#sprint-3-upfront-plan), I allocated it for adding the options to the routing engine. However, because I didn't manage to implement the weight function for the routing engine in sprint 2, I will change my plan to allocate some time for implementing the weight calculation logic, and then implement a small number of options that are selectable in the frontend, and that are considered in the routing engine. If time allows, I will also improve the route details screen to include any warnings encountered during the route calculation process.
 
-In sprint 2, I implemented specifying start and end points as coordinates, but in many cases it's easier and more user friendly to query an address. I will update the Route screen in this sprint to allow the user to enter an address, and then geocode that address to get coordinates.
+In sprint 2, I implemented specifying start and end points as coordinates, but in many cases it's easier and more user friendly to query an address. I will update the Route screen in this sprint to allow the user to enter an address, and then geocode that address to get coordinates. Another useful feature I included in my original mockup for the route screen was a button to use the current location as the start point, which I also plan to implement in this sprint.
 
 #### Sprint 3 user stories
 
@@ -5017,6 +5020,7 @@ With this new plan in mind, below are my user stories for sprint 3:
 6. As a user, I want to avoid any paths that are physically impassable
 7. As a user, I want to avoid any paths that are illegal to walk along
 8. As a user, I want to select start/end points by address
+9. As a user, I want to find a route starting at my current location
 
 ### Sprint 3 design
 
@@ -5105,6 +5109,52 @@ Same as the current UI.
 - I used the following documentation pages from the Nominatim Manual (accessed 2025-01-18):
   - [Search queries](https://nominatim.org/release-docs/develop/api/Search/)
   - [Place output formats (JSONv2)](https://nominatim.org/release-docs/develop/api/Output/#jsonv2)
+
+### Sprint 3 development
+
+#### Sprint 3: Adding more options for specifying start/end points
+
+##### Adding geocoding support
+
+Since I already had a `getCoordsFromInput()` function to process a start/end input and get coordinates, I edited this function to add the geocoding logic as per my pseudocode.
+
+I added a `parseSimpleCoordinates()` helper function to parse coordinates that might be in the simple format. I adjusted my regex from my pseudocode to allow for the hyphen-minus character in the coordinate numbers. At first, I did validation with `alert()` calls in the `parseSimpleCoordinates()` function:
+
+```ts
+if (Math.abs(lat) > 90) {
+  alert(`Latitude (${lat}°) must be between -90° and 90°`)
+  return null
+}
+if (Math.abs(lon) > 180) {
+  alert(`Longitude (${lon}°) must be between -180° and 180°`)
+  return null
+}
+```
+
+But I decided to create a custom `ValidationError` class that I could throw from `parseSimpleCoordinates()` and then catch in the `calculateRoute()` (or `getCoordsFromInput()`) function, which means that non-UI and UI logic is more separated, and I can customise the handling for the validation errors without changing the `parseSimpleCoordinates()` function. Here's what the function looks like after that change:
+
+```ts
+/**
+ * Parses a user-provided input that might be simple coordinates
+ * - "Simple coordinates" are coordinates in the format `51.245, -0.563`
+ * @param input Raw string input from text box
+ * @returns A `Coordinates` pair if the input *is* simple coordinates, or `null` otherwise
+ * @throws {Error} If the input is simple coordinates, but out of range
+ */
+function parseSimpleCoordinates(input: string): Coordinates | null {
+  const simpleCoordsRegex = /^[\-\d\.]+,\s*[\-\d\.]+$/
+  if (!simpleCoordsRegex.test(input)) return null
+  // Validate that coordinates are within range, and return them without geocoding
+  const [lat, lon] = input.split(",").map(parseFloat)
+  if (Math.abs(lat) > 90)
+    throw new ValidationError(`Latitude (${lat}°) must be between -90° and 90°`)
+  if (Math.abs(lon) > 180)
+    throw new ValidationError(
+      `Longitude (${lon}°) must be between -180° and 180°`
+    )
+  return [lat, lon]
+}
+```
 
 <div>
 
