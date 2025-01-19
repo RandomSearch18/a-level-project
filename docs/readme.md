@@ -5057,6 +5057,10 @@ I then created a mockup of the navigations options (i.e. route options) screen, 
 
 ![Navigation options screen mockup](assets/sprint-3/options-mockup-1.excalidraw.svg)
 
+I asked my stakeholders for feedback on the mockup. James really liked how it looked. He suggesting turning the "treacherous paths" option from an Avoid/Neutral into a Avoid/Neutral/Prefer combination button. I agreed that this would be a fun option to have, so I implemented this change.
+
+<!-- TODO Andrew and Ili -->
+
 #### Geocoding design
 
 I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, becuase it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
