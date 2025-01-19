@@ -277,6 +277,7 @@ A-level Computer Science programming project
           - [Helper function for parsing simple coordinates](#helper-function-for-parsing-simple-coordinates)
           - [Updating `getCoordsFromInput()` to match pseudocode](#updating-getcoordsfrominput-to-match-pseudocode)
           - [Validation and error handling for Route screen inputs](#validation-and-error-handling-for-route-screen-inputs)
+          - [Adding API calls to Nominatim](#adding-api-calls-to-nominatim)
 
 ## Analysis
 
@@ -5322,6 +5323,30 @@ I took screenshots of my testing of the validation. The top row of the table sho
 | ----------------------- | ---------------------- | ----------------------- |
 | ![No coordinates provided](assets/sprint-3/no-start.png) | ![Latitude out of bounds](assets/sprint-3/start-oob.png) | ![Start position: Longitude (2048°) must be between -180° and 180°](assets/sprint-3/start-long-oob.png) |
 | ![No coordinates provided](assets/sprint-3/no-end.png) | ![Destination: Latitude (852.203°) must be between -90° and 90°](assets/sprint-3/end-lat-oob.png) | ![Longitude out of bounds](assets/sprint-3/end-oob.png) |
+
+###### Adding API calls to Nominatim
+
+I'll use `fetch()` to perform the API calls, as it's modern and built into the web environment. I'll have to make `geocodeAddress()` (and therefore all functions that call it) `async` so that I can use the `await` keyword with `fetch()`.
+
+I also added a `ProcessingAddresses` value to the `CalculationState` enum, because processing the address/coordinate inputs could now take some time.
+
+![Adding handling for CalculationState.ProcessingAddresses to 2 places in the code](assets/sprint-3/calculation-state-processing-addresses.png)
+
+I then implemented the `geocodeAddress()` function:
+
+```ts
+async function geocodeAddress(address: string): Promise<Coordinates | null> {
+  const url = new URL("https://nominatim.openstreetmap.org/search")
+  url.searchParams.append("q", address)
+  url.searchParams.append("format", "jsonv2")
+  url.searchParams.append("limit", "1")
+  const data = await fetch(url).then((response) => response.json())
+  if (!data.length) return null
+  const place = data[0] as NominatimPlace
+  console.debug("Found place", place)
+  return [parseFloat(place.lat), parseFloat(place.lon)]
+}
+```
 
 <div>
 
