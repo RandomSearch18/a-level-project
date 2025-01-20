@@ -5066,6 +5066,8 @@ I then created a mockup of the navigations options (i.e. route options) screen, 
 
 I asked my stakeholders for feedback on the mockup. James really liked how it looked. He suggesting turning the "treacherous paths" option from an Avoid/Neutral into a Avoid/Neutral/Prefer combination button. I agreed that this would be a fun option to have, so I implemented this change.
 
+I showed the mockup to Andrew, and he was very happy with it. He initially wasn't sure about the phrasing of "Prefer/Prefer more"
+
 <!-- TODO Andrew and Ili -->
 
 #### Geocoding design
