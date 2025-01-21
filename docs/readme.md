@@ -2083,7 +2083,7 @@ class RoutingEngine:
         return RoutingGraph(undirected_graph)
 ```
 
-I then went to `main.py` and made use of my routing engine class and its `compute_graph()` method. I decided to import from the `routing_engine.py` file using `.routing_engine`, becuase I figured that it would look for the `routing_engine` module in the same directory as `main.py`.
+I then went to `main.py` and made use of my routing engine class and its `compute_graph()` method. I decided to import from the `routing_engine.py` file using `.routing_engine`, because I figured that it would look for the `routing_engine` module in the same directory as `main.py`.
 
 ```python
 from .routing_engine import RoutingEngine
@@ -3112,7 +3112,7 @@ Sprint 2 has a number of goals across different parts of the project. The module
 
 - An implementation of the A\* algorithm, which will be added to the `RouteCalculator` class
   - This is an important module for the project, as it will be the part that allows me to generate a route between two points using a routing graph
-  - I will add it to the `RouteCalculator` class, becuase it only needs to access data that is present on attributes of that class, and it would make sense for the class named "route calculator" to contain the code that calculates routes
+  - I will add it to the `RouteCalculator` class, because it only needs to access data that is present on attributes of that class, and it would make sense for the class named "route calculator" to contain the code that calculates routes
   - I have decided to implement my own A\* algorithm, rather than using a built-in NetworkX method, because the routing algorithm is the core piece of value for this project, so I want to be able to fully understand and customise it
     - Implementing the routing algorithm myself will also let me calculate weights within the routing algorithm, which I plan to do as per the [A\* algorithm implementation plan](#a-algorithm-implementation-plan) below
 - A function to generate the routing graph with precise control over which kinds of tags it uses
@@ -3236,7 +3236,7 @@ out geom;
 
 ![A screenshot of the Overpass Turbo map showing the results for my query in a local area](assets/sprint-2/highways.png)
 
-I have also decided to adjust my `OSMElement` class to use less memory, becuase creating a `OSMTag` class for every tag might be too much.
+I have also decided to adjust my `OSMElement` class to use less memory, because creating a `OSMTag` class for every tag might be too much.
 
 ```mermaid
 classDiagram
@@ -3549,7 +3549,7 @@ I tested my suspicions using the Performance tab in the devtools in Brave browse
 
 ##### Proof of concept for async Leaflet loading
 
-I had the idea to load the Leaflet library asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, becuase otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
+I had the idea to load the Leaflet library asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, because otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
 
 ![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
 
@@ -3826,7 +3826,7 @@ def euclidean_distance(a: Coordinates, b: Coordinates) -> float:
 I tested it with my test data for before, and it correctly found the shortest path, which I checked by viewing the nodes on osm.org. I saw that it took a shortcut path through a small field, which shows it is working correctly.
 I did note that the program now takes a second or two to execute on my PC, which suggests that I will have to investigate performance soon.
 
-I then needed to add the data types for the route result, so that `calculate_route_a_star()` could return something useful. Becuase this requires quite a few classes, I created `route_result.py` to keep them in one place.
+I then needed to add the data types for the route result, so that `calculate_route_a_star()` could return something useful. because this requires quite a few classes, I created `route_result.py` to keep them in one place.
 
 I made the following changes from my class diagram:
 
@@ -5072,7 +5072,7 @@ I showed the mockup to Andrew, and he was very happy with it. He initially wasn'
 
 #### Geocoding design
 
-I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, becuase it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
+I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, because it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
 
 I chose Nominatim because it's widely used in the OSM community, parses a wide range of address tags, and I have personally tried it and had a good experience. The app won't be running a massive number of Nominatim queries, so I won't have to host it myself, because the free service will be more than sufficient.
 
