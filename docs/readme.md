@@ -219,7 +219,7 @@ A-level Computer Science programming project
           - [A\* algorithm justification](#a-algorithm-justification)
           - [A\* algorithm implementation plan](#a-algorithm-implementation-plan)
           - [A\* algorithm pseudocode](#a-algorithm-pseudocode)
-          - [A\* algorithm test plan](#a-algorithm-test-plan)
+          - [A\* algorithm data](#a-algorithm-data)
         - [Routing graph generation design](#routing-graph-generation-design)
           - [Routing graph generation justification](#routing-graph-generation-justification)
           - [Routing graph generation implementation plan](#routing-graph-generation-implementation-plan)
@@ -267,6 +267,9 @@ A-level Computer Science programming project
         - [Geocoding UI mockup](#geocoding-ui-mockup)
         - [Geocoding pseudocode](#geocoding-pseudocode)
         - [Geocoding implementation notes](#geocoding-implementation-notes)
+      - [Sprint 3 test data](#sprint-3-test-data)
+        - [Test data for geocoding](#test-data-for-geocoding)
+          - [Normal test data for geocoding](#normal-test-data-for-geocoding)
     - [Sprint 3 development](#sprint-3-development)
       - [Sprint 3: Adding more options for specifying start/end points](#sprint-3-adding-more-options-for-specifying-startend-points)
         - [Adding geocoding support](#adding-geocoding-support)
@@ -3199,7 +3202,7 @@ The `calculate_route_a_star()` method will exist in the `RouteCalculator` class.
   - $b_x$, $b_y$ = node_b.coordinates
   - return $\sqrt{(a_x - b_x)^2 + (a_y - b_y)^2}$
 
-###### A\* algorithm test plan
+###### A\* algorithm data
 
 <!-- prettier-ignore -->
 | Test                        | Reason for test                              | Type      | Test data                                       | Expected outcome                                |
@@ -5114,6 +5117,21 @@ Same as the current UI.
 - I used the following documentation pages from the Nominatim Manual (accessed 2025-01-18):
   - [Search queries](https://nominatim.org/release-docs/develop/api/Search/)
   - [Place output formats (JSONv2)](https://nominatim.org/release-docs/develop/api/Output/#jsonv2)
+
+#### Sprint 3 test data
+
+##### Test data for geocoding
+
+###### Normal test data for geocoding
+
+I will test with a range of UK addresses as test data, all of which is normal data. These tests are to ensure that geocoding works correctly for a wide range of addresses.
+
+When testing, I should verify that the coordinates roughly match, i.e. to within 100 meters, because the exact coordinates of OSM objects are subject to change and is not too relevant. 100 meters of wiggle room should be enough to catch any issues.
+
+| Address              | Expected coordinates            | Notes |
+| -------------------- | ------------------------------- | ----- |
+| Old Trafford Stadium | 53.46310955,-2.2913864850545362 |       |
+| Effingham            | 51.271863,-0.3977913            |       |
 
 ### Sprint 3 development
 
