@@ -269,6 +269,8 @@ A-level Computer Science programming project
         - [Geocoding implementation notes](#geocoding-implementation-notes)
       - [Sprint 3 test data](#sprint-3-test-data)
         - [Test data for geocoding](#test-data-for-geocoding)
+      - [Weight calculation design](#weight-calculation-design)
+        - [Weight calculation pseudocode](#weight-calculation-pseudocode)
     - [Sprint 3 development](#sprint-3-development)
       - [Sprint 3: Adding more options for specifying start/end points](#sprint-3-adding-more-options-for-specifying-startend-points)
         - [Adding geocoding support](#adding-geocoding-support)
@@ -5127,6 +5129,22 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
 | ------------- | ----------------------------------------------------- | --------- | -------------------- | ---------------------------------------------- |
 | Valid address | Test that a known-valid address is resolved correctly | Normal    | Old Trafford Stadium | Coordinates roughly at 53.46313, -2.29139      |
 | Empty input   | Test that an error is shown when the input is empty   | Erroneous | [empty string]       | A dialog box with an appropriate error message |
+
+#### Weight calculation design
+
+##### Weight calculation pseudocode
+
+- calculate_weight(node_a, node_b, way):
+  - return calculate_node_weight(node_a) + calculate_node_weight(node_a)
+- calculate_node_weight(node):
+  - access = node["foot"] || node["access"]
+  - if access == "no":
+    - return infinity
+  - if access == "private" && !options["private_access"]:
+    - return infinity
+  - if node["barrier"] == "gate" (or similar):
+    - if node["locked"] == "yes":
+      - return infinity
 
 ### Sprint 3 development
 
