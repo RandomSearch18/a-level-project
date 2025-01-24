@@ -5134,8 +5134,13 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
 
 ##### Weight calculation pseudocode
 
+- add_implicit_tags(node):
+  - if highway == motorway:
+    - set foot=no
 - calculate_weight(node_a, node_b, way):
-  - return calculate_node_weight(node_a) + calculate_node_weight(node_a)
+  - add_implicit_tags(node_a)
+  - add_implicit_tags(node_b)
+  - return calculate_node_weight(node_a) + calculate_node_weight(way) \* way.length
 - calculate_node_weight(node):
   - access = node["foot"] || node["access"]
   - if access == "no":
@@ -5145,6 +5150,11 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
   - if node["barrier"] == "gate" (or similar):
     - if node["locked"] == "yes":
       - return infinity
+  - weight = 1
+  - if node["highway"] == "motorway":
+    - weight *= 50,000
+
+I incorporated my stakeholders' opinions when picking the exact weight values. Me, James and Andrew discussed how much worse it is to walk along a motorway than a normal road, and we decided that 50 km of path should be roughly comparable to 1 m of motorway.
 
 ### Sprint 3 development
 
