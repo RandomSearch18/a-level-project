@@ -5348,6 +5348,13 @@ async function geocodeAddress(address: string): Promise<Coordinates | null> {
 }
 ```
 
+When trying to test this new functionality, I got an unrelated error being thrown when I tried to calculate the route:
+
+<!-- prettier-ignore -->
+| Error message screenshot | Stacktrace screenshot | Error message |
+| --- | --- | --- |
+| ![Browser debugger paused on error](assets/sprint-3/route-undefined.png) | ![Long call stack with calculateRoute somewhere in there](assets/sprint-3/route-undefined-call-stack.png) | TypeError: can't access property "totalDistance", route is undefined |
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
