@@ -278,6 +278,9 @@ A-level Computer Science programming project
           - [Updating `getCoordsFromInput()` to match pseudocode](#updating-getcoordsfrominput-to-match-pseudocode)
           - [Validation and error handling for Route screen inputs](#validation-and-error-handling-for-route-screen-inputs)
           - [Adding API calls to Nominatim](#adding-api-calls-to-nominatim)
+        - [Implementing stating from the current location](#implementing-stating-from-the-current-location)
+        - [Adding buttons to check addresses](#adding-buttons-to-check-addresses)
+        - [Making the location marker smaller](#making-the-location-marker-smaller)
 
 ## Analysis
 
@@ -5376,6 +5379,92 @@ This seemed strange because the `Ternary` should only attempt to render `RouteIn
 ```
 
 This provides assurance that the `RouteInfoScreen` will only be rendered when `currentRoute()` is truthy, as evidenced by the fact that I no longer need the `!` operator to tell TypeScript that `currentRoute()` is defined (it can be inferred automatically now). Making this change fixed the error.
+
+##### Implementing stating from the current location
+
+My mockup for the Route screen included a button to start the route from the current GPS location, so I added that button to the UI.
+
+```ts
+const startAtCurrentLocation = $(false)
+```
+
+```tsx
+<div class="flex flex-col gap-2">
+  <label htmlFor="route-start-input" class="text-pink-800 dark:text-primary">
+    Start walking from
+  </label>
+  <input
+    id="route-start-input"
+    name="route-start"
+    type="text"
+    placeholder={useMemo(() =>
+      startAtCurrentLocation()
+        ? "Using current GPS location"
+        : "Enter an address or coordinates"
+    )}
+    disabled={startAtCurrentLocation}
+    class="input input-bordered input-primary w-full border-pink-800 dark:border-primary"
+  />
+  <Ternary when={() => startAtCurrentLocation()}>
+    <button
+      class="btn btn-primary"
+      type="button"
+      onClick={() => startAtCurrentLocation(false)}
+    >
+      🗺️ Use address or coordinates
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+      onClick={() => startAtCurrentLocation(true)}
+    >
+      📍 Use current location
+    </button>
+  </Ternary>
+</div>
+```
+
+I then modified the `getStartCoords()` function to use the user's current location if the `startAtCurrentLocation` observable is true:
+
+```ts
+async function getStartCoords(): Promise<Coordinates | null> {
+  if (startAtCurrentLocation()) {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) =>
+          resolve([position.coords.latitude, position.coords.longitude]),
+        (error) =>
+          reject(new Error(`Failed to get current location: ${error.message}`))
+      )
+    })
+  }
+  // [the old logic]
+}
+```
+
+![Screenshot of the map view with a route that starts at the current location](assets/sprint-3/route-from-gps-loc.png)
+
+##### Adding buttons to check addresses
+
+<!-- TODO -->
+
+##### Making the location marker smaller
+
+I figured that the location dot might be too big, and would cover up the start of the route when navigating from the current location, so I made it smaller and gave it 80% opacity (rather than 100%):
+
+```diff
+ locationMarker = L.circle(event.latlng, {
+-  radius: Math.min(20, radius),
+-  fillOpacity: 1,
++  radius: Math.min(5, radius),
++  fillOpacity: 0.8,
++  opacity: 0.8,
+ }).addTo(map)
+```
+
+| Before                                                                 | After                                                                |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| ![Decently sizeable location dot](assets/sprint-3/larger-location.png) | ![Smaller location dot](assets/sprint-3/smaller-location-better.png) |
 
 <div>
 
