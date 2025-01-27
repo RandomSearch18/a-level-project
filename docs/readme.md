@@ -5355,6 +5355,28 @@ When trying to test this new functionality, I got an unrelated error being throw
 | --- | --- | --- |
 | ![Browser debugger paused on error](assets/sprint-3/route-undefined.png) | ![Long call stack with calculateRoute somewhere in there](assets/sprint-3/route-undefined-call-stack.png) | TypeError: can't access property "totalDistance", route is undefined |
 
+I pinned the error down to `currentRoute()` being undefined in part of `App.tsx` once the route has finished calculating, which crashed the whole app.
+
+```tsx
+<Ternary when={() => currentRoute()}>
+  <RouteInfoScreen route={currentRoute()!} />
+  <RouteScreen />
+</Ternary>
+```
+
+This seemed strange because the `Ternary` should only attempt to render `RouteInfoScreen` when `currentRoute` was truthy, so I wondered if the `Ternary` component was doing something strange behind the scenes. To avoid this issue, I switched to using a `useMemo()` with a native JavaScript ternary operator:
+
+```tsx
+{
+  useMemo(() => {
+    const route = currentRoute()
+    return route ? <RouteInfoScreen route={route} /> : <RouteScreen />
+  })
+}
+```
+
+This provides assurance that the `RouteInfoScreen` will only be rendered when `currentRoute()` is truthy, as evidenced by the fact that I no longer need the `!` operator to tell TypeScript that `currentRoute()` is defined (it can be inferred automatically now). Making this change fixed the error.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
