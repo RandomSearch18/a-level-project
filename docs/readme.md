@@ -5136,11 +5136,51 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
 
 - add_implicit_tags(node):
   - if highway == motorway:
-    - set foot=no
+    - set default foot=no
+  - if service == driveway:
+    - set default access=private
+  - if service == parking_aisle:
+    - set default foot=yes (unless access!=yes)
+  - if service == emergency_access:
+    - set default access=no
+  - if service == bus:
+    - set default foot=no
 - calculate_weight(node_a, node_b, way):
-  - add_implicit_tags(node_a)
-  - add_implicit_tags(node_b)
-  - return calculate_node_weight(node_a) + calculate_node_weight(way) \* way.length
+  - add_implicit_tags(way)
+  - return calculate_node_weight(node_a) + calculate_way_weight(way) \* way.length
+- weight_walking_along_road(way):
+  - weight = 1
+  - if way["highway"] == "motorway" or way["highway"] == "motorway_link":
+    - weight \*= 50,000
+  - if way["highway"] == "trunk" or way["highway"] == "trunk_link":
+    - weight \*= 10,000
+  - if way["highway"] == "primary" or way["highway"] == "primary_link":
+    - weight \*= 20
+  - if way["highway"] == "secondary" or way["highway"] == "secondary_link":
+    - weight \*= 15
+  - if way["highway"] == "tertiary" or way["highway"] == "tertiary_link":
+    - weight \*= 5 if options["higher_traffic_roads"] else 10
+  - if way["highway"] == "unclassified":
+    - weight \*= 4 if options["higher_traffic_roads"] else 6
+  - if way["highway"] == "residential":
+    - weight \*= 2
+  - if way["highway"] == "living_street":
+    - weight \*= 1.5
+  - if way["highway"] == "service":
+    - if way["service"] == "driveway":
+      - weight \*= 1
+    - elif way["service"] == "parking_aisle" or way["service"] == "parking":
+      - weight \*= 2
+    - elif way["service"] == "alley":
+      - weight \*= 1.3
+    - elif way["service"] == "drive_through":
+      - weight \*= 5
+    - elif way["service"] == "slipway":
+      - weight \*= 7
+    - elif way["service"] == "layby":
+      - weight \*= 1.75
+    - else:
+      - weight \*= 2
 - calculate_node_weight(node):
   - access = node["foot"] || node["access"]
   - if access == "no":
@@ -5150,9 +5190,10 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
   - if node["barrier"] == "gate" (or similar):
     - if node["locked"] == "yes":
       - return infinity
-  - weight = 1
-  - if node["highway"] == "motorway":
-    - weight *= 50,000
+  - return 0
+- calculate_way_weight(way):
+  - if way doesn't have pavement:
+    - return weight_walking_along_road(way)
 
 I incorporated my stakeholders' opinions when picking the exact weight values. Me, James and Andrew discussed how much worse it is to walk along a motorway than a normal road, and we decided that 50 km of path should be roughly comparable to 1 m of motorway.
 
