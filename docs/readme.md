@@ -5490,7 +5490,46 @@ I also showed the button to Andrew, and he liked how it worked, but suggested ad
 
 ##### Adding buttons to check addresses
 
-<!-- TODO -->
+I had determined in my [geocoding design](#geocoding-design) that there should be a button that allows the user to lookup the address they've entered before they press Calculate, so I implemented that too. Here's what the button elements look like in JSX:
+
+```tsx
+<button
+  class="btn btn-neutral"
+  type="button"
+  onClick={() => displayResolvedAddress("route-start-input")}
+  disabled={startAtCurrentLocation}
+>
+  🔎 Check start address
+</button>
+```
+
+And here's the result:
+
+<!-- prettier-ignore -->
+| Dark theme | Light theme |
+| ---------- | ----------- |
+| ![The route screen with "check start/destination address" buttons (dark theme)](assets/sprint-3/route-screen-dark.png) | ![The route screen with "check start/destination address" buttons (light theme)](assets/sprint-3/route-screen-light.png) |
+
+I implemented the logic for the button in a new `displayResolvedAddress()` function, which is made to display any geocoding errors intuitively to the user:
+
+```ts
+async function displayResolvedAddress(inputId: string) {
+  const input = document.getElementById(inputId)
+  if (!(input instanceof HTMLInputElement))
+    throw new Error(`Input element #${inputId} not found`)
+  const address = input.value
+  if (!address) return alert("No address provided")
+  const place = await geocodeAddress(address)
+  if (!place) return alert(`Couldn't find address: ${address}`)
+  alert(
+    `Address:\n${place.display_name}\n\nCoordinates: ${place.lat}, ${place.lon}`
+  )
+}
+```
+
+| Old Trafford Stadium             | Howard of Effingham              |
+| -------------------------------- | -------------------------------- |
+| ![](assets/sprint-3/popup-1.png) | ![](assets/sprint-3/popup-2.png) |
 
 ##### Making the location marker smaller
 
