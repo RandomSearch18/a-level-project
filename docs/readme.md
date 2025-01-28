@@ -5444,6 +5444,48 @@ async function getStartCoords(): Promise<Coordinates | null> {
 
 ![Screenshot of the map view with a route that starts at the current location](assets/sprint-3/route-from-gps-loc.png)
 
+I showed the button to James. While we were testing it on school computers, where location access isn't available, we realised that there was no error message shown to the user, even though it was caught and printed to the console. Therefore, I added error messages for the different kinds of issues that could occur when attempting to get geolocation access.
+
+```ts
+function getGpsLocation(): Promise<Coordinates> {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+        resolve([position.coords.latitude, position.coords.longitude]),
+      (error) => reject(error)
+    )
+  })
+}
+
+async function getStartCoords(): Promise<Coordinates | null> {
+  if (startAtCurrentLocation()) {
+    try {
+      return await getGpsLocation()
+    } catch (error) {
+      if (!(error instanceof GeolocationPositionError)) throw error
+      switch (error.code) {
+        case GeolocationPositionError.POSITION_UNAVAILABLE:
+          alert("Couldn't get current location: location unavailable")
+          break
+        case GeolocationPositionError.TIMEOUT:
+          alert("Couldn't get current location: location timed out")
+          break
+        case GeolocationPositionError.PERMISSION_DENIED:
+          alert("Couldn't let current location: permission denied")
+          break
+        default:
+          alert("Couldn't get current location: unknown error")
+      }
+      console.error(`Failed to get GPS location`, error)
+      return null
+    }
+  }
+  // [...]
+}
+```
+
+I showed the error message to James, and he approved of it.
+
 ##### Adding buttons to check addresses
 
 <!-- TODO -->
