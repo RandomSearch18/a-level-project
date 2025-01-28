@@ -5486,6 +5486,8 @@ async function getStartCoords(): Promise<Coordinates | null> {
 
 I showed the error message to James, and he approved of it.
 
+I also showed the button to Andrew, and he liked how it worked, but suggested adding some sort of indicator of the current state, which I agreed would make it more intuitive. Since it's not essential, I will keep this in mind to implement if I have time.
+
 ##### Adding buttons to check addresses
 
 <!-- TODO -->
