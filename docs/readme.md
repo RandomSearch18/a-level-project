@@ -284,6 +284,7 @@ A-level Computer Science programming project
       - [Sprint 3: Adding weights to the routing algorithm](#sprint-3-adding-weights-to-the-routing-algorithm)
         - [Implementing weight calculation for walking along roads](#implementing-weight-calculation-for-walking-along-roads)
         - [Testing the road weight calculation in comparison to the old version](#testing-the-road-weight-calculation-in-comparison-to-the-old-version)
+        - [Implementing sidewalk tag parsing](#implementing-sidewalk-tag-parsing)
 
 ## Analysis
 
@@ -5753,6 +5754,131 @@ After:
 ![Screenshot of the calculated route shown on a map](route-with-weights-after.png)
 
 Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
+
+##### Implementing sidewalk tag parsing
+
+Considering sidewalk tags is an important next step, because pavements form an major part of most routes and are very often not mapped separately. Because parsing sidewalk tags is somewhat complicated, I created a `way_has_sidewalk()` utility function in `osm_data_types.py`, using my design from the [section on handling pavements](#chasing-pavements) for the logic.
+
+```py
+def way_has_sidewalk(
+    way: dict[str, str]
+) -> Literal["both"] | Literal["left"] | Literal["right"] | Literal["no"] | None:
+    yes_values = ["yes"]
+    no_values = ["no", "separate", "lane", "none"]
+
+    sidewalk_left = way.get("sidewalk:left")
+    if sidewalk_left:
+        if sidewalk_left in yes_values:
+            return "left"
+        if sidewalk_left in no_values:
+            return "no"
+        warnings.warn(f"Unknown tag value: sidewalk:left={sidewalk_left}")
+    sidewalk_right = way.get("sidewalk:right")
+    if sidewalk_right:
+        if sidewalk_right in yes_values:
+            return "right"
+        if sidewalk_right in no_values:
+            return "no"
+        warnings.warn(f"Unknown tag value: sidewalk:right={sidewalk_right}")
+    sidewalk_both = way.get("sidewalk:both")
+    if sidewalk_both:
+        if sidewalk_both in yes_values:
+            return "both"
+        if sidewalk_both in no_values:
+            return "no"
+        warnings.warn(f"Unknown tag value: sidewalk:both={sidewalk_both}")
+
+    match way.get("sidewalk"):
+        case "both":
+            return "both"
+        case "left":
+            return "left"
+        case "right":
+            return "right"
+        case "no" | "none" | "separate" | "lane":
+            return "no"
+        case None:
+            return None
+        case unknown_value:
+            warnings.warn(f"Unknown tag value: sidewalk={unknown_value}")
+            return None
+```
+
+Because my pseudocode called for checking the speed limit of a road if we're walking along the pavement, I also created a `way_maxspeed_mph()` utility function to parse the `maxspeed=*` tag. While the OSM project uses km/h as its default unit, my project will use mph as the default unit, because it's a UK-only router and mph is the standard unit for speed limits in the UK.
+
+```py
+def parse_speed(value: str, unit: str) -> float:
+    try:
+        speed = float(value)
+    except ValueError:
+        raise ValueError(f"Invalid numeric value for speed: {value}")
+    match unit:
+        case "mph":
+            return speed
+        case "km/h" | "kmh" | "kmph":
+            return speed / 1.609344
+        case "knots":
+            return speed * 1.15078
+        case _:
+            raise ValueError(f"Unknown unit for speed: {unit}")
+
+
+def way_maxspeed_mph(way: dict[str, str]) -> float | None:
+    value = way.get("maxspeed")
+    if not value:
+        return None
+    normalised_value = value.strip().lower()
+    match normalised_value.split(" "):
+        case [speed, unit]:
+            try:
+                return parse_speed(speed, unit)
+            except ValueError as e:
+                warnings.warn(f"Invalid maxspeed: {e}")
+                return None
+        case [speed]:
+            try:
+                return parse_speed(speed, "km/h")
+            except ValueError as e:
+                warnings.warn(f"Invalid maxspeed: {e}")
+                return None
+        case _:
+            warnings.warn(f"Invalid tag format: maxspeed={value}")
+            return None
+```
+
+I then added pavement consideration to the `calculate_way_weight()` method:
+
+```py
+    def calculate_way_weight(self, way: dict) -> float:
+        base_weight_as_road = self.base_weight_road(way)
+        if base_weight_as_road is not None:
+            has_sidewalk = way_has_sidewalk(way)
+            if has_sidewalk is None:
+                # Sidewalk tags not present, so guess based off of road type
+                has_sidewalk = way.get("highway") in [
+                    "trunk",
+                    "primary",
+                    "secondary",
+                    "tertiary",
+                    "residential",
+                    "unclassified",
+                ]
+            if not has_sidewalk:
+                # We're walking on the road carriageway
+                additional_factors = 0  # TO-DO
+                return base_weight_as_road * additional_factors
+            pavement_weight = 1  # TO-DO: use weight_path()
+            # Improve or worsen the weight for walking along a pavement according to the road's maxspeed
+            maxspeed = way.get("maxspeed")
+            maxspeed_value = way_maxspeed_mph(maxspeed) if maxspeed else None
+            if maxspeed_value:
+                if maxspeed_value < 20:
+                    pavement_weight *= 0.9
+                elif maxspeed_value > 50:
+                    pavement_weight *= 1.1
+            return pavement_weight
+        return 1  # TO-DO use weight_path()
+```
 
 <div>
 
