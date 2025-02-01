@@ -5714,6 +5714,38 @@ This led to base weights being added as expected, as I verified by running the r
 
 ![Terminal output](assets/sprint-3/base-weights-working.png)
 
+I switched back to the production deployment of the routing engine, intending to compare the results of the new and old routing engine versions, but I got the same error that I had fixed a week or so ago, documented in the [making API calls to Nominatim](#adding-api-calls-to-nominatim) section.
+
+![The error in the console](assets/sprint-3/same-error-again.png)
+
+![The line that caused the error in the minified source code](assets/sprint-3/same-error-again-src.png)
+
+I added a guard clause to the `RouteInfoScreen` component to provide an additional check that `route` is defined before using it in the component:
+
+```tsx
+function RouteInfoScreen({ route }: { route: CurrentRoute }) {
+  if (!route)
+    // Sometimes route is undefined, despite App.tsx ensuring it is truthy before this component is rendered
+    // To prevent crashing the app, we have this cute little guard clause
+    return (
+      <p class="route-info-error">Route info not available due to a bug.</p>
+    )
+  // [...]
+}
+```
+
+In hindsight, I believe the reason I observed the error was that my browser was still using a cached, old, version of my code, due to the service worker. I cleared all site data before proceeding, which did indeed fix the issue.
+
+With that done, I was able to compare the route given by the updated routing engine with the one in production (that only considers the shortest path). I tested with the start point `51.27347, -0.397916` and the end point `51.268984, -0.394485`.
+
+Before:
+
+![Screenshot of the calculated route shown on a map](route-with-weights-before.png)
+
+After:
+
+![Screenshot of the calculated route shown on a map](route-with-weights-after.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
