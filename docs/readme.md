@@ -5755,6 +5755,8 @@ After:
 
 Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
 
+I showed this comparison to Ili, who was happy with the progress being made. He commented that since it's just been raining, a route along pavements would be preferable to one through the park, although on the other hand, a dog walker may still prefer the park. He looked forward to seeing further improvements.
+
 ##### Implementing sidewalk tag parsing
 
 Considering sidewalk tags is an important next step, because pavements form an major part of most routes and are very often not mapped separately. Because parsing sidewalk tags is somewhat complicated, I created a `way_has_sidewalk()` utility function in `osm_data_types.py`, using my design from the [section on handling pavements](#chasing-pavements) for the logic.
