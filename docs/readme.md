@@ -282,6 +282,8 @@ A-level Computer Science programming project
         - [Adding buttons to check addresses](#adding-buttons-to-check-addresses)
         - [Making the location marker smaller](#making-the-location-marker-smaller)
       - [Sprint 3: Adding weights to the routing algorithm](#sprint-3-adding-weights-to-the-routing-algorithm)
+        - [Implementing weight calculation for walking along roads](#implementing-weight-calculation-for-walking-along-roads)
+        - [Testing the road weight calculation in comparison to the old version](#testing-the-road-weight-calculation-in-comparison-to-the-old-version)
 
 ## Analysis
 
@@ -5613,6 +5615,8 @@ Before writing the `add_implicit_tags()` method, I double-checked that mutating 
 
 ![Testing Python behaviour in the REPL](assets/sprint-3/repl-fn-dict.png)
 
+##### Implementing weight calculation for walking along roads
+
 I started with implementing the `base_weight_road()` and `add_implicit_tags()` methods, along with the bare minimum of the `calculate_way_weight()`, `calculate_node_weight()`, and `calculate_weight()` methods to let me test the `base_weight_road()` logic.
 
 ```py
@@ -5714,6 +5718,8 @@ This led to base weights being added as expected, as I verified by running the r
 
 ![Terminal output](assets/sprint-3/base-weights-working.png)
 
+##### Testing the road weight calculation in comparison to the old version
+
 I switched back to the production deployment of the routing engine, intending to compare the results of the new and old routing engine versions, but I got the same error that I had fixed a week or so ago, documented in the [making API calls to Nominatim](#adding-api-calls-to-nominatim) section.
 
 ![The error in the console](assets/sprint-3/same-error-again.png)
@@ -5745,6 +5751,8 @@ Before:
 After:
 
 ![Screenshot of the calculated route shown on a map](route-with-weights-after.png)
+
+Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
 
 <div>
 
