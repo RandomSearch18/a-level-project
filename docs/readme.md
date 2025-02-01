@@ -5613,6 +5613,107 @@ Before writing the `add_implicit_tags()` method, I double-checked that mutating 
 
 ![Testing Python behaviour in the REPL](assets/sprint-3/repl-fn-dict.png)
 
+I started with implementing the `base_weight_road()` and `add_implicit_tags()` methods, along with the bare minimum of the `calculate_way_weight()`, `calculate_node_weight()`, and `calculate_weight()` methods to let me test the `base_weight_road()` logic.
+
+```py
+    def add_implicit_tags(self, way: dict):
+        if way.get("highway") == "motorway" or way.get("highway") == "motorway_link":
+            way.setdefault("foot", "no")
+        if way.get("service") == "driveway":
+            way.setdefault("access", "private")
+        if way.get("service") == "parking_aisle":
+            # assumes access=yes if access=* isn't present
+            if (not way.get("access")) or way.get("access") == "yes":
+                way.setdefault("foot", "yes")
+        if way.get("service") == "emergency_access":
+            way.setdefault("access", "no")
+        if way.get("service") == "bus":
+            way.setdefault("foot", "no")
+
+    def base_weight_road(self, way: dict) -> float | None:
+        weight = 1
+        match way.get("highway"):
+            case "motorway" | "motorway_link":
+                weight *= 50_000
+            case "trunk" | "trunk_link":
+                weight *= 10_000
+            case "primary" | "primary_link":
+                weight *= 20
+            case "secondary" | "secondary_link":
+                weight *= 15
+            case "tertiary" | "tertiary_link":
+                weight *= 5 if self.options.truthy("higher_traffic_roads") else 10
+            case "unclassified":
+                weight *= 4 if self.options.truthy("higher_traffic_roads") else 6
+            case "residential":
+                weight *= 2
+            case "living_street":
+                weight *= 1.5
+            case "service":
+                match way.get("service"):
+                    case "driveway":
+                        weight *= 1
+                    case "parking_aisle" | "parking":
+                        weight *= 2
+                    case "alley":
+                        weight *= 1.3
+                    case "drive_through":
+                        weight *= 5
+                    case "slipway":
+                        weight *= 7
+                    case "layby":
+                        weight *= 1.75
+                    case _:
+                        weight *= 2
+            case _:
+                return None
+        return weight
+
+    def calculate_way_weight(self, way: dict) -> float:
+        return self.base_weight_road(way) or 1  # TO-DO
+
+    def calculate_node_weight(self, node: int) -> float:
+        return 0  # TO-DO
+
+    def calculate_weight(
+        self, node_a: int, node_b: int, way_data: dict[str, str]
+    ) -> float:
+        self.add_implicit_tags(way_data)
+        return self.calculate_node_weight(node_a) + self.calculate_way_weight(
+            way_data
+        ) * float(way_data["length"])
+```
+
+Upon testing the code, I discovered that every way was still being given a weight of `1`.
+
+![Console showing weight 1 for all the ways](assets/sprint-3/weight-a-minute.png)
+
+I ran the routing engine in my debugger to try and diagnose the problem, and I realised that the `way` dict I was passing to my weight calculation functions wasn't a dict that directly contained the tags, but instead one that contained the tags under the `tags` key. The `base_weight_road()` function, for example, expects a dict that directly contains the tag key/value pairs.
+
+![Debugger showing the dict](assets/sprint-3/wrong-dict.png)
+
+I updated the type annotation in the `calculate_way_weight()` method header to be more accurate, creating a `OSMWayData` `TypedDict` (in `osm_data_types.py`) in the process. I then updated the method header to pass the `tags` key to the weight calculation methods.
+
+```py
+class OSMWayData(TypedDict):
+    id: int
+    tags: dict[str, str]
+    length: float
+```
+
+```py
+def calculate_weight(self, node_a: int, node_b: int, way_data: OSMWayData) -> float:
+    self.add_implicit_tags(way_data["tags"])
+    way_weight = self.calculate_way_weight(way_data["tags"])
+    node_weight = self.calculate_node_weight(node_a)
+    print(way_weight, way_data)
+    return node_weight + way_weight * float(way_data["length"])
+```
+
+This led to base weights being added as expected, as I verified by running the routing engine:
+
+![Terminal output](assets/sprint-3/base-weights-working.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
