@@ -281,6 +281,7 @@ A-level Computer Science programming project
         - [Implementing stating from the current location](#implementing-stating-from-the-current-location)
         - [Adding buttons to check addresses](#adding-buttons-to-check-addresses)
         - [Making the location marker smaller](#making-the-location-marker-smaller)
+      - [Sprint 3: Adding weights to the routing algorithm](#sprint-3-adding-weights-to-the-routing-algorithm)
 
 ## Analysis
 
@@ -1541,8 +1542,7 @@ gantt
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
-    Sprint 2: 2024-12-09, 2025-01-14
-    Sprint 3: 2025-01-14,
+    Sprint 2: 2024-12-09, 2025-01-14Sprint 3: 2025-01-14,
 ```
 
 <!--
@@ -5604,6 +5604,14 @@ I figured that the location dot might be too big, and would cover up the start o
 | Before                                                                 | After                                                                |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
 | ![Decently sizeable location dot](assets/sprint-3/larger-location.png) | ![Smaller location dot](assets/sprint-3/smaller-location-better.png) |
+
+#### Sprint 3: Adding weights to the routing algorithm
+
+I used my [weight calculation pseudocode](#weight-calculation-pseudocode) to start writing the weight calculation methods in `RouteCalculator`.
+
+Before writing the `add_implicit_tags()` method, I double-checked that mutating dictionaries passed to a function in Python does affect the original dictionary (which is true):
+
+![Testing Python behaviour in the REPL](assets/sprint-3/repl-fn-dict.png)
 
 <div>
 
