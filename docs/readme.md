@@ -5926,6 +5926,38 @@ After fixing that, I was able to re-test the routing engine with my start and en
 
 ![Screenshot of the route shown on a map](assets/sprint-3/route-v3.png)
 
+It seemed to be choosing to walk along the main road over walking on the pavement, but preferring walking along service roads to either of those.
+
+I decided that reducing the weight of the pavement if the maxspeed is below 20 mph was a bad idea, because it's unfair to separately-mapped pavements. I removed that, but kept the penalty for pavements on high-speed roads:
+
+```diff
+-if maxspeed_value:
+-    if maxspeed_value < 20:
+-        pavement_weight *= 0.9
+-    elif maxspeed_value > 50:
+-        pavement_weight *= 1.1
++if maxspeed_value and maxspeed_value >= 60:
++   pavement_weight *= 1.1
+```
+
+I noticed that for some reason, all roads were now being given a weight of 0.
+
+![](assets/sprint-3/roads-weight-0.png)
+
+I realised that this was because I had set the `additional_factors` variable to `0` for roads without pavements, which was then multiplied by the base weight of the road. I changed the value to `1` to fix this.
+
+I tested the routing engine again with my test route.
+
+```none
++51.27347, -0.397916
+```
+
+```none
++51.268984, -0.394485
+```
+
+![Screenshot of the route shown on a map](assets/sprint-3/route-v5.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
