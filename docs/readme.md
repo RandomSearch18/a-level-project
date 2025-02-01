@@ -5747,11 +5747,11 @@ With that done, I was able to compare the route given by the updated routing eng
 
 Before:
 
-![Screenshot of the calculated route shown on a map](route-with-weights-before.png)
+![Screenshot of the calculated route shown on a map](assets/sprint-3/route-v1.png)
 
 After:
 
-![Screenshot of the calculated route shown on a map](route-with-weights-after.png)
+![Screenshot of the calculated route shown on a map](assets/sprint-3/route-v2.png)
 
 Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
 
@@ -5879,6 +5879,52 @@ I then added pavement consideration to the `calculate_way_weight()` method:
             return pavement_weight
         return 1  # TO-DO use weight_path()
 ```
+
+I tested the routing engine again, but got a type error:
+
+```py
+PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 321, in calculate_route_a_star
+    nodes: list[int] = networkx.astar.astar_path(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/decorators.py", line 789, in func
+    return argmap._lazy_compile(__wrapper)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<class 'networkx.utils.decorators.argmap'> compilation 4", line 3, in argmap_astar_path_1
+    import gzip
+            ^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/backends.py", line 633, in __call__
+    return self.orig_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/algorithms/shortest_paths/astar.py", line 150, in astar_path
+    cost = weight(curnode, neighbor, w)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 318, in weight
+    return self.calculate_weight(node_from, node_to, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 290, in calculate_weight
+    way_weight = self.calculate_way_weight(way_data["tags"])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 276, in calculate_way_weight
+    maxspeed_value = way_maxspeed_mph(maxspeed) if maxspeed else None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/osm_data_types.py", line 110, in way_maxspeed_mph
+    value = way.get("maxspeed")
+            ^^^^^^^
+AttributeError: 'str' object has no attribute 'get'
+```
+
+I realised that I was passing a string to `way_maxspeed_mph()` instead of the way tags. I fixed that:
+
+```diff
+-maxspeed = way.get("maxspeed")
+-maxspeed_value = way_maxspeed_mph(maxspeed) if maxspeed else None
++maxspeed_value = way_maxspeed_mph(way)
+```
+
+After fixing that, I was able to re-test the routing engine with my start and end points from before, and got an interesting result:
+
+![Screenshot of the route shown on a map](assets/sprint-3/route-v3.png)
 
 <div>
 
