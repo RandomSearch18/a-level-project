@@ -5986,6 +5986,67 @@ After making that change and re-testing the routing engine, I noticed that it ha
 
 ![Screenshot of the route going through the KGV park](assets/sprint-3/route-v6.png)
 
+I showed the current state of the project to Ili, and he approved of the route I showed him. He noted that it didn't have any "kinks". He asked to see a route from our house to the bottom of a road in our area, and the routing engine successfully generated that.
+
+I calculated some more routes to test the weights, as shown below. I used the KGV Hall to Old Post Cottage route to check if the engine would route through the St Lawrence graveyard.
+
+| KGV Hall to Old Post Cottage            | A246 to Sixth Form Centre           |
+| --------------------------------------- | ----------------------------------- |
+| ![](assets/sprint-3/kgv-to-cottage.png) | ![](assets/sprint-3/a246-to-6f.png) |
+
+Unfortunately, the routing engine still wasn't talking the path through the church. I checked the weights again in the JS console:
+
+```js
+// The footpath through the Church:
+temp0.way_weights.get(1192966861).get("total_weight") +
+  temp0.way_weights.get(313302464).get("total_weight") +
+  temp0.way_weights.get(1351173245).get("total_weight")
+38.01151646590232
+// The section of Church Street in question:
+temp0.way_weights.get(1349229246).get("total_weight")
+3.3510628068289856
+```
+
+The weights for the paths through the footpaths seemed to have greatly increased, while the weight for the section of Church Street had decreased, which was the opposite of what I was expecting.
+
+The actual length of the section of Church street (`w1349229246`) is 66.01 metres. I suspect that the weights being exposed in my debugging dict `way_weights` are inaccurate and non-deterministic, due to the fact that each OSM way corresponds to multiple edges on my graph. I changed the code for adding to the `way_weights` dict to check if the way has already been added. If it has, I add to the `total_weight` property instead of overwriting it. This assumes that the `calculate_weight()` function will only be called once per edge, which will hopefully be true, because NetworkX caches weight function responses.
+
+```py
+if way_data["id"] in self.way_weights:
+    self.way_weights[way_data["id"]]["total_weight"] += (
+        way_weight * way_data["length"]
+    )
+else:
+    self.way_weights[way_data["id"]] = {
+        "weight": way_weight,
+        "total_weight": way_weight * way_data["length"],
+        "start": node_a_data["pos"],
+        "end": node_b_data["pos"],
+    }
+```
+
+The numbers now look more sensible. I also noticed that the weight (per metre) of the section of Church Street was only `1`, which is obviously a problem.
+
+```js
+// The footpath through the Church:
+temp0.way_weights.get(1192966861).get("total_weight") +
+  temp0.way_weights.get(313302464).get("total_weight") +
+  temp0.way_weights.get(1351173245).get("total_weight")
+150.47209031574323
+// The section of Church Street in question:
+temp0.way_weights.get(1349229246).get("total_weight")
+132.19700472037246
+// Church St
+temp0.way_weights.get(1349229246).get("weight")
+;(1)[
+  // Footpaths
+  (temp0.way_weights.get(1192966861).get("weight"),
+  temp0.way_weights.get(313302464).get("weight"),
+  temp0.way_weights.get(1351173245).get("weight"))
+]
+Array(3)[(1, 1, 1)]
+```
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
