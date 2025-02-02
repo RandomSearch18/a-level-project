@@ -5960,6 +5960,12 @@ I tested the routing engine again with my test route.
 
 ![Screenshot of the route shown on a map](assets/sprint-3/route-v5.png)
 
+This is an improvement, because it takes the pavement next to the A246 instead of walking along the A246 itself. However, it still routes along the Church Street carriageway instead of its pavement, which is not the intended behaviour.
+
+I stepped through the weight calculation process with my debugger to check the logic. I found that I was using the expression `not has_sidewalk` to check if a sidewalk wasn't present, but the `way_has_sidewalk()` function actually returns `"no"` if there's no sidewalk present, which is a truthy value! I fixed this by changing the condition to `has_sidewalk == "no"`.
+
+![Debugging the routing engine in VSCode](assets/sprint-3/wrong-if-statement.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
