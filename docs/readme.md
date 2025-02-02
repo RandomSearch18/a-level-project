@@ -6027,6 +6027,7 @@ else:
 
 The numbers now look more sensible. I also noticed that the weight (per metre) of the section of Church Street was only `1`, which is obviously a problem.
 
+<!-- prettier-ignore -->
 ```js
 // The footpath through the Church:
 temp0.way_weights.get(1192966861).get("total_weight") +
@@ -6036,16 +6037,23 @@ temp0.way_weights.get(1192966861).get("total_weight") +
 // The section of Church Street in question:
 temp0.way_weights.get(1349229246).get("total_weight")
 132.19700472037246
-// Church St
+// Church St weight per metre
 temp0.way_weights.get(1349229246).get("weight")
-;(1)[
-  // Footpaths
-  (temp0.way_weights.get(1192966861).get("weight"),
+1
+// Footpaths weights per metre
+[
+  temp0.way_weights.get(1192966861).get("weight"),
   temp0.way_weights.get(313302464).get("weight"),
-  temp0.way_weights.get(1351173245).get("weight"))
+  temp0.way_weights.get(1351173245).get("weight")
 ]
 Array(3)[(1, 1, 1)]
 ```
+
+I stepped through the code and realised that the section of Church Street that I am wanting to avoid doesn't have any sidewalk tags, and because it's a residential road, the program therefore assumes that it has a pavement. I could perhaps add a slight penalty to walking on pavements mapped as tags on the road (especially if I'm just assuming there's a pavement) to help with this. But in this case, it's a data issue, so I will simply add the appropriate sidewalk tags to the road on OSM.
+
+| Debugger                                            | OSM.org                                                 |
+| --------------------------------------------------- | ------------------------------------------------------- |
+| ![](assets/sprint-3/road-without-sidewalk-tags.png) | ![](assets/sprint-3/road-without-sidewalk-tags-osm.png) |
 
 <div>
 
