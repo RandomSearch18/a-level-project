@@ -5755,7 +5755,7 @@ After:
 
 Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
 
-I showed this comparison to Ili, who was happy with the progress being made. He commented that since it's just been raining, a route along pavements would be preferable to one through the park, although on the other hand, a dog walker may still prefer the park. He looked forward to seeing further improvements.
+I showed this comparison to Ili, who was happy with the progress being made. He commented that since it's just been raining, a route along pavements would be preferable to one through the park, although on the other hand, a dog walker may still prefer the park. He asked if the routing app would give multiple possible routes or not, and I told him that this wasn't something I had planned. He looked forward to seeing further improvements.
 
 ##### Implementing sidewalk tag parsing
 
@@ -5965,6 +5965,26 @@ This is an improvement, because it takes the pavement next to the A246 instead o
 I stepped through the weight calculation process with my debugger to check the logic. I found that I was using the expression `not has_sidewalk` to check if a sidewalk wasn't present, but the `way_has_sidewalk()` function actually returns `"no"` if there's no sidewalk present, which is a truthy value! I fixed this by changing the condition to `has_sidewalk == "no"`.
 
 ![Debugging the routing engine in VSCode](assets/sprint-3/wrong-if-statement.png)
+
+After I fixed that bug, I tested the routing engine again, but it still took me along the road instead of choosing the pavement way. The pavement had a weight of `1` and the road had a weight of `2`, which was as expected, so I wondered why this was the case. Eventually, I zoomed the map into the relevant area near the end of the route, and I realised that the pavement way did not join up with the road in an appropriate place to provide a route to the destination, which explains why the pavement was avoided.
+
+![Map zoomed in, showing the sidewalk way not being linked to the road](assets/sprint-3/sidewalk-way-without-links.png)
+
+However, that didn't explain why the router didn't take the path through the graveyard to avoid a section of the road without any pavement. In the screenshot below, I have highlighted two possible routes that I may have expected it to take.
+
+![Map of churchyard area with highlighted paths through the churchyard](assets/sprint-3/paths-through-graveyard.png)
+
+I used the functions I'd made for debugging to check the total weight of the section of Church Road that I expected it to be avoiding, and compare it with the weight of the path through the churchyard:
+
+![JS console showing 7.8 weight for Church St and 12.2 weight for the paths](assets/sprint-3/weight-too-big.png)
+
+As shown in the image above, the total calculated weight for the section of Church Road ended up lower than the total weight for the paths through the churchyard, which explains the problem. This indicates that I should increase the weight penalty for walking along roads without pavements.
+
+I increased the base weight for residential roads from `2` to `3`, deciding not to increase it too much because residential roads are still quite nice to walk along, it's just that in this case, the path through the Church acts as a de-facto pavement so should almost certainly be preferred. I also expect this issue to get better once I start prioritising paths with nice attributes, e.g. asphalt surface.
+
+After making that change and re-testing the routing engine, I noticed that it had gone back to deciding to walk through the park! I'd imagine that both of those routes have quite similar weights. It was good to see that (unlike the last time it decided to route through the park) the route it suggested exactly matched the route I would personally have decided to take, if I was to go that way (i.e. through the park rather than along the roads). This is even before I have implemented any penalty for going through the private roads through the school.
+
+![Screenshot of the route going through the KGV park](assets/sprint-3/route-v6.png)
 
 <div>
 
