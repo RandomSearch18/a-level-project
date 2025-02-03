@@ -6088,6 +6088,8 @@ async function displayResolvedAddress(inputId: string) {
 
 Testing this worked well, because it ensured that a maximum of one request per second is sent, and if I spam-click the button, any excess requests will just be dropped instead of being queued indefinitely.
 
+However, I realised that in my example, the `sendReqThrottled` function will always return `void`, which means that I can't access the request response.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
