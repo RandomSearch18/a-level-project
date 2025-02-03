@@ -285,6 +285,8 @@ A-level Computer Science programming project
         - [Implementing weight calculation for walking along roads](#implementing-weight-calculation-for-walking-along-roads)
         - [Testing the road weight calculation in comparison to the old version](#testing-the-road-weight-calculation-in-comparison-to-the-old-version)
         - [Implementing sidewalk tag parsing](#implementing-sidewalk-tag-parsing)
+      - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
+        - [Implementing request throttling](#implementing-request-throttling)
 
 ## Analysis
 
@@ -6054,6 +6056,37 @@ I stepped through the code and realised that the section of Church Street that I
 | Debugger                                            | OSM.org                                                 |
 | --------------------------------------------------- | ------------------------------------------------------- |
 | ![](assets/sprint-3/road-without-sidewalk-tags.png) | ![](assets/sprint-3/road-without-sidewalk-tags-osm.png) |
+
+#### Sprint 3: Responding to Nominatim API access blocked
+
+While testing the routing engine on school computers, I noticed that the check start address button wasn't working. I realised that the `nominatim.openstreetmap.org` API was returning 403 error codes, with a message to say that I have violated the usage policy of the Nominatim service.
+
+![Failed request in DevTools](assets/sprint-3/nominatim-403.png)
+
+![The 403 response rendered in a browser](assets/sprint-3/nominatim-403-page.png)
+
+Since I only noticed this error on the school network, and I believe my usage of the Nominatim API to be very light, my suspicion is that some other usage on the same IP address is causing the school's IP address to be blocked. However, in response to this, I will update my code for calling the API to better comply with the limits, specifically:
+
+- Identifying my application using the HTTP Referer header
+- Using throttling to ensure that the app will send a maximum of 1 request per second
+
+##### Implementing request throttling
+
+I decided to use the `dettle` library because it's tiny (941 B minified) and has a `throttle` function that seems to have the behaviour I want. To verify this, I wrote a small piece of code that uses a `console.log` in place of an actual API call:
+
+```ts
+const sendReq = () => {
+  console.log("Fire request!", new Date())
+}
+
+const sendReqThrottled = throttle(sendReq, 1000)
+
+async function displayResolvedAddress(inputId: string) {
+  sendReqThrottled()
+}
+```
+
+Testing this worked well, because it ensured that a maximum of one request per second is sent, and if I spam-click the button, any excess requests will just be dropped instead of being queued indefinitely.
 
 <div>
 
