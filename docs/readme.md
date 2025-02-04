@@ -6057,6 +6057,10 @@ I stepped through the code and realised that the section of Church Street that I
 | --------------------------------------------------- | ------------------------------------------------------- |
 | ![](assets/sprint-3/road-without-sidewalk-tags.png) | ![](assets/sprint-3/road-without-sidewalk-tags-osm.png) |
 
+After updating the OSM data, the routing engine gave the expected result:
+
+![Route goes along the path through the Church](assets/sprint-3/through-church-yay.png)
+
 #### Sprint 3: Responding to Nominatim API access blocked
 
 While testing the routing engine on school computers, I noticed that the check start address button wasn't working. I realised that the `nominatim.openstreetmap.org` API was returning 403 error codes, with a message to say that I have violated the usage policy of the Nominatim service.
