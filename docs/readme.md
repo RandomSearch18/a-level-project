@@ -6095,9 +6095,68 @@ def calculate_node_weight(self, node_id: int) -> float:
 
 I used the OSM Wiki page for [`barrier=*`](https://wiki.openstreetmap.org/wiki/Key:barrier) to decide which `barrier=*` keys to include in the two arrays in my code. I also made use of the [`locked=*`](https://wiki.openstreetmap.org/wiki/Key:locked) and [`open=*`](https://wiki.openstreetmap.org/wiki/Key:open) keys as heuristics to determine whether a barrier is likely to be traversable by a pedestrian.
 
+Upon testing the program, this method raised an error:
+
+```py
+PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 370, in calculate_route_a_star
+    nodes: list[int] = networkx.astar.astar_path(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/decorators.py", line 789, in func
+    return argmap._lazy_compile(__wrapper)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<class 'networkx.utils.decorators.argmap'> compilation 4", line 3, in argmap_astar_path_1
+    import gzip
+            ^^^^
+  File "/lib/python3.12/site-packages/networkx/utils/backends.py", line 633, in __call__
+    return self.orig_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/lib/python3.12/site-packages/networkx/algorithms/shortest_paths/astar.py", line 150, in astar_path
+    cost = weight(curnode, neighbor, w)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 367, in weight
+    return self.calculate_weight(node_from, node_to, data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 328, in calculate_weight
+    node_weight = self.calculate_node_weight(node_a)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pyodide/routing_engine.py", line 300, in calculate_node_weight
+    node = self.graph.node(node_id)["tags"]
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: 'tags'
+```
+
+This was because untagged nodes don't have the `tags` key on their object in the graph, so I added a guard clause to avoid that error:
+
+```py
+node = self.graph.node(node_id).get("tags")
+if not node:
+    # Untagged node, so don't add any weight
+    return 0
+```
+
+This fixed the error. I used my debugger to double-check that the rest of the function was still entered into as expected, and it was:
+
+![Node tags in my debugger](assets/sprint-3/node-tags-dbr.png)
+
 ##### Considering access tags on ways
 
-I had earlier noticed that the router would sometimes use a driveway as a safer alternative to walking on a residential road in some cases.
+I had earlier noticed that the router would sometimes use a driveway as a safer alternative to walking on a residential road in some cases. This does make sense, because I had planned for driveways to have a lower weight than walking on a residential road. However, driveways tend to be private, so it generally doesn't make sense to actually use them in that way. This issue can be fixed by implementing checks for access restrictions on ways (as planned in the [access tags section](#access-tags)). I will use similar logic to the checks in the `calculate_node_weight()` method.
+
+I added the checks to `calculate_way_weight()` as below:
+
+```py
+def calculate_way_weight(self, way: dict) -> float:
+    # Handle access tags
+    access = way.get("foot") or way.get("access")
+    if access == "no":
+        return inf
+    if access == "private" and not self.options.truthy("private_access"):
+        return inf
+    # [...]
+```
+
+I tested the change and confirmed that it didn't route along driveways any more.
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
