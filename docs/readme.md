@@ -6165,6 +6165,86 @@ When examining a test route, I noticed a peculiarity with how it was routing thr
 
 ![Highlighted route seems to go the long way round](assets/sprint-3/graveyard-inefficient.png)
 
+I figured it might be helpful to program a debugging overlay for when I'm working with cases like this. So, I modified the routing engine to expose a dict that contains the weight for each way segment (way segments correspond to edges on the graph) that is processed during route calculation.
+
+I added this code to `RouteCalculator#calculate_weight()`:
+
+```py
+self.segment_weights[(node_a, node_b)] = {
+    "pos_a": self.graph.node_position(node_a),
+    "pos_b": self.graph.node_position(node_b),
+    "weight": way_weight,
+    "total_weight": way_weight * way_data["length"],
+}
+```
+
+And in the frontend, I wrote some code to draw the weights as coloured highlights on the map:
+
+```ts
+function drawWeightLines(segments: SegmentDebugWeight[]) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const layer = L.layerGroup()
+  const lines = segments.map((segment) => {
+    const weight = segment.weight
+    const hue = 360 - (weight / 10) * 360
+    const color = `hsl(${hue}, 100%, 50%)`
+    const line = L.polyline([segment.pos_a, segment.pos_b], {
+      color,
+      weight: 5,
+      opacity: 0.5,
+    })
+    line.bindPopup(
+      `Weight: ${weight.toFixed(2)} (${segment.total_weight.toFixed(2)})`
+    )
+    line.addEventListener("popupopen", () => {
+      line.setStyle({ weight: 20 })
+    })
+    line.addEventListener("popupclose", () => {
+      line.setStyle({ weight: 5 })
+    })
+    return line
+  })
+  lines.forEach((line) => line.addTo(layer))
+  layer.addTo(map)
+  return layer
+}
+```
+
+I also made sure to add the property to the `currentRoute` object:
+
+```diff
+ currentRoute({
+   expandedBbox: bbox,
+   unexpandedBbox: calculateBboxForRoute(startPos, endPos, 0),
+   start: startPos,
+   end: endPos,
+   parts: route.parts,
+   lines: (route.parts.toJs() as any[])
+     .filter((part) => "start" in part)
+     .map((part) => [part.start.toJs(), part.end.toJs()] as Line),
+   totalTime: route.total_time(),
+   totalDistance: route.total_distance(),
++  debug: {
++    segmentWeights: calculator.segment_weights_js(),
++  },
+ })
+```
+
+The result looks like this, with the hue of the highlight colour representing the weight of the segment:
+
+![Coloured highlights on the map](assets/sprint-3/debug-overlay.png)
+
+I then used the debug overlay to manually calculate the weights of the two paths through the graveyard:
+
+- Expected path: 6.09 + 17.03 + 3.36 = 26.48
+- Actual path: (13.72 + 4.61) + 28.41 = 46.74
+
+The total weight for the expected route was lower than the weight for the long way around, which is working as intended. However, that doesn't explain why the routing algorithm still chose the longer route.
+
+Since it's only a minor issue and can easily be ignored when on the ground, I will leave it for now, because it's not clear how I could fix it.
+
 #### Sprint 3: Responding to Nominatim API access blocked
 
 While testing the routing engine on school computers, I noticed that the check start address button wasn't working. I realised that the `nominatim.openstreetmap.org` API was returning 403 error codes, with a message to say that I have violated the usage policy of the Nominatim service.
@@ -6177,6 +6257,8 @@ Since I only noticed this error on the school network, and I believe my usage of
 
 - Identifying my application using the HTTP Referer header
 - Using throttling to ensure that the app will send a maximum of 1 request per second
+
+I later did a few more tests to try and determine the cause of the requests being blocked, and came to the conclusion that the most likely cause was the `Origin` header being a `.app.github.dev` (i.e. Github Codespaces) domain, and other users of Github Codespaces may have caused Nominatim to block requests with that `Origin`. Since I used Github Codespaces for development at school, I only noticed the issue when doing some work on the frontend at school.
 
 ##### Implementing request throttling
 
