@@ -287,6 +287,7 @@ A-level Computer Science programming project
         - [Implementing sidewalk tag parsing](#implementing-sidewalk-tag-parsing)
         - [Implementing `calculate_node_weight()`](#implementing-calculate_node_weight)
         - [Considering access tags on ways](#considering-access-tags-on-ways)
+        - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
 
@@ -6157,6 +6158,12 @@ def calculate_way_weight(self, way: dict) -> float:
 ```
 
 I tested the change and confirmed that it didn't route along driveways any more.
+
+##### Investigating an odd route through graveyard
+
+When examining a test route, I noticed a peculiarity with how it was routing through a graveyard:
+
+![Highlighted route seems to go the long way round](assets/sprint-3/graveyard-inefficient.png)
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
