@@ -285,6 +285,8 @@ A-level Computer Science programming project
         - [Implementing weight calculation for walking along roads](#implementing-weight-calculation-for-walking-along-roads)
         - [Testing the road weight calculation in comparison to the old version](#testing-the-road-weight-calculation-in-comparison-to-the-old-version)
         - [Implementing sidewalk tag parsing](#implementing-sidewalk-tag-parsing)
+        - [Implementing `calculate_node_weight()`](#implementing-calculate_node_weight)
+        - [Considering access tags on ways](#considering-access-tags-on-ways)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
 
@@ -6060,6 +6062,42 @@ I stepped through the code and realised that the section of Church Street that I
 After updating the OSM data, the routing engine gave the expected result:
 
 ![Route goes along the path through the Church](assets/sprint-3/through-church-yay.png)
+
+##### Implementing `calculate_node_weight()`
+
+I simply implemented the `calculate_node_weight()` method as per my pseudocode:
+
+```py
+def calculate_node_weight(self, node_id: int) -> float:
+    node = self.graph.node(node_id)["tags"]
+    access = node.get("foot") or node.get("access")
+    if access == "no":
+        return inf
+    if access == "private" and not self.options.truthy("private_access"):
+        return inf
+    # Most barriers only block motor traffic, so we only consider those that generally block pedestrians.
+    # We assume (by default) that these barriers will be able to be opened by a pedestrian,
+    # unless tagged with locked=yes
+    if node.get("barrier") in ["gate", "sliding_gate", "wicket_gate"]:
+        if node.get("locked") == "yes":
+            return inf
+    # We assume that these barriers will be impassable to pedestrians
+    # unless explicitly tagged as open or unlocked
+    if node.get("barrier") in ["barrier_board"]:
+        explicitly_unlocked = node.get("locked") == "no" or node.get("open") in [
+            "yes",
+            "partial",
+        ]
+        if not explicitly_unlocked:
+            return inf
+    return 0
+```
+
+I used the OSM Wiki page for [`barrier=*`](https://wiki.openstreetmap.org/wiki/Key:barrier) to decide which `barrier=*` keys to include in the two arrays in my code. I also made use of the [`locked=*`](https://wiki.openstreetmap.org/wiki/Key:locked) and [`open=*`](https://wiki.openstreetmap.org/wiki/Key:open) keys as heuristics to determine whether a barrier is likely to be traversable by a pedestrian.
+
+##### Considering access tags on ways
+
+I had earlier noticed that the router would sometimes use a driveway as a safer alternative to walking on a residential road in some cases.
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
