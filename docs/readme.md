@@ -290,6 +290,8 @@ A-level Computer Science programming project
         - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
+      - [Sprint 3: Implementing the Options screen](#sprint-3-implementing-the-options-screen)
+        - [Basic options storage and toggle-able weight overlay](#basic-options-storage-and-toggle-able-weight-overlay)
 
 ## Analysis
 
@@ -6279,6 +6281,116 @@ async function displayResolvedAddress(inputId: string) {
 Testing this worked well, because it ensured that a maximum of one request per second is sent, and if I spam-click the button, any excess requests will just be dropped instead of being queued indefinitely.
 
 However, I realised that in my example, the `sendReqThrottled` function will always return `void`, which means that I can't access the request response.
+
+#### Sprint 3: Implementing the Options screen
+
+##### Basic options storage and toggle-able weight overlay
+
+Before adding the routing engine options, I will add an option for enabling the weight debug overlay, becuase it can be very useful for debugging and cool to demo, but greatly clutters the map when normally using the app.
+
+I also implemented an options storage system that I will be able to use for storing options to be passed to the routing engine too. It uses the `store()` function from Voby to make it reactive, and a `useEffect()` hook to automatically save the options to `localStorage` whenever they change. The options are also loaded from `localStorage` on app startup (or failing that, the `defaultOptions` object is used).
+
+```ts
+export type Options = {
+  /** Frontend-only options */
+  app: {
+    weightOverlay: boolean
+  }
+}
+
+const defaultOptions: Options = {
+  app: {
+    weightOverlay: false,
+  },
+}
+
+function getInitialOptions(): Options {
+  const stored = localStorage.getItem("options")
+  if (!stored) return defaultOptions
+  try {
+    return JSON.parse(stored)
+  } catch (error) {
+    console.error("Failed to parse options from local storage:", error)
+    return defaultOptions
+  }
+}
+
+export const options = store<Options>(getInitialOptions())
+
+useEffect(() => {
+  const serializedOptions = JSON.stringify(options)
+  localStorage.setItem("options", serializedOptions)
+  console.debug("Updated saved options:", serializedOptions)
+})
+```
+
+I then wrote the JSX for the `OptionsScreen`:
+
+```tsx
+function OptionsScreen() {
+  return (
+    <div class="mx-3">
+      <h2 class="font-bold text-4xl mt-5 mb-8">Navigation options</h2>
+      <div class="flex flex-col max-w-2xl">
+        <h3 class="font-bold text-2xl mb-4">Debug</h3>
+        <OptionLine
+          label="Show weight overlay"
+          input={
+            <input
+              type="checkbox"
+              checked={options.app.weightOverlay}
+              class="checkbox checkbox-primary"
+              onClick={(event) => {
+                if (!(event.target instanceof HTMLInputElement)) return
+                options.app.weightOverlay = event.target.checked
+              }}
+            />
+          }
+        />
+        <OptionLine
+          label="More options coming soon"
+          input={
+            <input
+              type="checkbox"
+              checked={true}
+              class="checkbox checkbox-primary"
+            />
+          }
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+I also created an `OptionLine` component that represents a label and input for a single option:
+
+```tsx
+function OptionLine({
+  input,
+  label,
+}: {
+  input: JSX.Element
+  label: JSX.Child
+}) {
+  return (
+    <div class="form-control px-2 first-of-type:border-t-[1px] border-b-[1px] border-solid border-[currentColor] hover:bg-pink-500 hover:bg-opacity-10">
+      <label class="label cursor-pointer">
+        <span class="label-text">{label}</span>
+        {input}
+      </label>
+    </div>
+  )
+}
+```
+
+Here's what it looks like in the app:
+
+![Screenshot of the navigation options screen](assets/sprint-3/options-screen-v1.png)
+
+I then modified the code in `MainMap.tsx` that draws the route layers to only draw the weight overlay if the corresponding option is enabled:
+
+![Diff showing the options.app.weightOverlay variable now being checked](assets/sprint-3/weight-overlay-toggle-diff.png)
 
 <div>
 
