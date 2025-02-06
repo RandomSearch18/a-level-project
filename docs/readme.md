@@ -6282,6 +6282,37 @@ Testing this worked well, because it ensured that a maximum of one request per s
 
 However, I realised that in my example, the `sendReqThrottled` function will always return `void`, which means that I can't access the request response.
 
+So to fix that shortcoming, I dropped the `dettle` dependency and wrote my own throttle function, based on a StackOverflow answer:
+
+```ts
+// Credit: Based on https://stackoverflow.com/a/27078401, CC BY-SA 4.0
+export const CANCELLED = Symbol("throttle-cancelled")
+
+export function throttle(callback, limit) {
+  let waiting = false
+  return function () {
+    if (waiting) {
+      return CANCELLED
+    }
+    waiting = true
+    setTimeout(() => {
+      waiting = false
+    }, limit)
+    return callback.apply(this, arguments)
+  }
+}
+```
+
+I then updated the `geocodeAddress()` function to use a throttled call to the API:
+
+![Screenshot of the diff on GitHub](assets/sprint-3/adding-throttling.png)
+
+I decided not to add throttling to the Calculate Route button at this stage, because it would be quite difficult to spam-click that button due to the fact that the button's callback blocks the main thread. In addition, I would have to make the function more complex to guarantee that the start and end points will both be processed.
+
+I tested this and it worked as expected:
+
+![Screenshot of DevTools console](image.png)
+
 #### Sprint 3: Implementing the Options screen
 
 ##### Basic options storage and toggle-able weight overlay
