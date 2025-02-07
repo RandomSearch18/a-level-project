@@ -290,6 +290,7 @@ A-level Computer Science programming project
         - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
+        - [Improving the `User-Agent` header](#improving-the-user-agent-header)
       - [Sprint 3: Implementing the Options screen](#sprint-3-implementing-the-options-screen)
         - [Basic options storage and toggle-able weight overlay](#basic-options-storage-and-toggle-able-weight-overlay)
 
@@ -6311,7 +6312,28 @@ I decided not to add throttling to the Calculate Route button at this stage, bec
 
 I tested this and it worked as expected:
 
-![Screenshot of DevTools console](image.png)
+![Screenshot of DevTools console](assets/sprint-3/throttling-working.png)
+
+##### Improving the `User-Agent` header
+
+The Nominatim Usage Policy requires a valid HTTP Referer or User-Agent to be set. I originally thought that the Referer would be the easiest header to set, but it is a forbidden header name[^mdn-headers] so I can't modify it in a browser environment. The `User-Agent` header, on the other hand, is not a forbidden header, so I will use it to add my app's name for identification.
+[^mdn-headers]: _Forbidden header name_, MDN Web docs, <https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name> (accessed 2025-02-07)
+
+Unfortunately, setting the `User-Agent` header in Chromium doesn't work, due to [Chromium issue 40450316](https://issues.chromium.org/40450316). The specified `User-Agent` is silently ignored. Since I can't control this, I will have to accept that the `User-Agent` header can't be correct on Chromium browsers until the bug is fixed.
+
+I will continue to implement this feature normally so that it works in browsers that properly implement that part of the spec, such as Firefox, and hopefully Chromium if that bug is eventually fixed.
+
+```ts
+const userAgentParts = ["MarvellousMappingMachine/0.3", navigator.userAgent]
+const data = await fetch(url, {
+  headers: {
+    "User-Agent": userAgentParts.join(" "),
+  },
+```
+
+I tested in the Chrome debugger to see if a sensible header _would_ be set, and that was successful (`MarvellousMappingMachine/0.3 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36`).
+
+![Screenshot of the Chrome debugger](assets/sprint-3/ua-should-be.png)
 
 #### Sprint 3: Implementing the Options screen
 
