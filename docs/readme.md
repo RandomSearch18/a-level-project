@@ -6401,6 +6401,21 @@ I then launched the Vite development server to test this addition. Calculating a
 
 ![Screenshot of the map with the weight overlay](assets/sprint-3/lower-weights-paths.png)
 
+I went on to add some code to devalue cycle paths that aren't mixed-use:
+
+```py
+if way.get("highway") == "cycleway":
+    mixed_use: bool = (
+        way.get("segregated") in ["yes", "no"]
+        or way.get("foot") == "designated"
+    )
+    if not mixed_use:
+        # Mainly intended for cyclists
+        weight *= 1.5
+```
+
+I decided to test this logic by routing along the A24 from the Grivons Grove roundabout to Dorking. (`51.282286,-0.327052` to `51.235677,-0.324263`). This will also serve as a test to see how well it handles walking along pavements in general. I chose that road because most of its length includes a mixed-use cycleway alongside it, as well as a parallel `highway=footway` along some parts.
+
 #### Sprint 3: Responding to Nominatim API access blocked
 
 While testing the routing engine on school computers, I noticed that the check start address button wasn't working. I realised that the `nominatim.openstreetmap.org` API was returning 403 error codes, with a message to say that I have violated the usage policy of the Nominatim service.
