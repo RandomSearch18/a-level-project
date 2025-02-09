@@ -5266,7 +5266,7 @@ I won't extensively test the geocoding of actual addresses, as that is simply be
       - return infinity
   - return 0
 
-I incorporated my stakeholders' opinions when picking the exact weight values. Me, James and Andrew discussed how much worse it is to walk along a motorway than a normal road, and we decided that 50 km of path should be roughly comparable to 1 m of motorway.
+I incorporated my stakeholders' opinions when picking the exact weight values. For example, me, James and Andrew discussed how much worse it is to walk along a motorway than a normal road, and we decided that 50 km of path should be roughly comparable to 1 m of motorway.
 
 ### Sprint 3 development
 
