@@ -6458,7 +6458,11 @@ I enabled the weight overlay to see what was going on.
 
 ![Weight overlay at crossing point](assets/sprint-3/to-dorking-v2-crossing-road-weights.png)
 
-It showed that the routing engine was once again being fooled by the fact that it adds an implicit pavement to the A24, as well as the B2209, so it has little issue with using those sections as a way to get from one side of the A24 to the other. Curiously, a `highway=secondary_link` way in that area was also given a weight of 1.2, despite `secondary_link` not being in the list of `highway` values that implicit pavements are added to (although that's a separate issue).
+It showed that the routing engine was once again being fooled by the fact that it adds an implicit pavement to the A24, as well as the B2209, so it has little issue with using those sections as a way to get from one side of the A24 to the other. Curiously, a `highway=secondary_link` way in that area was also given a weight of 1.2, despite `secondary_link` not being in the list of `highway` values that implicit pavements are added to (although that's a separate issue). Since I didn't have a clear idea of how the engine should behave in this situation to provide a better result, I decided to see how Google Maps handled it.
+
+![Crossing the A24 on Google Maps](assets/sprint-3/to-dorking-v2-crossing-road-google.png)
+
+Google Maps decides to walk along the B2209 as a shortcut, and to get there, routes along the same intersection as my routing engine. While I reckon this could be improved in my engine, I will leave it for now because there's no obvious simple improvement to fix it, and the engine should work even better than Google Maps when pavements are explicitly tagged.
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
