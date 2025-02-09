@@ -6397,9 +6397,9 @@ The next thing I did was make use of the `weight_path()` method in `calculate_wa
 
 ![Diff showing the updates to the method](assets/sprint-3/using-weight-path.png)
 
-I then launched the Vite development server to test this addition. Calculating a test route worked without errors, and the weight overlay showed new, lower values for many of the paths, as I had expected.
+I then launched the Vite development server to test this addition. Calculating a test route worked without errors, and the weight overlay showed new, lower values (in pink) for many of the paths, as I had expected.
 
-![Screenshot of the map with the weight overlay](assets/sprint-3/lower-weights-paths.png)
+![Screenshot of the route with the weight overlay](assets/sprint-3/lower-weights-paths.png)
 
 I went on to add some code to devalue cycle paths that aren't mixed-use:
 
@@ -6414,7 +6414,51 @@ if way.get("highway") == "cycleway":
         weight *= 1.5
 ```
 
-I decided to test this logic by routing along the A24 from the Grivons Grove roundabout to Dorking. (`51.282286,-0.327052` to `51.235677,-0.324263`). This will also serve as a test to see how well it handles walking along pavements in general. I chose that road because most of its length includes a mixed-use cycleway alongside it, as well as a parallel `highway=footway` along some parts.
+I decided to test this logic by routing along the A24 from the Givons Grove roundabout to Dorking. (`51.282286,-0.327052` to `51.235677,-0.324263`). This will also serve as a test to see how well it handles walking along pavements in general. I chose that road because most of its length includes a mixed-use cycleway alongside it, as well as a parallel `highway=footway` along some parts.
+
+| Route on map                        | Route with weight overlay                   | End of the route                        |
+| ----------------------------------- | ------------------------------------------- | --------------------------------------- |
+| ![](assets/sprint-3/to-dorking.png) | ![](assets/sprint-3/to-dorking-weights.png) | ![](assets/sprint-3/to-dorking-end.png) |
+
+The engine chose to go along the B2209 rather than sticking to the A24, which seems sensible because it's a more direct route, and a B-road should be nicer to walk along than an A-road.
+
+One unexpected part was that it chose to walk along the A24 at the end of the route (as zoomed in on above right). I checked the way tags, and found that that section of the road doesn't have explicit sidewalk tags, so the engine assumes `sidewalk=yes` (because it's an A-road). Ideally this road would be tagged `sidewalk:both=separate` but clearly this isn't the case here, and can't be expected to be done everywhere. To address this, I will stop considering implicit pavements on roads the same as explicitly-tagged pavements.
+
+I added a `sidewalk_guessed` flag to the section of `calculate_way_weight` that handles roads. It's set to `True` if we're just assuming the presence of a pavement. I then give a weight of `1.2` for walking on an implicit pavement:
+
+```py
+pavement_weight = (
+    self.weight_path(
+        {
+            "highway": "footway",
+            "footway": "sidewalk",
+            "surface": "asphalt",
+        }
+    )
+    if not sidewalk_guessed
+    # Deprioritise ways where we're just assuming a sidewalk is present
+    else 1.2
+)
+```
+
+I then tested the routing engine again with the same start/end locations as before:
+
+- Givons Grove Roundabout
+- Reigate Road, Dorking
+
+| End of the route (South)                   | S-bend near the start (North)                | Middle of the S-bend                                 |
+| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------- |
+| ![](assets/sprint-3/to-dorking-v2-end.png) | ![](assets/sprint-3/to-dorking-v2-start.png) | ![](assets/sprint-3/to-dorking-v2-crossing-road.png) |
+
+If we look at the end of the route, we can see it completely sticks to the pavements now, which is great. It also chooses to cut through the minor roads and paths right at the end, which seems perfectly fine too.
+
+The router also does some major corner-cutting when the A24 does an S-shape. It chooses to go slightly into Norbury Park to avoid the Northern part of the curve, which seems sensible, and it goes along a public footpath to avoid the Southern part of the curve, which also looks like a good idea. However, to combine these two shortcuts, the A24 has to be crossed at some point, and the router seems to accomplish this by walking along the point where the B2209 joins the A24, which seems like it would be very undesirable.
+
+I enabled the weight overlay to see what was going on.
+
+![Weight overlay at crossing point](assets/sprint-3/to-dorking-v2-crossing-road-weights.png)
+
+It showed that the routing engine was once again being fooled by the fact that it adds an implicit pavement to the A24, as well as the B2209, so it has little issue with using those sections as a way to get from one side of the A24 to the other. Curiously, a `highway=secondary_link` way in that area was also given a weight of 1.2, despite `secondary_link` not being in the list of `highway` values that implicit pavements are added to (although that's a separate issue).
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
