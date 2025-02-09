@@ -1689,13 +1689,13 @@ I chose to split the functions of the app into three sections ("screens"): "map"
   - This helps ensure that the app is intuitive to use
 - It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
 
-![Mockup of the map screen, and the route screen](assets/sprint-1/mockup-1.excalidraw.svg)
+![Mockup of the map screen, and the route screen](assets/1/mockup-1.excalidraw.svg)
 
 ##### Sprint 1 UI mockup v2
 
 For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
-![Mockup of the map screen](assets/sprint-1/mockup-2.excalidraw.svg)
+![Mockup of the map screen](assets/1/mockup-2.excalidraw.svg)
 
 ###### Sprint 1 UI mockup v2 feedback
 
@@ -1952,7 +1952,7 @@ except IsADirectoryError:
 
 I then tested:
 
-![Screenshot of the terminal output written out below](assets/sprint-1/file-validation-terminal.png)
+![Screenshot of the terminal output written out below](assets/1/file-validation-terminal.png)
 
 ```shell
 $ sudo python main.py /dev/sda1
@@ -1998,14 +1998,14 @@ graph = osmnx.graph.graph_from_xml(data_file_path, bidirectional=True)
 print(graph)
 ```
 
-![](assets/sprint-1/my-first-graph-1.png)
-![](assets/sprint-1/my-first-graph-2.png)
+![](assets/1/my-first-graph-1.png)
+![](assets/1/my-first-graph-2.png)
 
 ##### Connecting the graph to the OSM data
 
 I wanted to see how the graph data corresponds to OSM nodes and tags. I noticed that graph nodes are indexed based on what looked like their OSM node IDs, so I tried looking up some nodes from my region in my graph, using osm.org as a reference. However, the node I checked didn't seem to be present in my graph, which was perplexing.
 
-![](assets/sprint-1/my-first-graph-3.png)
+![](assets/1/my-first-graph-3.png)
 
 To investigate thus further, I chose to download a very small region of OSM data, so that I can individually check and verify the nodes and ways in the graph. I want to ensure I can access the raw OSM data to enable the more complicated routing options that I want to implement.
 
@@ -2013,11 +2013,11 @@ For nodes, I found that the node IDs under `graph.nodes` did match OSM nodes on 
 
 | Python graph                               | OSM.org                                                                                   |
 | ------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| ![](assets/sprint-1/n1551819044-graph.png) | [![](assets/sprint-1/n1551819044-osm.png)](https://www.openstreetmap.org/node/1551819044) |
+| ![](assets/1/n1551819044-graph.png) | [![](assets/1/n1551819044-osm.png)](https://www.openstreetmap.org/node/1551819044) |
 
 I then went on to investigating ways, and how they correspond to edges in the graph. Unlike the `graph.nodes` object, which could be viewed in my debugger like a dictionary, the `graph.edges` object didn't have any easy way to click through the edges and view their attributes.
 
-![](assets/sprint-1/my-first-graph-edges.png)
+![](assets/1/my-first-graph-edges.png)
 
 However, I could see that there appeared to be items keyed by tuples like `(3753293827, 3753283823, 0)`. I guessed that these could be the node IDs of the start and end point of the edge.
 
@@ -2047,7 +2047,7 @@ I wasn't sure what the third value was, but it seemed to most commonly be set to
 
 | Python graph                                 | OSM.org                                                                              |
 | -------------------------------------------- | ------------------------------------------------------------------------------------ |
-| ![](assets/sprint-1/my-first-graph-edge.png) | [![](assets/sprint-1/w28112739-osm.png)](https://www.openstreetmap.org/way/28112739) |
+| ![](assets/1/my-first-graph-edge.png) | [![](assets/1/w28112739-osm.png)](https://www.openstreetmap.org/way/28112739) |
 
 Success! I could now confirm that:
 
@@ -2077,7 +2077,7 @@ I decided not to simplify the graph, because I encountered an error when trying 
 
 > `osmnx._errors.GraphSimplificationError`: This graph has already been simplified, cannot simplify it again.
 
-![](assets/sprint-1/cannot-simplify-graph.png)
+![](assets/1/cannot-simplify-graph.png)
 
 This error suggested that I don't need to simplify the graph anyway, so I can drop that line from my code.
 
@@ -2119,7 +2119,7 @@ Unfortunately, my thinking regarding the import syntax did not pull through, and
 
 > `ImportError`: attempted relative import with no known parent package
 
-![](assets/sprint-1/import-error.png)
+![](assets/1/import-error.png)
 
 I didn't want to have to set up a package and other things I don't yet understand, so I decided to just run the program from the `backend` folder and import it simply:
 
@@ -2196,7 +2196,7 @@ leaflet
   .addTo(mainMap)
 ```
 
-![](assets/sprint-1/map.png)
+![](assets/1/map.png)
 
 ##### Bottom navigation bar
 
@@ -2230,7 +2230,7 @@ And made the page title screen-reader-only, so that the view matches my mockup, 
 +<h1 class="sr-only">Marvellous mapping machine</h1>
 ```
 
-![](assets/sprint-1/bottom-bar.png)
+![](assets/1/bottom-bar.png)
 
 ##### Bottom navigation bar functionality
 
@@ -2266,13 +2266,13 @@ if (activeScreen) {
 nextScreen.id = "active-screen"
 ```
 
-![](assets/sprint-1/new-screen.png)
+![](assets/1/new-screen.png)
 
 I noticed a bug where occasionally when clicking a bottom bar button, the active classes and styles would not be applied to that button, meaning the bar would look like it had nothing selected. What was perplexing was this seemed to happen randomly without any clear pattern.
 
 However, I had a brain wave and suspected that the `target` of the `ClickEvent` might not be consistent between different clicks, depending on where exactly the button was clicked, which would explain the fuzziness. I added a `console.debug()` call to log the target to confirm my suspicions:
 
-![](assets/sprint-1/event-targets.png)
+![](assets/1/event-targets.png)
 
 As the image above shows, the event target is not always the button itself, but sometimes the `span` inside the button. Because I need to apply the active class to the button, I decided to use the `closest()` method to find the corresponding button element consistently:
 
@@ -2299,7 +2299,7 @@ To make the site easier to share with my stakeholders (and other interested part
 - supports building and deploying from a GitHub repository
 - has a `*.pages.dev` free subdomain that isn't blocked on the school network
 
-![](assets/sprint-1/cf-pages.png)
+![](assets/1/cf-pages.png)
 
 I clicked Save and Deploy, but when building the site, Pages gave me an error. Turns out that the build output directory is relative to the "root directory", but I had assumed it wasn't. I adjusted the build output setting from `frontend/dist` to `dist` to solve it. This time it built successfully.
 
@@ -2323,7 +2323,7 @@ I also wrapped it in a `.tooltip` element, which is a daisyUI feature that provi
 </div>
 ```
 
-![](assets/sprint-1/fab.png)
+![](assets/1/fab.png)
 
 ##### GPS location dot
 
@@ -2394,7 +2394,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'backend'
 ```
 
-![Running my code gave the error above](assets/sprint-1/testing-1.png)
+![Running my code gave the error above](assets/1/testing-1.png)
 
 I realised that my `import` statement in `routing_engine.py` had a reference to the `backend` folder, probably automatically added by my editor. It may have not been an issue when running the code in my debugger, but clearly it matters when running it normally in the terminal.
 
@@ -2407,7 +2407,7 @@ I fixed the `import` statement, so it is now importing the `osm_data_types` modu
 
 I used the same OSM data file that I used during development, as it fits the requirements of the tests, and downloading a new one or renaming it to exactly match my test plan would be a waste of time.
 
-![Running the tests from my test table](assets/sprint-1/testing-2.png)
+![Running the tests from my test table](assets/1/testing-2.png)
 
 All the tests passed apart from the final test ("Check data file syntax"). I realised that I hadn't implemented custom handling for the XML parse error, which means the error was uncaught and caused the whole traceback to be printed instead of a user-friendly message.
 
@@ -2426,7 +2426,7 @@ except xml.etree.ElementTree.ParseError as error:
 
 I then re-ran the test, and it passed successfully:
 
-![](assets/sprint-1/testing-3.png)
+![](assets/1/testing-3.png)
 
 #### Sprint 1 stakeholder opinions
 
@@ -2462,7 +2462,7 @@ In addition, he also asked about text contrast, wondering if the dark pink on pi
 
 #### Sprint 1 user story checklist
 
-![The adjacency matrix that I showed Andrew](assets/sprint-1/adj-matrix.png)
+![The adjacency matrix that I showed Andrew](assets/1/adj-matrix.png)
 
 1. ✅ As a user, I want an interactive map that is intuitive and readable
    - This has been implemented, and my feedback has proven that the map is intuitive to navigate and easy to interpret
@@ -2536,7 +2536,7 @@ Therefore, I feel reasonably confident that my libraries will work in a PyScript
 
 ##### Researching `py2wasm`
 
-![Cartoon banner image for py2wasm, from the Wasmer blog](assets/sprint-2/py2wasm.png)
+![Cartoon banner image for py2wasm, from the Wasmer blog](assets/2/py2wasm.png)
 
 `py2wasm` is a fork of Nuitka, a Python compiler, with changes to allow it to compile Python code to WebAssembly. It promises to execute faster than CPython running in WebAssembly.[^py2wasm] However, while it is exciting, it doesn't seem suitable for my project for the following reasons
 
@@ -2553,7 +2553,7 @@ It seems that `py2wasm`'s only advantage over PyScript is having a cool banner i
 
 ##### Research approach for OSM tags
 
-![A screenshot from Taginfo, a website used to research OSM tags](assets/sprint-2/taginfo.png)
+![A screenshot from Taginfo, a website used to research OSM tags](assets/2/taginfo.png)
 
 My main source of information will be the OSM Wiki (<https://wiki.openstreetmap.org/>). It will be a very valuable source of information, as it is maintained by the community and gives information on the agreed standards for tagging (i.e. how data is specified on OSM objects), as well as any de-facto standards. While local variations for tagging sometimes exist in the OSM community, the wiki does a very good job of documenting them for the UK, which is where the scope of my project is, so I shouldn't have to often resort to researching things on my own.
 
@@ -2723,7 +2723,7 @@ Below is a list of road tags I will include, and notes regarding them, e.g. thei
   - Fortunately, there are only 325 occurrences of it in the UK
   - Despite this, I shall follow Postel's Law and treat it as a generic path, perhaps raising a warning somewhere
 
-![An composite image showing examples of 5 different tracks, which correspond to the different tracktype=* grades](assets/sprint-2/tracktype.png)
+![An composite image showing examples of 5 different tracks, which correspond to the different tracktype=* grades](assets/2/tracktype.png)
 
 [^rule-218]: Rule 218, The Highway Code, GOV.UK (<https://www.gov.uk/guidance/the-highway-code/road-users-requiring-extra-care-204-to-225#rule218>), accessed 2024-12-13
 
@@ -2790,7 +2790,7 @@ These are the `highway=*` keys that are used as top-level tags for paths:
 
 ###### `highway=path` controversy
 
-![A collage showing an urban paved path, a forest path, and a mountain with no clear path, to demonstrate the wide range of situations the tag is used in](assets/sprint-2/path-controversy.png)
+![A collage showing an urban paved path, a forest path, and a mountain with no clear path, to demonstrate the wide range of situations the tag is used in](assets/2/path-controversy.png)
 
 Image credit: [Openstreetmap Paths Collage.jpg](https://commons.wikimedia.org/wiki/File:Openstreetmap_Paths_Collage.jpg) by Hungerburg, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0), via Wikimedia Commons
 
@@ -2834,7 +2834,7 @@ The `trail_visibility=*` and `sac_scale=*` tags are the most important to determ
 
 Some features don't fall under any of the tags for `highway=*` features examined above, but can still be walked along by pedestrians and therefore are still a good idea to be considered routable.
 
-![Photo of a segregated path for pedestrians and cyclists in Comber, Northern Ireland](assets/sprint-2/cycle-path.png)
+![Photo of a segregated path for pedestrians and cyclists in Comber, Northern Ireland](assets/2/cycle-path.png)
 
 Image credit: [Path and cycle path, Comber](https://commons.wikimedia.org/wiki/File:Path_and_cycle_path,_Comber_-_geograph.org.uk_-_3575344.jpg) by Albert Bridge, [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0), via Geograph and Wikimedia Commons
 
@@ -3021,7 +3021,7 @@ Pavements are a crucial piece of pedestrian infrastructure, and I expect many ro
 
 OpenStreetMap has two different (and valid) ways of describing pavements, both of which are widely used within the UK, so I will need to ensure I research them adequately and handle them thoroughly. Note that the OSM community uses the word "sidewalk" to describe pavements, to avoid the ambiguous international meaning of "pavement".
 
-![Screenshot of the iD OSM editor showing separately mapped pavements](assets/sprint-2/seperately-mapped-pavements.png)
+![Screenshot of the iD OSM editor showing separately mapped pavements](assets/2/seperately-mapped-pavements.png)
 
 The first strategy is to represent pavements as `highway=footway` + `footway=sidewalk` ways that are drawn parallel to the road. This allows the pavement ways to be routed along just like any other path, which will mean it'll be the simplest for me to implement. The image above shows sidewalk and crossing ways (outlined in red) along the A246 (orange) and Groveside.
 
@@ -3096,7 +3096,7 @@ Additional tags:
 
 I used Excalidraw to create mockups for the route screen in various states. The purpose of this screen is to display the information about the route that doesn't go on a map (e.g. distance), and to give an intuitive way to input the start and end points of the route, by address or coordinates.
 
-![Mockups for 5 different states of the route screen](assets/sprint-2/route-screen-mockups.excalidraw.svg)
+![Mockups for 5 different states of the route screen](assets/2/route-screen-mockups.excalidraw.svg)
 
 I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
 
@@ -3106,7 +3106,7 @@ I gave the Excalidraw share link for the mockups to James and Andrew. James said
 
 I showed the mockup to Ili in-person, and at first he found the way I had presented the different screens confusing, as it wasn't clear that they were transitions through a flow (he assumed they were different options to choose from). I explained this to him and also updated the diagram to have arrows to show progression.
 
-![](assets/sprint-2/route-screen-mockups-2.excalidraw.svg)
+![](assets/2/route-screen-mockups-2.excalidraw.svg)
 
 Similarly to Andrew, I had to tell him what the hatched FAB and the loading spinner were, but that was just a limitation of my mockup. For the route info, he suggested putting the "walking from" and "walking to" next to each other, as well as showing the address for the destination instead of just the coordinates. These seemed like good small suggestions to me.
 
@@ -3255,7 +3255,7 @@ Run this query in Overpass Turbo with the share link <https://overpass-turbo.eu/
 out geom;
 ```
 
-![A screenshot of the Overpass Turbo map showing the results for my query in a local area](assets/sprint-2/highways.png)
+![A screenshot of the Overpass Turbo map showing the results for my query in a local area](assets/2/highways.png)
 
 I have also decided to adjust my `OSMElement` class to use less memory, because creating a `OSMTag` class for every tag might be too much.
 
@@ -3421,7 +3421,7 @@ I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` 
 3. However, when converting `showCurrentLocation.mts` to a Voby component, its logic runs when the component is initialised in memory, which happens before the logic (e.g. `mainMap.mts`) files are imported
 4. But `mainMap.mts` must be imported after the Voby components are rendered, because the `#main-map` element must exist in the DOM before the Leaflet map is created
 
-![](assets/sprint-2/main-map-undefined.png)
+![](assets/2/main-map-undefined.png)
 
 I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
 
@@ -3566,13 +3566,13 @@ I was considering how the current location button would behave while the Leaflet
 
 I tested my suspicions using the Performance tab in the devtools in Brave browser, and could see that the "DOM loaded" event (representing when the UI is rendered) was delayed until the Leaflet library had finished downloading.
 
-![A screenshot of a performance trace in DevTools](assets/sprint-2/performance-trace.png)
+![A screenshot of a performance trace in DevTools](assets/2/performance-trace.png)
 
 ##### Proof of concept for async Leaflet loading
 
 I had the idea to load the Leaflet library asynchronously using the `import()` function, so that Leaflet can be loaded in the background, during and after the the UI is rendered. To test if this would make a difference, I edited the `MainMap` component to use an `import()` function call and a `.then()` callback on the promise it returns to initialise the map. I also made sure I was no longer importing Leaflet at the top of the file. I also temporarily commented out the `import leaflet from "leaflet"` in `CurrentLocationButton.tsx`, because otherwise Leaflet would still be loaded during UI rendering, and I didn't want to migrate that file to use `import()` yet.
 
-![A diff showing the proof-of-concept changes I made](assets/sprint-2/async-import-poc.png)
+![A diff showing the proof-of-concept changes I made](assets/2/async-import-poc.png)
 
 I tested this and saw that the bottom bar showed up before the map started rendering, and there was no long flash of a dark blank screen before anything appeared.
 
@@ -3582,7 +3582,7 @@ I was satisfied with this, so worked on properly implementing a system for Leafl
 
 I decided to use an observable to implement this, as I already had a `mainMap` observable, and since this is a similar pattern, I want to implement it in a similar way for consistency.
 
-![A diff showing how I added a leaflet observable to MainMap.tsx](assets/sprint-2/leaflet-observable.png)
+![A diff showing how I added a leaflet observable to MainMap.tsx](assets/2/leaflet-observable.png)
 
 This is the code for asynchronously loading Leaflet and storing it as an observable:
 
@@ -3621,7 +3621,7 @@ I questioned if `MainMap.tsx` was a good place to put the `leaflet` observable, 
 
 I then migrated the `CurrentLocationButton.tsx` component to use the new `leaflet` observable, so it will only add its event listeners once Leaflet is loaded and the map is initialised. (Obviously the map can't be loaded before Leaflet is loaded, but I still added the guard clause for type safety and to be consistent with how I'm using these observables.)
 
-![Diff for CurrentLocationButton.tsx](assets/sprint-2/leaflet-big-l.png)
+![Diff for CurrentLocationButton.tsx](assets/2/leaflet-big-l.png)
 
 I committed this work in commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e).
 
@@ -3660,7 +3660,7 @@ However, when I enabled network throttling and visited the old version of the si
 
 I realised that the build tool I use, Vite, loads libraries in a significantly different way during development than it does in production. During development, the dependencies are loaded as separate, less-optimised JavaScript files, whereas during production, the dependencies are bundled together into a single file, which reduces the time taken to load the page. In my case, this seemed to make a significant difference when it came to loading Leaflet.
 
-I ran Lighthouse tests on the site before ([lighthouse-before-performance-work.json](assets/sprint-2/lighthouse-before-performance-work.json)) and after ([lighthouse-after-performance-work.json](assets/sprint-2/lighthouse-after-performance-work.json)) the change. The first contentful paint time dropped from 1.2 seconds to 1.1 seconds, and the time to interactive dropped from 3.1 seconds to 3.0 seconds. This confirms that the optimisation made a small improvement to page load times, but not a very significant one
+I ran Lighthouse tests on the site before ([lighthouse-before-performance-work.json](assets/2/lighthouse-before-performance-work.json)) and after ([lighthouse-after-performance-work.json](assets/2/lighthouse-after-performance-work.json)) the change. The first contentful paint time dropped from 1.2 seconds to 1.1 seconds, and the time to interactive dropped from 3.1 seconds to 3.0 seconds. This confirms that the optimisation made a small improvement to page load times, but not a very significant one
 
 In conclusion, while my change has worked as intended, it was not as necessary as it first appeared. However, it did give me a chance to fine-tune the UI during loading, which Andrew and Ili were both happy with when I showed them.
 
@@ -3696,7 +3696,7 @@ nodes.append(OSMNode(pos=(node["lat"], node["lon"]), tags=tags))
 
 I tested the function with a sample small bounding box, and it succesfully retuned results:
 
-![Screenshot of my debugger showing the returned data](assets/sprint-2/osm-data-yay.png)
+![Screenshot of my debugger showing the returned data](assets/2/osm-data-yay.png)
 
 I am worried that creating a `Coordinates` object for every representation of coordinates will be too inefficient, so I will switch to just using a simple tuple of floats for the coordinates. `Coordinates` is now a type alias:
 
@@ -3706,7 +3706,7 @@ type Coordinates = tuple[float, float]
 
 I then went on to implement the `compute_graph()` method, but realised that because my `OSMWay` objects contain an array of `OSMNode` objects with no information about the node IDs, I was using the actual `OSMNode` object as an index for my graph nodes, which is not what I want. So, I added an `id` attribute to the `OSMNode` class and made sure I use that when I'm adding graph edges:
 
-![](assets/sprint-2/osmnode-id.png)
+![](assets/2/osmnode-id.png)
 
 For debugging, I also wanted a way to be able to access edges from their OSM way ID, so I also started storing `OSMWay` IDs. I then wrote a `RoutingGraph#get_edges_from_way()` method
 
@@ -3721,11 +3721,11 @@ def get_edges_from_way(self, target_way_id: int) -> list[tuple[int, int]]:
 
 I tested with a way ID I knew, and it worked:
 
-![](assets/sprint-2/way-id-to-edge.png)
+![](assets/2/way-id-to-edge.png)
 
 Before starting working on my own A\* algorithm, I decided to test using the `networkx` library's built-in A\* algorithm as an additional step to verify that my graph is sane and the number of nodes doesn't overwhelm the algorithm. I tested with a very simple case (just routing along a straight road), and it worked, which gave me confidence:
 
-![](assets/sprint-2/first-route.png)
+![](assets/2/first-route.png)
 
 I then tested it with a simple route along two roads, and that returned a sensible route too. I then tested routing onto a pedestrian path, which also worked.
 
@@ -3775,7 +3775,7 @@ def nearest_node(self, coordinates: Coordinates) -> int:
 
 However upon testing it, I noticed an issue with my approach:
 
-![](assets/sprint-2/no-pos-for-you.png)
+![](assets/2/no-pos-for-you.png)
 
 I assumed that the `pos` attribute on my nodes would be present, but most of my nodes had empty metadata. I realised that this was because I was only adding the `pos` attribute to nodes with tags, instead of all nodes. I changed this, so my code for adding attributes to nodes now looks like this:
 
@@ -3789,11 +3789,11 @@ for node_id, node in raw_nodes.items():
 
 However this still wasn't adding any attributes to nodes, so I debugged further.
 
-![](assets/sprint-2/debugging-further.png)
+![](assets/2/debugging-further.png)
 
 I realised that my `node in graph` check was incorrect, as `node` is a dictionary of node data, and the graph uses node IDs as keys. So I changed that statement to `node["id"] in graph.nodes`. My code now ran without any errors, so I checked which nodes it selected as the nearest nodes. I was happy to see that it chose the node nearest to the end point I had specified (below), and the start note also seemed correct.
 
-![](assets/sprint-2/nearest-node.png)
+![](assets/2/nearest-node.png)
 
 I then actually wrote in the route calculation part, just using length as a weight for now:
 
@@ -3963,13 +3963,13 @@ def estimate_time(self, way_data: dict) -> float:
 
 To help stop me from accidentally accessing the `RoutingGraph#graph` attribute directly (as theoretically it should be private), I prefixed it with an underscore:
 
-![](assets/sprint-2/private_underscore.png)
+![](assets/2/private_underscore.png)
 
 I still have one place where it's accessed outside of the class (when `networkx.astar.astar_path()` is called), but I decided that this would be acceptable, and not worth adding a whole new class method just to call one function.
 
 I then tested the updated `calculate_route_a_star()` method with my debugger. This test was successful.
 
-![](assets/sprint-2/route-result.png)
+![](assets/2/route-result.png)
 
 However, I realised that I should probably include the start and end coordinates of each route progression, so that they can be rendered on the map. In the future I might also want to store the way data or ID for each route progression, so that I can display statistics like "40% on pavements, 20% on unpaved paths, ...". I added `start` and `end` attributes to the `RouteProgression` class:
 
@@ -4087,7 +4087,7 @@ ModuleNotFoundError: No module named 'requests'
 
 I added the `requests` package to my PyScript config, as well as the `geographiclib` package. While `geographiclib` isn't built-in to Pyodide, it seemed to automatically get downloaded from PyPI. With those changes, the Python routing engine code worked with no obvious issues (apart from taking a good few seconds to download all the packages and execute the code).
 
-![](assets/sprint-2/python-in-browser.png)
+![](assets/2/python-in-browser.png)
 
 ##### Making python classes accessible from JavaScript
 
@@ -4112,7 +4112,7 @@ except ImportError:
 
 Note that there are some duplicates as I simply wanted to test to see what would work. I was pleased to see that I could access `window.py` from the console. One peculiarity was that if I try to instantiate a Python class in JS with the `new` keyword, it returns an empty plain object, but if I "call" the class (e.g. `const routingEngine = window.py.RoutingEngine()`), it works as expected, and the methods on the `RoutingEngine` object are accessible. What a time to be alive!
 
-![](assets/sprint-2/python-called-from-js.png)
+![](assets/2/python-called-from-js.png)
 
 I cleaned up the code for adding to `window.py` and extracted it to a function `export_to_js_window()` for better maintainability, and included a docstring.
 
@@ -4150,7 +4150,7 @@ headers: {
 
 I succesfully confirmed that the Python code ran, and didn't block the main thread. However, after adding those new security headers, the tiles for my Leaflet map refused to load due to CORS errors.
 
-![A blank map and CORS errors in the console](assets/sprint-2/i-hate-cors.png)
+![A blank map and CORS errors in the console](assets/2/i-hate-cors.png)
 
 I read the MDN docs on cross-origin isolation,[^cors-mdn] which told me that `Cross-Origin-Resource-Policy` was not required, and `credentialless` is a valid alternative to `require-corp`. Luckily, when I changed the `Cross-Origin-Embedder-Policy` header to `credentialless`, the map tiles loaded correctly, and this didn't cause an issue for PyScript either.
 
@@ -4170,11 +4170,11 @@ While adding offline support is out of this sprint's scope, it would be very use
 
 Since I plan on making the app an installable PWA, I also took the opportunity to add a `manifest.json` file to the page. This requires a logo, so I quickly designed a square logo for the app:
 
-![A pink square with the letters "MMMM" drawn in](assets/sprint-2/mmmm.excalidraw.svg)
+![A pink square with the letters "MMMM" drawn in](assets/2/mmmm.excalidraw.svg)
 
 I also created a maskable version, which is important to look good on certain platforms, including Android, where I expect the app to be used a lot.
 
-![The "MMMM" letters smaller in the middle of a pink borderless square](assets/sprint-2/mmmm-maskable.svg)
+![The "MMMM" letters smaller in the middle of a pink borderless square](assets/2/mmmm-maskable.svg)
 
 ```json
 {
@@ -4188,7 +4188,7 @@ I also created a maskable version, which is important to look good on certain pl
 
 This was successful at getting the browser to offer to install the app as a PWA.
 
-![](assets/sprint-2/pwa-offer.png)
+![](assets/2/pwa-offer.png)
 
 I decided to use the `vite-plugin-pwa` library to handle adding PWA support. I moved the `manifest.json` file to a `manifest.mts` file that exports a JS object, and configured the plugin as below:
 
@@ -4232,7 +4232,7 @@ To make caching of map tiles more reliable, I decided to drop the randomised sub
 
 I took a look at the console, where `workbox` logs each request, and saw that external resources were being cached during runtime, but local resources weren't.
 
-![](assets/sprint-2/workbox-logs.png)
+![](assets/2/workbox-logs.png)
 
 I couldn't work out how to get pre-caching of local resources working, so eventually I decided to create a "catch-all" runtime caching route, so that absolutely everything is cached at runtime. This is not ideal, partly because it means the page must be refreshed twice before it's ready to be used offline, but it does mean that it can fully work offline now (which I have tested).
 
@@ -4244,7 +4244,7 @@ While testing, I also realised that my hacky "catch-all" caching meant that the 
 
 Also while trying to debug the worker issues, I encountered a very perplexing issue where parts of the `export_to_js_window()` procedure in `main.py` wouldn't run after I had edited it to test things. This issue also went away when I removed the `worker` attribute, but it made even less sense than the other issue (which I can guess is down to limitations when it comes to passing data between workers and the main thread).
 
-![Screenshot of my VSCode window and the JS console showing the Python code seeming to just give up](assets/sprint-2/python-gives-up.png)
+![Screenshot of my VSCode window and the JS console showing the Python code seeming to just give up](assets/2/python-gives-up.png)
 
 To test if the Python code could work without workers, I ported the code I had been using in `main.py` to test the routing engine to JS that accessed the Python classes and methods:
 
@@ -4268,7 +4268,7 @@ useEffect(() => {
 
 This indeed worked:
 
-![](assets/sprint-2/calling-python-from-js.png)
+![](assets/2/calling-python-from-js.png)
 
 To prioritise creating something shippable for my stakeholders soon, I decided to keep Python running in the main thread by now, and hopefully find a solution later so that the app is more usable while the Python code is loading and running.
 
@@ -4334,7 +4334,7 @@ function RouteScreen() {
 }
 ```
 
-![UI running in browser](assets/sprint-2/route-screen-1.png)
+![UI running in browser](assets/2/route-screen-1.png)
 
 I then wrote a `calculateRoute()` method that uses the Python classes exported by PyScript, basing it on the Python code I had written before to test the routing engine:
 
@@ -4404,9 +4404,9 @@ I tested calculating the same route by running the Python code outside of the br
 
 To debug, I added a `console.debug()` call to the JS code to print the bbox, and found that it was much larger than it should be, stretching from a latitude of `42.695013` to `59.848470`. I realised that my expression `1000 * LAT_DEGREES_PER_M` from my code was modifying my latitude by ~8.8 degrees, which is massive.
 
-![Browser console screenshot](assets/sprint-2/image.png)
+![Browser console screenshot](assets/2/image.png)
 
-![Browser console screenshot](assets/sprint-2/image-1.png)
+![Browser console screenshot](assets/2/image-1.png)
 
 I mentioned this issue to my stakeholder Ili, and he suggested increasing the bbox by a percentage instead of a fixed amount, which seemed sensible to me. I decided to try using 1% as the percentage value. I implemented this in a modification to `calculateBboxForRoute()`:
 
@@ -4429,11 +4429,11 @@ function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
 
 Visualisation of the bbox before being expanded (i.e. with the start and end points as its corners):
 
-![Very small bbox](assets/sprint-2/bbox-0pc.png)
+![Very small bbox](assets/2/bbox-0pc.png)
 
 Visualisation of the bbox expanded by 1% is below. Note that it's quite tall because we're at 51&deg; latitude, which is a decently big number. Ideally, it would expand by a percentage (or constant) based on meters on the surface of the Earth, but that is more complicated to implement.
 
-![Tall bbox](assets/sprint-2/bbox-1pc.png)
+![Tall bbox](assets/2/bbox-1pc.png)
 
 This worked and the route calculated in a more reasonable time (5.4 seconds, timed with JS `performance.now()`). While I'd definitely like to improve this further, it's a lot better than what it was previously doing.
 
@@ -4462,7 +4462,7 @@ function calculateBboxForRoute(start: Coordinates, end: Coordinates) {
 
 Here's a visualisation of what that bbox would look like for the same route:
 
-![Small bbox](assets/sprint-2/bbox-1pc-better.png)
+![Small bbox](assets/2/bbox-1pc-better.png)
 
 As you can see, this bbox is now much too small. This caused an error when trying to calculate the route:
 
@@ -4513,7 +4513,7 @@ const routeCalculationProgress = $<CalculationState>(CalculationState.Idle)
 
 And I added some lines `calculateRoute()` to update it appropriately, as well as some `useEffect` hooks to print the state of the observable when it updates:
 
-![](assets/sprint-2/route-calculation-progress.png)
+![](assets/2/route-calculation-progress.png)
 
 However, I noticed that I could only ever see the observable being set to `0` (`CalculationState.Idle`). I think it's likely that this is because `useEffect` hooks aren't executed immediately, and because PyScript blocks the main thread, they never get a chance to run until the route calculation is finished.
 
@@ -4631,8 +4631,8 @@ I successfully tested it in Firefox (Developer Edition) and Brave, so I can be p
 
 I added a tooltip for the calculate button to be shown while the routing engine isn't ready:
 
-![](assets/sprint-2/tooltip-code.png)
-![](assets/sprint-2/tooltip.png)
+![](assets/2/tooltip-code.png)
+![](assets/2/tooltip.png)
 
 ##### Debugging bounding boxes on the map
 
@@ -4667,7 +4667,7 @@ drawBbox(calculateBboxForRoute(startPos, endPos, 0), { color: "red" })
 drawBbox(bbox, { color: "green" })
 ```
 
-![](assets/sprint-1/bboxes-on-map.png)
+![](assets/1/bboxes-on-map.png)
 
 ##### Rendering route on map
 
@@ -4718,7 +4718,7 @@ currentRoute({
 
 The screenshot below shows the route lines being calculated correctly. I used the `toJs()` method because `part.start`/`part.end` are tuples in Python, which are proxied by default. I didn't need this link between Python and JS for those objects, so I converted them to plain JS arrays, which makes them easier to look at in the console.
 
-![](assets/sprint-2/lots-of-lines.png)
+![](assets/2/lots-of-lines.png)
 
 With this information, I was finally able to render the route on the map. I drew a semitransparent line along the route, as requested by my stakeholders, and also added circles to mark the start and end points of the route, dotted lines between the first/final node and the start/end points (respectively), and a popup that appears when you click on the start/destination.
 
@@ -4848,7 +4848,7 @@ I tested the overlay with a route from school to The Bakery, because that's what
 <!-- prettier-ignore -->
 | Start | Whole route | End |
 |---|---|---|
-| ![Screenshot of the route getting out of school](assets/sprint-2/out-of-school.png) | ![Screenshot of the whole route](assets/sprint-2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/sprint-2/to-the-bakery.png) |
+| ![Screenshot of the route getting out of school](assets/2/out-of-school.png) | ![Screenshot of the whole route](assets/2/school-to-bakery.png) | ![Screenshot of the approach to The Bakery](assets/2/to-the-bakery.png) |
 
 #### Sprint 2: Implementing the route info screen
 
@@ -4934,7 +4934,7 @@ export function displayInteger(num: number): string {
 
 The `timestampNow` observable ensures the route ETA stays accurate, and the `displayInteger` function makes it easy to display numbers correctly according to the user's preference.
 
-![Screenshot of the screen](assets/sprint-2/route-info.png)
+![Screenshot of the screen](assets/2/route-info.png)
 
 I succesfully tested that:
 
@@ -4952,15 +4952,15 @@ Therefore I consider this implementation very successful.
 
 I noticed that the pink accent colour provides poor text contrast when used as a text colour in light theme on the route input labels.
 
-![Light pink text on white background](assets/sprint-2/pink-on-white.png)
+![Light pink text on white background](assets/2/pink-on-white.png)
 
 I edited the labels and inputs to use `pink-800` in light theme (to match the bottom bar text), and `primary` in dark theme (because that already looked good):
 
-![Diff for changing Tailwind classes](assets/sprint-2/tailwind-yay.png)
+![Diff for changing Tailwind classes](assets/2/tailwind-yay.png)
 
 It is now much more readable in light theme:
 
-![Dark pink text on white background](assets/sprint-2/dark-pink-on-white.png)
+![Dark pink text on white background](assets/2/dark-pink-on-white.png)
 
 This is an important fix to make, because many of my users may prefer light theme, and it's easier to use light theme in bright sunlight, so it should be usable with good contrast.
 
@@ -5004,15 +5004,15 @@ While the basic tests succeeded, anything that required more complicated weights
 
 ###### Sprint 2 post-development test evidence
 
-![](assets/sprint-2/straight.png)
-![](assets/sprint-2/2-roads.png)
-![](assets/sprint-2/track+pavement.png)
-![](assets/sprint-2/unsafe-route.png)
-![](assets/sprint-2/ignores-charchyard.png)
+![](assets/2/straight.png)
+![](assets/2/2-roads.png)
+![](assets/2/track+pavement.png)
+![](assets/2/unsafe-route.png)
+![](assets/2/ignores-charchyard.png)
 
 Also, just for fun, I tested a route that goes along motorway slip roads, because I knew it would treat them the same as any other path. (Note that the pink route highlight isn't very visible on top of the pink motorways.)
 
-![](assets/sprint-2/motorway-zoom.png)
+![](assets/2/motorway-zoom.png)
 
 ##### Sprint 2 stress-testing
 
@@ -5020,7 +5020,7 @@ To stress-test the routing engine, I attempted to route from Effingham to the Ol
 
 As a slightly more reasonable test, I tried routing to London Heathrow Airport from Effingham. This time, the map data was 3.8 MB and downloaded in 3.81 s. Calculating the whole route took 44.99 seconds, and returned a route with 1069 parts.
 
-![Screenshot of the route to Heathrow](assets/sprint-2/heathrow-route.png)
+![Screenshot of the route to Heathrow](assets/2/heathrow-route.png)
 
 In conclusion, the routing engine performed reasonable well under stress testing, considering that my routing graph is rather unoptimised.
 
@@ -5058,7 +5058,7 @@ Since the options screen will use my combination button component, I designed al
 
 | Avoid state                                      | Neutral state                                        | Prefer state                                       |
 | ------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------- |
-| ![Avoid state mockup](assets/sprint-3/avoid.svg) | ![Neutral state mockup](assets/sprint-3/neutral.svg) | ![Prefer state mockup](assets/sprint-3/prefer.svg) |
+| ![Avoid state mockup](assets/3/avoid.svg) | ![Neutral state mockup](assets/3/neutral.svg) | ![Prefer state mockup](assets/3/prefer.svg) |
 
 While designing a mockup for the route screen, I realised that the "Avoid/Neutral/Prefer" tri-state wouldn't make sense for all options, e.g. private paths, walking on roads. I designed more variants of the combination buttons in Figma. I spend a while considering the phrasing on the buttons, trying to keep them concise, accurate, but also making them seem consistent and understandable.
 
@@ -5067,8 +5067,8 @@ While designing a mockup for the route screen, I realised that the "Avoid/Neutra
 | ------------ | ------------------- | ------------- | -------------- |
 | Attributes that are avoided ("reduced") by default | Attributes that are preferred by default | Attributes that are avoided by default, but can be neutral | When legal restrictions are involved |
 | e.g. walking on roads | e.g. controlled crossings | e.g.  | e.g. private paths |
-| ![Never/Reduce (Never selected)](assets/sprint-3/never-reduce-never.svg) | ![Default/Prefer more (Default selected)](assets/sprint-3/default-prefer-2.svg) | ![Avoid/Neutral (Avoid selected)](assets/sprint-3/avoid-normal-1.svg) | ![Disallow/Allow (Disallow selected)](assets/sprint-3/disallow-allow-1.svg) |
-| ![Never/Reduce (Reduce selected)](assets/sprint-3/never-reduce-reduce.svg) | ![Default/Prefer more (Prefer more selected)](assets/sprint-3/default-prefer-1.svg) | ![Avoid/Neutral (Neutral selected)](assets/sprint-3/avoid-normal-2.svg) | ![Disallow/Allow (Allow selected)](assets/sprint-3/disallow-allow-2.svg) |
+| ![Never/Reduce (Never selected)](assets/3/never-reduce-never.svg) | ![Default/Prefer more (Default selected)](assets/3/default-prefer-2.svg) | ![Avoid/Neutral (Avoid selected)](assets/3/avoid-normal-1.svg) | ![Disallow/Allow (Disallow selected)](assets/3/disallow-allow-1.svg) |
+| ![Never/Reduce (Reduce selected)](assets/3/never-reduce-reduce.svg) | ![Default/Prefer more (Prefer more selected)](assets/3/default-prefer-1.svg) | ![Avoid/Neutral (Neutral selected)](assets/3/avoid-normal-2.svg) | ![Disallow/Allow (Allow selected)](assets/3/disallow-allow-2.svg) |
 
 <!-- prioritise is a word -->
 
@@ -5076,14 +5076,14 @@ After compiling the table, I decided to change the "Default/Prefer more" button 
 
 | Prefer/Prefer more                                                                               |
 | ------------------------------------------------------------------------------------------------ |
-| ![Prefer/Prefer more (Prefer selected)](assets/sprint-3/prefer-prefer-more-prefer.svg)           |
-| ![Prefer/Prefer more (Prefer more selected)](assets/sprint-3/prefer-prefer-more-prefer-more.svg) |
+| ![Prefer/Prefer more (Prefer selected)](assets/3/prefer-prefer-more-prefer.svg)           |
+| ![Prefer/Prefer more (Prefer more selected)](assets/3/prefer-prefer-more-prefer-more.svg) |
 
 ##### Sprint 3 routing options mockups
 
 I then created a mockup of the navigations options (i.e. route options) screen, using my new combination buttons. I made sure to include any options I had mentioned in my design for sprint 2, as well as options previously requested by my stakeholders.
 
-![Navigation options screen mockup](assets/sprint-3/options-mockup-1.excalidraw.svg)
+![Navigation options screen mockup](assets/3/options-mockup-1.excalidraw.svg)
 
 I asked my stakeholders for feedback on the mockup. James really liked how it looked. He suggesting turning the "treacherous paths" option from an Avoid/Neutral into a Avoid/Neutral/Prefer combination button. I agreed that this would be a fun option to have, so I implemented this change.
 
@@ -5393,8 +5393,8 @@ I took screenshots of my testing of the validation. The top row of the table sho
 <!-- prettier-ignore -->
 | No coordinates provided | Latitude out of bounds | Longitude out of bounds |
 | ----------------------- | ---------------------- | ----------------------- |
-| ![No coordinates provided](assets/sprint-3/no-start.png) | ![Latitude out of bounds](assets/sprint-3/start-oob.png) | ![Start position: Longitude (2048°) must be between -180° and 180°](assets/sprint-3/start-long-oob.png) |
-| ![No coordinates provided](assets/sprint-3/no-end.png) | ![Destination: Latitude (852.203°) must be between -90° and 90°](assets/sprint-3/end-lat-oob.png) | ![Longitude out of bounds](assets/sprint-3/end-oob.png) |
+| ![No coordinates provided](assets/3/no-start.png) | ![Latitude out of bounds](assets/3/start-oob.png) | ![Start position: Longitude (2048°) must be between -180° and 180°](assets/3/start-long-oob.png) |
+| ![No coordinates provided](assets/3/no-end.png) | ![Destination: Latitude (852.203°) must be between -90° and 90°](assets/3/end-lat-oob.png) | ![Longitude out of bounds](assets/3/end-oob.png) |
 
 ###### Adding API calls to Nominatim
 
@@ -5402,7 +5402,7 @@ I'll use `fetch()` to perform the API calls, as it's modern and built into the w
 
 I also added a `ProcessingAddresses` value to the `CalculationState` enum, because processing the address/coordinate inputs could now take some time.
 
-![Adding handling for CalculationState.ProcessingAddresses to 2 places in the code](assets/sprint-3/calculation-state-processing-addresses.png)
+![Adding handling for CalculationState.ProcessingAddresses to 2 places in the code](assets/3/calculation-state-processing-addresses.png)
 
 I then implemented the `geocodeAddress()` function:
 
@@ -5425,7 +5425,7 @@ When trying to test this new functionality, I got an unrelated error being throw
 <!-- prettier-ignore -->
 | Error message screenshot | Stacktrace screenshot | Error message |
 | --- | --- | --- |
-| ![Browser debugger paused on error](assets/sprint-3/route-undefined.png) | ![Long call stack with calculateRoute somewhere in there](assets/sprint-3/route-undefined-call-stack.png) | TypeError: can't access property "totalDistance", route is undefined |
+| ![Browser debugger paused on error](assets/3/route-undefined.png) | ![Long call stack with calculateRoute somewhere in there](assets/3/route-undefined-call-stack.png) | TypeError: can't access property "totalDistance", route is undefined |
 
 I pinned the error down to `currentRoute()` being undefined in part of `App.tsx` once the route has finished calculating, which crashed the whole app.
 
@@ -5511,7 +5511,7 @@ async function getStartCoords(): Promise<Coordinates | null> {
 }
 ```
 
-![Screenshot of the map view with a route that starts at the current location](assets/sprint-3/route-from-gps-loc.png)
+![Screenshot of the map view with a route that starts at the current location](assets/3/route-from-gps-loc.png)
 
 I showed the button to James. While we were testing it on school computers, where location access isn't available, we realised that there was no error message shown to the user, even though it was caught and printed to the console. Therefore, I added error messages for the different kinds of issues that could occur when attempting to get geolocation access.
 
@@ -5577,7 +5577,7 @@ And here's the result:
 <!-- prettier-ignore -->
 | Dark theme | Light theme |
 | ---------- | ----------- |
-| ![The route screen with "check start/destination address" buttons (dark theme)](assets/sprint-3/route-screen-dark.png) | ![The route screen with "check start/destination address" buttons (light theme)](assets/sprint-3/route-screen-light.png) |
+| ![The route screen with "check start/destination address" buttons (dark theme)](assets/3/route-screen-dark.png) | ![The route screen with "check start/destination address" buttons (light theme)](assets/3/route-screen-light.png) |
 
 I implemented the logic for the button in a new `displayResolvedAddress()` function, which is made to display any geocoding errors intuitively to the user:
 
@@ -5598,7 +5598,7 @@ async function displayResolvedAddress(inputId: string) {
 
 | Old Trafford Stadium             | Howard of Effingham              |
 | -------------------------------- | -------------------------------- |
-| ![](assets/sprint-3/popup-1.png) | ![](assets/sprint-3/popup-2.png) |
+| ![](assets/3/popup-1.png) | ![](assets/3/popup-2.png) |
 
 ##### Making the location marker smaller
 
@@ -5616,7 +5616,7 @@ I figured that the location dot might be too big, and would cover up the start o
 
 | Before                                                                 | After                                                                |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Decently sizeable location dot](assets/sprint-3/larger-location.png) | ![Smaller location dot](assets/sprint-3/smaller-location-better.png) |
+| ![Decently sizeable location dot](assets/3/larger-location.png) | ![Smaller location dot](assets/3/smaller-location-better.png) |
 
 #### Sprint 3: Adding weights to the routing algorithm
 
@@ -5624,7 +5624,7 @@ I used my [weight calculation pseudocode](#weight-calculation-pseudocode) to sta
 
 Before writing the `add_implicit_tags()` method, I double-checked that mutating dictionaries passed to a function in Python does affect the original dictionary (which is true):
 
-![Testing Python behaviour in the REPL](assets/sprint-3/repl-fn-dict.png)
+![Testing Python behaviour in the REPL](assets/3/repl-fn-dict.png)
 
 ##### Implementing weight calculation for walking along roads
 
@@ -5701,11 +5701,11 @@ I started with implementing the `base_weight_road()` and `add_implicit_tags()` m
 
 Upon testing the code, I discovered that every way was still being given a weight of `1`.
 
-![Console showing weight 1 for all the ways](assets/sprint-3/weight-a-minute.png)
+![Console showing weight 1 for all the ways](assets/3/weight-a-minute.png)
 
 I ran the routing engine in my debugger to try and diagnose the problem, and I realised that the `way` dict I was passing to my weight calculation functions wasn't a dict that directly contained the tags, but instead one that contained the tags under the `tags` key. The `base_weight_road()` function, for example, expects a dict that directly contains the tag key/value pairs.
 
-![Debugger showing the dict](assets/sprint-3/wrong-dict.png)
+![Debugger showing the dict](assets/3/wrong-dict.png)
 
 I updated the type annotation in the `calculate_way_weight()` method header to be more accurate, creating a `OSMWayData` `TypedDict` (in `osm_data_types.py`) in the process. I then updated the method header to pass the `tags` key to the weight calculation methods.
 
@@ -5727,15 +5727,15 @@ def calculate_weight(self, node_a: int, node_b: int, way_data: OSMWayData) -> fl
 
 This led to base weights being added as expected, as I verified by running the routing engine:
 
-![Terminal output](assets/sprint-3/base-weights-working.png)
+![Terminal output](assets/3/base-weights-working.png)
 
 ##### Testing the road weight calculation in comparison to the old version
 
 I switched back to the production deployment of the routing engine, intending to compare the results of the new and old routing engine versions, but I got the same error that I had fixed a week or so ago, documented in the [making API calls to Nominatim](#adding-api-calls-to-nominatim) section.
 
-![The error in the console](assets/sprint-3/same-error-again.png)
+![The error in the console](assets/3/same-error-again.png)
 
-![The line that caused the error in the minified source code](assets/sprint-3/same-error-again-src.png)
+![The line that caused the error in the minified source code](assets/3/same-error-again-src.png)
 
 I added a guard clause to the `RouteInfoScreen` component to provide an additional check that `route` is defined before using it in the component:
 
@@ -5757,11 +5757,11 @@ With that done, I was able to compare the route given by the updated routing eng
 
 Before:
 
-![Screenshot of the calculated route shown on a map](assets/sprint-3/route-v1.png)
+![Screenshot of the calculated route shown on a map](assets/3/route-v1.png)
 
 After:
 
-![Screenshot of the calculated route shown on a map](assets/sprint-3/route-v2.png)
+![Screenshot of the calculated route shown on a map](assets/3/route-v2.png)
 
 Note that the routing engine is avoiding Brown Lane because the pavements mapped as tags on the road aren't considered yet, so it's treated as a road where the carriageway has to be walked along.
 
@@ -5936,7 +5936,7 @@ I realised that I was passing a string to `way_maxspeed_mph()` instead of the wa
 
 After fixing that, I was able to re-test the routing engine with my start and end points from before, and got an interesting result:
 
-![Screenshot of the route shown on a map](assets/sprint-3/route-v3.png)
+![Screenshot of the route shown on a map](assets/3/route-v3.png)
 
 It seemed to be choosing to walk along the main road over walking on the pavement, but preferring walking along service roads to either of those.
 
@@ -5954,7 +5954,7 @@ I decided that reducing the weight of the pavement if the maxspeed is below 20 m
 
 I noticed that for some reason, all roads were now being given a weight of 0.
 
-![](assets/sprint-3/roads-weight-0.png)
+![](assets/3/roads-weight-0.png)
 
 I realised that this was because I had set the `additional_factors` variable to `0` for roads without pavements, which was then multiplied by the base weight of the road. I changed the value to `1` to fix this.
 
@@ -5968,25 +5968,25 @@ I tested the routing engine again with my test route.
 +51.268984, -0.394485
 ```
 
-![Screenshot of the route shown on a map](assets/sprint-3/route-v5.png)
+![Screenshot of the route shown on a map](assets/3/route-v5.png)
 
 This is an improvement, because it takes the pavement next to the A246 instead of walking along the A246 itself. However, it still routes along the Church Street carriageway instead of its pavement, which is not the intended behaviour.
 
 I stepped through the weight calculation process with my debugger to check the logic. I found that I was using the expression `not has_sidewalk` to check if a sidewalk wasn't present, but the `way_has_sidewalk()` function actually returns `"no"` if there's no sidewalk present, which is a truthy value! I fixed this by changing the condition to `has_sidewalk == "no"`.
 
-![Debugging the routing engine in VSCode](assets/sprint-3/wrong-if-statement.png)
+![Debugging the routing engine in VSCode](assets/3/wrong-if-statement.png)
 
 After I fixed that bug, I tested the routing engine again, but it still took me along the road instead of choosing the pavement way. The pavement had a weight of `1` and the road had a weight of `2`, which was as expected, so I wondered why this was the case. Eventually, I zoomed the map into the relevant area near the end of the route, and I realised that the pavement way did not join up with the road in an appropriate place to provide a route to the destination, which explains why the pavement was avoided.
 
-![Map zoomed in, showing the sidewalk way not being linked to the road](assets/sprint-3/sidewalk-way-without-links.png)
+![Map zoomed in, showing the sidewalk way not being linked to the road](assets/3/sidewalk-way-without-links.png)
 
 However, that didn't explain why the router didn't take the path through the graveyard to avoid a section of the road without any pavement. In the screenshot below, I have highlighted two possible routes that I may have expected it to take.
 
-![Map of churchyard area with highlighted paths through the churchyard](assets/sprint-3/paths-through-graveyard.png)
+![Map of churchyard area with highlighted paths through the churchyard](assets/3/paths-through-graveyard.png)
 
 I used the functions I'd made for debugging to check the total weight of the section of Church Road that I expected it to be avoiding, and compare it with the weight of the path through the churchyard:
 
-![JS console showing 7.8 weight for Church St and 12.2 weight for the paths](assets/sprint-3/weight-too-big.png)
+![JS console showing 7.8 weight for Church St and 12.2 weight for the paths](assets/3/weight-too-big.png)
 
 As shown in the image above, the total calculated weight for the section of Church Road ended up lower than the total weight for the paths through the churchyard, which explains the problem. This indicates that I should increase the weight penalty for walking along roads without pavements.
 
@@ -5994,7 +5994,7 @@ I increased the base weight for residential roads from `2` to `3`, deciding not 
 
 After making that change and re-testing the routing engine, I noticed that it had gone back to deciding to walk through the park! I'd imagine that both of those routes have quite similar weights. It was good to see that (unlike the last time it decided to route through the park) the route it suggested exactly matched the route I would personally have decided to take, if I was to go that way (i.e. through the park rather than along the roads). This is even before I have implemented any penalty for going through the private roads through the school.
 
-![Screenshot of the route going through the KGV park](assets/sprint-3/route-v6.png)
+![Screenshot of the route going through the KGV park](assets/3/route-v6.png)
 
 I showed the current state of the project to Ili, and he approved of the route I showed him. He noted that it didn't have any "kinks". He asked to see a route from our house to the bottom of a road in our area, and the routing engine successfully generated that.
 
@@ -6002,7 +6002,7 @@ I calculated some more routes to test the weights, as shown below. I used the KG
 
 | KGV Hall to Old Post Cottage            | A246 to Sixth Form Centre           |
 | --------------------------------------- | ----------------------------------- |
-| ![](assets/sprint-3/kgv-to-cottage.png) | ![](assets/sprint-3/a246-to-6f.png) |
+| ![](assets/3/kgv-to-cottage.png) | ![](assets/3/a246-to-6f.png) |
 
 Unfortunately, the routing engine still wasn't talking the path through the church. I checked the weights again in the JS console:
 
@@ -6063,11 +6063,11 @@ I stepped through the code and realised that the section of Church Street that I
 
 | Debugger                                            | OSM.org                                                 |
 | --------------------------------------------------- | ------------------------------------------------------- |
-| ![](assets/sprint-3/road-without-sidewalk-tags.png) | ![](assets/sprint-3/road-without-sidewalk-tags-osm.png) |
+| ![](assets/3/road-without-sidewalk-tags.png) | ![](assets/3/road-without-sidewalk-tags-osm.png) |
 
 After updating the OSM data, the routing engine gave the expected result:
 
-![Route goes along the path through the Church](assets/sprint-3/through-church-yay.png)
+![Route goes along the path through the Church](assets/3/through-church-yay.png)
 
 ##### Implementing `calculate_node_weight()`
 
@@ -6143,7 +6143,7 @@ if not node:
 
 This fixed the error. I used my debugger to double-check that the rest of the function was still entered into as expected, and it was:
 
-![Node tags in my debugger](assets/sprint-3/node-tags-dbr.png)
+![Node tags in my debugger](assets/3/node-tags-dbr.png)
 
 ##### Considering access tags on ways
 
@@ -6168,7 +6168,7 @@ I tested the change and confirmed that it didn't route along driveways any more.
 
 When examining a test route, I noticed a peculiarity with how it was routing through a graveyard:
 
-![Highlighted route seems to go the long way round](assets/sprint-3/graveyard-inefficient.png)
+![Highlighted route seems to go the long way round](assets/3/graveyard-inefficient.png)
 
 I figured it might be helpful to program a debugging overlay for when I'm working with cases like this. So, I modified the routing engine to expose a dict that contains the weight for each way segment (way segments correspond to edges on the graph) that is processed during route calculation.
 
@@ -6239,7 +6239,7 @@ I also made sure to add the property to the `currentRoute` object:
 
 The result looks like this, with the hue of the highlight colour representing the weight of the segment:
 
-![Coloured highlights on the map](assets/sprint-3/debug-overlay.png)
+![Coloured highlights on the map](assets/3/debug-overlay.png)
 
 I then used the debug overlay to manually calculate the weights of the two paths through the graveyard:
 
@@ -6396,11 +6396,11 @@ The main things of note is that handling for steps isn't implemented yet. I also
 
 The next thing I did was make use of the `weight_path()` method in `calculate_way_weight()`. This includes improving the handling of pavements mapped as tags on roads to also use `weight_path()`, for consistency.
 
-![Diff showing the updates to the method](assets/sprint-3/using-weight-path.png)
+![Diff showing the updates to the method](assets/3/using-weight-path.png)
 
 I then launched the Vite development server to test this addition. Calculating a test route worked without errors, and the weight overlay showed new, lower values (in pink) for many of the paths, as I had expected.
 
-![Screenshot of the route with the weight overlay](assets/sprint-3/lower-weights-paths.png)
+![Screenshot of the route with the weight overlay](assets/3/lower-weights-paths.png)
 
 I went on to add some code to devalue cycle paths that aren't mixed-use:
 
@@ -6419,7 +6419,7 @@ I decided to test this logic by routing along the A24 from the Givons Grove roun
 
 | Route on map                        | Route with weight overlay                   | End of the route                        |
 | ----------------------------------- | ------------------------------------------- | --------------------------------------- |
-| ![](assets/sprint-3/to-dorking.png) | ![](assets/sprint-3/to-dorking-weights.png) | ![](assets/sprint-3/to-dorking-end.png) |
+| ![](assets/3/to-dorking.png) | ![](assets/3/to-dorking-weights.png) | ![](assets/3/to-dorking-end.png) |
 
 The engine chose to go along the B2209 rather than sticking to the A24, which seems sensible because it's a more direct route, and a B-road should be nicer to walk along than an A-road.
 
@@ -6449,7 +6449,7 @@ I then tested the routing engine again with the same start/end locations as befo
 
 | End of the route (South)                   | S-bend near the start (North)                | Middle of the S-bend                                 |
 | ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------- |
-| ![](assets/sprint-3/to-dorking-v2-end.png) | ![](assets/sprint-3/to-dorking-v2-start.png) | ![](assets/sprint-3/to-dorking-v2-crossing-road.png) |
+| ![](assets/3/to-dorking-v2-end.png) | ![](assets/3/to-dorking-v2-start.png) | ![](assets/3/to-dorking-v2-crossing-road.png) |
 
 If we look at the end of the route, we can see it completely sticks to the pavements now, which is great. It also chooses to cut through the minor roads and paths right at the end, which seems perfectly fine too.
 
@@ -6457,11 +6457,11 @@ The router also does some major corner-cutting when the A24 does an S-shape. It 
 
 I enabled the weight overlay to see what was going on.
 
-![Weight overlay at crossing point](assets/sprint-3/to-dorking-v2-crossing-road-weights.png)
+![Weight overlay at crossing point](assets/3/to-dorking-v2-crossing-road-weights.png)
 
 It showed that the routing engine was once again being fooled by the fact that it adds an implicit pavement to the A24, as well as the B2209, so it has little issue with using those sections as a way to get from one side of the A24 to the other. Curiously, a `highway=secondary_link` way in that area was also given a weight of 1.2, despite `secondary_link` not being in the list of `highway` values that implicit pavements are added to (although that's a separate issue). Since I didn't have a clear idea of how the engine should behave in this situation to provide a better result, I decided to see how Google Maps handled it.
 
-![Crossing the A24 on Google Maps](assets/sprint-3/to-dorking-v2-crossing-road-google.png)
+![Crossing the A24 on Google Maps](assets/3/to-dorking-v2-crossing-road-google.png)
 
 Google Maps decides to walk along the B2209 as a shortcut, and to get there, routes along the same intersection as my routing engine. While I reckon this could be improved in my engine, I will leave it for now because there's no obvious simple improvement to fix it, and the engine should work even better than Google Maps when pavements are explicitly tagged.
 
@@ -6501,9 +6501,9 @@ if has_sidewalk == "no":
 
 While testing the routing engine on school computers, I noticed that the check start address button wasn't working. I realised that the `nominatim.openstreetmap.org` API was returning 403 error codes, with a message to say that I have violated the usage policy of the Nominatim service.
 
-![Failed request in DevTools](assets/sprint-3/nominatim-403.png)
+![Failed request in DevTools](assets/3/nominatim-403.png)
 
-![The 403 response rendered in a browser](assets/sprint-3/nominatim-403-page.png)
+![The 403 response rendered in a browser](assets/3/nominatim-403-page.png)
 
 Since I only noticed this error on the school network, and I believe my usage of the Nominatim API to be very light, my suspicion is that some other usage on the same IP address is causing the school's IP address to be blocked. However, in response to this, I will update my code for calling the API to better comply with the limits, specifically:
 
@@ -6555,13 +6555,13 @@ export function throttle(callback, limit) {
 
 I then updated the `geocodeAddress()` function to use a throttled call to the API:
 
-![Screenshot of the diff on GitHub](assets/sprint-3/adding-throttling.png)
+![Screenshot of the diff on GitHub](assets/3/adding-throttling.png)
 
 I decided not to add throttling to the Calculate Route button at this stage, because it would be quite difficult to spam-click that button due to the fact that the button's callback blocks the main thread. In addition, I would have to make the function more complex to guarantee that the start and end points will both be processed.
 
 I tested this and it worked as expected:
 
-![Screenshot of DevTools console](assets/sprint-3/throttling-working.png)
+![Screenshot of DevTools console](assets/3/throttling-working.png)
 
 I later improved the `throttle()` function to have proper TypeScript types:
 
@@ -6603,7 +6603,7 @@ const data = await fetch(url, {
 
 I tested in the Chrome debugger to see if a sensible header _would_ be set, and that was successful (`MarvellousMappingMachine/0.3 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36`).
 
-![Screenshot of the Chrome debugger](assets/sprint-3/ua-should-be.png)
+![Screenshot of the Chrome debugger](assets/3/ua-should-be.png)
 
 #### Sprint 3: Implementing the Options screen
 
@@ -6709,11 +6709,11 @@ function OptionLine({
 
 Here's what it looks like in the app:
 
-![Screenshot of the navigation options screen](assets/sprint-3/options-screen-v1.png)
+![Screenshot of the navigation options screen](assets/3/options-screen-v1.png)
 
 I then modified the code in `MainMap.tsx` that draws the route layers to only draw the weight overlay if the corresponding option is enabled:
 
-![Diff showing the options.app.weightOverlay variable now being checked](assets/sprint-3/weight-overlay-toggle-diff.png)
+![Diff showing the options.app.weightOverlay variable now being checked](assets/3/weight-overlay-toggle-diff.png)
 
 <div>
 
