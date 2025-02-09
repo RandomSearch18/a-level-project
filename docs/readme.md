@@ -289,6 +289,7 @@ A-level Computer Science programming project
         - [Considering access tags on ways](#considering-access-tags-on-ways)
         - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
         - [Implementing `weight_path()`](#implementing-weight_path)
+        - [Implementing `additional_weight_road()`](#implementing-additional_weight_road)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
@@ -6463,6 +6464,38 @@ It showed that the routing engine was once again being fooled by the fact that i
 ![Crossing the A24 on Google Maps](assets/sprint-3/to-dorking-v2-crossing-road-google.png)
 
 Google Maps decides to walk along the B2209 as a shortcut, and to get there, routes along the same intersection as my routing engine. While I reckon this could be improved in my engine, I will leave it for now because there's no obvious simple improvement to fix it, and the engine should work even better than Google Maps when pavements are explicitly tagged.
+
+##### Implementing `additional_weight_road()`
+
+As you might expect by now, I implemented the `additional_weight_road()` method as per my pseudocode:
+
+```py
+def additional_weight_road(self, way: dict) -> float:
+    factor = 1
+    if way.get("lanes"):
+        try:
+            lanes = int(way["lanes"])
+            if lanes >= 2:
+                factor *= 2
+        except ValueError:
+            warn(f"Couldn't parse lanes={way['lanes']}")
+    if way.get("shoulder") and way.get("shoulder") != "no":
+        factor *= 0.9
+    if way.get("verge") and way.get("verge") != "no":
+        factor *= 0.95
+    return factor
+```
+
+The only interesting part here is some nice error handling for `lanes=*` values that aren't integers.
+
+Naturally, I also updated `calculate_way_weight()` to make use of this method:
+
+```py
+if has_sidewalk == "no":
+    # We're walking on the road carriageway
+    additional_factors = self.additional_weight_road(way)
+    return base_weight_as_road * additional_factors
+```
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
