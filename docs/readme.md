@@ -288,6 +288,7 @@ A-level Computer Science programming project
         - [Implementing `calculate_node_weight()`](#implementing-calculate_node_weight)
         - [Considering access tags on ways](#considering-access-tags-on-ways)
         - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
+        - [Implementing `weight_path()`](#implementing-weight_path)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
@@ -6247,6 +6248,158 @@ I then used the debug overlay to manually calculate the weights of the two paths
 The total weight for the expected route was lower than the weight for the long way around, which is working as intended. However, that doesn't explain why the routing algorithm still chose the longer route.
 
 Since it's only a minor issue and can easily be ignored when on the ground, I will leave it for now, because it's not clear how I could fix it.
+
+##### Implementing `weight_path()`
+
+I implemented the `weight_path()` method as per my pseudocode:
+
+```py
+def weight_path(self, way: dict) -> float | None:
+    path_highway_values = [
+        "footway",
+        "bridleway",
+        "steps",
+        "corridor",
+        "path",
+        "cycleway",
+        "track",
+        "pedestrian",
+    ]
+    if way.get("highway") not in path_highway_values:
+        return None
+    weight = 1
+    # We will update this if we have decided to assume that a path is
+    # inaccessible to wheelchairs (-1) or suitable for wheelchairs (1)
+    wheelchair_suitable = 0
+    if way.get("highway") == "steps":
+        wheelchair_suitable = -1
+        # TODO
+        pass
+    # We might guess the value of trail_visibility=*
+    trail_visibility_default = None
+    # Our guess for if a path is "officially" maintained or not
+    maintained = 0
+    if way.get("highway") in ["footway", "cycleway", "pedestrian"]:
+        maintained = 1
+        wheelchair_suitable = 1
+    if way.get("designation"):
+        maintained = 1
+    if way.get("operator"):
+        maintained = 1
+    if way.get("informal") == "yes":
+        maintained = -1
+    if maintained == 1:
+        trail_visibility_default = "excellent"
+    if maintained == -1:
+        weight *= 1.05
+    # Parse sac_scale=*
+    sac_scale = way.get("sac_scale")
+    match sac_scale:
+        case "strolling":
+            weight *= 0.9
+            wheelchair_suitable = 1
+        case "hiking":
+            weight *= 1
+        case "mountain_hiking":
+            weight *= 2.5
+            wheelchair_suitable = -1
+        case "demanding_mountain_hiking":
+            wheelchair_suitable = -1
+            if self.options.positive("treacherous_paths"):
+                # You maniac
+                weight *= 0.99
+            elif self.options.negative("treacherous_paths"):
+                weight *= 10
+            else:
+                weight *= 3
+        case "alpine_hiking":
+            wheelchair_suitable = -1
+            if self.options.positive("treacherous_paths"):
+                weight *= 20
+            elif self.options.negative("treacherous_paths"):
+                weight *= 1000
+            else:
+                weight *= 30
+        case "demanding_alpine_hiking" | "difficult_alpine_hiking":
+            wheelchair_suitable = -1
+            weight = inf
+        case None:
+            pass
+        case _:
+            warn(f"Ignoring unknown value sac_scale={sac_scale}")
+    # Parse trail_visibility=*
+    trail_visibility = way.get("trail_visibility", trail_visibility_default)
+    match trail_visibility:
+        case "excellent":
+            weight *= 0.9
+        case "good":
+            weight *= 1.02
+        case "intermediate" | "bad" | "horrible" | "no":
+            weight *= 1.05
+            # TO-DO: Warn the user that this section of the route has poor trail visibility
+        case None:
+            pass
+        case _:
+            warn(f"Ignoring unknown value trail_visibility={trail_visibility}")
+    # Parse trailblazed=*
+    trailblazed = way.get("trailblazed")
+    if trailblazed is not None and trailblazed != "no":
+        weight *= 0.91
+    # Parse width=*
+    width = way_width_meters(way)
+    if width is not None:
+        if width < 0.20:
+            # 20cm gap is probably impassable!
+            weight = inf
+        elif width > 5:
+            weight *= 0.9
+        elif width > 2:
+            weight *= 0.975
+    # Parse designation=*
+    designation = way.get("designation")
+    match designation:
+        case "public_footpath" | "public_bridleway" | "restricted_byway":
+            weight *= 0.9
+        case "byway_open_to_all_traffic":
+            weight *= 0.95
+        case "public_right_of_way":
+            weight *= 0.91
+        case "core_path":
+            # Scotland!
+            weight *= 0.9
+    segregated = way.get("segregated")
+    match segregated:
+        case "yes":
+            weight *= 0.98
+        case "no":
+            weight *= 1.02
+    obstacle = way.get("obstacle")
+    match obstacle:
+        case "vegetation":
+            weight *= 1.10
+    wheelchair = way.get("wheelchair", "yes" if wheelchair_suitable == 1 else "no")
+    if self.options.positive("wheelchair_accessible"):
+        match wheelchair:
+            case "yes":
+                weight *= 0.9
+            case "no":
+                weight *= 100
+            case "limited":
+                weight *= 0.96
+            case "designated":
+                weight *= 0.89
+    return weight
+```
+
+The main things of note is that handling for steps isn't implemented yet. I also am yet to consider the tags described in the [tags that apply to paths (or roads being walked along)](#tags-that-apply-to-paths-or-roads-being-walked-along) design section. I also need to implement a penalty for cycle paths that aren't mixed-use, which I described in my design section (under [other routable features](#other-routable-features)) but didn't include in my pseudocode.
+
+The next thing I did was make use of the `weight_path()` method in `calculate_way_weight()`. This includes improving the handling of pavements mapped as tags on roads to also use `weight_path()`, for consistency.
+
+![Diff showing the updates to the method](assets/sprint-3/using-weight-path.png)
+
+I then launched the Vite development server to test this addition. Calculating a test route worked without errors, and the weight overlay showed new, lower values for many of the paths, as I had expected.
+
+![Screenshot of the map with the weight overlay](assets/sprint-3/lower-weights-paths.png)
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
