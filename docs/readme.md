@@ -6563,6 +6563,27 @@ I tested this and it worked as expected:
 
 ![Screenshot of DevTools console](assets/sprint-3/throttling-working.png)
 
+I later improved the `throttle()` function to have proper TypeScript types:
+
+```ts
+export function throttle<T extends (...args: any) => any>(
+  callback: T,
+  limit: number
+) {
+  let waiting = false
+  return function (...params: Parameters<T>): ReturnType<T> | typeof CANCELLED {
+    if (waiting) return CANCELLED
+    waiting = true
+    setTimeout(() => {
+      waiting = false
+    }, limit)
+    return callback(...params)
+  }
+}
+```
+
+The return type of the throttled function is now automatically inferred and accurate, which is very helpful from a developer experience perspective.
+
 ##### Improving the `User-Agent` header
 
 The Nominatim Usage Policy requires a valid HTTP Referer or User-Agent to be set. I originally thought that the Referer would be the easiest header to set, but it is a forbidden header name[^mdn-headers] so I can't modify it in a browser environment. The `User-Agent` header, on the other hand, is not a forbidden header, so I will use it to add my app's name for identification.
