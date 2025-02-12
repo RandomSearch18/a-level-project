@@ -6616,6 +6616,12 @@ I tested in the Chrome debugger to see if a sensible header _would_ be set, and 
 
 ![Screenshot of the Chrome debugger](assets/3/ua-should-be.png)
 
+Later on, I tested it in Firefox, and I successfully verified that the `MarvellousMappingMachine` value was being added to the user agent:
+
+![Screenshot of the request to nominatim.openstreetmap.org in Firefox DevTools](assets/3/ua-update.png)
+
+> User-Agent: MarvellousMappingMachine/0.3 Mozilla/5.0 (X11; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+
 #### Sprint 3: Implementing the Options screen
 
 ##### Basic options storage and toggle-able weight overlay
