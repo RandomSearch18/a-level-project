@@ -291,6 +291,7 @@ A-level Computer Science programming project
         - [Implementing `weight_path()`](#implementing-weight_path)
         - [Implementing `additional_weight_road()`](#implementing-additional_weight_road)
         - [Testing of the new weights](#testing-of-the-new-weights)
+        - [Stakeholder feedback for routing weights](#stakeholder-feedback-for-routing-weights)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
@@ -6508,6 +6509,14 @@ I computed a local route and saw the weight overlay colour the map in a large nu
 I was also happy to see the routing engine route very sensibly along roads with pavements, pavements mapped as separate ways and crossings to get from the KGV Hall to Norwood Road:
 
 ![The route described above shown on the map](assets/3/to-norwood-rd.png)
+
+##### Stakeholder feedback for routing weights
+
+I showed the latest version of the project to Ili. We successfully used the Check Address buttons, which he hadn't seen yet, and he thought they were good. I showed him the weight overlay, although he didn't find it very intuitive and said it got in the way of seeing the route. (Which is okay, because it's primarily meant for debugging.) He asked to test a route through Reading, going to Prospect Park. At first, the routing engine got the start point incorrect, becuase he had only given a house number and postcode (and OSM data for the UK doesn't have postcodes mapped too well). However, we changed that to include the street name and town, and it worked as expected. Since he knows the area of Reading well on foot, he confirmed that the route it gave matched the route that he would have chosen to take (apart from sticking to paths in the park, which is excusable). I was happy to see that it stuck to the pavements appropriately. I also showed him the route statistics on the Route screen, which he seemed to appreciate, although the Route screen did include some warnings that I assured him would be fixed.
+
+![Screenshot of the route through Reading](asssets/3/prospect-park-reading.png)
+
+Overall, Ili agrees that I am making good progress with the routing engine.
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
