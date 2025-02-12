@@ -290,6 +290,7 @@ A-level Computer Science programming project
         - [Investigating an odd route through graveyard](#investigating-an-odd-route-through-graveyard)
         - [Implementing `weight_path()`](#implementing-weight_path)
         - [Implementing `additional_weight_road()`](#implementing-additional_weight_road)
+        - [Testing of the new weights](#testing-of-the-new-weights)
       - [Sprint 3: Responding to Nominatim API access blocked](#sprint-3-responding-to-nominatim-api-access-blocked)
         - [Implementing request throttling](#implementing-request-throttling)
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
@@ -6497,9 +6498,15 @@ if has_sidewalk == "no":
     return base_weight_as_road * additional_factors
 ```
 
+##### Testing of the new weights
+
 I computed a local route and saw the weight overlay colour the map in a large number of colours, which reassured me that a number of different factors are now being considered in the routing engine.
 
 ![The map showing a bunch of tasteful colours](assets/3/lots-of-colours.png)
+
+I was also happy to see the routing engine route very sensibly along roads with pavements, pavements mapped as separate ways and crossings to get from the KGV Hall to Norwood Road:
+
+![The route described above shown on the map](assets/3/to-norwood-rd.png)
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
