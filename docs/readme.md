@@ -297,7 +297,8 @@ A-level Computer Science programming project
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
       - [Sprint 3: Implementing the Options screen](#sprint-3-implementing-the-options-screen)
         - [Basic options storage and toggle-able weight overlay](#basic-options-storage-and-toggle-able-weight-overlay)
-        - [Adding routing options](#adding-routing-options)
+        - [Writing the `RoutingOptions` class](#writing-the-routingoptions-class)
+        - [Updating the frontend to specify routing options](#updating-the-frontend-to-specify-routing-options)
 
 ## Analysis
 
@@ -6742,7 +6743,7 @@ I then modified the code in `MainMap.tsx` that draws the route layers to only dr
 
 ![Diff showing the options.app.weightOverlay variable now being checked](assets/3/weight-overlay-toggle-diff.png)
 
-##### Adding routing options
+##### Writing the `RoutingOptions` class
 
 I started by adding an `options` dictionary attribute to the `RoutingOptions` class to store the options data, and for it to take it in as a parameter to the constructor. I also added some validation to ensure that the provided values are valid.
 
@@ -6824,6 +6825,41 @@ class RoutingOptions:
     def negative(self, key: str) -> bool:
         return self.options[key] == -1
 ```
+
+##### Updating the frontend to specify routing options
+
+When testing in the browser, I got an error:
+
+```py
+PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 83, in __init__
+    for key, value in options.items():
+                      ^^^^^^^^^^^^^
+AttributeError: items
+```
+
+This was because when I pass the options from JavaScript code to the Python backend, the JS object is converted into a `pyodide.ffi.JsProxy` instance, which acts similarly to a dictionary, but doesn't have an `items()` method (which I used in the initialiser for the `RoutingOptions` class).
+
+I tried fixing this by using `options = dict(options)` to attempt to convert the `JsProxy` instance to a normal dictionary (because that won't affect a normal dict being provided), but that isn't supported:
+
+```py
+Uncaught (in promise) PythonError: Traceback (most recent call last):
+  File "/home/pyodide/routing_engine.py", line 82, in __init__
+    options = dict(options)
+              ^^^^^^^^^^^^^
+TypeError: 'pyodide.ffi.JsProxy' object is not iterable
+```
+
+`JsProxy` instances have a `to_py()` method, which would do what I need, but that method doesn't exist on normal dictionaries, so I needed to only run it on `JsProxy` instances. I had no real way to access the `pyodide` namespace from my Python code, so I couldn't use an `isinstance()` check. Instead, I used `type(options).__name__`, which gets the name of the class of the object:
+
+```py
+# Ensure the options is a proper Python dict
+# (because JS code may call this function)
+if type(options).__name__ == "JsProxy":
+    options = options.to_py()  # type: ignore
+```
+
+That change fixed the issue, and the routing engine successfully ran in the browser with the default options.
 
 <div>
 
