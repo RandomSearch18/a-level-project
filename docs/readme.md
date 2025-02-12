@@ -2011,8 +2011,8 @@ To investigate thus further, I chose to download a very small region of OSM data
 
 For nodes, I found that the node IDs under `graph.nodes` did match OSM nodes on the online map and in the `.osm` (XML) file. Not all nodes from the XML file were present in the graph, but this is because they aren't part of the road network. I found that nodes with attributes had their attributes directly added as a dictionary entry to the value of the node in the graph.
 
-| Python graph                               | OSM.org                                                                                   |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Python graph                        | OSM.org                                                                            |
+| ----------------------------------- | ---------------------------------------------------------------------------------- |
 | ![](assets/1/n1551819044-graph.png) | [![](assets/1/n1551819044-osm.png)](https://www.openstreetmap.org/node/1551819044) |
 
 I then went on to investigating ways, and how they correspond to edges in the graph. Unlike the `graph.nodes` object, which could be viewed in my debugger like a dictionary, the `graph.edges` object didn't have any easy way to click through the edges and view their attributes.
@@ -2045,8 +2045,8 @@ ValueError: not enough values to unpack (expected 3, got 2)
 
 I wasn't sure what the third value was, but it seemed to most commonly be set to `0` (and occasionally set to `1` or `2`), so I tried looking up the way with the third tuple value set to `0`:
 
-| Python graph                                 | OSM.org                                                                              |
-| -------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Python graph                          | OSM.org                                                                       |
+| ------------------------------------- | ----------------------------------------------------------------------------- |
 | ![](assets/1/my-first-graph-edge.png) | [![](assets/1/w28112739-osm.png)](https://www.openstreetmap.org/way/28112739) |
 
 Success! I could now confirm that:
@@ -5056,8 +5056,8 @@ In this sprint, I plan to add options to the UI to customise the routing engine'
 
 Since the options screen will use my combination button component, I designed all three states to use in my mockup.
 
-| Avoid state                                      | Neutral state                                        | Prefer state                                       |
-| ------------------------------------------------ | ---------------------------------------------------- | -------------------------------------------------- |
+| Avoid state                               | Neutral state                                 | Prefer state                                |
+| ----------------------------------------- | --------------------------------------------- | ------------------------------------------- |
 | ![Avoid state mockup](assets/3/avoid.svg) | ![Neutral state mockup](assets/3/neutral.svg) | ![Prefer state mockup](assets/3/prefer.svg) |
 
 While designing a mockup for the route screen, I realised that the "Avoid/Neutral/Prefer" tri-state wouldn't make sense for all options, e.g. private paths, walking on roads. I designed more variants of the combination buttons in Figma. I spend a while considering the phrasing on the buttons, trying to keep them concise, accurate, but also making them seem consistent and understandable.
@@ -5074,8 +5074,8 @@ While designing a mockup for the route screen, I realised that the "Avoid/Neutra
 
 After compiling the table, I decided to change the "Default/Prefer more" button to "Prefer/Prefer more" to be consistent with the other buttons, which all actually tell you if the default state is neutral, a preference, or a dispreference. I have added the updated version below.
 
-| Prefer/Prefer more                                                                               |
-| ------------------------------------------------------------------------------------------------ |
+| Prefer/Prefer more                                                                        |
+| ----------------------------------------------------------------------------------------- |
 | ![Prefer/Prefer more (Prefer selected)](assets/3/prefer-prefer-more-prefer.svg)           |
 | ![Prefer/Prefer more (Prefer more selected)](assets/3/prefer-prefer-more-prefer-more.svg) |
 
@@ -5596,8 +5596,8 @@ async function displayResolvedAddress(inputId: string) {
 }
 ```
 
-| Old Trafford Stadium             | Howard of Effingham              |
-| -------------------------------- | -------------------------------- |
+| Old Trafford Stadium      | Howard of Effingham       |
+| ------------------------- | ------------------------- |
 | ![](assets/3/popup-1.png) | ![](assets/3/popup-2.png) |
 
 ##### Making the location marker smaller
@@ -5614,8 +5614,8 @@ I figured that the location dot might be too big, and would cover up the start o
  }).addTo(map)
 ```
 
-| Before                                                                 | After                                                                |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Before                                                          | After                                                         |
+| --------------------------------------------------------------- | ------------------------------------------------------------- |
 | ![Decently sizeable location dot](assets/3/larger-location.png) | ![Smaller location dot](assets/3/smaller-location-better.png) |
 
 #### Sprint 3: Adding weights to the routing algorithm
@@ -6000,8 +6000,8 @@ I showed the current state of the project to Ili, and he approved of the route I
 
 I calculated some more routes to test the weights, as shown below. I used the KGV Hall to Old Post Cottage route to check if the engine would route through the St Lawrence graveyard.
 
-| KGV Hall to Old Post Cottage            | A246 to Sixth Form Centre           |
-| --------------------------------------- | ----------------------------------- |
+| KGV Hall to Old Post Cottage     | A246 to Sixth Form Centre    |
+| -------------------------------- | ---------------------------- |
 | ![](assets/3/kgv-to-cottage.png) | ![](assets/3/a246-to-6f.png) |
 
 Unfortunately, the routing engine still wasn't talking the path through the church. I checked the weights again in the JS console:
@@ -6061,8 +6061,8 @@ Array(3)[(1, 1, 1)]
 
 I stepped through the code and realised that the section of Church Street that I am wanting to avoid doesn't have any sidewalk tags, and because it's a residential road, the program therefore assumes that it has a pavement. I could perhaps add a slight penalty to walking on pavements mapped as tags on the road (especially if I'm just assuming there's a pavement) to help with this. But in this case, it's a data issue, so I will simply add the appropriate sidewalk tags to the road on OSM.
 
-| Debugger                                            | OSM.org                                                 |
-| --------------------------------------------------- | ------------------------------------------------------- |
+| Debugger                                     | OSM.org                                          |
+| -------------------------------------------- | ------------------------------------------------ |
 | ![](assets/3/road-without-sidewalk-tags.png) | ![](assets/3/road-without-sidewalk-tags-osm.png) |
 
 After updating the OSM data, the routing engine gave the expected result:
@@ -6417,8 +6417,8 @@ if way.get("highway") == "cycleway":
 
 I decided to test this logic by routing along the A24 from the Givons Grove roundabout to Dorking. (`51.282286,-0.327052` to `51.235677,-0.324263`). This will also serve as a test to see how well it handles walking along pavements in general. I chose that road because most of its length includes a mixed-use cycleway alongside it, as well as a parallel `highway=footway` along some parts.
 
-| Route on map                        | Route with weight overlay                   | End of the route                        |
-| ----------------------------------- | ------------------------------------------- | --------------------------------------- |
+| Route on map                 | Route with weight overlay            | End of the route                 |
+| ---------------------------- | ------------------------------------ | -------------------------------- |
 | ![](assets/3/to-dorking.png) | ![](assets/3/to-dorking-weights.png) | ![](assets/3/to-dorking-end.png) |
 
 The engine chose to go along the B2209 rather than sticking to the A24, which seems sensible because it's a more direct route, and a B-road should be nicer to walk along than an A-road.
@@ -6447,8 +6447,8 @@ I then tested the routing engine again with the same start/end locations as befo
 - Givons Grove Roundabout
 - Reigate Road, Dorking
 
-| End of the route (South)                   | S-bend near the start (North)                | Middle of the S-bend                                 |
-| ------------------------------------------ | -------------------------------------------- | ---------------------------------------------------- |
+| End of the route (South)            | S-bend near the start (North)         | Middle of the S-bend                          |
+| ----------------------------------- | ------------------------------------- | --------------------------------------------- |
 | ![](assets/3/to-dorking-v2-end.png) | ![](assets/3/to-dorking-v2-start.png) | ![](assets/3/to-dorking-v2-crossing-road.png) |
 
 If we look at the end of the route, we can see it completely sticks to the pavements now, which is great. It also chooses to cut through the minor roads and paths right at the end, which seems perfectly fine too.
@@ -6496,6 +6496,10 @@ if has_sidewalk == "no":
     additional_factors = self.additional_weight_road(way)
     return base_weight_as_road * additional_factors
 ```
+
+I computed a local route and saw the weight overlay colour the map in a large number of colours, which reassured me that a number of different factors are now being considered in the routing engine.
+
+![The map showing a bunch of tasteful colours](assets/3/lots-of-colours.png)
 
 #### Sprint 3: Responding to Nominatim API access blocked
 
