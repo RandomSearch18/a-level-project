@@ -296,6 +296,7 @@ A-level Computer Science programming project
         - [Improving the `User-Agent` header](#improving-the-user-agent-header)
       - [Sprint 3: Implementing the Options screen](#sprint-3-implementing-the-options-screen)
         - [Basic options storage and toggle-able weight overlay](#basic-options-storage-and-toggle-able-weight-overlay)
+        - [Adding routing options](#adding-routing-options)
 
 ## Analysis
 
@@ -6731,6 +6732,42 @@ Here's what it looks like in the app:
 I then modified the code in `MainMap.tsx` that draws the route layers to only draw the weight overlay if the corresponding option is enabled:
 
 ![Diff showing the options.app.weightOverlay variable now being checked](assets/3/weight-overlay-toggle-diff.png)
+
+##### Adding routing options
+
+I started by adding an `options` dictionary attribute to the `RoutingOptions` class to store the options data, and for it to take it in as a parameter to the constructor. I also added some validation to ensure that the provided values are valid.
+
+The meanings for the values are as follows:
+
+- `-1`: "Avoid"
+- `0`: "Neutral"
+- `1`: "Prefer"
+
+I decided not to add named constants to describe the values in this case, because the words used to describe the values in the UI are different for some of the options, so adding constants that don't always match the UI's terminology would be confusing.
+
+```py
+type RoutingOptionValue = Literal[-1] | Literal[0] | Literal[1]
+
+
+class RoutingOptions:
+    def __init__(self, options: dict):
+        for key, value in options.items():
+            if value not in [-1, 0, 1]:
+                raise ValueError(f"Invalid option value: {key}={value}")
+        self.options: dict[str, RoutingOptionValue] = options
+
+    def truthy(self, key: str) -> bool:
+        return False  # TO-DO
+
+    def neutral(self, key: str) -> bool:
+        return True  # TO-DO
+
+    def positive(self, key: str) -> bool:
+        return False  # TO-DO
+
+    def negative(self, key: str) -> bool:
+        return False  # TO-DO
+```
 
 <div>
 
