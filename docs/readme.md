@@ -299,6 +299,7 @@ A-level Computer Science programming project
         - [Basic options storage and toggle-able weight overlay](#basic-options-storage-and-toggle-able-weight-overlay)
         - [Writing the `RoutingOptions` class](#writing-the-routingoptions-class)
         - [Updating the frontend to specify routing options](#updating-the-frontend-to-specify-routing-options)
+        - [Adding some routing option lines to the Options screen](#adding-some-routing-option-lines-to-the-options-screen)
 
 ## Analysis
 
@@ -6968,6 +6969,109 @@ if type(options).__name__ == "JsProxy":
 ```
 
 That change fixed the issue, and the routing engine successfully ran in the browser with the default options.
+
+##### Adding some routing option lines to the Options screen
+
+I started creating the part of the UI that will allow the user to change the routing options, as per my mockup.
+
+I created an `OptionLine` component (renaming what was called `OptionLine` to `CheckboxLine`) to represent one routing option that can be set in the UI:
+
+```tsx
+function OptionLine({
+  input,
+  label,
+}: {
+  input: JSX.Element
+  label: JSX.Child
+}) {
+  return (
+    <div class="px-2 first-of-type:border-t-[1px] border-b-[1px] border-solid border-[currentColor] hover:bg-pink-500 hover:bg-opacity-10">
+      <div class="label">
+        <span class="label-text dark:text-primary">{label}</span>
+        {input}
+      </div>
+    </div>
+  )
+}
+```
+
+I used that component in a new `AvoidPreferNeutralLine` component, which will be for setting avoid/prefer/neutral options in the UI:
+
+```tsx
+function AvoidNeutralPreferLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptionsOptions
+}) {
+  const inputClasses = ["btn", "btn-outline", "join-item"]
+  const selectedInputClasses = ["btn-inset"]
+  const state = useMemo(() => {
+    const routingOptions = options.routing
+    return routingOptions[key]
+  })
+  const input = (
+    <div class="flex join rounded-full">
+      <button
+        class={() => [
+          ...inputClasses,
+          state() === -1 ? selectedInputClasses : null,
+          "btn-error",
+        ]}
+      >
+        Avoid
+      </button>
+      <button
+        class={() => [
+          ...inputClasses,
+          state() === 0 ? selectedInputClasses : null,
+          "btn-neutral",
+        ]}
+      >
+        Neutral
+      </button>
+      <button
+        class={() => [
+          ...inputClasses,
+          state() === 1 ? selectedInputClasses : null,
+          "btn-success",
+        ]}
+      >
+        Prefer
+      </button>
+    </div>
+  )
+  return <OptionLine input={input} label={label} />
+}
+```
+
+It simply takes in a key (of `options.routing`) and handles the state automatically. I haven't yet implemented updating the value when the buttons are clicked, but I will do that soon.
+
+I then added the first section of options from my mockup to the options screen:
+
+```tsx
+<div class="flex flex-col max-w-xl  mb-8">
+  <h3 class="font-bold text-2xl mb-4">Path types</h3>
+  <AvoidNeutralPreferLine label="Unpaved paths" key="unpaved_paths" />
+  <AvoidNeutralPreferLine label="Paved paths" key="paved_paths" />
+  <AvoidNeutralPreferLine label="Covered paths" key="covered_paths" />
+  <AvoidNeutralPreferLine label="Indoor paths" key="indoor_paths" />
+  {/* <AvoidNeutralPreferLine label="Pavements" key="pavements" /> */}
+  <AvoidNeutralPreferLine label="Steps/staircases" key="steps" />
+</div>
+```
+
+I realised that I had forgotten to add the `pavements` option to my code earlier (hence the commented-out option line), so I quickly added that to the frontend and the backend.
+
+Here's the end result:
+
+<!-- prettier-ignore -->
+| Light theme | Dark theme |
+| ----------- | ---------- |
+| ![Screenshot of the options screen showing tri-states for many path types (light theme)](assets/3/options-ui-flashbang.png) | ![Screenshot of the options screen showing tri-states for many path types (dark theme)](assets/3/options-ui.png) |
+
+I will note that the when the Neutral state is active in dark theme, the inset shadow/glow isn't very distinguishable, but since that's only for the neutral state, I think it's acceptable, because the neutral state essentially represents the lack of a preference either way.
 
 <div>
 
