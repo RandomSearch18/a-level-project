@@ -6769,6 +6769,53 @@ class RoutingOptions:
         return False  # TO-DO
 ```
 
+After looking again at the options I had planned for my routing engine to support, I decided to change the `RoutingOptions` data structure to have two types of options:
+
+- Tri-state: the Avoid/Neutral/Prefer options, represented as `-1`/`0`/`1`
+- Boolean: an option that only has two states, represented as `False` or `True`
+
+I wrote getter functions specific to those two types, to ensure I am always accessing and using the data in the correct way.
+
+```py
+type AvoidPreferNeutral = Literal[-1] | Literal[0] | Literal[1]
+type RoutingOptionValue = AvoidPreferNeutral | bool
+
+
+class RoutingOptions:
+    def __init__(self, options: dict):
+        for key, value in options.items():
+            valid_value = value in [-1, 0, 1] or isinstance(value, bool)
+            if not valid_value:
+                raise ValueError(f"Invalid option value: {key}={value}")
+        self.options: dict[str, RoutingOptionValue] = options
+
+    def get_tri_state(self, key: str) -> AvoidPreferNeutral:
+        value = self.options[key]
+        if isinstance(value, bool):
+            raise ValueError(
+                f"Option {key} is not a tri-state (avoid/prefer/neutral) value"
+            )
+        return value
+
+    def get_bool(self, key: str) -> bool:
+        value = self.options[key]
+        if not isinstance(value, bool):
+            raise ValueError(f"Option {key} is not a boolean value")
+        return value
+
+    def true(self, key: str) -> bool:
+        return self.get_bool(key)
+
+    def neutral(self, key: str) -> bool:
+        return self.get_tri_state(key) == 0
+
+    def positive(self, key: str) -> bool:
+        return self.options[key] == 1
+
+    def negative(self, key: str) -> bool:
+        return self.options[key] == -1
+```
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
