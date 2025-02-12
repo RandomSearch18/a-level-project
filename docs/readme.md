@@ -6826,7 +6826,115 @@ class RoutingOptions:
         return self.options[key] == -1
 ```
 
+I updated the routing engine to specify the default types when it initialises `RoutingOptions`, using the options screen mockup as a guideline for which options to include:
+
+```py
+calculator = RouteCalculator(
+    routing_graph,
+    RoutingOptions(
+        {
+            "unpaved_paths": 0,
+            "paved_paths": 0,
+            "covered_paths": 1,
+            "indoor_paths": 0,
+            "steps": 0,
+            "prefer_marked_crossings": False,
+            "prefer_traffic_light_crossings": False,
+            "prefer_dipped_kerbs": False,
+            "prefer_tactile_paving": False,
+            "allow_private_access": False,
+            "allow_customer_access": True,
+            "allow_walking_on_roads": True,
+            "allow_higher_traffic_roads": True,
+            "rights_of_way": 1,
+            "maintained_paths": 1,
+            "desire_paths": 0,
+            "treacherous_paths": -1,
+            "wheelchair_accessible": False,
+        }
+    ),
+)
+```
+
+I also updated placeholder references to option names to use the actual option names, now that they exist:
+
+![Diff showing things like private_access being renamed to allow_private_access](assets/3/actual-opt-names-diff.png)
+
+I tested the routing engine (backend only), and it ran fine.
+
 ##### Updating the frontend to specify routing options
+
+In the same way that the backend (when being run as its own thing) specifies routing options, they needed to be specified in the frontend code (when calling `RoutingOptions` from JS) too.
+
+I added a type definition for the routing options object:
+
+```ts
+export const enum TriStateOption {
+  Avoid = -1,
+  Neutral = 0,
+  Prefer = 1,
+}
+
+export type RoutingOptionsOptions = {
+  unpaved_paths: TriStateOption
+  paved_paths: TriStateOption
+  covered_paths: TriStateOption
+  indoor_paths: TriStateOption
+  steps: TriStateOption
+  prefer_marked_crossings: boolean
+  prefer_traffic_light_crossings: boolean
+  prefer_dipped_kerbs: boolean
+  prefer_tactile_paving: boolean
+  allow_private_access: boolean
+  allow_customer_access: boolean
+  allow_walking_on_roads: boolean
+  allow_higher_traffic_roads: boolean
+  rights_of_way: TriStateOption
+  maintained_paths: TriStateOption
+  desire_paths: TriStateOption
+  treacherous_paths: TriStateOption
+  wheelchair_accessible: boolean
+}
+```
+
+And then I used the options system from before to specify the default routing options (this object is equivalent to the dictionary I used in the backend code):
+
+```ts
+const defaultOptions: Options = {
+  app: {
+    // [...]
+  },
+  router: {
+    unpaved_paths: TriStateOption.Neutral,
+    paved_paths: TriStateOption.Neutral,
+    covered_paths: TriStateOption.Prefer,
+    indoor_paths: TriStateOption.Neutral,
+    steps: TriStateOption.Neutral,
+    prefer_marked_crossings: false,
+    prefer_traffic_light_crossings: false,
+    prefer_dipped_kerbs: false,
+    prefer_tactile_paving: false,
+    allow_private_access: false,
+    allow_customer_access: true,
+    allow_walking_on_roads: true,
+    allow_higher_traffic_roads: true,
+    rights_of_way: TriStateOption.Prefer,
+    maintained_paths: TriStateOption.Prefer,
+    desire_paths: TriStateOption.Neutral,
+    treacherous_paths: TriStateOption.Avoid,
+    wheelchair_accessible: false,
+  },
+}
+```
+
+And finally, I made sure to pass in the routing options from the `options` store when initialising `RoutingOptions` in JS:
+
+```ts
+const calculator = py.RouteCalculator(
+  routing_graph,
+  py.RoutingOptions(options.router)
+)
+```
 
 When testing in the browser, I got an error:
 
