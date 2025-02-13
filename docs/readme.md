@@ -7073,6 +7073,33 @@ Here's the end result:
 
 I will note that the when the Neutral state is active in dark theme, the inset shadow/glow isn't very distinguishable, but since that's only for the neutral state, I think it's acceptable, because the neutral state essentially represents the lack of a preference either way.
 
+To add the ability for the `AvoidNeutralPreferLine` component to set options, I wrote a `setOption` function, which includes some validation to assert that we're not changing the type of the option:
+
+```ts
+function setOption<T extends keyof RoutingOptionsOptions>(
+  key: T,
+  value: RoutingOptionsOptions[T]
+) {
+  if (!(key in options.routing)) {
+    throw new Error(`Option doesn't exist: ${key}`)
+  }
+  const existingType = typeof options.routing[key]
+  const ourType = typeof value
+  if (existingType !== ourType) {
+    throw new Error(
+      `Incompatible option types: can't assign ${ourType} to ${existingType}`
+    )
+  }
+  options.routing[key] = value
+}
+```
+
+I then added `onClick` event handlers to the three parts of the combination button, e.g. `onClick={() => setOption(key, -1)}`.
+
+I tested this and confirmed that it was working. In the console on the right (see screenshot below), you can see that the saved options has updated many times because I've been clicking the buttons to change their state.
+
+![The tri-state buttons after having had their states changed](assets/3/buttons-clicking.png)
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
