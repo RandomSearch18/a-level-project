@@ -300,6 +300,7 @@ A-level Computer Science programming project
         - [Writing the `RoutingOptions` class](#writing-the-routingoptions-class)
         - [Updating the frontend to specify routing options](#updating-the-frontend-to-specify-routing-options)
         - [Adding some routing option lines to the Options screen](#adding-some-routing-option-lines-to-the-options-screen)
+        - [Adding the rest of the routing options to the UI](#adding-the-rest-of-the-routing-options-to-the-ui)
 
 ## Analysis
 
@@ -7099,6 +7100,222 @@ I then added `onClick` event handlers to the three parts of the combination butt
 I tested this and confirmed that it was working. In the console on the right (see screenshot below), you can see that the saved options has updated many times because I've been clicking the buttons to change their state.
 
 ![The tri-state buttons after having had their states changed](assets/3/buttons-clicking.png)
+
+##### Adding the rest of the routing options to the UI
+
+I worked on adding the rest of the routing options to the UI. Many of them are boolean options, but the colour and text of the buttons shown varies. To address this while keeping my code DRY, I created a generic `BooleanOptionLine` component:
+
+```tsx
+function BooleanOptionLine({
+  label,
+  key,
+  buttons,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptionsOptions
+  buttons: {
+    false: {
+      text: string
+      classes: JSX.Class
+    }
+    true: {
+      text: string
+      classes: JSX.Class
+    }
+  }
+}) {
+  const state = useMemo(() => {
+    const routingOptions = options.routing
+    return routingOptions[key]
+  })
+  const input = (
+    <div class="flex join rounded-full">
+      <CombiButtonButton
+        active={() => state() === false}
+        onClick={() => setRoutingOption(key, false)}
+        classes={buttons.false.classes}
+      >
+        {buttons.false.text}
+      </CombiButtonButton>
+      <CombiButtonButton
+        active={() => state() === true}
+        onClick={() => setRoutingOption(key, true)}
+        classes={buttons.true.classes}
+      >
+        {buttons.true.text}
+      </CombiButtonButton>
+    </div>
+  )
+  return <OptionLine input={input} label={label} />
+}
+```
+
+I had also created a `CombiButtonButton` component (as used above, and in the `AvoidNeutralPreferLine` component), because writing the button code was also getting repetitive:
+
+```tsx
+const buttonClasses = ["btn", "btn-outline", "join-item", "hover:btn-inset"]
+const selectedClasses = ["btn-inset"]
+
+function CombiButtonButton({
+  active,
+  onClick,
+  children,
+  classes,
+}: {
+  active?: FunctionMaybe<boolean>
+  onClick?: (event: MouseEvent) => void
+  children?: JSX.Child
+  classes?: JSX.Class
+}) {
+  return (
+    <button
+      class={() => [
+        ...buttonClasses,
+        $$(active) ? selectedClasses : null,
+        classes,
+      ]}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+```
+
+I then implemented the different variants of boolean option lines as so:
+
+```ts
+export function PreferPreferMoreLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptionsOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Prefer",
+        classes: "btn-neutral",
+      },
+      true: {
+        text: "Prefer more",
+        classes: "btn-success",
+      },
+    },
+  })
+}
+
+export function DisallowAllowLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptionsOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Disallow",
+        classes: "btn-error",
+      },
+      true: {
+        text: "Allow",
+        classes: "btn-neutral",
+      },
+    },
+  })
+}
+
+export function NeverReduceLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptionsOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Never",
+        classes: "btn-error",
+      },
+      true: {
+        text: "Reduce",
+        classes: "btn-neutral",
+      },
+    },
+  })
+}
+```
+
+Finally, I added all the remaining options in their options sections:
+
+```tsx
+<OptionsSection title="Crossings">
+  <PreferPreferMoreLine
+    label="Marked crossings"
+    key="prefer_marked_crossings"
+  />
+  <PreferPreferMoreLine
+    label="Traffic light crossings"
+    key="prefer_traffic_light_crossings"
+  />
+  <PreferPreferMoreLine label="Dipped kerbs" key="prefer_dipped_kerbs" />
+  <PreferPreferMoreLine
+    label="Tactile paving"
+    key="prefer_tactile_paving"
+  />
+</OptionsSection>
+<OptionsSection title="Access">
+  <DisallowAllowLine label="Private access" key="allow_private_access" />
+  <DisallowAllowLine
+    label="Customer access"
+    key="allow_customer_access"
+  />
+</OptionsSection>
+<OptionsSection title="Safety">
+  <NeverReduceLine
+    label="Walking on roads"
+    key="allow_walking_on_roads"
+  />
+  <NeverReduceLine
+    label="Higher traffic roads"
+    key="allow_higher_traffic_roads"
+  />
+</OptionsSection>
+<OptionsSection title="Path designations">
+  <AvoidNeutralPreferLine
+    label="Public rights of way"
+    key="rights_of_way"
+  />
+  <AvoidNeutralPreferLine
+    label="Maintained paths"
+    key="maintained_paths"
+  />
+  <AvoidNeutralPreferLine label="Desire paths" key="desire_paths" />
+</OptionsSection>
+<OptionsSection title="Challenging paths">
+  <AvoidNeutralPreferLine
+    label="Treacherous paths"
+    key="treacherous_paths"
+  />
+</OptionsSection>
+```
+
+I also moved the debug options to the bottom of the screen, because I want the user-facing options to be presented first. The outcome is shown below (in dark and light themes), and looks a lot like the mockup I made (which I have included for comparison).
+
+| Initial view                                           | Scrolled down                                          |
+| ------------------------------------------------------ | ------------------------------------------------------ |
+| ![](assets/3/options-screen-dark-1.png)                | ![](assets/3/options-screen-dark-2.png)                |
+| ![](assets/3/options-screen-1.png)                     | ![](assets/3/options-screen-2.png)                     |
+| ![](assets/3/options-screen-mockup-pg1.excalidraw.svg) | ![](assets/3/options-screen-mockup-pg2.excalidraw.svg) |
 
 <div>
 
