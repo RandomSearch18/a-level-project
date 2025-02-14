@@ -301,6 +301,18 @@ A-level Computer Science programming project
         - [Updating the frontend to specify routing options](#updating-the-frontend-to-specify-routing-options)
         - [Adding some routing option lines to the Options screen](#adding-some-routing-option-lines-to-the-options-screen)
         - [Adding the rest of the routing options to the UI](#adding-the-rest-of-the-routing-options-to-the-ui)
+      - [Sprint 3: Ensuring the routing engine considers all the options](#sprint-3-ensuring-the-routing-engine-considers-all-the-options)
+        - [`truthy_tag()` helper function](#truthy_tag-helper-function)
+        - [Handling path type preferences](#handling-path-type-preferences)
+          - [Pavement preference](#pavement-preference)
+          - [Paved/unpaved path preference](#pavedunpaved-path-preference)
+          - [Lit, indoor, covered path preference](#lit-indoor-covered-path-preference)
+        - [Handling crossing preferences](#handling-crossing-preferences)
+        - [Handling access preferences](#handling-access-preferences)
+        - [Handling safety and designation preferences](#handling-safety-and-designation-preferences)
+          - [PRoW preference](#prow-preference)
+          - [Informal/maintained path preference](#informalmaintained-path-preference)
+          - [Walking on roads preference](#walking-on-roads-preference)
 
 ## Analysis
 
@@ -7316,6 +7328,194 @@ I also moved the debug options to the bottom of the screen, because I want the u
 | ![](assets/3/options-screen-dark-1.png)                | ![](assets/3/options-screen-dark-2.png)                |
 | ![](assets/3/options-screen-1.png)                     | ![](assets/3/options-screen-2.png)                     |
 | ![](assets/3/options-screen-mockup-pg1.excalidraw.svg) | ![](assets/3/options-screen-mockup-pg2.excalidraw.svg) |
+
+#### Sprint 3: Ensuring the routing engine considers all the options
+
+##### `truthy_tag()` helper function
+
+I added a `truthy_tag()` helper function to the routing engine, because checking if a tag is present and has any value that isn't "no" is a common pattern when consuming OSM data:
+
+```py
+def truthy_tag(tags: dict[str, str], key: str) -> bool:
+    value = tags.get(key)
+    if not value:
+        return False
+    if value in ["no", "none"]:
+        return False
+    return True
+```
+
+##### Handling path type preferences
+
+###### Pavement preference
+
+```py
+# Handle any pavement preference
+if way.get("footway") == "sidewalk":
+    weight *= 1 - self.options.get_tri_state("pavements") * 0.4
+```
+
+###### Paved/unpaved path preference
+
+![](assets/3/1.png)
+
+###### Lit, indoor, covered path preference
+
+```py
+match way.get("lit"):
+    case "yes" | "24/7" | "automatic" | "limited":
+        lit = True
+    case "no" | "disused":
+        lit = False
+    case _:
+        lit = None
+if lit is True:
+    factor *= 1 - self.options.get_tri_state("lit_paths") * 0.3
+indoors = (
+    way.get("indoor") in ["yes", "corridor"] or way.get("highway") == "corridor"
+)
+if indoors:
+    factor *= 1 - self.options.get_tri_state("indoor_paths") * 0.5
+covered = (
+    truthy_tag(way, "covered")
+    or truthy_tag(way, "tunnel")
+    or truthy_tag(way, "shelter")
+    or indoors
+)
+if covered:
+    factor *= 1 - self.options.get_tri_state("covered_paths") * 0.4
+```
+
+##### Handling crossing preferences
+
+```py
+def calculate_crossing_weight(self, node: dict) -> float:
+    # Crossing types
+    crossing = node.get("crossing")
+    crossing_ref = node.get("crossing_ref")
+    weight = 2.5
+    if crossing == "no":
+        weight = inf
+    if crossing == "zebra" or crossing_ref == "zebra":
+        weight = 1.2
+    if crossing == "traffic_signals":
+        weight = 1
+    if crossing == "uncontrolled" or crossing == "unmarked":
+        weight = 2
+    if crossing == "informal":
+        weight = 4
+    if crossing:
+        warn(f"Ignoring unknown crossing tag: crossing={crossing}")
+    # User's preference for crossing types
+    marked_crossing = (
+        crossing in ["zebra", "traffic_signals"]
+        or crossing_ref == "zebra"
+        or truthy_tag(node, "crossing:markings")
+    )
+    if self.options.true("prefer_marked_crossings"):
+        if not marked_crossing:
+            weight *= 3
+    traffic_light_crossing = crossing == "traffic_signals" or truthy_tag(
+        node, "traffic_signals"
+    )
+    if self.options.true("prefer_traffic_light_crossings"):
+        if not traffic_light_crossing:
+            weight *= 2.5
+
+    # Additional crossing tags
+    raised_crossing = node.get("traffic_calming") == "table"
+    if raised_crossing:
+        weight *= 0.75
+    elif node.get("crossing:continuous") == "yes":
+        weight *= 0.5
+    if node.get("crossing:island") == "yes":
+        weight *= 0.7
+    if self.options.true("audible_crossings"):
+        if node.get("traffic_signals:sound") == "yes":
+            weight *= 0.6
+        elif node.get("traffic_signals:sound") == "no":
+            weight *= 4
+    kerb = node.get("kerb")
+    tactile_paving = node.get("tactile_paving")
+    if self.options.true("wheelchair_accessible") or self.options.true(
+        "prefer_dipped_kerbs"
+    ):
+        if kerb == "lowered" or raised_crossing:
+            weight *= 0.8
+        elif kerb == "flush":
+            weight *= 0.75
+    if self.options.true("prefer_tactile_paving"):
+        if kerb == "flush" and tactile_paving == "no":
+            weight *= 10
+    # TO-DO parse tactile_paving
+    return weight
+```
+
+I use this function in `calculate_node_weight()` if `node.get("highway") == "crossing"`.
+
+##### Handling access preferences
+
+```py
+def access_is_legal(self, tags: dict) -> bool:
+    """Checks if the provided node or way is legal to be walked on
+
+    - Uses access tags and the routing options to determine if access should be allowed
+    - Only considers pedestrian access
+    - Returns `True` if legal access is allowed, or `False` if access shouldn't be allowed
+    - Assumes `True` if access tags aren't present
+    """
+    access = tags.get("foot") or tags.get("access")
+    if access == "no":
+        return False
+    if access == "private" and not self.options.true("allow_private_access"):
+        return False
+    if access in ["customers", "permit"] and not self.options.true(
+        "allow_customer_access"
+    ):
+        return False
+    if access in ["agricultural", "forestry", "delivery", "military"]:
+        return False
+    return True
+```
+
+![](assets/3/2.png)
+
+##### Handling safety and designation preferences
+
+###### PRoW preference
+
+```py
+public_rights_of_way = [
+    "public_footpath",
+    "public_bridleway",
+    "restricted_byway",
+    "byway_open_to_all_traffic",
+    "public_right_of_way",
+    "core_path",
+]
+if designation in public_rights_of_way:
+    weight *= 1 - self.options.get_tri_state("public_rights_of_way") * 0.3
+```
+
+###### Informal/maintained path preference
+
+```py
+if way.get("informal") == "yes":
+    maintained = -1
+    weight *= 1 - self.options.get_tri_state("informal_paths") * 0.5
+if maintained == 1:
+    trail_visibility_default = "excellent"
+    weight *= 1 - self.options.get_tri_state("maintained_paths") * 0.5
+```
+
+###### Walking on roads preference
+
+Added this to the end of `base_weight_road()`:
+
+```py
+if self.options.false("allow_walking_on_roads"):
+    weight *= 60
+```
 
 <div>
 
