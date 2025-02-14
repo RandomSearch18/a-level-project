@@ -256,7 +256,7 @@ A-level Computer Science programming project
         - [Sprint 2 post-development test table](#sprint-2-post-development-test-table)
           - [Sprint 2 post-development test evidence](#sprint-2-post-development-test-evidence)
         - [Sprint 2 stress-testing](#sprint-2-stress-testing)
-  - [Sprint 3 (2025-01-14 onwards)](#sprint-3-2025-01-14-onwards)
+  - [Sprint 3 (2025-01-14 to 2025-02-14)](#sprint-3-2025-01-14-to-2025-02-14)
     - [Sprint 3 goals](#sprint-3-goals)
       - [Sprint 3 user stories](#sprint-3-user-stories)
     - [Sprint 3 design](#sprint-3-design)
@@ -1572,12 +1572,13 @@ gantt
     Design phase: 2024-10-10, 2024-11-12
     Sprint 1: 2024-11-12, 2024-12-05
     Sprint 2: 2024-12-05, 2025-01-14
-    Sprint 3: 2025-01-14, 2025-02-13
+    Sprint 3: 2025-01-14, 2025-02-14
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
-    Sprint 2: 2024-12-09, 2025-01-14Sprint 3: 2025-01-14,
+    Sprint 2: 2024-12-09, 2025-01-14
+    Sprint 3: 2025-01-14, 2025-02-14
 ```
 
 <!--
@@ -5046,7 +5047,7 @@ As a slightly more reasonable test, I tried routing to London Heathrow Airport f
 
 In conclusion, the routing engine performed reasonable well under stress testing, considering that my routing graph is rather unoptimised.
 
-## Sprint 3 (2025-01-14 onwards)
+## Sprint 3 (2025-01-14 to 2025-02-14)
 
 ### Sprint 3 goals
 
