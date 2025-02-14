@@ -313,6 +313,10 @@ A-level Computer Science programming project
           - [PRoW preference](#prow-preference)
           - [Informal/maintained path preference](#informalmaintained-path-preference)
           - [Walking on roads preference](#walking-on-roads-preference)
+      - [Sprint 3: Fixing parsing of `incline=up|down` tags](#sprint-3-fixing-parsing-of-inclineupdown-tags)
+    - [Sprint 3 evaluation](#sprint-3-evaluation)
+      - [Sprint 3 user story checklist](#sprint-3-user-story-checklist)
+      - [Sprint 3 post-development testing](#sprint-3-post-development-testing)
 
 ## Analysis
 
@@ -7502,7 +7506,7 @@ if designation in public_rights_of_way:
 ```py
 if way.get("informal") == "yes":
     maintained = -1
-    weight *= 1 - self.options.get_tri_state("informal_paths") * 0.5
+    weight *= 1 - self.options.get_tri_state("desire_paths") * 0.5
 if maintained == 1:
     trail_visibility_default = "excellent"
     weight *= 1 - self.options.get_tri_state("maintained_paths") * 0.5
@@ -7516,6 +7520,50 @@ Added this to the end of `base_weight_road()`:
 if self.options.false("allow_walking_on_roads"):
     weight *= 60
 ```
+
+#### Sprint 3: Fixing parsing of `incline=up|down` tags
+
+My `way_incline_gradient()` helper function didn't properly handle the `up` and `down` values for the `incline` tag, so I updated it to return `"up"` or `"down"` when those values are present:
+
+```py
+def way_incline_gradient(
+    way: dict[str, str]
+) -> float | Literal["up"] | Literal["down"] | None:
+    """Parses the incline=* tag, converting it to a gradient (0 to 1) or returning `"up"`/`"down"`"""
+    value = way.get("incline")
+    if not value:
+        return None
+    normalised_value = value.strip().lower()
+    if normalised_value == "up":
+        return "up"
+    if normalised_value == "down":
+        return "down"
+    # [...]
+```
+
+### Sprint 3 evaluation
+
+#### Sprint 3 user story checklist
+
+1. ✅ As a user, I want to walk along a safe route
+2. ✅ As a user, I want the app to provide routes that are nice to walk along
+3. ✅ As a user, I want an intuitive UI for selecting routing options
+4. ✅ As a responsible user, I want to avoid private paths
+5. ✅ As a user, I want to allow routing through private paths, for when I have permission
+6. ✅ As a user, I want to avoid any paths that are physically impassable
+7. ✅ As a user, I want to avoid any paths that are illegal to walk along
+8. ✅ As a user, I want to select start/end points by address
+9. ✅ As a user, I want to find a route starting at my current location
+
+All user stories have been addressed, mostly through the new options system, but also through various features added to the frontend.
+
+#### Sprint 3 post-development testing
+
+Since this sprint involved a lot of tweaking behaviour and small adjustments as code was written, a lot of testing has been done during development. Nonetheless, it's important to do a final round of testing to ensure that everything works as expected.
+
+I tested the app with a difficult route to Cobham Services, M25, and it generated a great route:
+
+![](assets/3/5.png)
 
 <div>
 
