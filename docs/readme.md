@@ -317,6 +317,9 @@ A-level Computer Science programming project
     - [Sprint 3 evaluation](#sprint-3-evaluation)
       - [Sprint 3 user story checklist](#sprint-3-user-story-checklist)
       - [Sprint 3 post-development testing](#sprint-3-post-development-testing)
+  - [Sprint 4 (2025-02-18 onwards)](#sprint-4-2025-02-18-onwards)
+    - [Sprint 4 goals](#sprint-4-goals)
+      - [Sprint 4 user stories](#sprint-4-user-stories)
 
 ## Analysis
 
@@ -1573,12 +1576,14 @@ gantt
     Sprint 1: 2024-11-12, 2024-12-05
     Sprint 2: 2024-12-05, 2025-01-14
     Sprint 3: 2025-01-14, 2025-02-14
+    Sprint 4: 2025-02-14,
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
     Sprint 2: 2024-12-09, 2025-01-14
     Sprint 3: 2025-01-14, 2025-02-14
+    Sprint 4: 2025-02-18,
 ```
 
 <!--
@@ -7565,6 +7570,24 @@ Since this sprint involved a lot of tweaking behaviour and small adjustments as 
 I tested the app with a difficult route to Cobham Services, M25, and it generated a great route:
 
 ![](assets/3/5.png)
+
+## Sprint 4 (2025-02-18 onwards)
+
+### Sprint 4 goals
+
+My upfront plan for sprint 4 says that this sprint should be focused on refining the routing engine's weights and behaviour, which is best accomplished through iterative testing and close feedback loops with stakeholders. I will also check that the options are working as my stakeholders expect, and if there are any cases where they can be improved.
+
+I will also spend some time improving the user experience generally, i.e. adding "polish" to the app, focusing on the experience when using the app while walking outside. For example, I would like the user's location to update automatically as they move around, which doesn't happen at the moment. This could include automatically recalculating the route as the user moves, but since that would require working on my A\* algorithm, that feature carries a lot of risk, so I may not be able to implement it.
+
+I also plan to implement the presets feature in this sprint, although refining the routing engine will be more of a priority as that is the core functionality of the app.
+
+#### Sprint 4 user stories
+
+1. As a user, I want the routing engine to give me a sensible route in a wide range of situations
+2. As a user, I want to save and load presets within the app
+3. As a user, I want to share presets between devices and with friends
+4. As a user, I want the location dot to automatically update
+5. As a user, I want the route to match my current location as I move around
 
 <div>
 
