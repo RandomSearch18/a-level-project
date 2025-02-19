@@ -323,6 +323,8 @@ A-level Computer Science programming project
     - [Sprint 4 design](#sprint-4-design)
       - [Presets design](#presets-design)
         - [Presets screen mockup](#presets-screen-mockup)
+          - [Presets screen mockup v1](#presets-screen-mockup-v1)
+          - [Presets screen mockup v2](#presets-screen-mockup-v2)
 
 ## Analysis
 
@@ -7598,11 +7600,33 @@ I also plan to implement the presets feature in this sprint, although refining t
 
 ##### Presets screen mockup
 
+###### Presets screen mockup v1
+
 I reckon that the best way to add the UI elements for presets will be to add a new screen to the app, which I will call "Presets". Adding another screen to the bottom app bar will slightly increase clutter, but I think that 4 items is an acceptable number. If I want to add an "About" screen, then I will probably have to reconsider that decision.
 
 I made a mockup to show the UI elements and their behaviour. [View in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)
 
 ![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-1.excalidraw.svg)
+
+I sent this mockup to my stakeholders Andrew and James. James said that it looks really good, but had one point of confusion. He asked if the "export preset" and "share" buttons were the same thing, and if they were the same thing as "save preset". I realised that the wording was confusing, and that it also isn't clear that the buttons under "share presets" act on the current preset. I explained the difference between the buttons, and also decided to make a new version of the mockup to improve on those points.
+
+###### Presets screen mockup v2
+
+I created version 2 of the mockup, as shown below (alternatively, [open it in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)).
+
+![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-2.excalidraw.svg)
+
+The main difference here is that presets are presented as a list (acting as the main element of the presets screen) instead of entries in a dropdown. This should be more user-friendly as it better represents the things that the user is dealing with (a list of presets). The options for sharing presets are now accessed through a three-dots menu attached to each preset in the list, which should feel nicer and more polished than a bunch of buttons at the bottom. It also makes it clear which preset the options apply to.
+
+The new version also improves the wording of the various actions that can be taken on presets. In come cases, I made the action names more verbose to hopefully clarify their action:
+
+- "Export preset..." is now "Save to file..."
+- "Share" is now "Share to app"
+  - I would have written "Share with app", but that would be too long
+
+I also replaced the ambiguous "Save preset" button with an "Add custom preset" button at the bottom of the list. This will clone the currently-active preset to a new preset at the bottom of the list, which can then be edited without affecting the old one. This will hopefully be an intuitive way to add presets to the list, and because the list is shown all the time, the action of the button will be immediately shown, which should help with understanding the behaviour.
+
+I gave this new version to James, and he said it was "much nicer", which supports my hypothesis that v2 seems more polished.
 
 <div>
 
