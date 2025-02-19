@@ -320,6 +320,9 @@ A-level Computer Science programming project
   - [Sprint 4 (2025-02-18 onwards)](#sprint-4-2025-02-18-onwards)
     - [Sprint 4 goals](#sprint-4-goals)
       - [Sprint 4 user stories](#sprint-4-user-stories)
+    - [Sprint 4 design](#sprint-4-design)
+      - [Presets design](#presets-design)
+        - [Presets screen mockup](#presets-screen-mockup)
 
 ## Analysis
 
@@ -7588,6 +7591,14 @@ I also plan to implement the presets feature in this sprint, although refining t
 3. As a user, I want to share presets between devices and with friends
 4. As a user, I want the location dot to automatically update
 5. As a user, I want the route to match my current location as I move around
+
+### Sprint 4 design
+
+#### Presets design
+
+##### Presets screen mockup
+
+![](assets/4/presets-mockup-1.excalidraw.svg)
 
 <div>
 
