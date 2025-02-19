@@ -7598,7 +7598,11 @@ I also plan to implement the presets feature in this sprint, although refining t
 
 ##### Presets screen mockup
 
-![](assets/4/presets-mockup-1.excalidraw.svg)
+I reckon that the best way to add the UI elements for presets will be to add a new screen to the app, which I will call "Presets". Adding another screen to the bottom app bar will slightly increase clutter, but I think that 4 items is an acceptable number. If I want to add an "About" screen, then I will probably have to reconsider that decision.
+
+I made a mockup to show the UI elements and their behaviour. [View in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)
+
+![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-1.excalidraw.svg)
 
 <div>
 
