@@ -7626,6 +7626,8 @@ The new version also improves the wording of the various actions that can be tak
 
 I also replaced the ambiguous "Save preset" button with an "Add custom preset" button at the bottom of the list. This will clone the currently-active preset to a new preset at the bottom of the list, which can then be edited without affecting the old one. This will hopefully be an intuitive way to add presets to the list, and because the list is shown all the time, the action of the button will be immediately shown, which should help with understanding the behaviour.
 
+Other additional features in this version are buttons to rename and delete presets, as well as some prose at the top of the screen to explain what presets are. The prose should be useful, because Andrew didn't originally find it clear what presets were and how they worked.
+
 I gave this new version to James, and he said it was "much nicer", which supports my hypothesis that v2 seems more polished.
 
 <div>
