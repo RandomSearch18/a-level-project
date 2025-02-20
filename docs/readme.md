@@ -7608,7 +7608,11 @@ I made a mockup to show the UI elements and their behaviour. [View in Excalidraw
 
 ![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-1.excalidraw.svg)
 
-I sent this mockup to my stakeholders Andrew and James. James said that it looks really good, but had one point of confusion. He asked if the "export preset" and "share" buttons were the same thing, and if they were the same thing as "save preset". I realised that the wording was confusing, and that it also isn't clear that the buttons under "share presets" act on the current preset. I explained the difference between the buttons, and also decided to make a new version of the mockup to improve on those points.
+I sent this mockup to my stakeholders Andrew and James.
+
+James said that it looks really good, but had one point of confusion. He asked if the "export preset" and "share" buttons were the same thing, and if they were the same thing as "save preset". I realised that the wording was confusing, and that it also isn't clear that the buttons under "share presets" act on the current preset. I explained the difference between the buttons, and also decided to make a new version of the mockup to improve on those points.
+
+Andrew wasn't sure what presets were and how they worked, so I explained that to him, and later sent him the v2 mockup to review (because it has clearer text for describing the actions).
 
 ###### Presets screen mockup v2
 
@@ -7629,6 +7633,10 @@ I also replaced the ambiguous "Save preset" button with an "Add custom preset" b
 Other additional features in this version are buttons to rename and delete presets, as well as some prose at the top of the screen to explain what presets are. The prose should be useful, because Andrew didn't originally find it clear what presets were and how they worked.
 
 I gave this new version to James, and he said it was "much nicer", which supports my hypothesis that v2 seems more polished.
+
+I also sent it to Andrew. He thought that presets are "a really clever idea". He understood the mockup, saying that the UI seems "really intuitive and easy to use". He especially liked the presets being presented in a list, because it would make them easy to switch between, and the ability to name them could make them more memorable.
+
+Andrew had no complaints.
 
 <div>
 
