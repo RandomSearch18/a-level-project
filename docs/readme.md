@@ -325,6 +325,7 @@ A-level Computer Science programming project
         - [Presets screen mockup](#presets-screen-mockup)
           - [Presets screen mockup v1](#presets-screen-mockup-v1)
           - [Presets screen mockup v2](#presets-screen-mockup-v2)
+        - [Presets data structures](#presets-data-structures)
 
 ## Analysis
 
@@ -7637,6 +7638,59 @@ I gave this new version to James, and he said it was "much nicer", which support
 I also sent it to Andrew. He thought that presets are "a really clever idea". He understood the mockup, saying that the UI seems "really intuitive and easy to use". He especially liked the presets being presented in a list, because it would make them easy to switch between, and the ability to name them could make them more memorable.
 
 Andrew had no complaints.
+
+##### Presets data structures
+
+I will store presets in localstorage, along with the app and routing options. The structure for a preset will look like this:
+
+```ts
+interface Preset {
+  name: string
+  isDefault: boolean
+  /** Set to `true` for the factory-default preset (because it can't be deleted) */
+  isEditable: boolean
+  options: RoutingOptions
+}
+```
+
+For in-memory storage, I will represent each preset as a class instance:
+
+```mermaid
+classDiagram
+class Preset {
+  - options: Options
+  - name: string
+  + isEditable: boolean
+  - options: RoutingOptions
+  + constructor()
+  + isActive(): boolean
+  + setOption(key, value)
+  + getOptions(): Partial<RoutingOptions>
+}
+```
+
+And I will update the format for storing options data in localstorage to add support for presets. I will, however, retain the `routing` key as the place where the current options are stored, for backwards compatibility. This should mean that users who had previously set options will not lose their settings when they first use an app version with presets.
+
+```ts
+type UUID = string
+
+interface Options {
+  app: AppOptions
+  routing: RoutingOptions
+  presets: {
+    [id: UUID]: Preset
+  }
+  defaultPreset: UUID
+}
+```
+
+Presets will be indexed by a UUID (not exposed to the user) that can be used for storing the active preset in an observable. To store the active preset, I will create a new store called `state` that will only exist in-memory while the app is running. For now, there's only one piece of state to be stored there, but perhaps things like the active screen could be migrated there at some point. It will have the following structure, and use a Voby `store` to provide reactivity:
+
+```ts
+interface State {
+  activePreset: UUID
+}
+```
 
 <div>
 
