@@ -326,6 +326,9 @@ A-level Computer Science programming project
           - [Presets screen mockup v1](#presets-screen-mockup-v1)
           - [Presets screen mockup v2](#presets-screen-mockup-v2)
         - [Presets data structures](#presets-data-structures)
+    - [Sprint 4 development](#sprint-4-development)
+      - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
+        - [Path through Bookham Common](#path-through-bookham-common)
 
 ## Analysis
 
@@ -7691,6 +7694,18 @@ interface State {
   activePreset: UUID
 }
 ```
+
+### Sprint 4 development
+
+#### Sprint 4: Refining the routing weights
+
+##### Path through Bookham Common
+
+I noticed that the routing engine was taking a zig-zag route along footpaths in Effingham Common, instead of going along the track that would be a more direct (and nicer) route.
+
+![The highlighted route going along minor footpaths instead of the main track](assets/4/zig-zag-route.png)
+
+Using the weight overlay, I found that the track had a weight density of 0.28 per metre, and the paths that were routed along had weight densities of 0.45, 1.00, and 1.70 per metre. Since a lower weight corresponds to a better path, the weights don't seem to be causing this issue, leading me to believe that the A\* algorithm must be behaving wrong. Since I use the well-tested `astar_path()` function from `networkx`, the actual algorithm shouldn't be misbehaving, so perhaps my heuristic function is wrong, or the graph structure I provide to the algorithm is somehow flawed.
 
 <div>
 
