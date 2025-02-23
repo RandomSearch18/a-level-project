@@ -326,10 +326,13 @@ A-level Computer Science programming project
           - [Presets screen mockup v1](#presets-screen-mockup-v1)
           - [Presets screen mockup v2](#presets-screen-mockup-v2)
         - [Presets data structures](#presets-data-structures)
+    - [Debug buttons design](#debug-buttons-design)
+      - [Debug buttons description and justification](#debug-buttons-description-and-justification)
     - [Sprint 4 development](#sprint-4-development)
       - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
         - [Path through Bookham Common](#path-through-bookham-common)
       - [Testing using the geodesic model for the heuristic](#testing-using-the-geodesic-model-for-the-heuristic)
+      - [Sprint 4: Adding debug buttons](#sprint-4-adding-debug-buttons)
 
 ## Analysis
 
@@ -7696,6 +7699,14 @@ interface State {
 }
 ```
 
+### Debug buttons design
+
+#### Debug buttons description and justification
+
+When testing the routing engine, it is useful to be able to clear the stored options. I can do this by opening the developer tools, and navigating to the local storage section, and deleting the entry from there, but that takes quite some time. It would be helpful to have a button in the UI to accomplish this in one click. This should be pretty easy to implement.
+
+In addition, my flawed caching strategy means that I sometimes have to manually clear the browser cache so that I can load the latest version of the app. This is also an issue when demonstrating the app to stakeholders. Similarly, it would be convenient for myself to have a button in the UI for this, and it would also mean that I can instruct my stakeholders to press that button if they find that an old version of the app is being served. This might be difficult to implement because I will likely have to communicate with the service worker to clear the caches, but I will investigate the APIs to do this before I know for sure.
+
 ### Sprint 4 development
 
 #### Sprint 4: Refining the routing weights
@@ -7743,6 +7754,10 @@ This change fixed the test route across Bookham Common. It explored many more pa
 I checked to see if this change had fixed the original route that was erroneously zig-zagging through Effingham Common, but the routing engine returned exactly the same route as before. At least that gives me a bit more confidence that the heuristic I'm testing hasn't broken anything that worked correctly before.
 
 Since the new heuristic should technically be more accurate than the old euclidean distance one, I shall keep the new one, and accept the assumption of $\text{weight density} \ge 0.1$, because that should be the case for the almost every path.
+
+#### Sprint 4: Adding debug buttons
+
+<!-- TODO -->
 
 <div>
 
