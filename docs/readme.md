@@ -7703,9 +7703,22 @@ interface State {
 
 I noticed that the routing engine was taking a zig-zag route along footpaths in Effingham Common, instead of going along the track that would be a more direct (and nicer) route.
 
+<!-- Note: the route used was the route to Chobham Services (from Sibley's area) -->
+
 ![The highlighted route going along minor footpaths instead of the main track](assets/4/zig-zag-route.png)
 
 Using the weight overlay, I found that the track had a weight density of 0.28 per metre, and the paths that were routed along had weight densities of 0.45, 1.00, and 1.70 per metre. Since a lower weight corresponds to a better path, the weights don't seem to be causing this issue, leading me to believe that the A\* algorithm must be behaving wrong. Since I use the well-tested `astar_path()` function from `networkx`, the actual algorithm shouldn't be misbehaving, so perhaps my heuristic function is wrong, or the graph structure I provide to the algorithm is somehow flawed.
+
+I attempted to create a minimal reproducible example for this problem by starting a route at one end of Bookham Common and ending at the other (which includes the same section as the faulty route above). However, in this case, the routing engine gave the sensible route of going straight along the main track. This further suggests either some sort of poor design of my routing graph that causes this non-deterministic behaviour, or the heuristic function not being admissible.
+
+Start and end points:
+
+- `51.288371,-0.379801`
+- `51.299112,-0.394800`
+
+![The highlighted route going straight along the main track](assets/4/not-zig-zag-route.png)
+
+![The same screenshot as above, but with the weights overlay enabled](assets/4/not-zig-zag-route-weights.png)
 
 <div>
 
