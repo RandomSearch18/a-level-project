@@ -329,6 +329,7 @@ A-level Computer Science programming project
     - [Sprint 4 development](#sprint-4-development)
       - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
         - [Path through Bookham Common](#path-through-bookham-common)
+      - [Testing using the geodesic model for the heuristic](#testing-using-the-geodesic-model-for-the-heuristic)
 
 ## Analysis
 
@@ -7705,7 +7706,7 @@ I noticed that the routing engine was taking a zig-zag route along footpaths in 
 
 <!-- Note: the route used was the route to Chobham Services (from Sibley's area) -->
 
-![The highlighted route going along minor footpaths instead of the main track](assets/4/zig-zag-route.png)
+![The highlighted route going along minor footpaths instead of the main track](assets/4/bookham-common-zig-zag-route.png)
 
 Using the weight overlay, I found that the track had a weight density of 0.28 per metre, and the paths that were routed along had weight densities of 0.45, 1.00, and 1.70 per metre. Since a lower weight corresponds to a better path, the weights don't seem to be causing this issue, leading me to believe that the A\* algorithm must be behaving wrong. Since I use the well-tested `astar_path()` function from `networkx`, the actual algorithm shouldn't be misbehaving, so perhaps my heuristic function is wrong, or the graph structure I provide to the algorithm is somehow flawed.
 
@@ -7713,12 +7714,21 @@ I attempted to create a minimal reproducible example for this problem by startin
 
 Start and end points:
 
-- `51.288371,-0.379801`
-- `51.299112,-0.394800`
+- 51.288371,-0.379801
+- 51.299112,-0.394800
+<!-- 1,763.76 ms -->
 
-![The highlighted route going straight along the main track](assets/4/not-zig-zag-route.png)
+![The highlighted route going straight along the main track](assets/4/bookham-common-not-zig-zag-route.png)
 
-![The same screenshot as above, but with the weights overlay enabled](assets/4/not-zig-zag-route-weights.png)
+![The same screenshot as above, but with the weights overlay enabled](assets/4/bookham-common-not-zig-zag-route-weights.png)
+
+#### Testing using the geodesic model for the heuristic
+
+I doubted that my approximate heuristic function (using euclidean distance) was actually the source of the issues with the routing algorithm, but I decided to replace if with a more-accurate calculation using the same geodesic model that I use for calculating way lengths to see if it affects anything.
+
+I tested it with my route from one end of Bookham Common to the other (which is quite a short route). In terms of performance impact, the route calculation took 1.8 seconds with the old heuristic, and 5.1 seconds with the new heuristic, so the impact is quite significant. It also seemed to affect the routing algorithm much more tha I had expected. Here is a screenshot with the weights overlay enabled:
+
+![Screenshot of the route with the weights overlay](assets/4/bookham-common-new-heuristic.png)
 
 <div>
 
