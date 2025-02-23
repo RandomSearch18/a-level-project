@@ -7742,6 +7742,8 @@ This change fixed the test route across Bookham Common. It explored many more pa
 
 I checked to see if this change had fixed the original route that was erroneously zig-zagging through Effingham Common, but the routing engine returned exactly the same route as before. At least that gives me a bit more confidence that the heuristic I'm testing hasn't broken anything that worked correctly before.
 
+Since the new heuristic should technically be more accurate than the old euclidean distance one, I shall keep the new one, and accept the assumption of $\text{weight density} \ge 0.1$, because that should be the case for the almost every path.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
