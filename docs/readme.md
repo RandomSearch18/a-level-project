@@ -7728,17 +7728,19 @@ I doubted that my approximate heuristic function (using euclidean distance) was 
 
 I tested it with my route from one end of Bookham Common to the other (which is quite a short route). In terms of performance impact, the route calculation took 1.8 seconds with the old heuristic, and 5.1 seconds with the new heuristic, so the impact is quite significant. It also seemed to affect the routing algorithm much more tha I had expected. Here is a screenshot with the weights overlay enabled:
 
-![Screenshot of the route with the weights overlay](assets/4/bookham-common-new-heuristic.png)
+![Screenshot of the route with the weights overlay](assets/4/bookham-common-v3.png)
 
 As you can see from the small number of ways being highlighted in a colour, the new geodesic heuristic drastically reduced the number of paths that were considered. This is generally a good performance optimisation, but the result here is so extreme that it leads me to believe that paths that should be considered aren't being considered. This is shown by the skipped section of track not being highlighted in the screenshot above, showing that the routing engine didn't even consider that section of path, despite the the fact that the track is more direct ($a^2 + b^2 = c^2$) and has a lower weight density (0.28 vs 0.45).
 
-I wondered if the scale of my heuristic values are supposed to be the same as the scale of my weight values. The `euclidean_distance()` function didn't have any meaningful units as it ignored the curvature of the Earth, but the `distance_between_points()` function that I have switched to returns a distance in metres. Since my paths in this particular test case have a weight density under 1 per metre, the heuristic value will always overestimate the weight of the path. This is a problem because an A\* heuristic must always \_under_estimate the weight of the path (i.e. must be admissible) for the algorithm to correctly return the shortest path.
+I wondered if the scale of my heuristic values are supposed to be the same as the scale of my weight values. The `euclidean_distance()` function didn't have any meaningful units as it ignored the curvature of the Earth, but the `distance_between_points()` function that I have switched to returns a distance in metres. Since my paths in this particular test case have a weight density under 1 per metre, the heuristic value will always overestimate the weight of the path. This is a problem because an A\* heuristic must always _underestimate_ the weight of the path (i.e. must be admissible) for the algorithm to correctly return the shortest path.
 
 To try to address this issue, I changed the heuristic function to divide the distances by 10, which, given the assumption that paths won't have a weight density below 0.1 per metre, should make the heuristic admissible.
 
-This change fixed the test route across Bookham Common. It explored many more paths than it did last time, and slightly fewer paths than the old heuristic, but importantly, found the correct route. The route calculation took 1.5 <!--1,478.38 ms --> seconds - I wasn't expecting this change to fix the performance issue (because the more complicated geodesic model is still being used), but it did. In fact, the performance was slightly better than the old heuristic, which probably comes down to slightly fewer paths being explored this time.
+This change fixed the test route across Bookham Common. It explored many more paths than it did last time, and slightly fewer paths than the old heuristic, but importantly, found the correct route. The route calculation took 1.5 <!--1,478.38 ms --> seconds: I wasn't expecting this change to fix the performance issue (because the more complicated geodesic model is still being used), but it did. In fact, the performance was slightly better than the old heuristic, which probably comes down to slightly fewer paths being explored this time. This is shown in the screenshot below.
 
 ![A sensible route through Bookham Common, with the weight overlay enabled](assets/4/bookham-common-v4.png)
+
+I checked to see if this change had fixed the original route that was erroneously zig-zagging through Effingham Common, but the routing engine returned exactly the same route as before. At least that gives me a bit more confidence that the heuristic I'm testing hasn't broken anything that worked correctly before.
 
 <div>
 
