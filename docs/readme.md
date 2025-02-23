@@ -7730,6 +7730,8 @@ I tested it with my route from one end of Bookham Common to the other (which is 
 
 ![Screenshot of the route with the weights overlay](assets/4/bookham-common-new-heuristic.png)
 
+As you can see from the small number of ways being highlighted in a colour, the new geodesic heuristic drastically reduced the number of paths that were considered. This is generally a good performance optimisation, but the result here is so extreme that it leads me to believe that paths that should be considered aren't being considered. This is shown by the skipped section of track not being highlighted in the screenshot above, showing that the routing engine didn't even consider that section of path, despite the the fact that the track is more direct ($a^2 + b^2 = c^2$) and has a lower weight density (0.28 vs 0.45).
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
