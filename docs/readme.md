@@ -339,6 +339,7 @@ A-level Computer Science programming project
       - [Sprint 4: Adding debug buttons](#sprint-4-adding-debug-buttons)
         - [Debug buttons markup](#debug-buttons-markup)
         - [Clear stored data button functionality](#clear-stored-data-button-functionality)
+        - [Clear cache button functionality](#clear-cache-button-functionality)
 
 ## Analysis
 
@@ -7868,6 +7869,27 @@ I tested the new implementation, and it seemed to work, apart from the state of 
    }}
  />
 ```
+
+##### Clear cache button functionality
+
+I implemented the callback for the "clear cache and reload" button:
+
+```ts
+async function clearCacheAndReload() {
+  const consent = confirm(
+    "Warning: This action will re-download a lot of data, which may be costly."
+  )
+  if (!consent) return
+  // Credit to https://stackoverflow.com/a/54451080/11519302
+  const cacheNames = await caches.keys()
+  cacheNames.forEach((cacheName) => {
+    caches.delete(cacheName)
+  })
+  location.reload()
+}
+```
+
+I tested it and it seemed to work as intended, although I cannot test it properly during development as the service worker is disabled during development.
 
 <div>
 
