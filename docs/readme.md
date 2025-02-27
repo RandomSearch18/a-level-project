@@ -337,6 +337,8 @@ A-level Computer Science programming project
         - [Path through Bookham Common](#path-through-bookham-common)
       - [Testing using the geodesic model for the heuristic](#testing-using-the-geodesic-model-for-the-heuristic)
       - [Sprint 4: Adding debug buttons](#sprint-4-adding-debug-buttons)
+        - [Debug buttons markup](#debug-buttons-markup)
+        - [Clear stored data button functionality](#clear-stored-data-button-functionality)
 
 ## Analysis
 
@@ -7790,6 +7792,8 @@ Since the new heuristic should technically be more accurate than the old euclide
 
 #### Sprint 4: Adding debug buttons
 
+##### Debug buttons markup
+
 I implemented the markup for the debug buttons using basic daisyUI button components, and put them inside a container for the debug buttons. I experimented with `primary` or `neutral` colours for the button, but the primary looked too attention-grabbing for a debug button, and the neutral looked too muted, so I stuck to the default button colour, even though it doesn't stand out much against the background. I will modify this as per feedback from my stakeholders.
 
 ```tsx
@@ -7805,6 +7809,65 @@ The debug section now looks like this:
 ![Screenshot of the debug buttons in the debug section of the options screen](assets/4/debug-buttons-v1.png)
 
 I am aware that being at the bottom of the options screen, these buttons aren't very discoverable, but they're not indented to be used unless you're looking for them, so that should be okay.
+
+##### Clear stored data button functionality
+
+I wrote an event handler for clicking the "clear stored data" button:
+
+```tsx
+const consent = confirm(
+  "Warning: All stored data will be deleted. This cannot be undone, irreversible, etc etc."
+)
+if (!consent) return
+clearData()
+```
+
+`clearData()` is a function that I also wrote, in `optionsStorage.mts`:
+
+```ts
+export function clearData() {
+  localStorage.removeItem(LOCAL_STORAGE_KEY)
+  for (const key in options) {
+    // @ts-ignore
+    delete options[key]
+  }
+  for (const key in defaultOptions) {
+    // @ts-ignore
+    options[key] = defaultOptions[key]
+  }
+}
+```
+
+I wrote it this way to try to ensure that the computations that depend on the options store all execute as they should. However, after testing the button, this behaviour didn't quite work as expected, and the UI didn't update to reflect the new options. This also meant that after refreshing, the data _wasn't_ cleared.
+
+However, after reading the docs for `oby`'s `store` function,[^oby-store] I discovered the `$.store.reconcile()` function, which can set the data in a store to the data in an object, while keeping any objects as the same objects (where possible). This should preserve reactivity while letting me easily update the `options` store to have the contents of `defaultOptions`.
+
+[^oby-store]: Oby readme file, section `$.store` (<https://github.com/vobyjs/oby/blob/7c6254276eb9086b5f6cbc01e5f1a8751c75a37a/readme.md>), accessed 2025-02-27
+
+I switched to using that function:
+
+```ts
+useEffect(() => {
+  const serializedOptions = JSON.stringify(options)
+  localStorage.setItem(LOCAL_STORAGE_KEY, serializedOptions)
+  console.debug("Updated saved options:", serializedOptions)
+})
+```
+
+I tested the new implementation, and it seemed to work, apart from the state of the app options (i.e. debug options) only updating after a reload. The routing options all reset to their original values immediately, and the app options in local storage were reset, so this is purely a UI issue. Since this suggested the checkboxes weren't updating reactively, I checked how I specified their `checked` attribute, and found that I used the value from the `options` store directly, instead of providing a callback function that gets the value from the options store. Fixing this (as in below diff) fixed the reactivity, and the whole system for clearing data now works.
+
+```diff
+ <input
+   type="checkbox"
+-  checked={options.app.weightOverlay}
++  checked={() => options.app.weightOverlay}
+   class="checkbox checkbox-primary"
+   onClick={(event) => {
+     if (!(event.target instanceof HTMLInputElement)) return
+     options.app.weightOverlay = event.target.checked
+   }}
+ />
+```
 
 <div>
 
