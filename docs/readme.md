@@ -7790,7 +7790,21 @@ Since the new heuristic should technically be more accurate than the old euclide
 
 #### Sprint 4: Adding debug buttons
 
-<!-- TODO -->
+I implemented the markup for the debug buttons using basic daisyUI button components, and put them inside a container for the debug buttons. I experimented with `primary` or `neutral` colours for the button, but the primary looked too attention-grabbing for a debug button, and the neutral looked too muted, so I stuck to the default button colour, even though it doesn't stand out much against the background. I will modify this as per feedback from my stakeholders.
+
+```tsx
+<div class="flex gap-4 mt-4 flex-wrap">
+  {/* <button class="btn btn-primary">Clear stored data</button> */}
+  <button class="btn">Clear stored data</button>
+  <button class="btn">Clear cache and reload</button>
+</div>
+```
+
+The debug section now looks like this:
+
+![Screenshot of the debug buttons in the debug section of the options screen](assets/4/debug-buttons-v1.png)
+
+I am aware that being at the bottom of the options screen, these buttons aren't very discoverable, but they're not indented to be used unless you're looking for them, so that should be okay.
 
 <div>
 
