@@ -328,6 +328,10 @@ A-level Computer Science programming project
         - [Presets data structures](#presets-data-structures)
     - [Debug buttons design](#debug-buttons-design)
       - [Debug buttons description and justification](#debug-buttons-description-and-justification)
+      - [Debug buttons pseudocode](#debug-buttons-pseudocode)
+        - [Clear local storage pseudocode](#clear-local-storage-pseudocode)
+        - [Clear cache pseudocode](#clear-cache-pseudocode)
+      - [Debug buttons design](#debug-buttons-design-1)
     - [Sprint 4 development](#sprint-4-development)
       - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
         - [Path through Bookham Common](#path-through-bookham-common)
@@ -7706,6 +7710,35 @@ interface State {
 When testing the routing engine, it is useful to be able to clear the stored options. I can do this by opening the developer tools, and navigating to the local storage section, and deleting the entry from there, but that takes quite some time. It would be helpful to have a button in the UI to accomplish this in one click. This should be pretty easy to implement.
 
 In addition, my flawed caching strategy means that I sometimes have to manually clear the browser cache so that I can load the latest version of the app. This is also an issue when demonstrating the app to stakeholders. Similarly, it would be convenient for myself to have a button in the UI for this, and it would also mean that I can instruct my stakeholders to press that button if they find that an old version of the app is being served. This might be difficult to implement because I will likely have to communicate with the service worker to clear the caches, but I will investigate the APIs to do this before I know for sure.
+
+#### Debug buttons pseudocode
+
+##### Clear local storage pseudocode
+
+A lazy way to implement this would be to simply remove our data from local storage, and reload the page. However, unnecessary page reloads are annoying, so I will try to reset the data to defaults without reloading the page, but ensure that in-memory data is kept accurate and any hooks that depend on the `options` store work as expected. I don't want to depend on our data being in any specific format either, because this button is intended to fix issues with inconsistent data storage.
+
+- When "clear local storage" is clicked
+  - Remove `options` key from local storage
+  - Call a `loadInitialOptions()` procedure
+- `loadInitialOptions()`
+  - Get the initial options
+  - For each key in the initial options:
+    - Set `options[key]` to the corresponding value
+
+##### Clear cache pseudocode
+
+The [`CacheStorage`](https://developer.mozilla.org/en-US/docs/Web/API/CacheStorage) web API is accessible from normal Javascript code, not just service workers, so I won't have to communicate with the service worker to achieve my goal.
+
+Because clearing cache doesn't have any affect until the page is reloaded, I will also reload the page after clearing the cache. This should minimise confusion and maximise convenience, which will help speed up debugging, and make the button more idiot-proof.
+
+- When "clear cache and reload" is clicked
+  - For each `Cache` object in the page
+    - Delete it
+- Reload the page
+
+#### Debug buttons design
+
+The debug buttons will be simple button components. Because they're only intended for debugging, I won't waste time creating a mockup in Excalidraw, and instead use my real implementation of the button design in HTML and CSS to gain stakeholder feedback, in the spirit of iterative development.
 
 ### Sprint 4 development
 
