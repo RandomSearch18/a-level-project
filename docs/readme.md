@@ -331,7 +331,7 @@ A-level Computer Science programming project
       - [Debug buttons pseudocode](#debug-buttons-pseudocode)
         - [Clear local storage pseudocode](#clear-local-storage-pseudocode)
         - [Clear cache pseudocode](#clear-cache-pseudocode)
-      - [Debug buttons design](#debug-buttons-design-1)
+      - [Debug buttons mockup](#debug-buttons-mockup)
     - [Sprint 4 development](#sprint-4-development)
       - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
         - [Path through Bookham Common](#path-through-bookham-common)
@@ -7736,7 +7736,7 @@ Because clearing cache doesn't have any affect until the page is reloaded, I wil
     - Delete it
 - Reload the page
 
-#### Debug buttons design
+#### Debug buttons mockup
 
 The debug buttons will be simple button components. Because they're only intended for debugging, I won't waste time creating a mockup in Excalidraw, and instead use my real implementation of the button design in HTML and CSS to gain stakeholder feedback, in the spirit of iterative development.
 
