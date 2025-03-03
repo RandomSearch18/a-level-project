@@ -340,6 +340,9 @@ A-level Computer Science programming project
         - [Debug buttons markup](#debug-buttons-markup)
         - [Clear stored data button functionality](#clear-stored-data-button-functionality)
         - [Clear cache button functionality](#clear-cache-button-functionality)
+      - [Sprint 4: Live location updates](#sprint-4-live-location-updates)
+        - [Testing the routing app in Portsmouth](#testing-the-routing-app-in-portsmouth)
+        - [Pesudocode for live location updates](#pesudocode-for-live-location-updates)
 
 ## Analysis
 
@@ -7890,6 +7893,24 @@ async function clearCacheAndReload() {
 ```
 
 I tested it and it seemed to work as intended, although I cannot test it properly during development as the service worker is disabled during development.
+
+#### Sprint 4: Live location updates
+
+##### Testing the routing app in Portsmouth
+
+Me and my stakeholder James tested the navigation app on the ground. We needed our route from our current location in the University of Portsmouth to the Spinnaker Tower. We successfully used the "start from current GPS location" feature to start the route from our exact position, and the geocoding feature successfully located the address "Spinnaker Tower". It gave us a good route and we were able to follow it to reach the tower, but the main annoyance was that the location didn't automatically update as we walked, which made it more difficult to follow the route and check that we were on the correct path. As a workaround, we pressed the "show current location" button as often as possible, but this still only gave an occasional location update.
+
+James was happy because it worked and gave us a good route, but told me that having the location automatically update would be a great improvement. Therefore, I will add that feature in this sprint.
+
+As well as re-drawing the location dot, a useful improvement would be for the ETA to update according to the node along the route that the user is nearest to, and offer a button to entirely recalculate the route if the user's location has changed (or they have changed an option). This should be simpler to implement than computing an efficient partial A\* algorithm whenever the location updates.
+
+##### Pesudocode for live location updates
+
+- When "show current location" is first pressed
+  - Set a global "current location is being shown" flag to true
+- While current location is being shown, listen for GPS location update event
+- On GPS location update
+  - Re-draw the location dot at the current position
 
 <div>
 
