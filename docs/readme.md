@@ -342,7 +342,8 @@ A-level Computer Science programming project
         - [Clear cache button functionality](#clear-cache-button-functionality)
       - [Sprint 4: Live location updates](#sprint-4-live-location-updates)
         - [Testing the routing app in Portsmouth](#testing-the-routing-app-in-portsmouth)
-        - [Pesudocode for live location updates](#pesudocode-for-live-location-updates)
+        - [Pseudocode for live location updates](#pseudocode-for-live-location-updates)
+        - [Fixing a vertical scrollbar](#fixing-a-vertical-scrollbar)
 
 ## Analysis
 
@@ -7904,13 +7905,25 @@ James was happy because it worked and gave us a good route, but told me that hav
 
 As well as re-drawing the location dot, a useful improvement would be for the ETA to update according to the node along the route that the user is nearest to, and offer a button to entirely recalculate the route if the user's location has changed (or they have changed an option). This should be simpler to implement than computing an efficient partial A\* algorithm whenever the location updates.
 
-##### Pesudocode for live location updates
+##### Pseudocode for live location updates
 
 - When "show current location" is first pressed
   - Set a global "current location is being shown" flag to true
 - While current location is being shown, listen for GPS location update event
 - On GPS location update
   - Re-draw the location dot at the current position
+
+##### Fixing a vertical scrollbar
+
+Before implementing the live location updates, while testing the app in Chrome, I noticed that there was a vertical scrollbar on the Route screen where there shouldn't be one.
+
+![Unexpected scrollbar in bagging area](assets/4/unexpected-scrollbar-in-bagging-area.png)
+
+The `#screens` element was the one that had the scrollbar, which is the element that should scroll when there isn't enough space to fit the screen on the screen, but in this case, there is more than enough vertical space, so I'm curious why the element is scrolling instead of just taking up a bit more space.
+
+I mentioned the issue to two of my stakeholders, Andrew and James, and both said that they wouldn't be bothered by the issue if it's Chrome-only as they prefer Firefox. However, James uses Brave browser and wanted to know if it would affect him, so I asked him to test it on his machine (screenshot below).
+
+![The unexpected scrollbar showing in Brave](assets/4/unexpected-scrollbar-brave.png)
 
 <div>
 
