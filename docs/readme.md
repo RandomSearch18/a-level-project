@@ -344,6 +344,7 @@ A-level Computer Science programming project
         - [Testing the routing app in Portsmouth](#testing-the-routing-app-in-portsmouth)
         - [Pseudocode for live location updates](#pseudocode-for-live-location-updates)
         - [Fixing a vertical scrollbar](#fixing-a-vertical-scrollbar)
+        - [Live location updates with Leaflet's built-in feature](#live-location-updates-with-leaflets-built-in-feature)
 
 ## Analysis
 
@@ -7924,6 +7925,10 @@ The `#screens` element was the one that had the scrollbar, which is the element 
 I mentioned the issue to two of my stakeholders, Andrew and James, and both said that they wouldn't be bothered by the issue if it's Chrome-only as they prefer Firefox. However, James uses Brave browser and wanted to know if it would affect him, so I asked him to test it on his machine (screenshot below).
 
 ![The unexpected scrollbar showing in Brave](assets/4/unexpected-scrollbar-brave.png)
+
+##### Live location updates with Leaflet's built-in feature
+
+I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenver a location update is recieved, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immidiately updated with a new location dot. However, I feel like havign the map jump to the location whenever the location updates would be annoying, so I will change that.
 
 <div>
 
