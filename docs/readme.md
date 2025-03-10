@@ -7930,6 +7930,27 @@ I mentioned the issue to two of my stakeholders, Andrew and James, and both said
 
 I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenver a location update is recieved, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immidiately updated with a new location dot. However, I feel like havign the map jump to the location whenever the location updates would be annoying, so I will change that.
 
+I modified the `onClick` callback on the current location button to also update a `trackingLocation` observable, which will be `true` when the map should keep panning to any new current location, or `false` if the map has been manually dragged and therefore that shouldn't be the case.
+
+```ts
+;() => {
+  const map = mainMap()
+  if (!map) return console.warn("Map not ready")
+  map.locate({ maxZoom: 16, watch: true })
+  map.once("locationfound", () => {
+    trackingLocation(true)
+    // Stop tracking the location if the user manually moves the map
+    map.once("dragstart", () => {
+      trackingLocation(false)
+    })
+  })
+}
+```
+
+I tested this on my phone, and was happy to see that the map no longer jumped to the current location as I moved around. However, I pressing the current location button didn't force it to jump to my location, because I hadn't implemented that yet.
+
+I decided to set `trackingLocation` to `true` immidiaely after the button is pressed, instead of only once location has been found. This is to provide immidiate feedback, and be more consistent with how other map apps work. Also, it doesn't rely on the `.once()` event listener behaviour, so its behaviour might be a bit more consistent.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
