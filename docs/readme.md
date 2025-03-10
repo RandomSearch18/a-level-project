@@ -316,6 +316,7 @@ A-level Computer Science programming project
       - [Sprint 3: Fixing parsing of `incline=up|down` tags](#sprint-3-fixing-parsing-of-inclineupdown-tags)
     - [Sprint 3 evaluation](#sprint-3-evaluation)
       - [Sprint 3 user story checklist](#sprint-3-user-story-checklist)
+      - [Sprint 3 stakeholder feedback](#sprint-3-stakeholder-feedback)
       - [Sprint 3 post-development testing](#sprint-3-post-development-testing)
   - [Sprint 4 (2025-02-18 onwards)](#sprint-4-2025-02-18-onwards)
     - [Sprint 4 goals](#sprint-4-goals)
@@ -340,6 +341,7 @@ A-level Computer Science programming project
         - [Debug buttons markup](#debug-buttons-markup)
         - [Clear stored data button functionality](#clear-stored-data-button-functionality)
         - [Clear cache button functionality](#clear-cache-button-functionality)
+        - [Debug buttons stakeholder feedback](#debug-buttons-stakeholder-feedback)
       - [Sprint 4: Live location updates](#sprint-4-live-location-updates)
         - [Testing the routing app in Portsmouth](#testing-the-routing-app-in-portsmouth)
         - [Pseudocode for live location updates](#pseudocode-for-live-location-updates)
@@ -7588,6 +7590,10 @@ def way_incline_gradient(
 
 All user stories have been addressed, mostly through the new options system, but also through various features added to the frontend.
 
+#### Sprint 3 stakeholder feedback
+
+I showed the routing options to Andrew. He was happy to see that the options persisted after you refresh the page. He also liked the wording I had used, e.g. "avoid" for the default for highter-traffic roads. Overall. he was impressed with the feature.
+
 #### Sprint 3 post-development testing
 
 Since this sprint involved a lot of tweaking behaviour and small adjustments as code was written, a lot of testing has been done during development. Nonetheless, it's important to do a final round of testing to ensure that everything works as expected.
@@ -7895,6 +7901,10 @@ async function clearCacheAndReload() {
 ```
 
 I tested it and it seemed to work as intended, although I cannot test it properly during development as the service worker is disabled during development.
+
+##### Debug buttons stakeholder feedback
+
+When showing the app to Andrew, he used the "clear stored data" button after playing with the options, and found it intuitive and acknowledged the warining, which is good to see.
 
 #### Sprint 4: Live location updates
 
