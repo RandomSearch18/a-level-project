@@ -7938,7 +7938,7 @@ I mentioned the issue to two of my stakeholders, Andrew and James, and both said
 
 ##### Live location updates with Leaflet's built-in feature
 
-I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenver a location update is recieved, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immidiately updated with a new location dot. However, I feel like havign the map jump to the location whenever the location updates would be annoying, so I will change that.
+I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenever a location update is recieved, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immidiately updated with a new location dot. However, I feel like having the map jump to the location whenever the location updates would be annoying, so I will change that.
 
 I modified the `onClick` callback on the current location button to also update a `trackingLocation` observable, which will be `true` when the map should keep panning to any new current location, or `false` if the map has been manually dragged and therefore that shouldn't be the case.
 
@@ -7960,6 +7960,10 @@ I modified the `onClick` callback on the current location button to also update 
 I tested this on my phone, and was happy to see that the map no longer jumped to the current location as I moved around. However, I pressing the current location button didn't force it to jump to my location, because I hadn't implemented that yet.
 
 I decided to set `trackingLocation` to `true` immidiaely after the button is pressed, instead of only once location has been found. This is to provide immidiate feedback, and be more consistent with how other map apps work. Also, it doesn't rely on the `.once()` event listener behaviour, so its behaviour might be a bit more consistent.
+
+To make the map track the location when `trackingLocation` is `true`, I added a `map.flyTo()` call on the `locationfound` event. I then tested this on my phone by walking around the school area. I have a screen recording of this test: [**location-tracking.mp4**](assets/4/location-tracking.mp4)
+
+The map succesfully tracked the location as it updated, and it kept the same zoom level as it panned to my new location, as I wanted. However, it still panned after I'd manually dragged the map elsewhere, which I didn't want. I realised that this was because I forgot to actually check the `trackingLocation` observable in my event handler code, so I fixed that. I also noticed that when pressing the current location button with the intention of re-centering the map, it waits for the next location update before actually panning the map. This makes the button feel slow and unresponsive, and is annoying because it waits to complete your required action. This would also be easy to fix, because I can just call `map.flyTo()` immediately on the button press. Then, it will immidiately show the last known location and then pan to the updated location once it's available. 
 
 <div>
 
