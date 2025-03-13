@@ -8022,7 +8022,7 @@ I tested this on my phone by walking around the school and testing the following
 - As soon as I pan or zoom the map, the map will stop panning to my location, but the location dot will still update
 - I can click the current location button again, and it will immediately pan to the last known location
 
-All of these behaviours worked as expected, apart from at one point where the location dot disappeared. Since it reappeared after a bit and all the behaviour points passed, the test was still overall a success. Unfortunatgley, the screen recording for this test failed to save.
+All of these behaviours worked as expected, apart from at one point where the location dot disappeared. Since it reappeared after a bit and all the behaviour points passed, the test was still overall a success. Unfortunately, the screen recording for this test failed to save.
 
 <div>
 
