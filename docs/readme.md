@@ -7965,6 +7965,65 @@ To make the map track the location when `trackingLocation` is `true`, I added a 
 
 The map succesfully tracked the location as it updated, and it kept the same zoom level as it panned to my new location, as I wanted. However, it still panned after I'd manually dragged the map elsewhere, which I didn't want. I realised that this was because I forgot to actually check the `trackingLocation` observable in my event handler code, so I fixed that. I also noticed that when pressing the current location button with the intention of re-centering the map, it waits for the next location update before actually panning the map. This makes the button feel slow and unresponsive, and is annoying because it waits to complete your required action. This would also be easy to fix, because I can just call `map.flyTo()` immediately on the button press. Then, it will immidiately show the last known location and then pan to the updated location once it's available.
 
+Updated event handler for the current location button button:
+
+```ts
+const map = mainMap()
+if (!map) return console.warn("Map not ready")
+// Immediately pan to the last known location, and start tracking location so that it updates when new location data is available
+trackingLocation(true)
+panToCurrentLocation()
+map.locate({ maxZoom: 16, watch: true })
+map.once("locationfound", () => {
+  // Stop tracking the location if the user manually moves the map
+  map.once("dragstart", () => {
+    trackingLocation(false)
+  })
+})
+```
+
+Updated event listener for the location found event:
+
+```ts
+map.on("locationfound", (event) => {
+  currentLocation(event.latlng)
+  console.debug("Location found", event)
+  cleanupMarkers()
+  const radius = event.accuracy / 2
+  // Draw a large circle to show GPS accuracy
+  locationMarker = L.circle(event.latlng, {
+    radius: Math.min(5, radius),
+    fillOpacity: 0.8,
+    opacity: 0.8,
+  }).addTo(map)
+  // Draw the dot at the center of the circle
+  locationCircle = L.circle(event.latlng, {
+    radius,
+  }).addTo(map)
+  if (trackingLocation()) panToCurrentLocation()
+})
+```
+
+`panToCurrentLocation` procedure:
+
+```ts
+function panToCurrentLocation() {
+  const map = mainMap()
+  if (!map) return
+  const location = currentLocation()
+  if (location) map.panTo(location)
+}
+```
+
+I tested this on my phone by walking around the school and testing the following behaviour:
+
+- Clicking the current location button for the first time will show the location dot and take the user there (once a location has been obtained), keeping the same zoom level
+- If I don't pan the map at all, the map will continue to track my location
+- As soon as I pan or zoom the map, the map will stop panning to my location, but the location dot will still update
+- I can click the current location button again, and it will immediately pan to the last known location
+
+All of these behaviours worked as expected, apart from at one point where the location dot disappeared. Since it reappeared after a bit and all the behaviour points passed, the test was still overall a success.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
