@@ -347,6 +347,7 @@ A-level Computer Science programming project
         - [Pseudocode for live location updates](#pseudocode-for-live-location-updates)
         - [Fixing a vertical scrollbar](#fixing-a-vertical-scrollbar)
         - [Live location updates with Leaflet's built-in feature](#live-location-updates-with-leaflets-built-in-feature)
+        - [Nicer handling for location errors](#nicer-handling-for-location-errors)
 
 ## Analysis
 
@@ -8023,6 +8024,14 @@ I tested this on my phone by walking around the school and testing the following
 - I can click the current location button again, and it will immediately pan to the last known location
 
 All of these behaviours worked as expected, apart from at one point where the location dot disappeared. Since it reappeared after a bit and all the behaviour points passed, the test was still overall a success. Unfortunately, the screen recording for this test failed to save.
+
+As for the issue where the location dot disappeared, I guessed that it occurred because a location error event was fired, which I react to by removing the location dot. I now realise that this is a bad idea, because having the location dot randomly disappear is a bit annoying. I reckon that the best way to handle case issue is to keep showing the location dot and grey it out, but I will ask my stakeholders for their opinions too.
+
+##### Nicer handling for location errors
+
+As mentioned above, I want to improve the behaviour of the map when the location request results in an error, which is seen more often now that live location updates exist.
+
+I talked to Andrew and James. Andrew liked my idea of greying out the location dot, calling it "professional". He also gave me the idea of a question mark, which reminded me of the flashing red question mark on Garmin satnavs. I thought that this was a fun idea. James liked the idea of a grey dot, but really liked the idea of a flashing question mark, so I will implement that.
 
 <div>
 
