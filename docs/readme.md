@@ -8033,6 +8033,50 @@ As mentioned above, I want to improve the behaviour of the map when the location
 
 I talked to Andrew and James. Andrew liked my idea of greying out the location dot, calling it "professional". He also gave me the idea of a question mark, which reminded me of the flashing red question mark on Garmin satnavs. I thought that this was a fun idea. James liked the idea of a grey dot, but really liked the idea of a flashing question mark, so I will implement that.
 
+I created a Leaflet icon to let me draw the question mark on the map. I had to put it within a `useMemo()` because `leaflet()` isn't guaranteed to be available at any one time, so this is the cleanest way to have the icon available within `CurrentLocationButton.tsx`. I found that the icon rendered very weirdly and very large if I didn't specify the `iconSize`, so I resized the icon to 64x64 px and told Leaflet the icon size, after which it rendered as expected.
+
+```ts
+const locationNotFoundIcon = useMemo(() => {
+  return (
+    leaflet()?.icon({
+      iconUrl: "/bang-64.png",
+      iconSize: [64, 64],
+      className: "blink",
+    }) ?? null
+  )
+})
+```
+
+I then added code to insert the question mark as a Leaflet marker and grey out the location circles when the location error event is fired:
+
+```ts
+let locationQuestionMark: Marker | null = null
+```
+
+```ts
+map.on("locationerror", (event) => {
+  console.debug("Location error", event)
+  // Do nothing if we haven't got a location yet
+  const currentPos = currentLocation()
+  if (!currentPos) return
+  const icon = locationNotFoundIcon()
+  if (locationQuestionMark) return // No need to add the question mark again
+  locationQuestionMark = L.marker(currentPos, {
+    // This should never be unavailable if Leaflet has loaded, but weirder things have been known to happen
+    icon: icon ?? undefined,
+  }).addTo(map)
+  // Grey out the location marker
+  locationMarker?.setStyle({ color: "grey" })
+  locationCircle?.setStyle({ color: "grey" })
+})
+```
+
+I tested this by acquiring a location with the mapping app on my phone, and then turning location off in Android quick settings and pressing the show location button again. After 10 seconds (the default location timeout), the location marker went grey and the flashing exclamation mark started showing and flashing. I think this looks quite nice and works as expected, so I am happy with this test.
+
+I also tried to turn location back on and press the show location button again, but it didn't want to re-require a location. Since the location marker didn't move, I am guessing that this is just a browser limitation, so will hopefully work as expected in a real location error situation.
+
+I showed the updated location error state to Andrew, and he liked how it looked, although he noted that the exclamation mark was a bit big on the screen. I agreed, although the size has to be a constant number of pixels, so it will always be a compromise between looking good at various zoom levels. I showed it to James and he considered it to be beautiful.
+
 <div>
 
 <!-- Import CSS styles for VSCode's markdown preview -->
