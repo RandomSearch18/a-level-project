@@ -333,6 +333,7 @@ A-level Computer Science programming project
         - [Clear local storage pseudocode](#clear-local-storage-pseudocode)
         - [Clear cache pseudocode](#clear-cache-pseudocode)
       - [Debug buttons mockup](#debug-buttons-mockup)
+      - [Sprint 4 test plan](#sprint-4-test-plan)
     - [Sprint 4 development](#sprint-4-development)
       - [Sprint 4: Refining the routing weights](#sprint-4-refining-the-routing-weights)
         - [Path through Bookham Common](#path-through-bookham-common)
@@ -7754,6 +7755,25 @@ Because clearing cache doesn't have any affect until the page is reloaded, I wil
 #### Debug buttons mockup
 
 The debug buttons will be simple button components. Because they're only intended for debugging, I won't waste time creating a mockup in Excalidraw, and instead use my real implementation of the button design in HTML and CSS to gain stakeholder feedback, in the spirit of iterative development.
+
+#### Sprint 4 test plan
+
+This sprint won't require any specific test data as such, but I will test the following behaviours in relation to device sensor data:
+
+<!-- prettier-ignore -->
+| Situation | Expected outcome |
+| --------- | ---------------- |
+| The user walks around | The location dot should follow them so that it stays correct |
+| The user walks around with an active route | The route progress should update as the user moves, so that irrelevant parts are no longer shown |
+
+I will also test the functionality of the buttons related to presets:
+
+<!-- prettier-ignore -->
+| Situation | Action | Expected outcome |
+| --------- | ------ | ---------------- |
+| Any | Presets screen opened | The "original options" preset will be shown |
+| Any option has been changed | Presets screen opened | A "custom preset 1" preset will be automatically shown & made active |
+| Custom presets have been added | Presets screen opened | The custom presets will be shown in the list |
 
 ### Sprint 4 development
 
