@@ -349,6 +349,9 @@ A-level Computer Science programming project
         - [Fixing a vertical scrollbar](#fixing-a-vertical-scrollbar)
         - [Live location updates with Leaflet's built-in feature](#live-location-updates-with-leaflets-built-in-feature)
         - [Nicer handling for location errors](#nicer-handling-for-location-errors)
+    - [Sprint 4 evaluation](#sprint-4-evaluation)
+      - [Sprint 4 post-development testing](#sprint-4-post-development-testing)
+        - [Sprint 4 post-development testing log](#sprint-4-post-development-testing-log)
 
 ## Analysis
 
@@ -8103,6 +8106,24 @@ I tested this by acquiring a location with the mapping app on my phone, and then
 I also tried to turn location back on and press the show location button again, but it didn't want to re-require a location. Since the location marker didn't move, I am guessing that this is just a browser limitation, so will hopefully work as expected in a real location error situation.
 
 I showed the updated location error state to Andrew, and he liked how it looked, although he noted that the exclamation mark was a bit big on the screen. I agreed, although the size has to be a constant number of pixels, so it will always be a compromise between looking good at various zoom levels. I showed it to James and he considered it to be beautiful.
+
+### Sprint 4 evaluation
+
+#### Sprint 4 post-development testing
+
+<!-- prettier-ignore -->
+| Situation | Expected outcome | Actual outcome | Pass? |
+| --------- | ---------------- | -------------- | ----- |
+| The user walks around | The location dot should follow them so that it stays correct | The location dot updates every few seconds | ✅ |
+| The user walks around with an active route | The route progress should update as the user moves, so that irrelevant parts are no longer shown | The route does not update | ❌ |
+
+##### Sprint 4 post-development testing log
+
+I tested the location-tracking feature, as I had before, by walking around the school. The app took a moment to initially get a GPS fix, but it correctly displayed the location once it had one. I also observed the location error state being triggered, with the location marker going grey and the exclamation mark flashing. After around 30 seconds, the location updated again, and the dot went back to being blue, which was the first real test I had for that behaviour. I was very happy to see that location tracking and error handling worked as expected.
+
+I did not have time to implement live updates for the route in this sprint, so that test failed.
+
+In addition, I decided not to include the preset feature in this sprint, so I have not performed any of the tests for the presets, as they are not applicable to the app in its present form.
 
 <div>
 
