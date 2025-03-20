@@ -1634,23 +1634,6 @@ gantt
     Sprint 4: 2025-02-18,
 ```
 
-<!--
-```mermaid
-%% TODO what do we do with this
-gantt
-  title Sprint timeline (test)
-  dateFormat X
-  axisFormat Sprint %s
-  tickInterval 1second
-  section Frontend
-    %% Final milestone : milestone, m2, 2024-11-30, 4m
-    Task 1: 1, 2
-  section Backend
-    Task 2: 1, 2
-    Task 3: 2, 3
-```
--->
-
 #### Sprint 1 upfront plan
 
 - Start work on the backend, completing a proof of concept of the following tasks:
@@ -2164,7 +2147,7 @@ The next step, now that I had logic implemented, was to align my code to [my cla
 ```python
 class RoutingGraph:
     def __init__(self, graph: networkx.Graph):
-        self.osm_data = None  # TODO
+        self.osm_data = None  # TO-DO
         self.graph = graph
 ```
 
@@ -2652,7 +2635,9 @@ If necessary to help understand a tagging scheme, I could ask the community on t
 
 I will adopt a relaxed, liberal approach to parsing OSM tags (i.e. following Postel's Law) to help me extract as much value out of OSM data, even if it is imperfect, missing detail, or no longer follows best practices.
 
-<!-- For example,  TODO think of an example -->
+<!-- For example, the `sidewalk=separate` tag isn't recommended to be used because it doesn't describe which side of the road has a separate sidewalk, or if a second side does have a sidewalk that's not separate. No that's a rubbish example. -->
+
+For example, the tag `sidewalk=none` is not recommended to be used, but where it does exist in the database, we can assume it's equivalent to `sidewalk=no` (which means `sidewalk:both=no`).
 
 This also matches the approach that other projects that consume OSM data take.
 
@@ -3875,7 +3860,7 @@ I then actually wrote in the route calculation part, just using length as a weig
 
 ```py
 def calculate_weight(self, node_a: int, node_b: int, data: dict[str, str]) -> float:
-    # TODO: do
+    # TO-DO: do
     return float(data["length"])
 
 def calculate_route_a_star(
@@ -5165,8 +5150,6 @@ I asked my stakeholders for feedback on the mockup. James really liked how it lo
 
 I showed the mockup to Andrew, and he was very happy with it. He initially wasn't sure about the phrasing of "Prefer/Prefer more", but he worked out what it meant on his own. He'd have liked me to find a better phrase than "prefer more", which I'll have a think about.
 
-<!-- TODO Ili -->
-
 #### Geocoding design
 
 I plan to use the Nominatim API for geocoding, specifically, the `https://nominatim.openstreetmap.org/search` endpoint. I will use the [free-form query](https://nominatim.org/release-docs/develop/api/Search/#free-form-query) format, because it fits my UI, is more flexible, and can be used with a wider variety of locations than the structured query format.
@@ -6350,7 +6333,7 @@ def weight_path(self, way: dict) -> float | None:
     wheelchair_suitable = 0
     if way.get("highway") == "steps":
         wheelchair_suitable = -1
-        # TODO
+        # TO-DO
         pass
     # We might guess the value of trail_visibility=*
     trail_visibility_default = None
