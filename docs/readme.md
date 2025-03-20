@@ -352,6 +352,7 @@ A-level Computer Science programming project
     - [Sprint 4 evaluation](#sprint-4-evaluation)
       - [Sprint 4 post-development testing](#sprint-4-post-development-testing)
         - [Sprint 4 post-development testing log](#sprint-4-post-development-testing-log)
+      - [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation)
 
 ## Analysis
 
@@ -8124,6 +8125,12 @@ I tested the location-tracking feature, as I had before, by walking around the s
 I did not have time to implement live updates for the route in this sprint, so that test failed.
 
 In addition, I decided not to include the preset feature in this sprint, so I have not performed any of the tests for the presets, as they are not applicable to the app in its present form.
+
+#### Sprint 4 qualitative evaluation
+
+My goal for sprint 4 was to improve the user experience with user testing and feedback in mind. This has been done successfully, with the live location updates making the mobile map app experience much closer to well-known map apps like Google Maps and OSMAnd. I also made the core routing algorithm more accurate by improving the heuristic function, and added debug buttons to make any issues easier to troubleshoot.
+
+I designed the presets screen, but didn't have a the time to implement it, as I was instead focusing my efforts on investigating issues with the routing algorithm, and implementing features closer to the core functionality of the app. This decision was made after talking to my stakeholders: James told me that the presets feature wasn't too important to him, and that I should prioritise improving the routing.
 
 <div>
 
