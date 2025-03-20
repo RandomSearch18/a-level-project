@@ -357,6 +357,9 @@ A-level Computer Science programming project
       - [Sprint 4 post-development testing](#sprint-4-post-development-testing)
         - [Sprint 4 post-development testing log](#sprint-4-post-development-testing-log)
       - [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation)
+  - [Appendix](#appendix)
+    - [Appendix A: Glossary](#appendix-a-glossary)
+      - [OpenStreetMap glossary](#openstreetmap-glossary)
 
 ## Analysis
 
@@ -8129,6 +8132,49 @@ In addition, I decided not to include the preset feature in this sprint, so I ha
 My goal for sprint 4 was to improve the user experience with user testing and feedback in mind. This has been done successfully, with the live location updates making the mobile map app experience much closer to well-known map apps like Google Maps and OSMAnd. I also made the core routing algorithm more accurate by improving the heuristic function, and added debug buttons to make any issues easier to troubleshoot.
 
 I designed the presets screen, but didn't have a the time to implement it, as I was instead focusing my efforts on investigating issues with the routing algorithm, and implementing features closer to the core functionality of the app. This decision was made after talking to my stakeholders: James told me that the presets feature wasn't too important to him, and that I should prioritise improving the routing.
+
+## Appendix
+
+### Appendix A: Glossary
+
+I will write a brief glossary to act as a central place for defining some specific or uncommon terms.
+
+#### OpenStreetMap glossary
+
+<dl>
+<dt>OpenStreetMap</dt>
+<dd>A global project to build a crowdsourced would map that can be used by anyone. Like Wikipedia, but a world map.</dd>
+<dt>OSM</dt>
+<dd>Stands for OpenStreetMap.</dd>
+<dt>Feature</dt>
+<dd>A physical element in the landscape that can be mapped, e.g. a building, shop, or lamppost.</dd>
+<dt>Tag</dt>
+<dd>
+
+A description of a piece of information about a feature, e.g. `surface=asphalt` means "the surface is asphalt".
+
+</dd>
+<dt>Key</dt>
+<dd>
+
+The first part of a tag, e.g. `surface=*` describes the surface material.
+
+</dd>
+<dt>Point</dt>
+<dd>A feature that is represented by a single pair of coordinates and some tags, e.g. a bench<./dd>
+<dt>Node</dt>
+<dd>A point in space (defined by latitude, longitude, and a node ID) that may have tags (to represent a point) or not (an "untagged node").</dd>
+<dt>Line</dt>
+<dd>A linear feature on the ground e.g. a footpath or a wall.</dd>
+<dt>Way</dt>
+<dd>Technical term for an ordered list of nodes. Usually has tags. Can represent a line.</dd>
+<dt>Area</dt>
+<dd>A two-dimensional feature, e.g. a forest or a lake. Technically just a way that forms a complete shape outline.</dd>
+<dt>Relation</dt>
+<dd>A group of nodes, ways, and other relations, e.g. all the tributaries of a river. Also used to represent complex areas.</dd>
+<dt>Element</dt>
+<dd>Technical term for a node, way, or relation.</dd>
+</dl>
 
 <div>
 
