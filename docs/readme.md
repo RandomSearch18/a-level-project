@@ -108,6 +108,10 @@ A-level Computer Science programming project
       - [Class diagrams for routing](#class-diagrams-for-routing)
     - [Inputs and outputs](#inputs-and-outputs)
       - [Inputs](#inputs)
+        - [UI inputs](#ui-inputs)
+        - [Data from a file](#data-from-a-file)
+        - [Sensor data](#sensor-data)
+      - [Outputs](#outputs)
     - [UI mockups](#ui-mockups)
       - [UI component mockups](#ui-component-mockups)
         - [Combination button](#combination-button)
@@ -1331,8 +1335,6 @@ erDiagram
   "OSM node" 1--1 "Graph node" : "links to"
 ```
 
-<!-- TODO diagram to show a way with subsections thererfore multiple ewdges -->
-
 ##### Investigating the routing graph in Routor
 
 A valuable program to investigate at this point is Routor, a routing engine for OpenStreetMap that is also written in Python ([github.com/routeco/routor](https://github.com/routeco/routor), [routor/engine.py](https://github.com/routeco/routor/blob/main/routor/engine.py)). It uses the NetworkX library to implement a directed graph.
@@ -1492,8 +1494,6 @@ note for StartWalking "The first part of every route"
 Arrive --|> RouteManoeuvre
 note for Arrive "The last part of every route"
 
-%% TODO more RouteManoeuvres?
-
 RouteProgression --|> RoutePart
 class RouteProgression {
   +distance: float
@@ -1512,7 +1512,7 @@ class RoutingGraph {
 }
 
 class RoutingOptions
-%% TODO RoutingOptions
+note for RoutingOptions "Will have an attribute for each option"
 
 RouteCalculator *-- RoutingOptions : options
 RouteCalculator *-- RoutingGraph : graph
@@ -1524,7 +1524,6 @@ class RouteCalculator {
 note for RouteCalculator "Contains all the state/data required for one route calculation request"
 
 class RoutingEngine {
-  %% TODO: How on earth is the compute_graph() function meant to actually work
   +compute_graph(map_data: OSMData): RoutingGraph
   +calculate_route(start: Coordinates, end: Coordinates, options: RoutingOptions): RouteResult
 }
@@ -1534,9 +1533,25 @@ class RoutingEngine {
 
 #### Inputs
 
-<!-- Due to the large number of options that the routing engine will support, the user interface will need to include a large number of inputs. -->
+##### UI inputs
 
-<!-- TODO: waaaa what am I actually meant to do for this -->
+- Starting coordinates
+- Destination coordinates
+- A list of routing option values
+
+##### Data from a file
+
+- OSM map data excerpt
+
+##### Sensor data
+
+- Current location
+
+#### Outputs
+
+- List of directions
+- Route rendered on a map
+  - With a base map layer to show general map data
 
 ### UI mockups
 
