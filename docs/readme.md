@@ -7771,9 +7771,16 @@ I will also test the functionality of the buttons related to presets:
 <!-- prettier-ignore -->
 | Situation | Action | Expected outcome |
 | --------- | ------ | ---------------- |
-| Any | Presets screen opened | The "original options" preset will be shown |
+| N/A | Presets screen opened | The "original options" preset will be shown |
 | Any option has been changed | Presets screen opened | A "custom preset 1" preset will be automatically shown & made active |
 | Custom presets have been added | Presets screen opened | The custom presets will be shown in the list |
+| (Context menu for a preset) | "Rename" pressed | "Rename this preset" dialog opens |
+| (Context menu for a preset) | "Save to file..." pressed | System "Save as..." dialog opens |
+| (Context menu for a preset) | "Share to app" pressed | System share dialog opens |
+| (Context menu for a preset) | "Set as default" pressed | The preset is now labelled as the default |
+| (Context menu for a default preset) | "Set as default" pressed | Nothing happens (erroneous data) |
+| (Context menu for a preset) | "Delete" pressed | The preset is removed from the list |
+| Only one custom preset remaining | "Delete" pressed | A new blank preset replaces that preset |
 
 ### Sprint 4 development
 
