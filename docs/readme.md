@@ -357,6 +357,16 @@ A-level Computer Science programming project
       - [Sprint 4 post-development testing](#sprint-4-post-development-testing)
         - [Sprint 4 post-development testing log](#sprint-4-post-development-testing-log)
       - [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation)
+  - [Evaluation](#evaluation)
+    - [Evaluation of user requirements](#evaluation-of-user-requirements)
+      - [Evaluation of UR1](#evaluation-of-ur1)
+      - [Evaluation of UR2](#evaluation-of-ur2)
+      - [Evaluation of UR3](#evaluation-of-ur3)
+      - [Evaluation of UR4](#evaluation-of-ur4)
+      - [Evaluation of UR5](#evaluation-of-ur5)
+      - [Evaluation of UR6](#evaluation-of-ur6)
+      - [Evaluation of UR7](#evaluation-of-ur7)
+      - [Evaluation of UR8](#evaluation-of-ur8)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8132,6 +8142,46 @@ In addition, I decided not to include the preset feature in this sprint, so I ha
 My goal for sprint 4 was to improve the user experience with user testing and feedback in mind. This has been done successfully, with the live location updates making the mobile map app experience much closer to well-known map apps like Google Maps and OSMAnd. I also made the core routing algorithm more accurate by improving the heuristic function, and added debug buttons to make any issues easier to troubleshoot.
 
 I designed the presets screen, but didn't have a the time to implement it, as I was instead focusing my efforts on investigating issues with the routing algorithm, and implementing features closer to the core functionality of the app. This decision was made after talking to my stakeholders: James told me that the presets feature wasn't too important to him, and that I should prioritise improving the routing.
+
+## Evaluation
+
+### Evaluation of user requirements
+
+The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evelate how successfully these requirements have been met.
+
+<!-- TODO actually do the evals -->
+
+#### Evaluation of UR1
+
+> The system should be able to calculate a route between two points
+
+#### Evaluation of UR2
+
+> The system should be able to display the route on a map
+
+#### Evaluation of UR3
+
+> The system should be able to customise the route based on a range of options
+
+#### Evaluation of UR4
+
+> The system should be able to save routing options as presets
+
+#### Evaluation of UR5
+
+> The system should be accessible to those with a variety of needs and preferences
+
+#### Evaluation of UR6
+
+> The system should function offline, once the necessary data has been downloaded
+
+#### Evaluation of UR7
+
+> The system should be able to import and export routing options presets
+
+#### Evaluation of UR8
+
+> The system should perform well and be responsive to a variety of devices, across mobile and desktop
 
 ## Appendix
 
