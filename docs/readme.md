@@ -1916,7 +1916,7 @@ if __name__ == "__main__":
     print(data_file_path)
 ```
 
-I decided to give the validation for arguments its own function, `validate_args()`, because it will allow me to write unit tests for it later on. I also decided to give the error printing its own function, `print_error()`, in case I want to use a library for logging or make it more complicated in some other way later on. Similarly, `get_data_file_path()` is its own function in case I want to make the logic more complicated later on, and to make it easier to test.
+I decided to give the validation for arguments its own function, `validate_args()`, because it will allow me to write unit tests for it later on. I also decided to give the error printing its own procedure, `print_error()`, in case I want to use a library for logging or make it more complicated in some other way later on. Similarly, `get_data_file_path()` is its own function in case I want to make the logic more complicated later on, and to make it easier to test.
 
 I also improved my validation from my validation plan to also check if too many arguments are provided, to match usual argument parsing conventions.
 
