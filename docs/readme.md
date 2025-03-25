@@ -379,11 +379,12 @@ A-level Computer Science programming project
       - [Glossary for other technologies](#glossary-for-other-technologies)
     - [Appendix B: Bibliography](#appendix-b-bibliography)
       - [Services used](#services-used)
-      - [Assets used](#assets-used)
+      - [APIs used](#apis-used)
       - [Data used](#data-used)
       - [Libraries used](#libraries-used)
         - [Frontend](#frontend)
         - [Backend](#backend)
+      - [Assets used](#assets-used)
 
 ## Analysis
 
@@ -8304,12 +8305,11 @@ Note that references (i.e. citations) are listed at the very end of this documen
 - [Github Codespaces](https://github.com/features/codespaces) for easier development on school computers
 - [GitHub Student Developer Pack](https://education.github.com/pack) for enhanced access to the above Github tools
 - [Fillout](https://www.fillout.com/) to create my [final stakeholder feedback form](#final-stakeholder-feedback-form)
+
+#### APIs used
+
 - [Nominatim (nominatim.openstreetmap.org)](https://nominatim.openstreetmap.org/ui/about.html) for geocoding
 - [OSM Carto tile server](https://operations.osmfoundation.org/policies/tiles/) to provide the images that make up the base map
-
-#### Assets used
-
-- Red exclamation mark emoji from Google Noto Emoji (<https://github.com/googlefonts/noto-emoji>), licenced under the SIL Open Font License, version 1.1
 
 #### Data used
 
@@ -8353,6 +8353,10 @@ These libaries are sourced from the Python Package Index (<https://pypi.org/>). 
 - `requests`, Apache licence 2.0
 - `geographiclib`, MIT licence
 - `networkx`, 3-clause BSD License
+
+#### Assets used
+
+- Red exclamation mark emoji from Google Noto Emoji (<https://github.com/googlefonts/noto-emoji>), licenced under the SIL Open Font License, version 1.1
 
 <div>
 
