@@ -374,6 +374,8 @@ A-level Computer Science programming project
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
+      - [Voby glossary](#voby-glossary)
+      - [Other technologies](#other-technologies)
 
 ## Analysis
 
@@ -8247,6 +8249,31 @@ The first part of a tag, e.g. `surface=*` describes the surface material.
 <dt>Element</dt>
 <dd>Technical term for a node, way, or relation.</dd>
 </dl>
+
+#### Voby glossary
+
+<dl>
+<dt>Observable</dt>
+<dd>A wrapper for a variable that allows functions to "depend" on that value, so that they're automatically re-executed whenever the value changes</dd>
+<dt>Hook</dt>
+<!-- TODO -->
+<dt>Computation</dt>
+<!-- TODO -->
+<dt>Oby</dt>
+<dd>A Javascript library that implements observables</dd>
+<dt>Voby</dt>
+<dd>A Javascript framework that builds on top of Oby, allowing elements to be added to the DOM that automatically update when observables change.</dd>
+<dt>JSX</dt>
+<dd>
+
+Syntax added to Javascript that allows embedding HTML-like markup, to make it easier to write code for components. Used with a Javascript framework like Voby. Its file extension is `.jsx` (or `.tsx` when using TypeScript).
+
+</dd>
+</dl>
+
+#### Other technologies
+
+The [technology decisions](#technology-decisions) section also contains definitions for a number of technologies that I use, so I won't repeat them here.
 
 <div>
 
