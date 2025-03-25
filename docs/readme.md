@@ -8183,6 +8183,22 @@ The success criteria for my project is defined in my [user requirements](#user-r
 
 > The system should perform well and be responsive to a variety of devices, across mobile and desktop
 
+### Final testing
+
+I will perform final testing using the deployed version at <https://marvellous-mapping-machine.pages.dev/>, because it is the way my stakeholders and users will use the app. In this way, I will be perfoming an end-to-end test.
+
+#### Testing a route
+
+### Final stakeholder feedback
+
+#### Final stakeholder feedback from Andrew
+
+He tested a route from his house to school, and it didn't give him the route he would usally take, which was a slight dissapointment.
+
+He tested a route through a forest that he likes to run through, and he was very happy with the route it suggested.
+
+He found it odd how far to the right the Calculate button is on wide screens. This is because I built the UI using a mobile-first approach, and I haven't made any specific adaptions to desktop screens.
+
 ## Appendix
 
 ### Appendix A: Glossary
