@@ -370,12 +370,20 @@ A-level Computer Science programming project
     - [Final testing](#final-testing)
       - [Testing a route](#testing-a-route)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
+      - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
       - [Voby glossary](#voby-glossary)
       - [Glossary for other technologies](#glossary-for-other-technologies)
+    - [Appendix B: Bibliography](#appendix-b-bibliography)
+      - [Services used](#services-used)
+      - [Assets used](#assets-used)
+      - [Data used](#data-used)
+      - [Libraries used](#libraries-used)
+        - [Frontend](#frontend)
+        - [Backend](#backend)
 
 ## Analysis
 
@@ -8199,9 +8207,20 @@ I will perform final testing using the deployed version at <https://marvellous-m
 
 ### Final stakeholder feedback
 
+#### Final stakeholder feedback form
+
+I sent my stakeholders an online form to complete. It asked them to rate how well they agree with the following statements (which are closely liked to my user requirements).
+
+- It is easy to calculate a route between two points
+- The app gives me a sensible route that I would like to take
+- I can customise the route based on a range of options
+- The app is usable for me
+- The app works offline when I need it to
+- The app works well on my device
+
 #### Final stakeholder feedback from Andrew
 
-He tested a route from his house to school, and it didn't give him the route he would usally take, which was a slight dissapointment.
+He tested a route from his house to school, and it didn't give him the route he would usably take, which was a slight disappointment.
 
 He tested a route through a forest that he likes to run through, and he was very happy with the route it suggested.
 
@@ -8274,6 +8293,65 @@ Syntax added to Javascript that allows embedding HTML-like markup, to make it ea
 #### Glossary for other technologies
 
 The [technology decisions](#technology-decisions) section also contains definitions for a number of technologies that I use, so I won't repeat them here.
+
+### Appendix B: Bibliography
+
+Note that references (i.e. citations) are listed at the very end of this document, and are not included in the bibliography section.
+
+#### Services used
+
+- [Github](https://github.com) for storing source code and as a git provider
+- [Github Codespaces](https://github.com/features/codespaces) for easier development on school computers
+- [GitHub Student Developer Pack](https://education.github.com/pack) for enhanced access to the above Github tools
+- [Fillout](https://www.fillout.com/) to create my [final stakeholder feedback form](#final-stakeholder-feedback-form)
+- [Nominatim (nominatim.openstreetmap.org)](https://nominatim.openstreetmap.org/ui/about.html) for geocoding
+- [OSM Carto tile server](https://operations.osmfoundation.org/policies/tiles/) to provide the images that make up the base map
+
+#### Assets used
+
+- Red exclamation mark emoji from Google Noto Emoji (<https://github.com/googlefonts/noto-emoji>), licenced under the SIL Open Font License, version 1.1
+
+#### Data used
+
+- OSM data
+  - Used to compute the routing graph
+  - Licensed under the [Open Data Commons Open Database License](https://opendatacommons.org/licenses/odbl/) (ODbL) by the [OpenStreetMap Foundation](https://osmfoundation.org/) (OSMF)
+  - &copy; OpenStreetMap contributors
+  - See <https://www.openstreetmap.org/copyright> for copyright details
+  - You can contribute to the OSM project too! See [https://osm.org/fixthemap](https://www.openstreetmap.org/fixthemap)
+
+#### Libraries used
+
+These lists only contain direct dependencies of my project. Dependencies of dependencies are not included, because that would use a lot of space in this document.
+
+##### Frontend
+
+Libaries are sourced from the NPM registry (<https://www.npmjs.com/>), and canonical licence texts can be viewed by viewing the packages on the NPM website.
+
+<!-- dev deps -->
+
+- `@tailwindcss/typography`, MIT licence
+- `@types/leaflet`, MIT licence
+- `autoprefixer`, MIT licence
+- `daisyui`, MIT licence
+- `postcss`, MIT licence
+- `tailwindcss`, MIT licence
+- `typescript`, Apache licence 2.0 (<https://www.apache.org/licenses/LICENSE-2.0>)
+- `vite`, MIT licence
+- `vite-plugin-pwa`, MIT licence
+- `voby-vite`, MIT licence
+<!-- bundled (prod) deps -->
+- `@pyscript/core`, Apache licence 2.0
+- `leaflet`, 2-Clause BSD License
+- `voby`, MIT licence
+
+##### Backend
+
+These libaries are sourced from the Python Package Index (<https://pypi.org/>). Canonical licence texts can be found by viewing the packages on the PyPI website, clicking the "Source Code" link, and viewing the licence file found on the source code repository.
+
+- `requests`, Apache licence 2.0
+- `geographiclib`, MIT licence
+- `networkx`, 3-clause BSD License
 
 <div>
 
