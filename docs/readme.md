@@ -8315,6 +8315,7 @@ Note that references (i.e. citations) are listed at the very end of this documen
 
 - OSM data
   - Used to compute the routing graph
+  - Obtained through the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API) (<https://overpass-api.de/>)
   - Licensed under the [Open Data Commons Open Database License](https://opendatacommons.org/licenses/odbl/) (ODbL) by the [OpenStreetMap Foundation](https://osmfoundation.org/) (OSMF)
   - &copy; OpenStreetMap contributors
   - See <https://www.openstreetmap.org/copyright> for copyright details
