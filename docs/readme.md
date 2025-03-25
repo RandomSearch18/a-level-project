@@ -367,6 +367,10 @@ A-level Computer Science programming project
       - [Evaluation of UR6](#evaluation-of-ur6)
       - [Evaluation of UR7](#evaluation-of-ur7)
       - [Evaluation of UR8](#evaluation-of-ur8)
+    - [Final testing](#final-testing)
+      - [Testing a route](#testing-a-route)
+    - [Final stakeholder feedback](#final-stakeholder-feedback)
+      - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -3533,7 +3537,7 @@ I switched to storing the state for the bottom bar and the active screen in obse
 
 I'd already created `bottomBarButtons` as a map of names to observables, and I decided to create another observable (`activeScreen`) which would hold the name of the currently active button (which corresponds to the screen that should be active), and act as the source of truth for which screen is currently active.
 
-I then moved a lot of the logic that was in the `onClick` callback into a `useEffect` callback (a Voby feature that runs a function with side effects when any observables it uses change). It is clear from the comments in the code below which tasks are now performed in the `useEffect` hook.
+I then moved a lot of the logic that was in the `onClick` callback into a `useEffect` callback (a Voby feature that runs a subprogram with side effects when any observables it uses change). It is clear from the comments in the code below which tasks are now performed in the `useEffect` hook.
 
 ```ts
 // A map of botton names to observables representing their active state
@@ -3571,7 +3575,7 @@ useEffect(() => {
 activeScreen("Map")
 ```
 
-I then updated the `onClick` event callback function to simply update the `activeScreen` observable, which will then trigger the `useEffect` hook to run and update the UI.
+I then updated the `onClick` event callback procedure to simply update the `activeScreen` observable, which will then trigger the `useEffect` hook to run and update the UI.
 
 ```ts
 function onClick(event: MouseEvent) {
@@ -4188,7 +4192,7 @@ Note that there are some duplicates as I simply wanted to test to see what would
 
 ![](assets/2/python-called-from-js.png)
 
-I cleaned up the code for adding to `window.py` and extracted it to a function `export_to_js_window()` for better maintainability, and included a docstring.
+I cleaned up the code for adding to `window.py` and extracted it to a procedure `export_to_js_window()` for better maintainability, and included a docstring.
 
 ##### Stopping Pyscript from blocking the main tread
 
@@ -4595,7 +4599,7 @@ Fortunately, I discovered that `oby` has a `$.tick()` procedure that can force t
 
 > `$.tick`: This function forces effects scheduled for execution to be executed immediately, bypassing automatic or manual batching.
 
-Calling this function after updating the observable (and before the long synchronous task) fixed that issue.
+Calling this procedure after updating the observable (and before the long synchronous task) fixed that issue.
 
 I also implemented a loading spinner to go below the form:
 
@@ -4688,7 +4692,7 @@ setTimeout(() => {
 
 This was successful in the sense that the loading spinner did render at the right time, although it froze while the code was actually running, which I had half-expected.
 
-I made use of this discovery to create a `tickUI` async function, which resolves once the oby `tick()` procedure has been called (to guarantee all the `useEffect` hooks have run), as well as after a delay of 1ms has passed (using `setTimeout()`), to be reasonably certain that the UI has updated:
+I made use of this discovery to create a `tickUI` async procedure, which resolves once the oby `tick()` procedure has been called (to guarantee all the `useEffect` hooks have run), as well as after a delay of 1ms has passed (using `setTimeout()`), to be reasonably certain that the UI has updated:
 
 ```ts
 function tickUI(): Promise<void> {
@@ -5651,7 +5655,7 @@ And here's the result:
 | ---------- | ----------- |
 | ![The route screen with "check start/destination address" buttons (dark theme)](assets/3/route-screen-dark.png) | ![The route screen with "check start/destination address" buttons (light theme)](assets/3/route-screen-light.png) |
 
-I implemented the logic for the button in a new `displayResolvedAddress()` function, which is made to display any geocoding errors intuitively to the user:
+I implemented the logic for the button in a new `displayResolvedAddress()` procedure, which is made to display any geocoding errors intuitively to the user:
 
 ```ts
 async function displayResolvedAddress(inputId: string) {
@@ -6620,7 +6624,7 @@ async function displayResolvedAddress(inputId: string) {
 
 Testing this worked well, because it ensured that a maximum of one request per second is sent, and if I spam-click the button, any excess requests will just be dropped instead of being queued indefinitely.
 
-However, I realised that in my example, the `sendReqThrottled` function will always return `void`, which means that I can't access the request response.
+However, I realised that in my example, the `sendReqThrottled` subprogram will always return `void`, which means that I can't access the request response.
 
 So to fix that shortcoming, I dropped the `dettle` dependency and wrote my own throttle function, based on a StackOverflow answer:
 
@@ -7140,7 +7144,7 @@ Here's the end result:
 
 I will note that the when the Neutral state is active in dark theme, the inset shadow/glow isn't very distinguishable, but since that's only for the neutral state, I think it's acceptable, because the neutral state essentially represents the lack of a preference either way.
 
-To add the ability for the `AvoidNeutralPreferLine` component to set options, I wrote a `setOption` function, which includes some validation to assert that we're not changing the type of the option:
+To add the ability for the `AvoidNeutralPreferLine` component to set options, I wrote a `setOption` procedure, which includes some validation to assert that we're not changing the type of the option:
 
 ```ts
 function setOption<T extends keyof RoutingOptionsOptions>(
@@ -7877,7 +7881,7 @@ if (!consent) return
 clearData()
 ```
 
-`clearData()` is a function that I also wrote, in `optionsStorage.mts`:
+`clearData()` is a procedure that I also wrote, in `optionsStorage.mts`:
 
 ```ts
 export function clearData() {
@@ -7895,11 +7899,13 @@ export function clearData() {
 
 I wrote it this way to try to ensure that the computations that depend on the options store all execute as they should. However, after testing the button, this behaviour didn't quite work as expected, and the UI didn't update to reflect the new options. This also meant that after refreshing, the data _wasn't_ cleared.
 
-However, after reading the docs for `oby`'s `store` function,[^oby-store] I discovered the `$.store.reconcile()` function, which can set the data in a store to the data in an object, while keeping any objects as the same objects (where possible). This should preserve reactivity while letting me easily update the `options` store to have the contents of `defaultOptions`.
+However, after reading the docs for `oby`'s `store` function,[^oby-store] I discovered the `$.store.reconcile()` procedure, which can set the data in a store to the data in an object, while keeping any objects as the same objects (where possible). This should preserve reactivity while letting me easily update the `options` store to have the contents of `defaultOptions`.
 
 [^oby-store]: Oby readme file, section `$.store` (<https://github.com/vobyjs/oby/blob/7c6254276eb9086b5f6cbc01e5f1a8751c75a37a/readme.md>), accessed 2025-02-27
 
 I switched to using that function:
+
+<!-- FIXME: this code sample seems to not match the description? -->
 
 ```ts
 useEffect(() => {
