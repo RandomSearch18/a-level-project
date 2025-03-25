@@ -375,7 +375,7 @@ A-level Computer Science programming project
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
       - [Voby glossary](#voby-glossary)
-      - [Other technologies](#other-technologies)
+      - [Glossary for other technologies](#glossary-for-other-technologies)
 
 ## Analysis
 
@@ -8211,7 +8211,7 @@ He found it odd how far to the right the Calculate button is on wide screens. Th
 
 ### Appendix A: Glossary
 
-I will write a brief glossary to act as a central place for defining some specific or uncommon terms.
+This appendix contains a brief glossary to act as a central place for defining some specific or uncommon terms.
 
 #### OpenStreetMap glossary
 
@@ -8255,12 +8255,12 @@ The first part of a tag, e.g. `surface=*` describes the surface material.
 <dl>
 <dt>Observable</dt>
 <dd>A wrapper for a variable that allows functions to "depend" on that value, so that they're automatically re-executed whenever the value changes</dd>
-<dt>Hook</dt>
-<!-- TODO -->
-<dt>Computation</dt>
-<!-- TODO -->
 <dt>Oby</dt>
 <dd>A Javascript library that implements observables</dd>
+<dt>Hook</dt>
+<dd>A function provided by the Oby library for using observables, e.g. `$.memo()` can depend on a number of observables, and be re-run when they change</dd>
+<dt>Computation</dt>
+<dd>Any function that depends on one or more observables</dd>
 <dt>Voby</dt>
 <dd>A Javascript framework that builds on top of Oby, allowing elements to be added to the DOM that automatically update when observables change.</dd>
 <dt>JSX</dt>
@@ -8271,7 +8271,7 @@ Syntax added to Javascript that allows embedding HTML-like markup, to make it ea
 </dd>
 </dl>
 
-#### Other technologies
+#### Glossary for other technologies
 
 The [technology decisions](#technology-decisions) section also contains definitions for a number of technologies that I use, so I won't repeat them here.
 
