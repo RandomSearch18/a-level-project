@@ -362,6 +362,12 @@ A-level Computer Science programming project
       - [Testing a route to Leatherhead](#testing-a-route-to-leatherhead)
       - [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
       - [Testing a route near the A3](#testing-a-route-near-the-a3)
+      - [Testing routing through corridors](#testing-routing-through-corridors)
+    - [Final stakeholder feedback](#final-stakeholder-feedback)
+      - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
+      - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
+      - [Final stakeholder feedback from James](#final-stakeholder-feedback-from-james)
+      - [Final stakeholder feedback from Ili](#final-stakeholder-feedback-from-ili)
     - [Evaluation of user requirements](#evaluation-of-user-requirements)
       - [Evaluation of UR1](#evaluation-of-ur1)
       - [Evaluation of UR2](#evaluation-of-ur2)
@@ -371,9 +377,6 @@ A-level Computer Science programming project
       - [Evaluation of UR6](#evaluation-of-ur6)
       - [Evaluation of UR7](#evaluation-of-ur7)
       - [Evaluation of UR8](#evaluation-of-ur8)
-    - [Final stakeholder feedback](#final-stakeholder-feedback)
-      - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
-      - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8195,6 +8198,53 @@ I picked two points where the most direct route between them would be along the 
 
 The routing engine successfully avoided the A3 and routed along the footpaths as expected.
 
+#### Testing routing through corridors
+
+I tested a route that should go through Effingham Community Sports Centre, along indoor corridors. (From 51.273455, -0.394405 to 51.273235, -0.394786)
+
+![Effingham Community Sports Centre](assets/eval/sports-building.png)
+
+It routed through the building exactly as expected.
+
+### Final stakeholder feedback
+
+#### Final stakeholder feedback form
+
+I sent my stakeholders an online form to complete. It asked them to rate how well they agree with the following statements (which are closely liked to my user requirements).
+
+- It is easy to calculate a route between two points
+- The app gives me a sensible route that I would like to take
+- I can customise the route based on a range of options
+- The app is usable for me
+- The app works offline when I need it to
+- The app works well on my device
+
+#### Final stakeholder feedback from Andrew
+
+He tested a route from his house to school, and it didn't give him the route he would usably take, which was a slight disappointment.
+
+He tested a route through a forest that he likes to run through, and he was very happy with the route it suggested.
+
+He found it odd how far to the right the Calculate button is on wide screens. This is because I built the UI using a mobile-first approach, and I haven't made any specific adaptions to desktop screens.
+
+Overall, Andrew thought that the app was "really good" and useful.
+
+#### Final stakeholder feedback from James
+
+James particularly appreciated the large number of options for customising the route.
+
+His one gripe was that sometimes the routing engine chooses a less-optimal path, as in the image (provided by James) below. This is a known issue that I discussed in greater depth in the [path through Bookham Common](#path-through-bookham-common) test case during Sprint 4 development.
+
+![Route taking a detour instead of using a direct path](assets//eval/screenshot-from-james.png)
+
+He also noted that the browser tab will crash if you try to calculate a really long route, and while that makes the app unsuitable for long hikes, he decided it was not a massive issue.
+
+Overall, his comment was that the app "works really well".
+
+#### Final stakeholder feedback from Ili
+
+Ili generally thought positively of the app, giving ratings of 9 and 10 in the final feedback form. His one suggestion was for there to be more to see while the route is being calculated, to give the user more confidence in the app.
+
 ### Evaluation of user requirements
 
 The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evaluate how successfully these requirements have been met.
@@ -8205,9 +8255,25 @@ The success criteria for my project is defined in my [user requirements](#user-r
 
 > The system should be able to calculate a route between two points
 
+This is the most important user requirement, and it has been fully met. This is evidenced by a number of final tests (see [Testing for evaluation](#testing-for-evaluation) above):
+
+- [Testing a route to Leatherhead](#testing-a-route-to-leatherhead)
+- [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
+- [Testing a route near the A3](#testing-a-route-near-the-a3)
+
+My stakeholders agreed very strongly that it is easy to calculate a route between two points, with Andrew and Ili giving a score of 10, and James giving a score of 9 to the corresponding question in the final feedback form.
+
 #### Evaluation of UR2
 
 > The system should be able to display the route on a map
+
+The app does indeed display the route on a map, so this user requirement has been fully met. This is evidenced in the same set of tests that were liked to UR1:
+
+- [Testing a route to Leatherhead](#testing-a-route-to-leatherhead)
+- [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
+- [Testing a route near the A3](#testing-a-route-near-the-a3)
+
+By drawing the route on the map, the app ensures that users can easily see where the suggested route is, and navigate along it when using the app on the ground.
 
 #### Evaluation of UR3
 
@@ -8232,27 +8298,6 @@ The success criteria for my project is defined in my [user requirements](#user-r
 #### Evaluation of UR8
 
 > The system should perform well and be responsive to a variety of devices, across mobile and desktop
-
-### Final stakeholder feedback
-
-#### Final stakeholder feedback form
-
-I sent my stakeholders an online form to complete. It asked them to rate how well they agree with the following statements (which are closely liked to my user requirements).
-
-- It is easy to calculate a route between two points
-- The app gives me a sensible route that I would like to take
-- I can customise the route based on a range of options
-- The app is usable for me
-- The app works offline when I need it to
-- The app works well on my device
-
-#### Final stakeholder feedback from Andrew
-
-He tested a route from his house to school, and it didn't give him the route he would usably take, which was a slight disappointment.
-
-He tested a route through a forest that he likes to run through, and he was very happy with the route it suggested.
-
-He found it odd how far to the right the Calculate button is on wide screens. This is because I built the UI using a mobile-first approach, and I haven't made any specific adaptions to desktop screens.
 
 ## Appendix
 
