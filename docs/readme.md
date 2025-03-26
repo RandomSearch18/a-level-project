@@ -8186,7 +8186,6 @@ The starting coordinates were on the road, but the route moved onto the pavement
 
 ![The route through the industrial estate](assets/eval/industrial-estate.png)
 
-
 ### Evaluation of user requirements
 
 The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evelate how successfully these requirements have been met.
