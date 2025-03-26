@@ -363,6 +363,7 @@ A-level Computer Science programming project
       - [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
       - [Testing a route near the A3](#testing-a-route-near-the-a3)
       - [Testing routing through corridors](#testing-routing-through-corridors)
+      - [Testing the desire paths option](#testing-the-desire-paths-option)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
       - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
@@ -8206,6 +8207,18 @@ I tested a route that should go through Effingham Community Sports Centre, along
 
 It routed through the building exactly as expected.
 
+#### Testing the desire paths option
+
+I picked a route where you can either cut a corner by going along an informal (desire) path, or stick to the public footpath for a slightly longer route (51.27401, -0.391594 to 51.274557, -0.393188).
+
+When I set the "public rights of way" and "maintained paths" options to "avoid", and "desire paths" to "prefer", the routing engine chose to cut the corner along the desire path, as expected:
+
+![Route going along desire path](assets/eval/desire-path.png)
+
+When I inverted those options (i.e. now preferring maintained paths and rights of way, and avoiding desire paths), the routing engine indeed took the slightly longer route that stuck to the public footpaths:
+
+![Route taking the longer path](assets/eval/desire-path-avoided.png)
+
 ### Final stakeholder feedback
 
 #### Final stakeholder feedback form
@@ -8249,7 +8262,7 @@ Ili generally thought positively of the app, giving ratings of 9 and 10 in the f
 
 The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evaluate how successfully these requirements have been met.
 
-<!-- TODO actually do the evals -->
+<!-- TODO finish the evals -->
 
 #### Evaluation of UR1
 
@@ -8279,9 +8292,19 @@ By drawing the route on the map, the app ensures that users can easily see where
 
 > The system should be able to customise the route based on a range of options
 
+The options system was successfully implemented, and all the planned and designed options were added. I tested the options system in the following final test:
+
+- [Testing the desire paths option](#testing-the-desire-paths-option)
+
+James specifically mentioned the large number of options in his final feedback, saying he "really liked" it, which shows that the feature has had been useful for users. In the final feedback form, when asked about the statement "I can customise the route based on a range of options", Andrew rated it 9, and Ili and James rated it 10, which further evidences the success of this feature. Therefore, this user requirement has been fully met.
+
 #### Evaluation of UR4
 
 > The system should be able to save routing options as presets
+
+In Sprint 4, I following feedback from my stakeholders on which parts of the project to improve, I decided to deprioritise the presets feature in favour of refining the routing engine. For this reason, the rpesets feature did not get implemented, so this user requirement has not been met.
+
+The decision to deprioritise this user requirement was justified in the [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation).
 
 #### Evaluation of UR5
 
