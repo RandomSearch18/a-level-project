@@ -361,6 +361,7 @@ A-level Computer Science programming project
     - [Testing for evaluation](#testing-for-evaluation)
       - [Testing a route to Leatherhead](#testing-a-route-to-leatherhead)
       - [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
+      - [Testing a route near the A3](#testing-a-route-near-the-a3)
     - [Evaluation of user requirements](#evaluation-of-user-requirements)
       - [Evaluation of UR1](#evaluation-of-ur1)
       - [Evaluation of UR2](#evaluation-of-ur2)
@@ -8186,9 +8187,17 @@ The starting coordinates were on the road, but the route moved onto the pavement
 
 ![The route through the industrial estate](assets/eval/industrial-estate.png)
 
+#### Testing a route near the A3
+
+I picked two points where the most direct route between them would be along the A3, to verify that the routing engine will not provide a dangerous route. In this test case, an appropriate footpath route was available that avoids the A3. The route was from 51.262282, -0.548018 to 51.249544, -0.571954.
+
+![Route avoiding the A3](assets/eval/avoid-a3.png)
+
+The routing engine successfully avoided the A3 and routed along the footpaths as expected.
+
 ### Evaluation of user requirements
 
-The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evelate how successfully these requirements have been met.
+The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evaluate how successfully these requirements have been met.
 
 <!-- TODO actually do the evals -->
 
