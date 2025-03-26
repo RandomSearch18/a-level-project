@@ -364,6 +364,7 @@ A-level Computer Science programming project
       - [Testing a route near the A3](#testing-a-route-near-the-a3)
       - [Testing routing through corridors](#testing-routing-through-corridors)
       - [Testing the desire paths option](#testing-the-desire-paths-option)
+      - [Testing keyboard navigation](#testing-keyboard-navigation)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
       - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
@@ -2530,7 +2531,7 @@ I contacted Andrew by text message, giving him the link to the deployed site on 
 
 Andrew was very happy with the frontend. He accessed it on his phone and noted that it was very easy to pan and zoom the map, and "none of the extra UI gets in the way".
 
-This conformed that my choice of a bottom app bar for mobile was a sensible decision, and means that I have met my goal of having an intuitive map that can be browsed.
+This conformed that my choice of a bottom navigation bar for mobile was a sensible decision, and means that I have met my goal of having an intuitive map that can be browsed.
 
 ##### Sprint 1 feedback from James
 
@@ -6605,7 +6606,7 @@ I was also happy to see the routing engine route very sensibly along roads with 
 
 I showed the latest version of the project to Ili. We successfully used the Check Address buttons, which he hadn't seen yet, and he thought they were good. I showed him the weight overlay, although he didn't find it very intuitive and said it got in the way of seeing the route. (Which is okay, because it's primarily meant for debugging.) He asked to test a route through Reading, going to Prospect Park. At first, the routing engine got the start point incorrect, becuase he had only given a house number and postcode (and OSM data for the UK doesn't have postcodes mapped too well). However, we changed that to include the street name and town, and it worked as expected. Since he knows the area of Reading well on foot, he confirmed that the route it gave matched the route that he would have chosen to take (apart from sticking to paths in the park, which is excusable). I was happy to see that it stuck to the pavements appropriately. I also showed him the route statistics on the Route screen, which he seemed to appreciate, although the Route screen did include some warnings that I assured him would be fixed.
 
-![Screenshot of the route through Reading](asssets/3/prospect-park-reading.png)
+![Screenshot of the route through Reading](assets/3/prospect-park-reading.png)
 
 Overall, Ili agrees that I am making good progress with the routing engine.
 
@@ -7667,7 +7668,7 @@ I also plan to implement the presets feature in this sprint, although refining t
 
 ###### Presets screen mockup v1
 
-I reckon that the best way to add the UI elements for presets will be to add a new screen to the app, which I will call "Presets". Adding another screen to the bottom app bar will slightly increase clutter, but I think that 4 items is an acceptable number. If I want to add an "About" screen, then I will probably have to reconsider that decision.
+I reckon that the best way to add the UI elements for presets will be to add a new screen to the app, which I will call "Presets". Adding another screen to the bottom navigation bar will slightly increase clutter, but I think that 4 items is an acceptable number. If I want to add an "About" screen, then I will probably have to reconsider that decision.
 
 I made a mockup to show the UI elements and their behaviour. [View in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)
 
@@ -8219,6 +8220,16 @@ When I inverted those options (i.e. now preferring maintained paths and rights o
 
 ![Route taking the longer path](assets/eval/desire-path-avoided.png)
 
+#### Testing keyboard navigation
+
+An important but often-overlooked aspect of web app accessibility is support for keyboard navigation. I tested that the app's various controls could all be accessed and used through the keyboard, by pressing <kbd>Tab</kbd> to move between focusable elements and <kbd>Enter</kbd> or <kbd>Space</kbd> to select them.
+
+I recorded this test: **[keyboard-navigation.webm](assets/eval/keyboard-navigation.webm)**
+
+Although the focus indicators on the bottom navigation bar weren't very clear, it was usable with the keyboard, and all other controls had visible focus indicators and could be used with the keyboard. Updating the UI to use version 5 of daisyUI would bring improvements to accessibility, but even without those improvements, keyboard navigation functions as expected.
+
+Although not included in the video, I also tested that the map could be interacted with with the keyboard. I used <kbd>Shift</kbd>+<kbd>Tab</kbd> to focus the first focusable element on the page (which is the Leaflet map), and from there I could use the arrow keys to pan the map, and the <kbd>+</kbd> and <kbd>-</kbd> keys to zoom in and out.
+
 ### Final stakeholder feedback
 
 #### Final stakeholder feedback form
@@ -8309,6 +8320,18 @@ The decision to deprioritise this user requirement was justified in the [Sprint 
 #### Evaluation of UR5
 
 > The system should be accessible to those with a variety of needs and preferences
+
+The app is keyboard-accessible, as evidenced by the following test:
+
+- [Testing keyboard navigation](#testing-keyboard-navigation)
+
+Running Firefox's built-in accessibility issue checker on the web app yielded two keyboard-related issues which I believe to be false positives, and an error that my tooltip text has an insufficient text contrast ratio. If I were to update the project to daisyUI 5, this issue would be fixed, as daisyUI 5 has a much higher-contrast tooltip colour scheme by default. Since none of my stakeholders noticed it as an issue, it does not significantly detract from meeting this user requirement.
+
+![Firefox Accessibility issues](assets/eval/ff-a11y-issues.png)
+
+In my final stakeholder feedback form, I asked my stakeholders if they felt like the app was usable for them, asking if the app suited their usability needs and was accessible. All of my stakeholders gave a 10 on this opinion scale, demonstrating that the app has very successfully matched my user's expectations for accessibility.
+
+In conclusion, while usability and accessibility can always be improved (and some areas for this have been identified), my users found the app very accessible, and it also does very well on objective accessibility measures, so this user requirement has been fully met.
 
 #### Evaluation of UR6
 
