@@ -358,6 +358,9 @@ A-level Computer Science programming project
         - [Sprint 4 post-development testing log](#sprint-4-post-development-testing-log)
       - [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation)
   - [Evaluation](#evaluation)
+    - [Testing for evaluation](#testing-for-evaluation)
+      - [Testing a route to Leatherhead](#testing-a-route-to-leatherhead)
+      - [Testing a route through Slyfield Industrial Estate](#testing-a-route-through-slyfield-industrial-estate)
     - [Evaluation of user requirements](#evaluation-of-user-requirements)
       - [Evaluation of UR1](#evaluation-of-ur1)
       - [Evaluation of UR2](#evaluation-of-ur2)
@@ -367,8 +370,6 @@ A-level Computer Science programming project
       - [Evaluation of UR6](#evaluation-of-ur6)
       - [Evaluation of UR7](#evaluation-of-ur7)
       - [Evaluation of UR8](#evaluation-of-ur8)
-    - [Final testing](#final-testing)
-      - [Testing a route](#testing-a-route)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
       - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
@@ -376,6 +377,7 @@ A-level Computer Science programming project
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
       - [Voby glossary](#voby-glossary)
+      - [Other abbreviations](#other-abbreviations)
       - [Glossary for other technologies](#glossary-for-other-technologies)
     - [Appendix B: Bibliography](#appendix-b-bibliography)
       - [Services used](#services-used)
@@ -8162,6 +8164,29 @@ I designed the presets screen, but didn't have a the time to implement it, as I 
 
 ## Evaluation
 
+### Testing for evaluation
+
+I will perform testing for evaluation (final testing) using the deployed version at <https://marvellous-mapping-machine.pages.dev/>, because it is the way my stakeholders and users will use the app. In this way, I will be performing end-to-end tests.
+
+#### Testing a route to Leatherhead
+
+To test that the app would give a great pedestrian route between two points, I entered "Howard of Effingham" into the start point input, and "Leatherhead" into the end point input.
+
+It gave a route along the pavements through the villages of Effingham and Little Bookham, and then went along a bridleway along the edge of Norbury Park to avoid walking along the A246 for the whole way. Once in Leatherhead, it routed along pavements and pedestrian paths to get close to the centre of Leatherhead, as had been requested. This very successfully demonstrates the routing engine achieving its core goal, which is to generate a pleasant route optimised for pedestrians that safely and correctly navigates the user to their destination (UR1).
+
+![The route to Leatherhead displayed on a map](assets/eval/to-leathehead.png)
+
+![The end of the route to Leatherhead](assets/eval/to-leathehead-end.png)
+
+#### Testing a route through Slyfield Industrial Estate
+
+To test that the routing engine would stick to pavements where they are available (and mapped as separate ways), I used the app to calculate a route from one end of Slyfield Industrial Estate (51.262077, -0.572927) to the other (51.261726, -0.558413).
+
+The starting coordinates were on the road, but the route moved onto the pavement as soon as it could, and continued following pavements for as long as they were available. It then succesfully reached the requested destination.
+
+![The route through the industrial estate](assets/eval/industrial-estate.png)
+
+
 ### Evaluation of user requirements
 
 The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evelate how successfully these requirements have been met.
@@ -8199,12 +8224,6 @@ The success criteria for my project is defined in my [user requirements](#user-r
 #### Evaluation of UR8
 
 > The system should perform well and be responsive to a variety of devices, across mobile and desktop
-
-### Final testing
-
-I will perform final testing using the deployed version at <https://marvellous-mapping-machine.pages.dev/>, because it is the way my stakeholders and users will use the app. In this way, I will be perfoming an end-to-end test.
-
-#### Testing a route
 
 ### Final stakeholder feedback
 
@@ -8289,6 +8308,13 @@ The first part of a tag, e.g. `surface=*` describes the surface material.
 Syntax added to Javascript that allows embedding HTML-like markup, to make it easier to write code for components. Used with a Javascript framework like Voby. Its file extension is `.jsx` (or `.tsx` when using TypeScript).
 
 </dd>
+</dl>
+
+#### Other abbreviations
+
+<dl>
+<dt>UR1, UR2, etc.</dt>
+<dd>"UR" stands for "user requirement" in this context, so "UR1" means "user requirement 1".</dd>
 </dl>
 
 #### Glossary for other technologies
