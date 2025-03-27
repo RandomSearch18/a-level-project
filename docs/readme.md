@@ -8337,9 +8337,19 @@ In conclusion, while usability and accessibility can always be improved (and som
 
 > The system should function offline, once the necessary data has been downloaded
 
+The majority of work to enable the app to function offline was done in the [implementing a service worker](#implementing-a-service-worker) section of sprint 2 development. I encountered issues that prevented me from implementing an ideal offline experience, but I managed to implement a solution that does allow the app to be used offline. Once a route has been calculated and map tiles have been loaded, the data is aggressively cached so that the app doesn't need an internet connection to continue working.
+
+Going forward, I would like to implement smarter caching so that map data and tiles can be cached, while the app's code can update automatically if a new version is available. I would also like to give the user more control over what map data they have stored (e.g. ability to pre-download regions).
+
+The hacky nature of this implementation is reflected in the relevant scores in the final feedback form. Ili rated "The app works offline when I need it to" as a 10, James gave it a 6, and Andrew did not respond because he hadn't tested that feature. Despite the shortcomings in the implementation, the app does indeed work offline once the data has been downloaded, so this user requirement has been met.
+
 #### Evaluation of UR7
 
 > The system should be able to import and export routing options presets
+
+This user requirement is an extension to the presets feature, which did not get implemented due to stakeholder feedback and time constraints. See [Evaluation of UR4](#evaluation-of-ur4) for details and links to the justification.
+
+Since the presets feature has not been implemented, the ability to import and export presets could not be added, therefore this user requirement has not been met.
 
 #### Evaluation of UR8
 
