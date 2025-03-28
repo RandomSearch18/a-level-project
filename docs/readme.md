@@ -366,6 +366,7 @@ A-level Computer Science programming project
       - [Testing the desire paths option](#testing-the-desire-paths-option)
       - [Testing keyboard navigation](#testing-keyboard-navigation)
       - [Testing responsiveness to small viewports](#testing-responsiveness-to-small-viewports)
+      - [Performance testing](#performance-testing)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
       - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
@@ -8245,6 +8246,10 @@ I used Firefox's Responsive Design Mode to resize the browser viewport. I was ab
 
 This test was very successful, with the app working as expected, even on viewports smaller than would be expected for a mobile device
 
+#### Performance testing
+
+I performed performance testing using Chrome's 6x and 20x CPU slowdowns, but lost the results, so they are not available in this document. With a 20x slowdown (which I calculated as approximating a Raspberry Pi 3's processor, or a Snapdragon 600), the navigation app took 100-200 seconds to calculate a 2.7 km route ("Sixth Form Effingham" to "Bookham, Surrey" (which resolves to Bookham Station)).
+
 ### Final stakeholder feedback
 
 #### Final stakeholder feedback form
@@ -8369,6 +8374,12 @@ Since the presets feature has not been implemented, the ability to import and ex
 #### Evaluation of UR8
 
 > The system should perform well and be responsive to a variety of devices, across mobile and desktop
+
+I designed the frontend UI in a way such that it adapts to the size of the viewport (i.e. the browser window), and this has been very successful at ensuring the app can be used on smaller screens. This is evidenced by the following test:
+
+- [Testing responsiveness to small viewports](#testing-responsiveness-to-small-viewports)
+
+The app also works well on a larger and wide viewports, but I have put less effort into designing for those screen sizes, as the app is intended to primarily be used on a phone, so there is some room for improvement on that front.
 
 ### Final project limitations
 
