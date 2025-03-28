@@ -365,7 +365,6 @@ A-level Computer Science programming project
       - [Testing routing through corridors](#testing-routing-through-corridors)
       - [Testing the desire paths option](#testing-the-desire-paths-option)
       - [Testing keyboard navigation](#testing-keyboard-navigation)
-      - [Testing responsiveness to small viewports](#testing-responsiveness-to-small-viewports)
     - [Final stakeholder feedback](#final-stakeholder-feedback)
       - [Final stakeholder feedback form](#final-stakeholder-feedback-form)
       - [Final stakeholder feedback from Andrew](#final-stakeholder-feedback-from-andrew)
@@ -8233,17 +8232,6 @@ I recorded this test: **[keyboard-navigation.webm](assets/eval/keyboard-navigati
 Although the focus indicators on the bottom navigation bar weren't very clear, it was usable with the keyboard, and all other controls had visible focus indicators and could be used with the keyboard. Updating the UI to use version 5 of daisyUI would bring improvements to accessibility, but even without those improvements, keyboard navigation functions as expected.
 
 Although not included in the video, I also tested that the map could be interacted with with the keyboard. I used <kbd>Shift</kbd>+<kbd>Tab</kbd> to focus the first focusable element on the page (which is the Leaflet map), and from there I could use the arrow keys to pan the map, and the <kbd>+</kbd> and <kbd>-</kbd> keys to zoom in and out.
-
-#### Testing responsiveness to small viewports
-
-I used Firefox's Responsive Design Mode to resize the browser viewport. I was able to reduce the viewport width to 340 px before horizontal scrolling occurred on the options screen. The route screen remained remained usable down to 184 px. The map screen happily adapts to even the tiniest of viewports (200 px by 255 px).
-
-<!-- prettier-ignore -->
-| Map screen | Route screen | Options screen |
-| ---------- | ------------ | -------------- |
-| ![Map screen with 200x255px viewport](assets/eval/tiny-map.png) | ![Route screen with a 184px width viewport](assets/eval/tiny-route.png) | ![Options screen with a 340px width viewport](assets/eval/340px-options.png) |
-
-This test was very successful, with the app working as expected, even on viewports smaller than would be expected for a mobile device
 
 ### Final stakeholder feedback
 
