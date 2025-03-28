@@ -379,6 +379,8 @@ A-level Computer Science programming project
       - [Evaluation of UR6](#evaluation-of-ur6)
       - [Evaluation of UR7](#evaluation-of-ur7)
       - [Evaluation of UR8](#evaluation-of-ur8)
+    - [Final project limitations](#final-project-limitations)
+      - [Lack of feedback when the route is being calculated](#lack-of-feedback-when-the-route-is-being-calculated)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8354,6 +8356,16 @@ Since the presets feature has not been implemented, the ability to import and ex
 #### Evaluation of UR8
 
 > The system should perform well and be responsive to a variety of devices, across mobile and desktop
+
+### Final project limitations
+
+#### Lack of feedback when the route is being calculated
+
+When integrating the Python routing engine into the frontend in Sprint 2, I encountered issues with calling Python constructors when PyScript was run in a web worker. This led to me being forced to run PyScript in the main browser thread, which means the UI can't respond or update while Python code is executing. (See [More issues with PyScript workers](#more-issues-with-pyscript-workers) for details.)
+
+Python code execution takes a few seconds on page load (when PyScript is being set up), and another 1-10 seconds when calculating the route (depending on the length of the route). During this time, the entire UI is frozen, which makes the app feel janky and causes a bad user experience. In addition, it prevents me from showing a progress bar, or animated loading spinner, while the route is being calculated.
+
+I partially addressed this problem in Sprint 2, section [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
 
 ## Appendix
 
