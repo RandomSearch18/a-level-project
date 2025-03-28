@@ -14,6 +14,8 @@ sudo npm install --global mermaid-filter
 node /usr/lib/node_modules/mermaid-filter/node_modules/puppeteer/install.js
 ```
 
+`mermaid-filter` seems to add quite a bit of time to the build process, unfortunately, but it seems to be the best way to include Mermaid diagrams in the output.
+
 ## Converting the markdown to HTML
 
 Ensure you're in the `docs` directory.
