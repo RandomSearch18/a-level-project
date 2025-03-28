@@ -8250,6 +8250,21 @@ This test was very successful, with the app working as expected, even on viewpor
 
 I performed performance testing using Chrome's 6x and 20x CPU slowdowns, but lost the results, so they are not available in this document. With a 20x slowdown (which I calculated as approximating a Raspberry Pi 3's processor, or a Snapdragon 600), the navigation app took 100-200 seconds to calculate a 2.7 km route ("Sixth Form Effingham" to "Bookham, Surrey" (which resolves to Bookham Station)).
 
+I performed performance testing again, using Brave browser (Brave version 1.76.74 Chromium: 134.0.6998.89 (Official Build) unknown (64-bit)), Arch Linux x86_64 (Linux 6.13.7-arch1-1 (64-bit)), and with an 8 × 12th Gen Intel® Core™ i3-12100 CPU.
+
+Without any throttling and with a warm network cache, the route was calculated in **2.74 seconds**.
+
+I then used Brave's CPU throttling presets to simulate a lower-power device. Its calibration process gave me these presets:
+
+- Low-tier mobile - 13.4x slowdown
+- Mid-tier mobile - 3.8x slowdown
+
+Testing with the low-tier mobile preset led to a route being calculated in **35.04 seconds**. This is a long time to be waiting for a route to be calculated, so the app is unlikely to be suitable for walks of that length on a low-tier mobile device. Outside of route calculation, the app still felt responsive and fast.
+
+A shorter (0.69 km) walk from "Sixth Form Effingham" to "The Bakery, Effingham" took 12.7 seconds, which is still quite a while, but more reasonable than the previous route.
+
+![The route to The Bakery](assets/eval/short-route.png)
+
 ### Final stakeholder feedback
 
 #### Final stakeholder feedback form
@@ -8379,7 +8394,13 @@ I designed the frontend UI in a way such that it adapts to the size of the viewp
 
 - [Testing responsiveness to small viewports](#testing-responsiveness-to-small-viewports)
 
-The app also works well on a larger and wide viewports, but I have put less effort into designing for those screen sizes, as the app is intended to primarily be used on a phone, so there is some room for improvement on that front.
+The app also works well on a larger and wide viewports, but I have put less effort into designing for those screen sizes, as the app is intended to primarily be used on a phone, so there is some room for improvement on that front. This was picked up on during final stakeholder testing (by Andrew).
+
+I also tested performance, and sadly performance was not adequate on a simulated low-end device. This was demonstrated in the following test:
+
+- [Performance testing](#performance-testing)
+
+There are a number of things I could do to improve the performance of the app in the future. I could simplify the routing graph, to eliminate unnecessary nodes and improve the performance of the A\* algorithm. I could also try tweaking the heuristic function to be closer to the true weight value, as long as that can be done while keeping the heuristic admissible. Additionally, the Python execution in the browser could perhaps be optimised, e.g. by getting it to work within a web worker. That would also unblock a much-improved loading experience for when Python code is executing, which would improve perceived performance.
 
 ### Final project limitations
 
