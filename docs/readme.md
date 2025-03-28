@@ -8262,7 +8262,7 @@ James particularly appreciated the large number of options for customising the r
 
 His one gripe was that sometimes the routing engine chooses a less-optimal path, as in the image (provided by James) below. This is a known issue that I discussed in greater depth in the [path through Bookham Common](#path-through-bookham-common) test case during Sprint 4 development.
 
-![Route taking a detour instead of using a direct path](assets//eval/screenshot-from-james.png)
+![Route taking a detour instead of using a direct path](assets/eval/screenshot-from-james.png)
 
 He also noted that the browser tab will crash if you try to calculate a really long route, and while that makes the app unsuitable for long hikes, he decided it was not a massive issue.
 
