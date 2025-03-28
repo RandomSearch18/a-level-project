@@ -381,6 +381,7 @@ A-level Computer Science programming project
       - [Evaluation of UR8](#evaluation-of-ur8)
     - [Final project limitations](#final-project-limitations)
       - [Lack of feedback when the route is being calculated](#lack-of-feedback-when-the-route-is-being-calculated)
+      - [Map data limitations](#map-data-limitations)
   - [Appendix](#appendix)
     - [Appendix A: Glossary](#appendix-a-glossary)
       - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8366,6 +8367,22 @@ When integrating the Python routing engine into the frontend in Sprint 2, I enco
 Python code execution takes a few seconds on page load (when PyScript is being set up), and another 1-10 seconds when calculating the route (depending on the length of the route). During this time, the entire UI is frozen, which makes the app feel janky and causes a bad user experience. In addition, it prevents me from showing a progress bar, or animated loading spinner, while the route is being calculated.
 
 I partially addressed this problem in Sprint 2, section [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
+
+#### Map data limitations
+
+My project uses OSM data, which is highly detailed and accurate in a lot of parts of the UK, but there are some places where it falls slightly short of user expectations.
+
+For example, UK postcodes are not available as open data, which means postcode information has to be manually added for each location. One statistics tool suggests that 27.1% of all UK postcodes appear at least once in the OSM database.[^postcode-stats] This will result in some places not being able to be looked up if just house number and postcode are provided (for example). It also means that the address checker, which displays the full address of wherever you have entered, will attempt to guess the postcode and will sometimes get it wrong, even though the address is correct. This caused confusion on one occasion when Ili was testing the program.
+
+[^postcode-stats]: _OSM Postcode Stats for Great Britain_ (<https://osm.mathmos.net/addresses/pc-stats/>), accessed 2025-03-28
+
+Another limitation of OSM data in the UK is that house numbers/names are not present in the database everywhere. Some areas have buildings mapped with detailed address information, some areas have just building locations mapped, and other areas only have major buildings like schools mapped, with no houses (yet) in the database. The image below is taken from a tool for adding addresses to OSM, and it shows a number of missing addresses in the area I have chosen. Generally, address information is better in cities and more-populated areas, and more patchy in rural areas and villages. For my app, this will mean that not all houses/addresses will be recognised in the start/destination inputs, which could be annoying for users. In this case, the workaround would be to manually look up the coordinates of the address, and input the coordinates.
+
+![OSM address tool showing a lot of missing addresses](assets/eval/missing-addresses.png)
+
+With that said, the good thing about using OSM data is that it is continually improving, and anyone can contribute to it (e.g. by adding addresses in their area). This means that as time goes on, the address data will get better and better. It also means that OSM is usually very quick to update the data for new housing developments and similar changes. The graph below shows the number of OSM objects with `addr:street` tags (i.e. addresses that have the road part of the address tagged in the database) over time, from which you can see that addresses are being constantly added to the database.
+
+![Line graph from Jan 2008 to Jan 2024 showing a mostly-linear increase](assets/eval/addr-street-graph.png)
 
 ## Appendix
 
