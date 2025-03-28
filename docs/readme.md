@@ -1634,7 +1634,7 @@ I used Figma to make this mockup, so that the rounded corners could be neater.
 
 I need to add a way to show which option is selected and which can be pressed. This should be intuitive to make the app easy to use.
 
-![Combination buttons showing the "neutral" state selected](assets/design/ui/combi-button-v3.svg)
+<img src="assets/design/ui/combi-button-v3.svg" alt='A combination button, showing "avoid", neutral, and "prefer" states' style="width:50%;height:200px" />
 
 - Andrew liked the top version best
   - He liked the shadow
@@ -1790,13 +1790,13 @@ I chose to split the functions of the app into three sections ("screens"): "map"
   - This helps ensure that the app is intuitive to use
 - It gives more screen space for the different sections, meaning that they can have a number of buttons/fields without compromising on usability
 
-![Mockup of the map screen, and the route screen](assets/1/mockup-1.excalidraw.svg)
+<img src="assets/1/mockup-1.excalidraw.svg" alt="Mockup of the map screen, and the route screen" style="width:100%;height:600px" />
 
 ##### Sprint 1 UI mockup v2
 
 For this mockup, I refined the map screen by adding a blue dot and circle to show the user's current location. I also added more colour to the bottom navigation bar, because I think a big problem with modern UI design is that too many surfaces are plain white, making it physically harsh on the eyes and not as nice to look at.
 
-![Mockup of the map screen](assets/1/mockup-2.excalidraw.svg)
+<img src="assets/design/ui/mockup-2.svg" alt="Mockup of the map screen, showing the user's location" style="width:100%;height:600px" />
 
 ###### Sprint 1 UI mockup v2 feedback
 
@@ -3199,7 +3199,7 @@ Additional tags:
 
 I used Excalidraw to create mockups for the route screen in various states. The purpose of this screen is to display the information about the route that doesn't go on a map (e.g. distance), and to give an intuitive way to input the start and end points of the route, by address or coordinates.
 
-![Mockups for 5 different states of the route screen](assets/2/route-screen-mockups.excalidraw.svg)
+<img src="assets/2/route-screen-mockups.excalidraw.svg" alt="Mockups for 5 different states of the route screen" style="width:100%;height=800px" />
 
 I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
 
@@ -3209,7 +3209,7 @@ I gave the Excalidraw share link for the mockups to James and Andrew. James said
 
 I showed the mockup to Ili in-person, and at first he found the way I had presented the different screens confusing, as it wasn't clear that they were transitions through a flow (he assumed they were different options to choose from). I explained this to him and also updated the diagram to have arrows to show progression.
 
-![](assets/2/route-screen-mockups-2.excalidraw.svg)
+<img src="assets/2/route-screen-mockups-2.excalidraw.svg" alt="Updated mockups for different states, shown side-by-side" style="width:100%;height:400px" />
 
 Similarly to Andrew, I had to tell him what the hatched FAB and the loading spinner were, but that was just a limitation of my mockup. For the route info, he suggested putting the "walking from" and "walking to" next to each other, as well as showing the address for the destination instead of just the coordinates. These seemed like good small suggestions to me.
 
@@ -4273,11 +4273,11 @@ While adding offline support is out of this sprint's scope, it would be very use
 
 Since I plan on making the app an installable PWA, I also took the opportunity to add a `manifest.json` file to the page. This requires a logo, so I quickly designed a square logo for the app:
 
-![A pink square with the letters "MMMM" drawn in](assets/2/mmmm.excalidraw.svg)
+<img src="assets/2/mmmm.excalidraw.svg" alt='A pink square with the letters "MMMM" drawn in' style="width:200px;height:200px" />
 
 I also created a maskable version, which is important to look good on certain platforms, including Android, where I expect the app to be used a lot.
 
-![The "MMMM" letters smaller in the middle of a pink borderless square](assets/2/mmmm-maskable.svg)
+<img src="assets/2/mmmm-maskable.svg" alt='The "MMMM" letters smaller in the middle of a pink borderless square' style="width:200px;height:200px" />
 
 ```json
 {
@@ -5186,7 +5186,7 @@ After compiling the table, I decided to change the "Default/Prefer more" button 
 
 I then created a mockup of the navigations options (i.e. route options) screen, using my new combination buttons. I made sure to include any options I had mentioned in my design for sprint 2, as well as options previously requested by my stakeholders.
 
-![Navigation options screen mockup](assets/3/options-mockup-1.excalidraw.svg)
+<img src="assets/3/options-mockup-1.excalidraw.svg" alt='Navigation options screen mockup' style="width:100%;height:800px" />
 
 I asked my stakeholders for feedback on the mockup. James really liked how it looked. He suggesting turning the "treacherous paths" option from an Avoid/Neutral into a Avoid/Neutral/Prefer combination button. I agreed that this would be a fun option to have, so I implemented this change.
 
@@ -7678,7 +7678,7 @@ I reckon that the best way to add the UI elements for presets will be to add a n
 
 I made a mockup to show the UI elements and their behaviour. [View in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)
 
-![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-1.excalidraw.svg)
+<img src="assets/4/presets-mockup-1.excalidraw.svg" alt='Mockup for Presets screen made in Excalidraw' style="width:100%;height:800px" />
 
 I sent this mockup to my stakeholders Andrew and James.
 
@@ -7690,7 +7690,7 @@ Andrew wasn't sure what presets were and how they worked, so I explained that to
 
 I created version 2 of the mockup, as shown below (alternatively, [open it in Excalidraw](https://excalidraw.com/#json=6nx7EEUiczvzjUsKi_5Ex,oXsYgEt2wi2lluw0N8CKwQ)).
 
-![Mockup for Presets screen made in Excalidraw](assets/4/presets-mockup-2.excalidraw.svg)
+<img src="assets/4/presets-mockup-2.excalidraw.svg" alt='Mockup for Presets screen made in Excalidraw' style="width:100%;height:800px" />
 
 The main difference here is that presets are presented as a list (acting as the main element of the presets screen) instead of entries in a dropdown. This should be more user-friendly as it better represents the things that the user is dealing with (a list of presets). The options for sharing presets are now accessed through a three-dots menu attached to each preset in the list, which should feel nicer and more polished than a bunch of buttons at the bottom. It also makes it clear which preset the options apply to.
 
