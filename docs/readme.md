@@ -1137,6 +1137,8 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 ![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
 
+<img src="assets/design/overall-architecture.excalidraw.svg" alt="A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices" style="width:100%;height:100px" />
+
 _Icons provided by the KDE Breeze icon theme, licenced under LGPL, <https://github.com/KDE/breeze-icons>_
 
 #### Routing engine structure
