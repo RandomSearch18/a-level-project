@@ -54,3 +54,7 @@ Exit with code 1 due to network error: ProtocolUnknownError
 It probably means that one of your `<img>` elements has a `src=` path that doesn't exist on the filesystem.
 
 As far as I can tell, there's no way to tell which image is causing this issue, so maybe do a bisect or something.
+
+### Custom headers and footers
+
+We may need to downgrade our version of `wkhtmltopdf` to 0.12.5 for customising headers and footers to work. See <https://www.odoo.com/forum/help-1/header-and-footer-not-showing-in-pdf-205290>
