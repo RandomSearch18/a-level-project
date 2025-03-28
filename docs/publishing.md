@@ -20,7 +20,7 @@ Ensure you're in the `docs` directory.
 
 ```bash
 mkdir -p ./dist
-pandoc --css=main.css --embed-resources --standalone -F mermaid-filter --number-sections -o ./dist/readme.html ./readme.md
+pandoc --css=main.css --embed-resources --standalone -F mermaid-filter --number-sections --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
 ```
 
 - `--standalone` ensures that a complete HTML document is generated, not just a fragment.
