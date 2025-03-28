@@ -1135,9 +1135,7 @@ I have decomposed the main problem into sub-problems, showing the different aspe
 
 #### Overall architecture
 
-![A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices](assets/design/overall-architecture.excalidraw.svg)
-
-<img src="assets/design/overall-architecture.excalidraw.svg" alt="A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices" style="width:100%;height:100px" />
+<img src="assets/design/overall-architecture.excalidraw.svg" alt="A diagram showing the routing engine running within the web app, which runs in a web browser, which interacts with hardware devices" style="width:100%;height:500px" />
 
 _Icons provided by the KDE Breeze icon theme, licenced under LGPL, <https://github.com/KDE/breeze-icons>_
 
@@ -1610,7 +1608,8 @@ This would be used to select a preference for a certain routing option, like whe
 
 This button was made with Excalidraw.
 
-![A combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v1.excalidraw.svg)
+<img src="assets/design/ui/combi-button-v1.excalidraw.svg" alt='A combination button, showing "avoid", neutral, and "prefer" states' style="width:50%;height:100px" />
+
 Andrew's feedback:
 
 - Neutral state is not very obvious
@@ -1622,7 +1621,7 @@ Andrew's feedback:
 
 I used Figma to make this mockup, so that the rounded corners could be neater.
 
-![A neater combination button, showing "avoid", neutral, and "prefer" states](assets/design/ui/combi-button-v2.svg)
+<img src="assets/design/ui/combi-button-v2.svg" alt='A neater combination button, showing "avoid", neutral, and "prefer" states' style="width:50%;height:100px" />
 
 - James likes rectangle 2 (the red part of the pill shape)
 - Andrew likes:
