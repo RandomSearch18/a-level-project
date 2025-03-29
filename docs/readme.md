@@ -7935,14 +7935,12 @@ However, after reading the docs for `oby`'s `store` function,[^oby-store] I disc
 
 I switched to using that function:
 
-<!-- FIXME: this code sample seems to not match the description? -->
-
 ```ts
-useEffect(() => {
-  const serializedOptions = JSON.stringify(options)
-  localStorage.setItem(LOCAL_STORAGE_KEY, serializedOptions)
-  console.debug("Updated saved options:", serializedOptions)
-})
+export function clearData() {
+  localStorage.removeItem(LOCAL_STORAGE_KEY)
+  store.reconcile(options, defaultOptions)
+  console.debug("Cleared stored options")
+}
 ```
 
 I tested the new implementation, and it seemed to work, apart from the state of the app options (i.e. debug options) only updating after a reload. The routing options all reset to their original values immediately, and the app options in local storage were reset, so this is purely a UI issue. Since this suggested the checkboxes weren't updating reactively, I checked how I specified their `checked` attribute, and found that I used the value from the `options` store directly, instead of providing a callback function that gets the value from the options store. Fixing this (as in below diff) fixed the reactivity, and the whole system for clearing data now works.
