@@ -408,6 +408,9 @@ A-level Computer Science programming project
       - [Frontend](#frontend)
       - [Backend](#backend)
     - [Assets used](#assets-used)
+  - [Appendix C: Source code listings](#appendix-c-source-code-listings)
+    - [Backend code listings](#backend-code-listings)
+      - [`requirements.txt`](#requirementstxt)
 
 </div>
 
@@ -8644,6 +8647,26 @@ These libaries are sourced from the Python Package Index (<https://pypi.org/>). 
 #### Assets used
 
 - Red exclamation mark emoji from Google Noto Emoji (<https://github.com/googlefonts/noto-emoji>), licenced under the SIL Open Font License, version 1.1
+
+### Appendix C: Source code listings
+
+The rest of the document contains the full source code for the project. The only other section past this point is the citations, which are at the very end. According to the `cloc` tool, the project has 2,414 lines of source code.[^cloc]
+
+[^cloc]: `cloc` is available at <https://github.com/AlDanial/cloc>. The command used was `cloc backend/*.py frontend/src`, and the statistic is correct as of commit `d533361`
+
+The most convent way to access the project's source code (along with its Git history, and development instructions) is by visiting the public Github repository at <https://github.com/RandomSearch18/marvellous-mapping-machine>. Source code files can be accessed through the Github web UI, by downloading a ZIP file of the repository, or by using `git clone`. The repository URL can be accessed by scanning the QR code below.
+
+![https://github.com/RandomSearch18/marvellous-mapping-machine](assets/eval/gh-repo-qr.png)
+
+#### Backend code listings
+
+##### `requirements.txt`
+
+```none
+requests
+geographiclib
+networkx
+```
 
 <div>
 
