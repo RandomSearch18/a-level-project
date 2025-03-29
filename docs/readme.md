@@ -389,6 +389,10 @@ A-level Computer Science programming project
     - [Updates to the OSM tagging model](#updates-to-the-osm-tagging-model)
     - [NetworkX dropping support for Python 3.10](#networkx-dropping-support-for-python-310)
     - [General dependency updates](#general-dependency-updates)
+  - [Maintenance non-issues](#maintenance-non-issues)
+    - [Updates to the OSM database](#updates-to-the-osm-database)
+    - [Operating system/platform changes](#operating-systemplatform-changes)
+    - [Updated browser APIs](#updated-browser-apis)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8407,11 +8411,11 @@ There are a number of things I could do to improve the performance of the app in
 
 #### Lack of feedback when the route is being calculated
 
-When integrating the Python routing engine into the frontend in Sprint 2, I encountered issues with calling Python constructors when PyScript was run in a web worker. This led to me being forced to run PyScript in the main browser thread, which means the UI can't respond or update while Python code is executing. (See [More issues with PyScript workers](#more-issues-with-pyscript-workers) for details.)
+When integrating the Python routing engine into the frontend in Sprint 2, I encountered issues with calling Python constructors when PyScript was run in a web worker. This led to me being forced to run PyScript in the main browser thread, which means the UI can't respond or update while Python code is executing. (See [more issues with PyScript workers](#more-issues-with-pyscript-workers) for details.)
 
 Python code execution takes a few seconds on page load (when PyScript is being set up), and another 1-10 seconds when calculating the route (depending on the length of the route). During this time, the entire UI is frozen, which makes the app feel unresponsive and causes a bad user experience. In addition, it prevents me from showing a progress bar, or animated loading spinner, while the route is being calculated.
 
-I partially addressed this problem in Sprint 2, section [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
+I partially addressed this problem in Sprint 2, section [adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
 
 To resolve this limitation, I would have to get Python execution working in a web worker, and perhaps add code to the routing engine to report precise progress updates. This would let me add an informative progress bar to the UI, and generally improve the user experience during route calculation.
 
@@ -8469,6 +8473,24 @@ NetworkX is planning to drop support for Python 3.10 in its upcoming 3.5 release
 #### General dependency updates
 
 The frontend has a large number of dependencies (including dependencies of dependencies), and it is good practice to keep them up to date, to benefit from any security improvements, performance improvements, and bug fixes. If a major version upgrade has to be made, then some changes to the project code may be required. Otherwise, the packages can be upgraded using `yarn upgrade-interactive --latest` and then tested normally to ensure the upgrade has not broken anything.
+
+### Maintenance non-issues
+
+#### Updates to the OSM database
+
+OSM data is freshly downloaded whenever a new route request is made, so any updates to address, road, or path data in OSM will automatically be reflected in the calculated routes. In the rare case that the (cached) data for a previously-calculated route is no longer suitable, the user can use the "clear cache and reload" feature to force the OSM data to be re-downloaded.
+
+Map tiles are locally cached once downloaded, so there is a chance that the base map will appear out of date if there are changes to the OSM database between uses of the app. This is a minor issue if it does happen, as it only affects the visuals of the map, and not the accuracy of the calculated route. If there is a significant mismatch between the shape of the highlighted route and the geometry of the paths of the map, the "clear cache and reload" button can be used to bring the map tiles up-to-date.
+
+In summary, map data is not bundled with the app and is downloaded on-demand from a live copy of the OSM database, so there is no maintenance required on the project side to keep the map data up-to-date.
+
+#### Operating system/platform changes
+
+Since the user-facing product is a web app, it any platform specifics are abstracted away, so it won't be affected by any changes to OS APIs or programs installed on the system (like display compositors).
+
+#### Updated browser APIs
+
+The frontend is a web app, and features are often added to the HTML, JS and CSS specifications. However, updates to the web specifications are always made to be backwards-compatible, so the app should continue to function no matter what new features are added to browsers. The exception to this is security restrictions are sometime made tighter, which can break functionality in some cases, but I doubt that this will affect my app.
 
 ## Appendix
 
