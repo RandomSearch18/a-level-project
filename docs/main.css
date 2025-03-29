@@ -16,3 +16,40 @@ figure svg {
 figure {
   margin-inline: 1em;
 }
+
+.header-section-number {
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 64px;
+  text-align: center;
+  margin: 0 16px;
+}
+
+h2 {
+  font-size: 50px;
+}
+
+.toc {
+  display: none;
+}
+
+body {
+  max-width: none;
+}
+
+table {
+  table-layout: auto;
+}
+
+pre > code {
+  background-color: none;
+  border: 2px solid #9e9e9e;
+}
+
+@media print {
+  a {
+    color: #0076d1;
+  }
+}

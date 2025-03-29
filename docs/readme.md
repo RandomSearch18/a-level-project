@@ -3201,7 +3201,7 @@ Additional tags:
 
 I used Excalidraw to create mockups for the route screen in various states. The purpose of this screen is to display the information about the route that doesn't go on a map (e.g. distance), and to give an intuitive way to input the start and end points of the route, by address or coordinates.
 
-<img src="assets/2/route-screen-mockups.excalidraw.svg" alt="Mockups for 5 different states of the route screen" style="width:100%;height=800px" />
+<img src="assets/2/route-screen-mockups.excalidraw.svg" alt="Mockups for 5 different states of the route screen" style="width:100%;height:800px" />
 
 I will be able to use the [loading spinner](https://daisyui.com/components/loading/#loading-spinner) daisyUI component to signal when Python/PyScript is working in the background to load the routing engine/map data or calculate the route.
 

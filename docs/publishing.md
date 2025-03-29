@@ -22,9 +22,11 @@ Ensure you're in the `docs` directory.
 
 ```bash
 mkdir -p ./dist
-pandoc --css=main.css --embed-resources --standalone -F mermaid-filter --number-sections --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
+pandoc  --css=water.css --css=main.css --embed-resources --standalone -F mermaid-filter --number-sections --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
 ```
 
+- `--css=water.css` includes the [Water.css](https://watercss.kognise.dev/) stylesheet, which just makes the document look nice
+- `--css=main.css` is for our own custom styles (of which there aren't many)
 - `--standalone` ensures that a complete HTML document is generated, not just a fragment.
 - `-F mermaid-filter` enables the use of `mermaid-filter` for rendering diagrams.
 - Everything else is self-explanatory, hopefully
@@ -32,7 +34,7 @@ pandoc --css=main.css --embed-resources --standalone -F mermaid-filter --number-
 ## Converting the HTML to a PDF
 
 ```bash
-wkhtmltopdf --default-header --disable-smart-shrinking toc ./dist/readme.html ./dist/readme.pdf
+wkhtmltopdf --default-header --disable-smart-shrinking --print-media-type toc ./dist/readme.html ./dist/readme.pdf
 ```
 
 - Without `--disable-smart-shrinking`, the font size is inexplicably really small
