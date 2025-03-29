@@ -8415,6 +8415,8 @@ Python code execution takes a few seconds on page load (when PyScript is being s
 
 I partially addressed this problem in Sprint 2, section [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
 
+To resolve this limitation, I would have to get Python execution working in a web worker, and perhaps add code to the routing engine to report precise progress updates. This would let me add an informative progress bar to the UI, and generally improve the user experience during route calculation.
+
 #### Map data limitations
 
 My project uses OSM data, which is highly detailed and accurate in a lot of parts of the UK, but there are some places where it falls slightly short of user expectations.
@@ -8442,6 +8444,8 @@ Making the frontend a web app was a good decision, as it let me easily make the 
 - No integration with smartwatches
   - Native apps on Android can push turn-by-turn instructions to smartwatches, which can be very useful and convenient when navigating
   - There is no web API to achieve this functionality, so it would not be possible to implement this feature without building a native app
+
+To resolve this limitation, I would need to build a native Android app. This could be by adopting a cross-platform framework like React Native, or building an entirely separate frontend codebase for the mobile app. Since the routing engine is a standalone codebase, it won't need rewriting if integrated into a native app, which would slightly reduce the amount of work required to build a native app.
 
 ## Appendix
 
