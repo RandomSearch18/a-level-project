@@ -9925,6 +9925,285 @@ class RoutingEngine:
 
 #### Frontend code listings
 
+##### Frontend source files in the root folder
+
+###### `.editorconfig`
+
+```ini
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+semicolon = false
+```
+
+###### `.nvmrc`
+
+```yaml
+20
+```
+
+###### `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marvellous mapping machine</title>
+    <meta
+      name="description"
+      content="An easy-to-use pedestrian navigation app using OpenStreetMap data"
+    />
+    <link rel="stylesheet" href="src/index.css" />
+    <link rel="stylesheet" href="src/app.css" />
+    <link rel="shortcut icon" href="icons/mmmm.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="src/main.tsx"></script>
+    <script type="py" src="../backend/main.py" config="pyscript.json"></script>
+  </body>
+</html>
+```
+
+###### `manifest.mts`
+
+```ts
+import { ManifestOptions } from "vite-plugin-pwa"
+
+const manifest: Partial<ManifestOptions> = {
+  name: "Mish's Marvellous Mapping Machine",
+  short_name: "Mapping Machine",
+  start_url: "/",
+  display: "standalone",
+  theme_color: "#ffc0cb",
+  icons: [
+    {
+      src: "/icons/mmmm.svg",
+      type: "image/svg+xml",
+      sizes: "170x170",
+    },
+    {
+      src: "/icons/mmmm-192.png",
+      type: "image/png",
+      sizes: "192x192",
+    },
+    {
+      src: "/icons/mmmm-512.png",
+      type: "image/png",
+      sizes: "512x512",
+    },
+    {
+      src: "/icons/mmmm-maskable.svg",
+      sizes: "170x170",
+      type: "image/svg+xml",
+      purpose: "maskable",
+    },
+  ],
+}
+
+export default manifest
+```
+
+###### `package.json`
+
+```json
+{
+  "name": "marvellous-mapping-machine",
+  "private": false,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "predev": "cp -r ../backend ./public",
+    "prebuild": "cp -r ../backend ./public"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
+    "@types/leaflet": "^1.9.14",
+    "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.14",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.14",
+    "typescript": "~5.6.2",
+    "vite": "^5.4.10",
+    "vite-plugin-pwa": "^0.21.1",
+    "voby-vite": "^1.2.5"
+  },
+  "dependencies": {
+    "@pyscript/core": "^0.6.24",
+    "leaflet": "^1.9.4",
+    "voby": "^0.58.1"
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+}
+```
+
+###### `postcss.config.mjs`
+
+```js
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+###### `tailwind.config.mjs`
+
+```js
+import daisyui from "daisyui"
+import typography from "@tailwindcss/typography"
+import daisyuiThemes from "daisyui/src/theming/themes"
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx,mjs,mts}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [typography, daisyui],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...daisyuiThemes.light,
+          primary: "pink",
+        },
+        dark: {
+          ...daisyuiThemes.dark,
+          primary: "pink",
+        },
+      },
+    ],
+  },
+}
+```
+
+###### `tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* Voby stuff */
+    "jsx": "preserve",
+    "jsxImportSource": "voby",
+    "types": ["vite/client"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}
+```
+
+###### `vite.config.mts`
+
+```ts
+import { defineConfig } from "vite"
+import voby from "voby-vite"
+import { VitePWA } from "vite-plugin-pwa"
+import manifest from "./manifest.mts"
+
+const config = defineConfig({
+  build: {
+    target: "esnext",
+  },
+  plugins: [
+    voby({
+      hmr: {
+        enabled: process.env.NODE_ENV !== "production",
+        filter: /\.(jsx|tsx)$/,
+      },
+    }),
+    VitePWA({
+      manifest,
+      devOptions: {
+        enabled: false,
+      },
+      includeAssets: ["*"],
+      workbox: {
+        globPatterns: [
+          "**/*.{js,mjs,ts,mts,jsx,tsx,wasm,css,html,png,svg,json,webmanifest,py}",
+        ],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) =>
+              url.origin === "https://cdn.jsdelivr.net" ||
+              url.origin === "https://files.pythonhosted.org",
+            handler: "CacheFirst",
+            options: {
+              cacheName: "jsdelivr-cache",
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /https:\/\/\w.tile.openstreetmap.org\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "tile-cache",
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "catch-all",
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
+    }),
+  ],
+  server: {
+    fs: {
+      strict: false,
+    },
+    headers: {
+      // So that web workers can work, as per https://docs.pyscript.net/2024.11.1//user-guide/workers#http-headers
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Embedder-Policy": "credentialless",
+    },
+  },
+  assetsInclude: ["../backend/**/*.py"],
+})
+
+export default config
+```
+
 ##### Source files in `public/`
 
 ###### `_headers`
