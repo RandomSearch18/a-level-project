@@ -2042,10 +2042,10 @@ File fake.osm not found.
 ```shell
 $ python main.py /tmp
 Traceback (most recent call last):
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 54, in <module>
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/backend/main.py", line 54, in <module>
     if not validate_file_is_readable(data_file_path):
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 35, in validate_file_is_readable
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/backend/main.py", line 35, in validate_file_is_readable
     with open(file_path, "r") as file:
          ^^^^^^^^^^^^^^^^^^^^
 IsADirectoryError: [Errno 21] Is a directory: '/tmp'
@@ -2135,7 +2135,7 @@ I tried accessing edges by their OSM way ID, and the error message confirmed tha
 ```python
 >>> graph.edges[28112739]
 Traceback (most recent call last):
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
     u, v, k = e
     ^^^^^^^
 TypeError: cannot unpack non-iterable int object
@@ -2146,7 +2146,7 @@ I then tried providing a tuple of a start and end node ID that I knew correspond
 ```python
 graph.edges[(1551819044, 1551819044)]
 Traceback (most recent call last):
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/.venv/lib/python3.12/site-packages/networkx/classes/reportviews.py", line 1359, in __getitem__
     u, v, k = e
     ^^^^^^^
 ValueError: not enough values to unpack (expected 3, got 2)
@@ -2480,9 +2480,9 @@ Right out of the gate, when running my code normally, discovered an error:
 
 ```python
 Traceback (most recent call last):
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/main.py", line 3, in <module>
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/backend/main.py", line 3, in <module>
     from routing_engine import RoutingEngine
-  File "/mnt/zorin/home/mmk21/Code/marvelous-mapping-machine/backend/routing_engine.py", line 5, in <module>
+  File "/mnt/zorin/home/mmk21/Code/marvellous-mapping-machine/backend/routing_engine.py", line 5, in <module>
     from backend.osm_data_types import Coordinates
 ModuleNotFoundError: No module named 'backend'
 ```
