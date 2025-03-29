@@ -383,6 +383,7 @@ A-level Computer Science programming project
   - [Final project limitations](#final-project-limitations)
     - [Lack of feedback when the route is being calculated](#lack-of-feedback-when-the-route-is-being-calculated)
     - [Map data limitations](#map-data-limitations)
+    - [Limitations of being a web app](#limitations-of-being-a-web-app)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8410,7 +8411,7 @@ There are a number of things I could do to improve the performance of the app in
 
 When integrating the Python routing engine into the frontend in Sprint 2, I encountered issues with calling Python constructors when PyScript was run in a web worker. This led to me being forced to run PyScript in the main browser thread, which means the UI can't respond or update while Python code is executing. (See [More issues with PyScript workers](#more-issues-with-pyscript-workers) for details.)
 
-Python code execution takes a few seconds on page load (when PyScript is being set up), and another 1-10 seconds when calculating the route (depending on the length of the route). During this time, the entire UI is frozen, which makes the app feel janky and causes a bad user experience. In addition, it prevents me from showing a progress bar, or animated loading spinner, while the route is being calculated.
+Python code execution takes a few seconds on page load (when PyScript is being set up), and another 1-10 seconds when calculating the route (depending on the length of the route). During this time, the entire UI is frozen, which makes the app feel unresponsive and causes a bad user experience. In addition, it prevents me from showing a progress bar, or animated loading spinner, while the route is being calculated.
 
 I partially addressed this problem in Sprint 2, section [Adding the loading state to the UI](#adding-the-loading-state-to-the-ui), which added a non-animated loading "spinner" that was shown during route calculation. However, my stakeholders desire a better solution, as mentioned in Ili's final feedback, where he said that having a proper loading state would inspire confidence in the app.
 
@@ -8429,6 +8430,18 @@ Another limitation of OSM data in the UK is that house numbers/names are not pre
 With that said, the good thing about using OSM data is that it is continually improving, and anyone can contribute to it (e.g. by adding addresses in their area). This means that as time goes on, the address data will get better and better. It also means that OSM is usually very quick to update the data for new housing developments and similar changes. The graph below shows the number of OSM objects with `addr:street` tags (i.e. addresses that have the road part of the address tagged in the database) over time, from which you can see that addresses are being constantly added to the database.
 
 ![Line graph from Jan 2008 to Jan 2024 showing a mostly-linear increase](assets/eval/addr-street-graph.png)
+
+#### Limitations of being a web app
+
+Making the frontend a web app was a good decision, as it let me easily make the app available on a massive range of platforms and screen sizes, and let me use libaries like Leaflet and daisyUI to get a functioning map and well-designed controls without taking too much time. However, there are some limitations that come with building for the web:
+
+- Greater difficulty providing an offline experience
+  - Native apps are offline-first, with all the code for the app available locally by default, which means the app only has to manage downloading and caching external data (tiles, map data, and geocoding results)
+  - Web apps are online-first by default, which means extra effort has to be put in to meet user's expectations for an app that works offline
+  - Controlling caching with service workers and `CacheStorage` objects is more complex than just having direct access to a local drive
+- No integration with smartwatches
+  - Native apps on Android can push turn-by-turn instructions to smartwatches, which can be very useful and convenient when navigating
+  - There is no web API to achieve this functionality, so it would not be possible to implement this feature without building a native app
 
 ## Appendix
 
