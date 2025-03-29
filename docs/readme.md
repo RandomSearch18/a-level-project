@@ -8457,6 +8457,8 @@ I have implemented the routing algorithm such that routes must start and finish 
 
 ![Diagram showing how the route will pass the destination to get to the next node](assets/eval/route-node-snapping.png)
 
+As well as improving how routes look when drawn, fixing this limitation would also allow the routing graph to be simplified, as nodes in between intersections would no longer be essential to get sensible routes. This would be an important performance improvement, as I discussed in the [evaluation of UR8](#evaluation-of-ur8). I would need to figure out some way to represent the geometry of the ways (which is currently represented in by the coordinates of the nodes). I know that the OSMnx library (which I no longer use) can work with simplified graphs and has a data structure for representing way geometry in a graph, so I would want to investigate how that library solves the problem, if I were to tackle this limitation in the future.
+
 ### Maintenance issues
 
 #### Upgrading to daisyUI 5
