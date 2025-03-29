@@ -1521,7 +1521,6 @@ class RoutePart {
   <<abstract>>
 }
 
-%% FIXME Spelling?!
 RouteManoeuvre --|> RoutePart
 class RouteManoeuvre {
   <<abstract>>
