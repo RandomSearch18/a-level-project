@@ -384,6 +384,7 @@ A-level Computer Science programming project
     - [Lack of feedback when the route is being calculated](#lack-of-feedback-when-the-route-is-being-calculated)
     - [Map data limitations](#map-data-limitations)
     - [Limitations of being a web app](#limitations-of-being-a-web-app)
+    - [Routes must start and finish at nodes](#routes-must-start-and-finish-at-nodes)
   - [Maintenance issues](#maintenance-issues)
     - [Upgrading to daisyUI 5](#upgrading-to-daisyui-5)
     - [Updates to the OSM tagging model](#updates-to-the-osm-tagging-model)
@@ -393,6 +394,7 @@ A-level Computer Science programming project
     - [Updates to the OSM database](#updates-to-the-osm-database)
     - [Operating system/platform changes](#operating-systemplatform-changes)
     - [Updated browser APIs](#updated-browser-apis)
+  - [Bringing the app to market](#bringing-the-app-to-market)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8449,6 +8451,12 @@ Making the frontend a web app was a good decision, as it let me easily make the 
 
 To resolve this limitation, I would need to build a native Android app. This could be by adopting a cross-platform framework like React Native, or building an entirely separate frontend codebase for the mobile app. Since the routing engine is a standalone codebase, it won't need rewriting if integrated into a native app, which would slightly reduce the amount of work required to build a native app.
 
+#### Routes must start and finish at nodes
+
+I have implemented the routing algorithm such that routes must start and finish on routing graph nodes (which currently are equivalent to OSM nodes). In other words, the route can't start or finish half-way along a straight section of path. This works well enough in most cases, as there will be a node quite close to the destination/start point. However, in some cases, this can lead to the route line going further along a path than it needs to, and then going back on itself when the line is drawn to the exact destination coordinates. The diagram below (made using [tldraw](https://www.tldraw.com/)) shows the issue (on top), along with what the expected behaviour would be (bottom).
+
+![Diagram showing how the route will pass the destination to get to the next node](assets/eval/route-node-snapping.png)
+
 ### Maintenance issues
 
 #### Upgrading to daisyUI 5
@@ -8491,6 +8499,10 @@ Since the user-facing product is a web app, it any platform specifics are abstra
 #### Updated browser APIs
 
 The frontend is a web app, and features are often added to the HTML, JS and CSS specifications. However, updates to the web specifications are always made to be backwards-compatible, so the app should continue to function no matter what new features are added to browsers. The exception to this is security restrictions are sometime made tighter, which can break functionality in some cases, but I doubt that this will affect my app.
+
+### Bringing the app to market
+
+<!-- TODO! -->
 
 ## Appendix
 
@@ -8577,6 +8589,7 @@ Note that references (i.e. citations) are listed at the very end of this documen
 - [Github Codespaces](https://github.com/features/codespaces) for easier development on school computers
 - [GitHub Student Developer Pack](https://education.github.com/pack) for enhanced access to the above Github tools
 - [Fillout](https://www.fillout.com/) to create my [final stakeholder feedback form](#final-stakeholder-feedback-form)
+- [Excalidraw](https://excalidraw.com/) and [tldraw](https://www.tldraw.com/) for sharing mockups with stakeholders
 
 #### APIs used
 
