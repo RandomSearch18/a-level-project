@@ -437,6 +437,17 @@ A-level Computer Science programming project
         - [`types.mts`](#typesmts)
         - [`validationError.mts`](#validationerrormts)
         - [`vite-env.d.ts`](#vite-envdts)
+      - [Source files in `src/options/`](#source-files-in-srcoptions)
+        - [`AvoidNeutralPreferLine.tsx`](#avoidneutralpreferlinetsx)
+        - [`BooleanOptionLine.tsx`](#booleanoptionlinetsx)
+        - [`booleanOptionLines.mts`](#booleanoptionlinesmts)
+        - [`CheckboxLine.tsx`](#checkboxlinetsx)
+        - [`CombiButtonButton.tsx`](#combibuttonbuttontsx)
+        - [`DebugButtons.tsx`](#debugbuttonstsx)
+        - [`OptionLine.tsx`](#optionlinetsx)
+        - [`OptionsScreen.tsx`](#optionsscreentsx)
+        - [`OptionsSection.tsx`](#optionssectiontsx)
+        - [`optionsStorage.mts`](#optionsstoragemts)
 
 </div>
 
@@ -11107,6 +11118,592 @@ export class ValidationError extends Error {
 
 ```ts
 /// <reference types="vite/client" />
+```
+
+##### Source files in `src/options/`
+
+###### `AvoidNeutralPreferLine.tsx`
+
+```tsx
+import { useMemo } from "voby"
+import { options, setRoutingOption } from "./optionsStorage.mts"
+import { RoutingOptions } from "../pyscript.mts"
+import OptionLine from "./OptionLine"
+import CombiButtonButton from "./CombiButtonButton"
+
+function AvoidNeutralPreferLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+}) {
+  const state = useMemo(() => {
+    const routingOptions = options.routing
+    return routingOptions[key]
+  })
+  const input = (
+    <div class="flex join rounded-full">
+      <CombiButtonButton
+        active={() => state() === -1}
+        onClick={() => setRoutingOption(key, -1)}
+        classes="btn-error"
+      >
+        Avoid
+      </CombiButtonButton>
+      <CombiButtonButton
+        active={() => state() === 0}
+        onClick={() => setRoutingOption(key, 0)}
+        classes="btn-neutral"
+      >
+        Neutral
+      </CombiButtonButton>
+      <CombiButtonButton
+        active={() => state() === 1}
+        onClick={() => setRoutingOption(key, 1)}
+        classes="btn-success"
+      >
+        Prefer
+      </CombiButtonButton>
+    </div>
+  )
+  return <OptionLine input={input} label={label} />
+}
+
+export default AvoidNeutralPreferLine
+```
+
+###### `BooleanOptionLine.tsx`
+
+```tsx
+import { useMemo } from "voby"
+import { options, setRoutingOption } from "./optionsStorage.mts"
+import { RoutingOptions } from "../pyscript.mts"
+import OptionLine from "./OptionLine"
+import CombiButtonButton from "./CombiButtonButton"
+
+function BooleanOptionLine({
+  label,
+  key,
+  buttons,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+  buttons: {
+    false: {
+      text: string
+      classes: JSX.Class
+    }
+    true: {
+      text: string
+      classes: JSX.Class
+    }
+  }
+}) {
+  const state = useMemo(() => {
+    const routingOptions = options.routing
+    return routingOptions[key]
+  })
+  const input = (
+    <div class="flex join rounded-full">
+      <CombiButtonButton
+        active={() => state() === false}
+        onClick={() => setRoutingOption(key, false)}
+        classes={buttons.false.classes}
+      >
+        {buttons.false.text}
+      </CombiButtonButton>
+      <CombiButtonButton
+        active={() => state() === true}
+        onClick={() => setRoutingOption(key, true)}
+        classes={buttons.true.classes}
+      >
+        {buttons.true.text}
+      </CombiButtonButton>
+    </div>
+  )
+  return <OptionLine input={input} label={label} />
+}
+
+export default BooleanOptionLine
+```
+
+###### `booleanOptionLines.mts`
+
+```ts
+import { RoutingOptions } from "../pyscript.mts"
+import BooleanOptionLine from "./BooleanOptionLine"
+
+export function PreferPreferMoreLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Prefer",
+        classes: "btn-neutral",
+      },
+      true: {
+        text: "Prefer more",
+        classes: "btn-success",
+      },
+    },
+  })
+}
+
+export function NeutralPreferLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Neutral",
+        classes: "btn-neutral",
+      },
+      true: {
+        text: "Prefer",
+        classes: "btn-success",
+      },
+    },
+  })
+}
+
+export function DisallowAllowLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Disallow",
+        classes: "btn-error",
+      },
+      true: {
+        text: "Allow",
+        classes: "btn-neutral",
+      },
+    },
+  })
+}
+
+export function NeverReduceLine({
+  label,
+  key,
+}: {
+  label: JSX.Child
+  key: keyof RoutingOptions
+}) {
+  return BooleanOptionLine({
+    label,
+    key,
+    buttons: {
+      false: {
+        text: "Never",
+        classes: "btn-error",
+      },
+      true: {
+        text: "Reduce",
+        classes: "btn-neutral",
+      },
+    },
+  })
+}
+```
+
+###### `CheckboxLine.tsx`
+
+```tsx
+function CheckboxLine({
+  input,
+  label,
+}: {
+  input: JSX.Element
+  label: JSX.Child
+}) {
+  return (
+    <div class="form-control px-2 first-of-type:border-t-[1px] border-b-[1px] border-solid border-[currentColor] hover:bg-pink-500 hover:bg-opacity-10">
+      <label class="label cursor-pointer">
+        <span class="label-text dark:text-primary">{label}</span>
+        {input}
+      </label>
+    </div>
+  )
+}
+
+export default CheckboxLine
+```
+
+###### `CombiButtonButton.tsx`
+
+```tsx
+import { $$, FunctionMaybe } from "voby"
+
+const buttonClasses = ["btn", "btn-outline", "join-item", "hover:btn-inset"]
+const selectedClasses = ["btn-inset"]
+
+function CombiButtonButton({
+  active,
+  onClick,
+  children,
+  classes,
+}: {
+  active?: FunctionMaybe<boolean>
+  onClick?: (event: MouseEvent) => void
+  children?: JSX.Child
+  classes?: JSX.Class
+}) {
+  return (
+    <button
+      class={() => [
+        ...buttonClasses,
+        $$(active) ? selectedClasses : null,
+        classes,
+      ]}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+export default CombiButtonButton
+```
+
+###### `DebugButtons.tsx`
+
+```tsx
+import { clearData } from "./optionsStorage.mts"
+
+async function clearCacheAndReload() {
+  const consent = confirm(
+    "Warning: This action will re-download a lot of data, which may be costly."
+  )
+  if (!consent) return
+  // Credit to https://stackoverflow.com/a/54451080/11519302
+  const cacheNames = await caches.keys()
+  cacheNames.forEach((cacheName) => {
+    caches.delete(cacheName)
+  })
+  location.reload()
+}
+
+function DebugButtons() {
+  return (
+    <div class="flex gap-4 mt-4 flex-wrap">
+      {/* <button class="btn btn-primary">Clear stored data</button> */}
+      <div class="tooltip" data-tip="Reset options to defaults">
+        <button
+          class="btn"
+          onClick={() => {
+            const consent = confirm(
+              "Warning: All stored data will be deleted. This cannot be undone, irreversible, etc etc."
+            )
+            if (!consent) return
+            clearData()
+          }}
+        >
+          Clear stored data
+        </button>
+      </div>
+      <div
+        class="tooltip"
+        data-tip="Re-downloads the latest version of the app, map data, and map tiles. This will use a lot of data."
+      >
+        <button class="btn" onClick={clearCacheAndReload}>
+          Clear cache and reload
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default DebugButtons
+```
+
+###### `OptionLine.tsx`
+
+```tsx
+function OptionLine({
+  input,
+  label,
+}: {
+  input: JSX.Element
+  label: JSX.Child
+}) {
+  return (
+    <div class="px-2 first-of-type:border-t-[1px] border-b-[1px] border-solid border-[currentColor] hover:bg-pink-500 hover:bg-opacity-10">
+      <div class="label">
+        <span class="label-text dark:text-primary">{label}</span>
+        {input}
+      </div>
+    </div>
+  )
+}
+
+export default OptionLine
+```
+
+###### `OptionsScreen.tsx`
+
+```tsx
+import AvoidNeutralPreferLine from "./AvoidNeutralPreferLine"
+import CheckboxLine from "./CheckboxLine"
+import OptionsSection from "./OptionsSection"
+import { options } from "./optionsStorage.mts"
+import {
+  DisallowAllowLine,
+  NeutralPreferLine,
+  NeverReduceLine,
+  PreferPreferMoreLine,
+} from "./booleanOptionLines.mts"
+import DebugButtons from "./DebugButtons"
+
+function OptionsScreen() {
+  return (
+    <div class="mx-3 pb-8">
+      <h2 class="font-bold text-4xl mt-5 mb-8">Navigation options</h2>
+      <OptionsSection title="Path types">
+        <AvoidNeutralPreferLine label="Unpaved paths" key="unpaved_paths" />
+        <AvoidNeutralPreferLine label="Paved paths" key="paved_paths" />
+        <AvoidNeutralPreferLine label="Covered paths" key="covered_paths" />
+        <AvoidNeutralPreferLine label="Indoor paths" key="indoor_paths" />
+        <AvoidNeutralPreferLine label="💡 Lit paths" key="lit_paths" />
+        <AvoidNeutralPreferLine label="Pavements" key="pavements" />
+        <AvoidNeutralPreferLine label="Steps/staircases" key="steps" />
+      </OptionsSection>
+      <OptionsSection title="Physical accessibility">
+        <NeutralPreferLine
+          label="Wheelchair-accessible routes"
+          key="wheelchair_accessible"
+        />
+      </OptionsSection>
+      <OptionsSection title="Crossings">
+        <PreferPreferMoreLine
+          label="Marked crossings"
+          key="prefer_marked_crossings"
+        />
+        <PreferPreferMoreLine
+          label="Traffic light crossings"
+          key="prefer_traffic_light_crossings"
+        />
+        <PreferPreferMoreLine label="Dipped kerbs" key="prefer_dipped_kerbs" />
+        <PreferPreferMoreLine
+          label="Tactile paving"
+          key="prefer_tactile_paving"
+        />
+      </OptionsSection>
+      <OptionsSection title="Access">
+        <DisallowAllowLine label="Private access" key="allow_private_access" />
+        <DisallowAllowLine
+          label="Customer access"
+          key="allow_customer_access"
+        />
+      </OptionsSection>
+      <OptionsSection title="Safety">
+        <NeverReduceLine
+          label="Walking on roads"
+          key="allow_walking_on_roads"
+        />
+        <NeverReduceLine
+          label="Higher traffic roads"
+          key="allow_higher_traffic_roads"
+        />
+      </OptionsSection>
+      <OptionsSection title="Path designations">
+        <AvoidNeutralPreferLine
+          label="Public rights of way"
+          key="rights_of_way"
+        />
+        <AvoidNeutralPreferLine
+          label="Maintained paths"
+          key="maintained_paths"
+        />
+        <AvoidNeutralPreferLine label="Desire paths" key="desire_paths" />
+      </OptionsSection>
+      <OptionsSection title="Challenging paths">
+        <AvoidNeutralPreferLine
+          label="Treacherous paths"
+          key="treacherous_paths"
+        />
+      </OptionsSection>
+      <div class="flex flex-col max-w-xl mb-8">
+        <h3 class="font-bold text-2xl mb-4">Debug</h3>
+        <CheckboxLine
+          label="Show weight overlay"
+          input={
+            <input
+              type="checkbox"
+              checked={() => options.app.weightOverlay}
+              class="checkbox checkbox-primary"
+              onClick={(event) => {
+                if (!(event.target instanceof HTMLInputElement)) return
+                options.app.weightOverlay = event.target.checked
+              }}
+            />
+          }
+        />
+        <CheckboxLine
+          label="Show bounding boxes for downloaded data"
+          input={
+            <input
+              type="checkbox"
+              checked={() => options.app.bboxOverlay}
+              class="checkbox checkbox-primary"
+              onClick={(event) => {
+                if (!(event.target instanceof HTMLInputElement)) return
+                options.app.bboxOverlay = event.target.checked
+              }}
+            />
+          }
+        />
+        <DebugButtons />
+      </div>
+    </div>
+  )
+}
+
+export default OptionsScreen
+```
+
+###### `OptionsSection.tsx`
+
+```tsx
+function OptionsSection({
+  title,
+  children,
+}: {
+  title: JSX.Child
+  children: JSX.Child
+}) {
+  return (
+    <div class="flex flex-col max-w-xl  mb-8">
+      <h3 class="font-bold text-2xl mb-4">{title}</h3>
+      {children}
+    </div>
+  )
+}
+
+export default OptionsSection
+```
+
+###### `optionsStorage.mts`
+
+```ts
+import { store, useEffect } from "voby"
+import { RoutingOptions, TriStateOption } from "../pyscript.mts"
+
+const LOCAL_STORAGE_KEY = "options"
+
+export type Options = {
+  /** Frontend-only options */
+  app: {
+    weightOverlay: boolean
+    bboxOverlay: boolean
+  }
+  /** Options to be passed to the Python routing engine */
+  routing: RoutingOptions
+}
+
+const defaultOptions: Options = {
+  app: {
+    weightOverlay: false,
+    bboxOverlay: false,
+  },
+  routing: {
+    unpaved_paths: TriStateOption.Neutral,
+    paved_paths: TriStateOption.Neutral,
+    covered_paths: TriStateOption.Prefer,
+    indoor_paths: TriStateOption.Neutral,
+    lit_paths: TriStateOption.Neutral,
+    pavements: TriStateOption.Neutral,
+    steps: TriStateOption.Neutral,
+    prefer_marked_crossings: false,
+    prefer_traffic_light_crossings: false,
+    prefer_audible_crossings: false, // TODO add to UI
+    prefer_dipped_kerbs: false,
+    prefer_tactile_paving: false,
+    allow_private_access: false,
+    allow_customer_access: true,
+    allow_walking_on_roads: true,
+    allow_higher_traffic_roads: true,
+    rights_of_way: TriStateOption.Prefer,
+    maintained_paths: TriStateOption.Prefer,
+    desire_paths: TriStateOption.Neutral,
+    treacherous_paths: TriStateOption.Avoid,
+    wheelchair_accessible: false,
+  },
+}
+
+function getInitialOptions(): Options {
+  const rawData = localStorage.getItem(LOCAL_STORAGE_KEY)
+  const stored: {
+    app?: Partial<Options["app"]>
+    routing?: Partial<Options["routing"]>
+  } = rawData ? JSON.parse(rawData) : null
+  try {
+    return {
+      app: {
+        ...defaultOptions.app,
+        ...stored?.app,
+      },
+      routing: {
+        ...defaultOptions.routing,
+        ...stored?.routing,
+      },
+    }
+  } catch (error) {
+    console.error("Failed to parse options from local storage:", error)
+    return defaultOptions
+  }
+}
+
+export const options = store<Options>(getInitialOptions())
+
+export function clearData() {
+  localStorage.removeItem(LOCAL_STORAGE_KEY)
+  store.reconcile(options, defaultOptions)
+  console.debug("Cleared stored options")
+}
+
+useEffect(() => {
+  const serializedOptions = JSON.stringify(options)
+  localStorage.setItem(LOCAL_STORAGE_KEY, serializedOptions)
+  console.debug("Updated saved options:", serializedOptions)
+})
+
+export function setRoutingOption<T extends keyof RoutingOptions>(
+  key: T,
+  value: RoutingOptions[T]
+) {
+  if (!(key in options.routing)) {
+    throw new Error(`Option doesn't exist: ${key}`)
+  }
+  const existingType = typeof options.routing[key]
+  const ourType = typeof value
+  if (existingType !== ourType) {
+    throw new Error(
+      `Incompatible option types: can't assign ${ourType} to ${existingType}`
+    )
+  }
+  options.routing[key] = value
+}
 ```
 
 </div>
