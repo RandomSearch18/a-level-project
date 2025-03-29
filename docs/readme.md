@@ -1258,7 +1258,7 @@ Offline support is user requirement 6, and implementing it will require both the
 
 #### Frontend technologies
 
-| Thingy               | Technology to use         |
+| Technology type      | Tool to use               |
 | -------------------- | ------------------------- |
 | Programming language | [Typescript](#typescript) |
 | Other languages      | HTML, CSS                 |
