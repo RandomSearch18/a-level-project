@@ -384,6 +384,11 @@ A-level Computer Science programming project
     - [Lack of feedback when the route is being calculated](#lack-of-feedback-when-the-route-is-being-calculated)
     - [Map data limitations](#map-data-limitations)
     - [Limitations of being a web app](#limitations-of-being-a-web-app)
+  - [Maintenance issues](#maintenance-issues)
+    - [Upgrading to daisyUI 5](#upgrading-to-daisyui-5)
+    - [Updates to the OSM tagging model](#updates-to-the-osm-tagging-model)
+    - [NetworkX dropping support for Python 3.10](#networkx-dropping-support-for-python-310)
+    - [General dependency updates](#general-dependency-updates)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [OpenStreetMap glossary](#openstreetmap-glossary)
@@ -8446,6 +8451,31 @@ Making the frontend a web app was a good decision, as it let me easily make the 
   - There is no web API to achieve this functionality, so it would not be possible to implement this feature without building a native app
 
 To resolve this limitation, I would need to build a native Android app. This could be by adopting a cross-platform framework like React Native, or building an entirely separate frontend codebase for the mobile app. Since the routing engine is a standalone codebase, it won't need rewriting if integrated into a native app, which would slightly reduce the amount of work required to build a native app.
+
+### Maintenance issues
+
+#### Upgrading to daisyUI 5
+
+> daisyUI 5 is compatible with Tailwind CSS 4, has zero dependencies, a smaller package size, smaller CSS size, and is more customizable. CSS variables are now more readable and more flexible. — _daisyUI 5 release notes_
+
+At the moment, the project uses daisyUI v4, which was the latest version at the start of Sprint 1. During Sprint 4 (on 28 Feb, 2025), daisyUI v5 (<https://daisyui.com/docs/v5/>) was released, which includes a large number of improvements to the components, their accessibility, and the bundle size of the library. This was a major major update to the library, with a number of breaking changes, including to the way daisyUI is imported, and the naming scheme for its CSS variables. This means some work will be required to update the project to use daisyUI v5, but it will bring a number of user-facing benefits, so it would be one of the first things I would do if I were to continue developing the project.
+
+#### Updates to the OSM tagging model
+
+While the kinds of OSM tags I use for roads and paths have remained the same for a long time, the OSM tagging model is continually being improved by the community, which can sometimes result in needing to change code to support new tagging schemas. This is most likely to be an issue for path tags, as there is a lot of possible detail to be captured about paths, and they are not as easy to classify as roads. For example, the `highway=scramble` proposal is currently (as of writing, 2025-03-29) underway and has received a lot of discussion. It suggests moving some uses of `highway=path` to a new top-level tag `highway=scramble`.
+
+To maintain the program, the OSM tagging changelog (<https://wiki.openstreetmap.org/wiki/Changelog>) should me monitored for any newly-accepted proposals that may affect the routing engine.
+
+#### NetworkX dropping support for Python 3.10
+
+NetworkX is planning to drop support for Python 3.10 in its upcoming 3.5 release,[^networkx-pr] which is due to release April 30, 2025.[^networkx-3.5] Naturally, the routing engine should use the latest version of its dependencies, so when the new NetworkX version is released, its minimum Python version requirement will have to be increased from 3.10 to 3.11.
+
+[^networkx-pr]: _Drop support for Python 3.10_, networkx/networkx#7668, <https://github.com/networkx/networkx/pull/7668> (accessed 2025-03-29)
+[^networkx-3.5]: Milestone _3.5_, networkx/networkx, <https://github.com/networkx/networkx/milestone/33> (accessed 2025-03-29)
+
+#### General dependency updates
+
+The frontend has a large number of dependencies (including dependencies of dependencies), and it is good practice to keep them up to date, to benefit from any security improvements, performance improvements, and bug fixes. If a major version upgrade has to be made, then some changes to the project code may be required. Otherwise, the packages can be upgraded using `yarn upgrade-interactive --latest` and then tested normally to ensure the upgrade has not broken anything.
 
 ## Appendix
 
