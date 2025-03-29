@@ -22,13 +22,14 @@ Ensure you're in the `docs` directory.
 
 ```bash
 mkdir -p ./dist
-pandoc  --css=water.css --css=main.css --embed-resources --standalone -F mermaid-filter --number-sections --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
+pandoc --css=main.css --css=water.css --embed-resources --standalone -F mermaid-filter --number-sections --number-offset 1 --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
 ```
 
 - `--css=water.css` includes the [Water.css](https://watercss.kognise.dev/) stylesheet, which just makes the document look nice
 - `--css=main.css` is for our own custom styles (of which there aren't many)
 - `--standalone` ensures that a complete HTML document is generated, not just a fragment.
 - `-F mermaid-filter` enables the use of `mermaid-filter` for rendering diagrams.
+- `--number-offset 1` forces heading numbering to start at 1. This is needed because we hide the markdown TOC for printing, but Pandoc wants to assign the hidden Contents section number 1. With this option, the first visible section (Analysis) is numbered 1.
 - Everything else is self-explanatory, hopefully
 
 ## Converting the HTML to a PDF
