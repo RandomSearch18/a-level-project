@@ -415,6 +415,11 @@ A-level Computer Science programming project
       - [`osm_data_types.py`](#osm_data_typespy)
       - [`route_result.py`](#route_resultpy)
       - [`routing_engine.py`](#routing_enginepy)
+    - [Frontend code listings](#frontend-code-listings)
+      - [Source files in `public`](#source-files-in-public)
+        - [`_headers`](#_headers)
+        - [`pyscript.json`](#pyscriptjson)
+        - [`robots.txt`](#robotstxt)
 
 </div>
 
@@ -9886,6 +9891,40 @@ class RoutingEngine:
                 if "tags" in node:
                     graph.nodes[node_id]["tags"] = node["tags"]
         return RoutingGraph(graph)
+```
+
+#### Frontend code listings
+
+##### Source files in `public`
+
+###### `_headers`
+
+```none
+# So that web workers can work, as per https://docs.pyscript.net/2024.11.1//user-guide/workers#http-headers
+
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+```
+
+###### `pyscript.json`
+
+```json
+{
+  "packages": ["networkx", "requests", "geographiclib"],
+  "files": {
+    "backend/osm_data_types.py": "./osm_data_types.py",
+    "backend/route_result.py": "./route_result.py",
+    "backend/routing_engine.py": "./routing_engine.py"
+  }
+}
+```
+
+###### `robots.txt`
+
+```robots
+User-agent: *
+Disallow:
 ```
 
 <div>
