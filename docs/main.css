@@ -29,6 +29,28 @@ h1 {
 
 h2 {
   font-size: 50px;
+  page-break-before: always;
+  margin-bottom: 48px;
+}
+
+h3 {
+  font-size: 34px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+h6 .header-section-number {
+  font-weight: 300;
 }
 
 .toc {
