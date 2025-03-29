@@ -3528,7 +3528,7 @@ I migrated the `showCurrentLocation.mts` logic to a `CurrentLocationButton.tsx` 
 3. However, when converting `showCurrentLocation.mts` to a Voby component, its logic runs when the component is initialised in memory, which happens before the logic (e.g. `mainMap.mts`) files are imported
 4. But `mainMap.mts` must be imported after the Voby components are rendered, because the `#main-map` element must exist in the DOM before the Leaflet map is created
 
-![](assets/2/main-map-undefined.png)
+![Error in the Javascript console complaining that showLocationButton is null](assets/2/main-map-undefined.png)
 
 I decided to resolve this by converting `mainMap.mts` to a Voby component while I was doing `CurrentLocationButton.tsx`. I also changed the `mainMap` variable whose value is only defined once the map has been created. That way, the `mainMap` variable can be accessed from any part of the code without causing circular dependencies, and I can use Voby's reactivity to automatically run code on the `mainMap` observable once it becomes defined.
 
