@@ -1415,8 +1415,6 @@ NetworkX would be a good choice for the following reasons:
   - Bugs are likely to be found and fixed quickly due to its large community
   - It is actively maintained for modern Python versions and continues to receive performance (and other) enhancements
 
-<!-- TODO: Networkx drops py 3.10 support?! https://github.com/networkx/networkx/pull/7668 -->
-
 While NetworkX implements shortest path algorithms, including A\*, I still plan to implement my own A\* algorithm. This will:
 
 - Ensure I understand exactly how the algorithm calculates shortest paths, making it easier to debug and tweak
@@ -7447,7 +7445,7 @@ if way.get("footway") == "sidewalk":
 
 ###### Paved/unpaved path preference
 
-![](assets/3/1.png)
+![Diff showing the (un)paved path options being considered](assets/3/1.png)
 
 ###### Lit, indoor, covered path preference
 
@@ -7568,7 +7566,7 @@ def access_is_legal(self, tags: dict) -> bool:
     return True
 ```
 
-![](assets/3/2.png)
+![Diff showing the access_is_legal() function being used](assets/3/2.png)
 
 ##### Handling safety and designation preferences
 
@@ -7645,7 +7643,7 @@ All user stories have been addressed, mostly through the new options system, but
 
 #### Sprint 3 stakeholder feedback
 
-I showed the routing options to Andrew. He was happy to see that the options persisted after you refresh the page. He also liked the wording I had used, e.g. "avoid" for the default for highter-traffic roads. Overall. he was impressed with the feature.
+I showed the routing options to Andrew. He was happy to see that the options persisted after you refresh the page. He also liked the wording I had used, e.g. "avoid" for the default for higher-traffic roads. Overall. he was impressed with the feature.
 
 #### Sprint 3 post-development testing
 
@@ -7653,7 +7651,7 @@ Since this sprint involved a lot of tweaking behaviour and small adjustments as 
 
 I tested the app with a difficult route to Cobham Services, M25, and it generated a great route:
 
-![](assets/3/5.png)
+![Route to Cobham Services](assets/3/5.png)
 
 ## Sprint 4 (2025-02-18 onwards)
 
@@ -7985,7 +7983,7 @@ I tested it and it seemed to work as intended, although I cannot test it properl
 
 ##### Debug buttons stakeholder feedback
 
-When showing the app to Andrew, he used the "clear stored data" button after playing with the options, and found it intuitive and acknowledged the warining, which is good to see.
+When showing the app to Andrew, he used the "clear stored data" button after playing with the options, and found it intuitive and acknowledged the warning, which is good to see.
 
 #### Sprint 4: Live location updates
 
@@ -8019,7 +8017,7 @@ I mentioned the issue to two of my stakeholders, Andrew and James, and both said
 
 ##### Live location updates with Leaflet's built-in feature
 
-I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenever a location update is recieved, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immidiately updated with a new location dot. However, I feel like having the map jump to the location whenever the location updates would be annoying, so I will change that.
+I realised that the Leaflet map `locate()` method has a `watch` option that will keep firing `locationfound` events whenever a location update is received, which is what I wanted. I set it to `true` and tested the change using Chrome's DevTools Sensors panel. It was successful, and the map immediately updated with a new location dot. However, I feel like having the map jump to the location whenever the location updates would be annoying, so I will change that.
 
 I modified the `onClick` callback on the current location button to also update a `trackingLocation` observable, which will be `true` when the map should keep panning to any new current location, or `false` if the map has been manually dragged and therefore that shouldn't be the case.
 
@@ -8040,11 +8038,11 @@ I modified the `onClick` callback on the current location button to also update 
 
 I tested this on my phone, and was happy to see that the map no longer jumped to the current location as I moved around. However, I pressing the current location button didn't force it to jump to my location, because I hadn't implemented that yet.
 
-I decided to set `trackingLocation` to `true` immidiaely after the button is pressed, instead of only once location has been found. This is to provide immidiate feedback, and be more consistent with how other map apps work. Also, it doesn't rely on the `.once()` event listener behaviour, so its behaviour might be a bit more consistent.
+I decided to set `trackingLocation` to `true` immediately after the button is pressed, instead of only once location has been found. This is to provide immediate feedback, and be more consistent with how other map apps work. Also, it doesn't rely on the `.once()` event listener behaviour, so its behaviour might be a bit more consistent.
 
 To make the map track the location when `trackingLocation` is `true`, I added a `map.flyTo()` call on the `locationfound` event. I then tested this on my phone by walking around the school area. I have a screen recording of this test: [**location-tracking.m4v**](assets/4/location-tracking.m4v)
 
-The map succesfully tracked the location as it updated, and it kept the same zoom level as it panned to my new location, as I wanted. However, it still panned after I'd manually dragged the map elsewhere, which I didn't want. I realised that this was because I forgot to actually check the `trackingLocation` observable in my event handler code, so I fixed that. I also noticed that when pressing the current location button with the intention of re-centering the map, it waits for the next location update before actually panning the map. This makes the button feel slow and unresponsive, and is annoying because it waits to complete your required action. This would also be easy to fix, because I can just call `map.flyTo()` immediately on the button press. Then, it will immidiately show the last known location and then pan to the updated location once it's available.
+The map succesfully tracked the location as it updated, and it kept the same zoom level as it panned to my new location, as I wanted. However, it still panned after I'd manually dragged the map elsewhere, which I didn't want. I realised that this was because I forgot to actually check the `trackingLocation` observable in my event handler code, so I fixed that. I also noticed that when pressing the current location button with the intention of re-centring the map, it waits for the next location update before actually panning the map. This makes the button feel slow and unresponsive, and is annoying because it waits to complete your required action. This would also be easy to fix, because I can just call `map.flyTo()` immediately on the button press. Then, it will immediately show the last known location and then pan to the updated location once it's available.
 
 Updated event handler for the current location button button:
 
@@ -8316,8 +8314,6 @@ Ili generally thought positively of the app, giving ratings of 9 and 10 in the f
 
 The success criteria for my project is defined in my [user requirements](#user-requirements) (which are described and justified in their section). I will restate them here and evaluate how successfully these requirements have been met.
 
-<!-- TODO finish the evals -->
-
 #### Evaluation of UR1
 
 > The system should be able to calculate a route between two points
@@ -8356,7 +8352,7 @@ James specifically mentioned the large number of options in his final feedback, 
 
 > The system should be able to save routing options as presets
 
-In Sprint 4, I following feedback from my stakeholders on which parts of the project to improve, I decided to deprioritise the presets feature in favour of refining the routing engine. For this reason, the rpesets feature did not get implemented, so this user requirement has not been met.
+In Sprint 4, I following feedback from my stakeholders on which parts of the project to improve, I decided to deprioritise the presets feature in favour of refining the routing engine. For this reason, the presets feature did not get implemented, so this user requirement has not been met.
 
 The decision to deprioritise this user requirement was justified in the [Sprint 4 qualitative evaluation](#sprint-4-qualitative-evaluation).
 
