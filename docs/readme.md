@@ -166,8 +166,6 @@ A-level Computer Science programming project
       - [Creating more classes](#creating-more-classes)
     - [Frontend: Implementing the UI design](#frontend-implementing-the-ui-design)
       - [Development instructions](#development-instructions)
-      - [Getting Voby JSX working](#getting-voby-jsx-working)
-    - [Frontend: Implementing the UI design (2)](#frontend-implementing-the-ui-design-2)
       - [Leaflet map](#leaflet-map)
       - [Bottom navigation bar](#bottom-navigation-bar)
       - [Bottom navigation bar functionality](#bottom-navigation-bar-functionality)
@@ -2256,23 +2254,7 @@ I added `raise NotImplementedError` lines, and to-do comments where appropriate,
 
 To ensure that I am documenting my work, and to make it easier for me to develop the project on a wide range of machines, I improved the development instructions, and added development instructions for the frontend.
 
-##### Getting Voby JSX working
-
-I created a initial app component, with a placeholder string "AAAA" to symbolise my frustration at VSCode not functioning consistently, and how most of its features don't work half of the time:
-
-```tsx
-function App() {
-  return <div>AAAAAAAAAA</div>
-}
-
-export default App
-```
-
-#### Frontend: Implementing the UI design (2)
-
-I created a new Git branch named `aaaaaaaaaaaaaaaaaa` to represent my growing stress over the looming deadline, added to by the fact that I hadn't pushed my changes to GitHub from school.
-
-I then set to work implementing the UI design, as planned and approved by my stakeholders. I will split the UI up into components later, because then I'll have a better idea of what the overall implementation will look like.
+I got to work implementing the UI design, as planned and approved by my stakeholders. I will split the UI up into components later, because then I'll have a better idea of what the overall implementation will look like.
 
 ##### Leaflet map
 
