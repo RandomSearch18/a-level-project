@@ -37,6 +37,8 @@ h2 {
 
 body {
   max-width: none;
+  /* 1/4 inch margin for comb binding */
+  margin: 16px 0.25in;
 }
 
 table {
