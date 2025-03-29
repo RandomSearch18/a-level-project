@@ -416,10 +416,27 @@ A-level Computer Science programming project
       - [`route_result.py`](#route_resultpy)
       - [`routing_engine.py`](#routing_enginepy)
     - [Frontend code listings](#frontend-code-listings)
-      - [Source files in `public`](#source-files-in-public)
+      - [Source files in `public/`](#source-files-in-public)
         - [`_headers`](#_headers)
         - [`pyscript.json`](#pyscriptjson)
         - [`robots.txt`](#robotstxt)
+      - [Source files in `src/`](#source-files-in-src)
+        - [`app.css`](#appcss)
+        - [`App.tsx`](#apptsx)
+        - [`BottomBar.tsx`](#bottombartsx)
+        - [`CurrentLocationButton.tsx`](#currentlocationbuttontsx)
+        - [`currentRoute.mts`](#currentroutemts)
+        - [`index.css`](#indexcss)
+        - [`localization.mts`](#localizationmts)
+        - [`main.tsx`](#maintsx)
+        - [`MainMap.tsx`](#mainmaptsx)
+        - [`pyscript.mts`](#pyscriptmts)
+        - [`RouteInfoScreen.tsx`](#routeinfoscreentsx)
+        - [`RouteScreen.tsx`](#routescreentsx)
+        - [`throttle.mts`](#throttlemts)
+        - [`types.mts`](#typesmts)
+        - [`validationError.mts`](#validationerrormts)
+        - [`vite-env.d.ts`](#vite-envdts)
 
 </div>
 
@@ -8659,6 +8676,8 @@ These libaries are sourced from the Python Package Index (<https://pypi.org/>). 
 
 ### Appendix C: Source code listings
 
+<div class="listings">
+
 The rest of the document contains the full source code for the project. The only other section past this point is the citations, which are at the very end. According to the `cloc` tool, the project has 2,414 lines of source code.[^cloc]
 
 [^cloc]: `cloc` is available at <https://github.com/AlDanial/cloc>. The command used was `cloc backend/*.py frontend/src`, and the statistic is correct as of commit `d533361`
@@ -9895,7 +9914,7 @@ class RoutingEngine:
 
 #### Frontend code listings
 
-##### Source files in `public`
+##### Source files in `public/`
 
 ###### `_headers`
 
@@ -9926,6 +9945,1171 @@ class RoutingEngine:
 User-agent: *
 Disallow:
 ```
+
+##### Source files in `src/`
+
+###### `app.css`
+
+```css
+.screen {
+  height: 100%;
+  width: 100%;
+}
+
+.screen:not(#active-screen) {
+  display: none;
+  width: 0;
+}
+
+#main-map {
+  height: calc(100dvh - 4rem);
+  width: 100%;
+}
+```
+
+###### `App.tsx`
+
+```tsx
+import { useMemo } from "voby"
+import BottomBar from "./BottomBar"
+import CurrentLocationButton from "./CurrentLocationButton"
+import MainMap from "./MainMap"
+import RouteScreen from "./RouteScreen"
+import { currentRoute } from "./currentRoute.mts"
+import RouteInfoScreen from "./RouteInfoScreen"
+import OptionsScreen from "./options/OptionsScreen"
+
+function App() {
+  return (
+    <>
+      <h1 class="sr-only">Marvellous mapping machine</h1>
+      <div class="content flex flex-col h-full justify-between">
+        <div id="screens" class="overflow-y-auto">
+          <div class="screen" data-screen="map" id="active-screen">
+            <MainMap />
+            {() => <CurrentLocationButton />}
+          </div>
+          <div class="screen" data-screen="route">
+            {useMemo(() => {
+              const route = currentRoute()
+              return route ? <RouteInfoScreen route={route} /> : <RouteScreen />
+            })}
+          </div>
+          <div class="screen" data-screen="options">
+            <OptionsScreen />
+          </div>
+        </div>
+        <BottomBar />
+      </div>
+    </>
+  )
+}
+
+export default App
+```
+
+###### `BottomBar.tsx`
+
+```tsx
+import { $, For, useEffect, useMemo } from "voby"
+
+function BottomBar() {
+  function onClick(event: MouseEvent) {
+    // Get the button element that was clicked on
+    const eventTarget = event.target as HTMLElement
+    const button = eventTarget.closest("button")
+    if (!button) {
+      throw new Error("Couldn't find button that was clicked on")
+    }
+    // Update the active screen to whichever screen our button corresponds to
+    const screenName = button.textContent!
+    activeScreen(screenName)
+  }
+
+  // Source of truth for the current active screen. "Map" is the default screen.
+  const activeScreen = $("Map")
+  // A map of botton names to observables representing their active state
+  const bottomBarButtons = Object.fromEntries(
+    ["Map", "Route", "Options"].map((name) => [
+      name,
+      useMemo(() => activeScreen() === name),
+    ])
+  )
+  // e.g. appending #Route to the URL should set the default screen to the Route screen
+  const screenFromHash = window.location.hash.slice(1)
+  if (screenFromHash in bottomBarButtons) activeScreen(screenFromHash)
+
+  useEffect(() => {
+    // This is a handler function for when the active screen changes
+    const newActiveScreen = activeScreen()
+
+    // Make the new active screen visible and hide the old one
+    const oldScreenElement = document.querySelector("#active-screen")
+    const newScreenElement = document.querySelector(
+      `[data-screen="${newActiveScreen.toLowerCase()}"]`
+    )
+    if (!newScreenElement) {
+      throw new Error(`No screen found for ${newActiveScreen}`)
+    }
+    if (oldScreenElement) {
+      oldScreenElement.id = ""
+    } else {
+      console.warn("No active screen to deactivate")
+    }
+    newScreenElement.id = "active-screen"
+  })
+
+  return (
+    <div class="btm-nav static flex-none" id="bottom-bar" onClick={onClick}>
+      <For values={Object.entries(bottomBarButtons)}>
+        {([name, active]) => <BottomBarButton active={active} name={name} />}
+      </For>
+    </div>
+  )
+}
+
+function BottomBarButton({
+  active,
+  name,
+}: {
+  active: () => boolean
+  name: string
+}) {
+  return (
+    <button
+      class={() =>
+        active()
+          ? "active border-t-4 border-pink-800 bg-pink-200 text-pink-800"
+          : "bg-pink-100 text-pink-800"
+      }
+    >
+      <span class="btm-nav-label">{name}</span>
+    </button>
+  )
+}
+
+export default BottomBar
+```
+
+###### `CurrentLocationButton.tsx`
+
+```tsx
+import type { Circle, LatLng, Marker } from "leaflet"
+import { leaflet, mainMap } from "./MainMap.jsx"
+import { $, useEffect, useMemo } from "voby"
+
+// We store the markers so that we can remove them when the location updates
+let locationMarker: Circle | null = null
+let locationCircle: Circle | null = null
+let locationQuestionMark: Marker | null = null
+
+const trackingLocation = $(false)
+const currentLocation = $<LatLng | null>(null)
+
+const locationNotFoundIcon = useMemo(() => {
+  return (
+    leaflet()?.icon({
+      iconUrl: "/bang-64.png",
+      iconSize: [64, 64],
+      className: "blink",
+    }) ?? null
+  )
+})
+
+/** Remove location markers currently on the map */
+function cleanupMarkers() {
+  if (locationMarker) locationMarker.remove()
+  if (locationCircle) locationCircle.remove()
+  if (locationQuestionMark) locationQuestionMark.remove()
+}
+
+function panToCurrentLocation() {
+  const map = mainMap()
+  if (!map) return
+  const location = currentLocation()
+  if (location) map.panTo(location)
+}
+
+useEffect(() => {
+  const L = leaflet()
+  const map = mainMap()
+  if (!map || !L) return
+
+  map.on("locationfound", (event) => {
+    currentLocation(event.latlng)
+    console.debug("Location found", event)
+    cleanupMarkers()
+    const radius = event.accuracy / 2
+    // Draw a large circle to show GPS accuracy
+    locationMarker = L.circle(event.latlng, {
+      radius: Math.min(5, radius),
+      fillOpacity: 0.8,
+      opacity: 0.8,
+    }).addTo(map)
+    // Draw the dot at the center of the circle
+    locationCircle = L.circle(event.latlng, {
+      radius,
+    }).addTo(map)
+    if (trackingLocation()) panToCurrentLocation()
+  })
+
+  map.on("locationerror", (event) => {
+    console.debug("Location error", event)
+    // Do nothing if we haven't got a location yet
+    const currentPos = currentLocation()
+    if (!currentPos) return
+    const icon = locationNotFoundIcon()
+    if (locationQuestionMark) return // No need to add the question mark again
+    locationQuestionMark = L.marker(currentPos, {
+      // This should never be unavailable if Leaflet has loaded, but weirder things have been known to happen
+      icon: icon ?? undefined,
+    }).addTo(map)
+    // Grey out the location marker
+    locationMarker?.setStyle({ color: "grey" })
+    locationCircle?.setStyle({ color: "grey" })
+  })
+})
+
+function CurrentLocationButton() {
+  const tooltip = useMemo(() => {
+    const tip = "Show current location"
+    if (!mainMap()) return `${tip} (unavailable while map is loading)`
+    return tip
+  })
+
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div class="tooltip tooltip-left" data-tip={tooltip}>
+        <button
+          class="btn btn-square btn-md btn-primary text-2xl"
+          id="show-location"
+          disabled={() => !mainMap()}
+          onClick={() => {
+            const map = mainMap()
+            if (!map) return console.warn("Map not ready")
+            // Immediately pan to the last known location, and start tracking location so that it updates when new location data is available
+            trackingLocation(true)
+            panToCurrentLocation()
+            map.locate({ maxZoom: 16, watch: true })
+            map.once("locationfound", () => {
+              // Stop tracking the location if the user manually moves the map
+              map.once("dragstart", () => {
+                trackingLocation(false)
+              })
+            })
+          }}
+        >
+          <span class="sr-only">Show current location</span>
+          📍
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default CurrentLocationButton
+```
+
+###### `currentRoute.mts`
+
+```ts
+import { $, useEffect } from "voby"
+import { BboxTuple, Coordinates, Line } from "./types.mts"
+
+export const currentRoute = $<CurrentRoute>()
+
+useEffect(() => {
+  console.debug("Current route:", currentRoute())
+})
+
+export interface RoutePart {
+  distance: number
+  estimated_time: number
+  description(): string
+}
+
+export interface SegmentDebugWeight {
+  pos_a: Coordinates
+  pos_b: Coordinates
+  weight: number
+  total_weight: number
+}
+
+export interface CurrentRoute {
+  unexpandedBbox: BboxTuple
+  expandedBbox: BboxTuple
+  start: Coordinates
+  end: Coordinates
+  parts: RoutePart[]
+  lines: Line[]
+  totalTime: number
+  totalDistance: number
+  debug: {
+    segmentWeights: SegmentDebugWeight[]
+  }
+}
+```
+
+###### `index.css`
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-inset {
+  box-shadow: inset 0 0 20px 3px oklch(var(--btn-color));
+}
+
+.bg-neutral.bg-neutral.bg-neutral.bg-neutral {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-n, oklch(var(--n) / var(--tw-bg-opacity)));
+}
+
+.bg-error.bg-error.bg-error.bg-error {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-er, oklch(var(--er) / var(--tw-bg-opacity)));
+}
+
+.bg-success.bg-success.bg-success.bg-success {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-su, oklch(var(--su) / var(--tw-bg-opacity)));
+}
+
+.hover\:btn-inset:hover {
+  /* Only works well for neutral buttons for whatever reason */
+  box-shadow: inset 0 0 20px 3px oklch(var(--btn-color));
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 1s step-start 0s infinite;
+}
+
+#app {
+  height: 100dvh;
+}
+```
+
+###### `localization.mts`
+
+```ts
+import { $ } from "voby"
+
+export const timestampNow = $(Date.now())
+
+setInterval(() => {
+  timestampNow(Date.now())
+}, 1000)
+
+export function displayInteger(num: number): string {
+  return num.toLocaleString(undefined, {
+    maximumFractionDigits: 0,
+  })
+}
+```
+
+###### `main.tsx`
+
+```ts
+import { render } from "voby"
+import App from "./App"
+import "leaflet/dist/leaflet.css"
+import { initPyScript } from "./pyscript.mts"
+
+// Load the service worker provided by the VitePWA plugin
+// (this is only present in production)
+document.addEventListener("load", () => {
+  navigator.serviceWorker.register("service-worker.ts")
+})
+
+const appElement = document.querySelector("#app")
+if (!appElement) {
+  throw new Error("No app element found")
+}
+
+render(<App />, appElement)
+
+// Load PyScript
+initPyScript()
+```
+
+###### `MainMap.tsx`
+
+```tsx
+import type { CircleOptions, Layer, Map, PolylineOptions, Popup } from "leaflet"
+import { $, $$, useEffect, useMemo } from "voby"
+import { currentRoute, SegmentDebugWeight } from "./currentRoute.mts"
+import { Coordinates, Line } from "./types.mts"
+import { options } from "./options/optionsStorage.mts"
+
+export const leaflet = $<typeof import("leaflet")>()
+export const mainMap = $<Map>()
+
+// We dynamically import the Leaflet library so that the UI rendering doesn't block on loading Leaflet
+import("leaflet").then(({ default: leafletImport }) => {
+  leaflet(leafletImport)
+})
+
+function MainMap() {
+  // We initialise the map inside a useEffect() so that it only runs once the #main-map element is in the DOM
+  // We _also_ use a useEffect lets us run the code once the leaflet library has been loaded
+  useEffect(() => {
+    const L = leaflet()
+    if (!L) return
+    const createdMap = L.map("main-map").setView([51.27556, -0.37834], 15)
+    L.tileLayer("https://c.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: `&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>`,
+      maxNativeZoom: 19,
+      maxZoom: 20,
+    }).addTo(createdMap)
+    mainMap(createdMap)
+  })
+
+  return <div id="main-map"></div>
+}
+
+let layersForCurrentRoute: (Layer | null)[] = []
+
+const waypointCircleOptions: CircleOptions = {
+  radius: 4,
+  color: "#9d174d",
+  opacity: 0,
+  fillOpacity: 0.7,
+}
+
+const waypointLineOptions: PolylineOptions = {
+  color: "#9d174d",
+  opacity: 0.5,
+  dashArray: "1 6",
+}
+
+useEffect(() => {
+  const L = leaflet()
+  const map = mainMap()
+  const route = currentRoute()
+  if (!L || !map || !route) return
+  layersForCurrentRoute.forEach((layer) => {
+    layer?.remove()
+  })
+  layersForCurrentRoute = [
+    // Debug overlay for the extent of the downloaded data
+    options.app.bboxOverlay
+      ? drawBbox(route.expandedBbox, {
+          color: "green",
+          fillOpacity: 0.1,
+          fill: false,
+        })
+      : null,
+    // Draw debugging lines showing weights
+    options.app.weightOverlay
+      ? drawWeightLines(route.debug.segmentWeights)
+      : null,
+    // Mark start and end points with circles
+    drawCircle(
+      route.start,
+      waypointCircleOptions,
+      "Start at " + route.start.join(", ")
+    ),
+    drawCircle(
+      route.end,
+      waypointCircleOptions,
+      "Destination at " + route.start.join(", ")
+    ),
+    // Draw line to start point
+    drawStraightLine(route.start, route.lines[0][0], waypointLineOptions),
+    // Draw the actual route
+    drawLines(route.lines, {
+      color: "#9d174d",
+      opacity: 0.5,
+      weight: 3,
+      interactive: false,
+    }),
+    // Draw line to end point
+    drawStraightLine(route.end, route.lines.at(-1)![1], waypointLineOptions),
+  ]
+})
+
+function drawWeightLines(segments: SegmentDebugWeight[]) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const layer = L.layerGroup()
+  const lines = segments.map((segment) => {
+    const weight = segment.weight
+    const hue = 360 - (weight / 10) * 360
+    const color = `hsl(${hue}, 100%, 50%)`
+    const line = L.polyline([segment.pos_a, segment.pos_b], {
+      color,
+      weight: 5,
+      opacity: 0.5,
+    })
+    line.bindPopup(
+      `Weight: ${weight.toFixed(2)} (${segment.total_weight.toFixed(2)})`
+    )
+    line.addEventListener("popupopen", () => {
+      line.setStyle({ weight: 20 })
+    })
+    line.addEventListener("popupclose", () => {
+      line.setStyle({ weight: 5 })
+    })
+    return line
+  })
+  lines.forEach((line) => line.addTo(layer))
+  layer.addTo(map)
+  return layer
+}
+
+export function drawBbox(
+  bbox: [number, number, number, number],
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const rectangle = L.rectangle(
+    [
+      [bbox[0], bbox[1]],
+      [bbox[2], bbox[3]],
+    ],
+    options
+  )
+  rectangle.addTo(map)
+  return rectangle
+}
+
+export function drawStraightLine(
+  from: Coordinates,
+  to: Coordinates,
+  options: PolylineOptions
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const polyline = L.polyline([from, to], options)
+  polyline.addTo(map)
+  return polyline
+}
+
+/** Draws an array of line segments as a single polyline */
+export function drawLines(lines: Line[], options: PolylineOptions) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  // We assume that each line segment starts where the previous one ended,
+  // so we can just take the first point of each line segment + the final point
+  const points = lines.map((line) => line[0])
+  points.push(lines.at(-1)![1])
+  const polyline = L.polyline(points, options)
+  polyline.addTo(map)
+  return polyline
+}
+
+export function drawCircle(
+  coordinates: [number, number],
+  options: CircleOptions,
+  popup?: string | HTMLElement | Popup
+) {
+  const L = leaflet()
+  const map = mainMap()
+  if (!L || !map) throw new Error("Main map not initialised")
+  const circle = L.circle(coordinates, options)
+  if (popup) circle.bindPopup(popup)
+  circle.addTo(map)
+  return circle
+}
+
+export default MainMap
+```
+
+###### `pyscript.mts`
+
+```ts
+/**
+ * @file Hand-written TypeScript types for some of the functions exposed by the PyScript code (for better DX)
+ */
+
+import { $ } from "voby"
+
+/** An "Avoid", "Neutral" or "Prefer" option value */
+export const enum TriStateOption {
+  Avoid = -1,
+  Neutral = 0,
+  Prefer = 1,
+}
+
+export type RoutingOptions = {
+  unpaved_paths: TriStateOption
+  paved_paths: TriStateOption
+  covered_paths: TriStateOption
+  indoor_paths: TriStateOption
+  lit_paths: TriStateOption
+  pavements: TriStateOption
+  steps: TriStateOption
+  prefer_marked_crossings: boolean
+  prefer_traffic_light_crossings: boolean
+  prefer_audible_crossings: boolean
+  prefer_dipped_kerbs: boolean
+  prefer_tactile_paving: boolean
+  allow_private_access: boolean
+  allow_customer_access: boolean
+  allow_walking_on_roads: boolean
+  allow_higher_traffic_roads: boolean
+  rights_of_way: TriStateOption
+  maintained_paths: TriStateOption
+  desire_paths: TriStateOption
+  treacherous_paths: TriStateOption
+  wheelchair_accessible: boolean
+}
+
+/** The Python constructor functions exported to `window.py` */
+export interface WindowPy {
+  BoundingBox: (
+    min_lat: number,
+    min_lon: number,
+    max_lat: number,
+    max_lon: number
+  ) => any
+  RouteCalculator: (routing_graph: any, routing_options: any) => any
+  RoutingEngine: () => any
+  RoutingOptions: (options: RoutingOptions) => any
+}
+
+export const usePy = $<WindowPy>()
+
+/** Imports the PyScript module, which automatically downloads and runs the app's Python code */
+export async function initPyScript() {
+  const pyscriptImport = await import(
+    // @ts-ignore - No types for PyScript :(
+    "../node_modules/@pyscript/core/dist/core.js"
+  )
+
+  window.addEventListener("py:done", () => {
+    // @ts-ignore ("trust me bro" type safety guarantee)
+    usePy(window.py)
+  })
+
+  console.debug("PyScript downloaded", pyscriptImport)
+}
+```
+
+###### `RouteInfoScreen.tsx`
+
+```tsx
+import { useEffect, useMemo } from "voby"
+import { CurrentRoute, currentRoute } from "./currentRoute.mts"
+import { displayInteger, timestampNow } from "./localization.mts"
+
+function ClearRouteButton() {
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          type="button"
+          onClick={() => {
+            currentRoute(undefined)
+          }}
+        >
+          🗑️ Clear route
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function RouteInfoScreen({ route }: { route: CurrentRoute }) {
+  if (!route)
+    // Sometimes route is undefined, despite App.tsx ensuring it is truthy before this component is rendered
+    // To prevent crashing the app, we have this cute little guard clause
+    return (
+      <p class="route-info-error">Route info not available due to a bug.</p>
+    )
+
+  const meters = displayInteger(route.totalDistance)
+  const minutes = displayInteger(route.totalTime / 60)
+  const ETA = useMemo(() => new Date(timestampNow() + route.totalTime * 1000))
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">Route info</h2>
+        <div class="flex flex-col gap-4">
+          <p>📍 Walking from {route.start.join(", ")}</p>
+          <p>📌 Walking to {route.end.join(", ")}</p>
+          <p>
+            🪜{meters} metres, {minutes} minutes remaining
+            <br />⌚ Estimated to arrive at {() =>
+              ETA().toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })
+            }
+          </p>
+        </div>
+      </div>
+      <ClearRouteButton />
+    </>
+  )
+}
+
+export default RouteInfoScreen
+```
+
+###### `RouteScreen.tsx`
+
+```tsx
+import { $, If, Ternary, tick, useEffect, useMemo } from "voby"
+import { usePy } from "./pyscript.mts"
+import { currentRoute } from "./currentRoute.mts"
+import { BboxTuple, Coordinates, Line, NominatimPlace } from "./types.mts"
+import { ValidationError } from "./validationError.mts"
+import { throttle, CANCELLED } from "./throttle.mts"
+import { options } from "./options/optionsStorage.mts"
+
+enum CalculationState {
+  Idle,
+  ProcessingAddresses,
+  Downloading,
+  ComputingGraph,
+  CalculatingRoute,
+}
+
+const routeCalculationProgress = $<CalculationState>(CalculationState.Idle)
+const routingEngineAvailable = useMemo(
+  () => !!usePy() && routeCalculationProgress() === CalculationState.Idle
+)
+
+const startAtCurrentLocation = $(false)
+
+function CalculateButton() {
+  const tooltip = useMemo(() => {
+    if (routeCalculationProgress()) return "Route is being calculated"
+    if (!routingEngineAvailable()) return "Routing engine is not ready"
+    return ""
+  })
+
+  return (
+    <div class="fixed bottom-[6rem] right-2 z-[1000]">
+      <div class={() => tooltip() && "tooltip tooltip-left"} data-tip={tooltip}>
+        <button
+          class="btn btn-md btn-primary text-2xl font-medium"
+          id="calculate-route"
+          disabled={() => !routingEngineAvailable()}
+          form="route-input"
+          type="submit"
+        >
+          ✅ Calculate
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function tickUI(): Promise<void> {
+  return new Promise((resolve) => {
+    tick()
+    setTimeout(resolve, 1)
+  })
+}
+
+/**
+ * Parses a user-provided input that might be simple coordinates
+ * - "Simple coordinates" are coordinates in the format `51.245, -0.563`
+ * @param input Raw string input from text box
+ * @returns A `Coordinates` pair if the input *is* simple coordinates, or `null` otherwise
+ * @throws {Error} If the input is simple coordinates, but out of range
+ */
+function parseSimpleCoordinates(input: string): Coordinates | null {
+  const simpleCoordsRegex = /^[\-\+\d\.]+,\s*[\-\+\d\.]+$/
+  if (!simpleCoordsRegex.test(input)) return null
+  // Validate that coordinates are within range
+  const [lat, lon] = input.split(",").map(parseFloat)
+  if (Math.abs(lat) > 90)
+    throw new ValidationError(`Latitude (${lat}°) must be between -90° and 90°`)
+  if (Math.abs(lon) > 180)
+    throw new ValidationError(
+      `Longitude (${lon}°) must be between -180° and 180°`
+    )
+  return [lat, lon]
+}
+
+const geocodeAddressThrottled = throttle(geocodeAddress, 1000)
+
+async function geocodeAddress(address: string): Promise<NominatimPlace | null> {
+  const url = new URL("https://nominatim.openstreetmap.org/search")
+  url.searchParams.append("q", address)
+  url.searchParams.append("format", "jsonv2")
+  url.searchParams.append("limit", "1")
+  url.searchParams.append("countrycodes", "gb")
+  const userAgentParts = ["MarvellousMappingMachine/0.3", navigator.userAgent]
+  const data = await fetch(url, {
+    headers: {
+      "User-Agent": userAgentParts.join(" "),
+    },
+  }).then((response) => response.json())
+  if (!data.length) return null
+  const place = data[0] as NominatimPlace
+  console.debug("Found place", place)
+  return place
+}
+
+async function displayResolvedAddress(inputId: string) {
+  const input = document.getElementById(inputId)
+  if (!(input instanceof HTMLInputElement))
+    throw new Error(`Input element #${inputId} not found`)
+  const address = input.value
+  if (!address) return alert("No address provided")
+  const geocodingResponse = geocodeAddressThrottled(address)
+  if (geocodingResponse === CANCELLED)
+    return console.warn("Ignoring geocoding request due to throttling")
+  const place = await geocodingResponse
+  if (!place) return alert(`Couldn't find address: ${address}`)
+  alert(
+    `Address:\n${place.display_name}\n\nCoordinates: ${place.lat}, ${place.lon}`
+  )
+}
+
+async function getCoordsFromInput(inputId: string): Promise<Coordinates> {
+  const input = document.getElementById(inputId) as HTMLInputElement
+  if (!input) throw new Error(`No input found with ID ${inputId}`)
+  if (!input.value) throw new ValidationError("No input provided")
+  const simpleCoords = parseSimpleCoordinates(input.value)
+  if (simpleCoords) return simpleCoords
+  const geocodedPlace = await geocodeAddress(input.value)
+  if (!geocodedPlace)
+    throw new ValidationError(`Couldn't find address\n${input.value}`)
+  return [parseFloat(geocodedPlace.lat), parseFloat(geocodedPlace.lon)]
+}
+
+function calculateBboxForRoute(
+  start: Coordinates,
+  end: Coordinates,
+  expansion: number
+) {
+  // Note: We expand the BBox a bit in case the route has to go away from the destination slightly before coming back
+  // const width = Math.abs(start[1] - end[1])
+  // const height = Math.abs(start[0] - end[0])
+  const latExpansion = expansion * 0.02
+  const lonExpansion = expansion * 0.05
+  const min_lat = Math.min(start[0], end[0]) - latExpansion
+  const min_lon = Math.min(start[1], end[1]) - lonExpansion
+  const max_lat = Math.max(start[0], end[0]) + latExpansion
+  const max_lon = Math.max(start[1], end[1]) + lonExpansion
+  return [min_lat, min_lon, max_lat, max_lon] as BboxTuple
+}
+
+function getGpsLocation(): Promise<Coordinates> {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) =>
+        resolve([position.coords.latitude, position.coords.longitude]),
+      (error) => reject(error)
+    )
+  })
+}
+
+async function getStartCoords(): Promise<Coordinates | null> {
+  if (startAtCurrentLocation()) {
+    try {
+      return await getGpsLocation()
+    } catch (error) {
+      if (!(error instanceof GeolocationPositionError)) throw error
+      switch (error.code) {
+        case GeolocationPositionError.POSITION_UNAVAILABLE:
+          alert("Couldn't get current location: location unavailable")
+          break
+        case GeolocationPositionError.TIMEOUT:
+          alert("Couldn't get current location: location timed out")
+          break
+        case GeolocationPositionError.PERMISSION_DENIED:
+          alert("Couldn't let current location: permission denied")
+          break
+        default:
+          alert("Couldn't get current location: unknown error")
+      }
+      console.error(`Failed to get GPS location`, error)
+      return null
+    }
+  }
+
+  try {
+    return await getCoordsFromInput("route-start-input")
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      window.alert(`Start position: ${error.message}`)
+      return null
+    }
+    throw error
+  }
+}
+
+async function getEndCoords(): Promise<Coordinates | null> {
+  try {
+    return await getCoordsFromInput("route-end-input")
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      window.alert(`Destination: ${error.message}`)
+      return null
+    }
+    throw error
+  }
+}
+
+async function calculateRoute() {
+  const py = usePy()
+  if (!py) return
+
+  const performanceStart = performance.now()
+  const startPos = await getStartCoords()
+  if (!startPos) return
+  const endPos = await getEndCoords()
+  if (!endPos) return
+
+  routeCalculationProgress(CalculationState.Downloading)
+  await tickUI()
+  const routing_engine = py.RoutingEngine()
+  const bbox = calculateBboxForRoute(startPos, endPos, 0.2)
+  console.debug("Using bounding box for route", bbox)
+  const [ways, raw_nodes] = routing_engine.download_osm_data(
+    py.BoundingBox(...bbox)
+  )
+  routeCalculationProgress(CalculationState.ComputingGraph)
+  await tickUI()
+  const routing_graph = routing_engine.compute_graph(ways, raw_nodes)
+  const calculator = py.RouteCalculator(
+    routing_graph,
+    py.RoutingOptions(options.routing)
+  )
+  routeCalculationProgress(CalculationState.CalculatingRoute)
+  await tickUI()
+  const route = calculator.calculate_route_a_star(startPos, endPos)
+  const timeElapsed = performance.now() - performanceStart
+  console.debug("Route calculator", calculator)
+  console.log(
+    `Calculated route with ${route.parts.length} parts ` +
+      `in ${timeElapsed.toLocaleString()} ms`
+  )
+  currentRoute({
+    expandedBbox: bbox,
+    unexpandedBbox: calculateBboxForRoute(startPos, endPos, 0),
+    start: startPos,
+    end: endPos,
+    parts: route.parts,
+    lines: (route.parts.toJs() as any[])
+      .filter((part) => "start" in part)
+      .map((part) => [part.start.toJs(), part.end.toJs()] as Line),
+    totalTime: route.total_time(),
+    totalDistance: route.total_distance(),
+    debug: {
+      segmentWeights: calculator.segment_weights_js(),
+    },
+  })
+  routeCalculationProgress(CalculationState.Idle)
+}
+
+useEffect(() => {
+  switch (routeCalculationProgress()) {
+    case CalculationState.Idle:
+      console.debug("Route calculator ready")
+      break
+    case CalculationState.ProcessingAddresses:
+      console.debug("Processing address inputs...")
+      break
+    case CalculationState.Downloading:
+      console.debug("Downloading OSM data...")
+      break
+    case CalculationState.ComputingGraph:
+      console.debug("Computing routing graph...")
+      break
+    case CalculationState.CalculatingRoute:
+      console.debug("Calculating route...")
+      break
+  }
+})
+
+function RouteScreen() {
+  const title = useMemo(() => "Calculate a route")
+
+  return (
+    <>
+      <div class="mx-3">
+        <h2 class="font-bold text-4xl mt-5 mb-8">{title}</h2>
+        <form
+          class="flex flex-col gap-8  max-w-2xl"
+          id="route-input"
+          onSubmit={(event) => {
+            event.preventDefault()
+            calculateRoute()
+          }}
+        >
+          <div class="flex flex-col gap-2">
+            <label
+              htmlFor="route-start-input"
+              class="text-pink-800 dark:text-primary"
+            >
+              Start walking from
+            </label>
+            <input
+              id="route-start-input"
+              name="route-start"
+              type="text"
+              placeholder={useMemo(() =>
+                startAtCurrentLocation()
+                  ? "Using current GPS location"
+                  : "Enter an address or coordinates"
+              )}
+              disabled={startAtCurrentLocation}
+              class="input input-bordered input-primary w-full border-pink-800 dark:border-primary"
+            />
+            <button
+              class="btn btn-neutral"
+              type="button"
+              onClick={() => displayResolvedAddress("route-start-input")}
+              disabled={startAtCurrentLocation}
+            >
+              🔎 Check start address
+            </button>
+            <Ternary when={() => startAtCurrentLocation()}>
+              <button
+                class="btn btn-primary"
+                type="button"
+                onClick={() => startAtCurrentLocation(false)}
+              >
+                🗺️ Use address or coordinates
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                onClick={() => startAtCurrentLocation(true)}
+              >
+                📍 Use current location
+              </button>
+            </Ternary>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label
+              htmlFor="route-end-input"
+              class="text-pink-800 dark:text-primary"
+            >
+              Destination
+            </label>
+            <input
+              id="route-end-input"
+              name="route-end"
+              type="text"
+              placeholder="Enter an address or coordinates"
+              class="input input-bordered input-primary w-full border-pink-800 dark:border-primary"
+            />
+            <button
+              class="btn btn-neutral"
+              type="button"
+              onClick={() => displayResolvedAddress("route-end-input")}
+            >
+              🔎 Check destination address
+            </button>
+          </div>
+        </form>
+        <If when={() => routeCalculationProgress()}>
+          <div class="mt-8 flex items-center gap-8">
+            <span class="loading loading-spinner loading-lg text-primary"></span>
+            <div class="h-full">
+              {() => {
+                switch (routeCalculationProgress()) {
+                  case CalculationState.Idle:
+                    console.warn("Loading spinner visible when idle")
+                    return "Idle"
+                  case CalculationState.ProcessingAddresses:
+                    return "Processing address inputs (1/4)"
+                  case CalculationState.Downloading:
+                    return "Downloading map data (2/4)"
+                  case CalculationState.ComputingGraph:
+                    return "Processing map data (3/4)"
+                  case CalculationState.CalculatingRoute:
+                    return "Finding best route (4/4)"
+                }
+              }}
+            </div>
+          </div>
+        </If>
+      </div>
+      <CalculateButton />
+    </>
+  )
+}
+
+export default RouteScreen
+```
+
+###### `throttle.mts`
+
+```ts
+// Credit: Based on https://stackoverflow.com/a/27078401, CC BY-SA 4.0
+export const CANCELLED = Symbol("throttle-cancelled")
+
+export function throttle<T extends (...args: any) => any>(
+  callback: T,
+  limit: number
+) {
+  let waiting = false
+  return function (...params: Parameters<T>): ReturnType<T> | typeof CANCELLED {
+    if (waiting) return CANCELLED
+    waiting = true
+    setTimeout(() => {
+      waiting = false
+    }, limit)
+    return callback(...params)
+  }
+}
+```
+
+###### `types.mts`
+
+```ts
+export type BboxTuple = [number, number, number, number]
+export type Coordinates = [number, number]
+export type Line = [Coordinates, Coordinates]
+
+export interface NominatimPlace {
+  place_id: number
+  licence: string
+  osm_type: string
+  osm_id: string
+  boundingbox: string[]
+  lat: string
+  lon: string
+  display_name: string
+  class: string
+  type: string
+  importance: number
+  icon: string
+}
+```
+
+###### `validationError.mts`
+
+```ts
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "ValidationError"
+  }
+}
+```
+
+###### `vite-env.d.ts`
+
+```ts
+/// <reference types="vite/client" />
+```
+
+</div>
 
 <div>
 
