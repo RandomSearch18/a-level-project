@@ -395,6 +395,7 @@ A-level Computer Science programming project
   - [Bringing the app to market](#bringing-the-app-to-market)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
+    - [App name](#app-name-1)
     - [OpenStreetMap glossary](#openstreetmap-glossary)
     - [Voby glossary](#voby-glossary)
     - [Other abbreviations](#other-abbreviations)
@@ -8493,6 +8494,23 @@ The frontend is a web app, and features are often added to the HTML, JS and CSS 
 ### Appendix A: Glossary
 
 This appendix contains a brief glossary to act as a central place for defining some specific or uncommon terms.
+
+#### App name
+
+<dl>
+<dt>Mish's Marvellous Mapping Machine</dt>
+<dd>The full name of the project, and the full name of the user-facing web app.</dd>
+<dt>MMMM</dt>
+<dd>The abbreviated name for the web app and project, e.g. for use as a subdomain.</dd>
+<dt>Mapping Machine</dt>
+<dd>The short name for the web app, e.g. shown on the Android home screen.</dd>
+<dt>Marvellous Mapping Machine</dt>
+<dd>
+
+The name for the source code repository for the frontend and backend. In slug form, it becomes `marvellous-mapping-machine`.
+
+</dd>
+</dl>
 
 #### OpenStreetMap glossary
 
