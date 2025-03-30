@@ -393,6 +393,7 @@ A-level Computer Science programming project
     - [Operating system/platform changes](#operating-systemplatform-changes)
     - [Updated browser APIs](#updated-browser-apis)
   - [Bringing the app to market](#bringing-the-app-to-market)
+    - [Localisation](#localisation)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [App name](#app-name-1)
@@ -416,6 +417,16 @@ A-level Computer Science programming project
       - [`route_result.py`](#route_resultpy)
       - [`routing_engine.py`](#routing_enginepy)
     - [Frontend code listings](#frontend-code-listings)
+      - [Frontend source files in the root folder](#frontend-source-files-in-the-root-folder)
+        - [`.editorconfig`](#editorconfig)
+        - [`.nvmrc`](#nvmrc)
+        - [`index.html`](#indexhtml)
+        - [`manifest.mts`](#manifestmts)
+        - [`package.json`](#packagejson)
+        - [`postcss.config.mjs`](#postcssconfigmjs)
+        - [`tailwind.config.mjs`](#tailwindconfigmjs)
+        - [`tsconfig.json`](#tsconfigjson)
+        - [`vite.config.mts`](#viteconfigmts)
       - [Source files in `public/`](#source-files-in-public)
         - [`_headers`](#_headers)
         - [`pyscript.json`](#pyscriptjson)
@@ -8527,7 +8538,17 @@ The frontend is a web app, and features are often added to the HTML, JS and CSS 
 
 ### Bringing the app to market
 
-<!-- TODO! -->
+#### Localisation
+
+At the moment, the app's UI only supports English. If I were to share the app with the world, I would need to handle localisation to ensure everyone can use the app and understand what it's doing. Some of the considerations I will need to make are:
+
+- Displaying distances and times in appropriate units (e.g. miles in the US, km in Spain)
+  - This should also be customisable by the user
+- Translating text into other languages
+  - I would need to set up a translation string system instead of hardcoding strings in the UI
+  - I could use Weblate (<https://weblate.org/>), a tool contributing translations for apps, commonly used by open-source projects
+
+I would also need to find testers in other countries to ensure that the app meets their expectations for a localised experience.
 
 ## Appendix
 
