@@ -418,7 +418,10 @@ A-level Computer Science programming project
       - [Frontend](#frontend)
       - [Backend](#backend)
     - [Assets used](#assets-used)
-  - [Appendix C: Source code listings](#appendix-c-source-code-listings)
+  - [Appendix C: Copyright notices](#appendix-c-copyright-notices)
+    - [Copyright for this document](#copyright-for-this-document)
+    - [Copyright for source code](#copyright-for-source-code)
+  - [Appendix D: Source code listings](#appendix-d-source-code-listings)
     - [Backend code listings](#backend-code-listings)
       - [`requirements.txt`](#requirementstxt)
       - [`main.py`](#mainpy)
@@ -8781,7 +8784,21 @@ These libaries are sourced from the Python Package Index (<https://pypi.org/>). 
 
 - Red exclamation mark emoji from Google Noto Emoji (<https://github.com/googlefonts/noto-emoji>), licenced under the SIL Open Font License, version 1.1
 
-### Appendix C: Source code listings
+### Appendix C: Copyright notices
+
+#### Copyright for this document
+
+This document (excluding all code extracts and code listings) is &copy; 2025 RandomSearch (Mish) and licenced under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+
+<img src="assets/eval/cc-by-nc-sa.svg" alt="CC BY-NC-SA logo" style="width:88px;height:31px" />
+
+#### Copyright for source code
+
+The source code for Marvellous Mapping Machine, which includes all code extracts and listings in this document, is &copy; 2025 RandomSearch (Mish) and licenced under the [GNU Affero General Public License (AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html) version 3 or later.
+
+![AGPL logo](assets/eval/agplv3-logo.png)
+
+### Appendix D: Source code listings
 
 <div class="listings">
 
