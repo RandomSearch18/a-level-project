@@ -394,6 +394,10 @@ A-level Computer Science programming project
     - [Updated browser APIs](#updated-browser-apis)
   - [Bringing the app to market](#bringing-the-app-to-market)
     - [Localisation](#localisation)
+    - [Routing support for other countries](#routing-support-for-other-countries)
+    - [About screen](#about-screen)
+    - [Starting point of the map](#starting-point-of-the-map)
+    - [Legislation compliance](#legislation-compliance)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [App name](#app-name-1)
@@ -8549,6 +8553,27 @@ At the moment, the app's UI only supports English. If I were to share the app wi
   - I could use Weblate (<https://weblate.org/>), a tool contributing translations for apps, commonly used by open-source projects
 
 I would also need to find testers in other countries to ensure that the app meets their expectations for a localised experience.
+
+#### Routing support for other countries
+
+At the moment, the app is only intended to work in the UK. While it will technically work outside of the UK (only if coordinates are manually specified), that usage is not supported, and I have not invested time into supporting OSM tags that aren't used in the UK. Making the routing engine work globally would require the following considerations:
+
+- Other countries have attributes for roads and paths that may not be present (or may be uncommon) in the UK
+- Certain tags may be more widespread in other countries but see little use in the UK
+  - I would need to investigate how to support them, and what the UK equivalent is (if applicable)
+- Conventions for the use of certain tags or tagging schemes are different in some countries
+  - For example, some local communities may have strong opinions on what is valid when using ambiguous tags like `highway=path` or `natural=wood`
+- Default access restrictions differ between countries. I would need to implement access defaults for each country to ensure that the assumptions for access are as accurate as possible
+- Address formats differ between countries. The Nominatim service should handle these different format without any extra work from me, I would still need to test this
+- The routing engine prefers public rights of way by default. This classification is specific to the UK, and to my knowledge, there is no equivalent in other countries
+  - This could make the "public rights of way" option confusing for non-UK users
+- Routing between countries would be a possibility, so I would need to decide how to handle ferry routes
+
+#### About screen
+
+#### Starting point of the map
+
+#### Legislation compliance
 
 ## Appendix
 
