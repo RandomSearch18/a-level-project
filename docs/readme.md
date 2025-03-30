@@ -403,6 +403,7 @@ A-level Computer Science programming project
         - [Addresses for geocoding](#addresses-for-geocoding)
         - [OSMF tile server](#osmf-tile-server)
       - [Online Safety Act 2023](#online-safety-act-2023)
+      - [Liability](#liability)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [App name](#app-name-1)
@@ -8623,6 +8624,10 @@ The map tiles that a user's browser requests (in order to render the base map) c
 ##### Online Safety Act 2023
 
 The Online Safety Act does not apply to my app, as it does not provide a user-to-user service, nor does it provide a search service. Therefore, I will not need to do any work to comply with it.
+
+##### Liability
+
+It would be sensible to add a terms of service to the app, or simply a disclaimer, to mention that the generated route may contain faults or inaccuracies. While the routing algorithm is designed to provide a safe and legal route, the algorithm is not perfect, and the data is not perfect, so it's possible for a potentially harmful route go be generated - users should use common sense, respect signage on the ground, and not blindly follow routes provided by the app. Adding a disclaimer would help users by reminding them to check that the route is appropriate, and protect me from liability if something bad were to happen as a result of using the app.
 
 ## Appendix
 
