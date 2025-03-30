@@ -398,6 +398,11 @@ A-level Computer Science programming project
     - [About screen](#about-screen)
     - [Starting point of the map](#starting-point-of-the-map)
     - [Legislation compliance](#legislation-compliance)
+      - [GDPR](#gdpr)
+        - [Location data](#location-data)
+        - [Addresses for geocoding](#addresses-for-geocoding)
+        - [OSMF tile server](#osmf-tile-server)
+      - [Online Safety Act 2023](#online-safety-act-2023)
 - [Appendix](#appendix)
   - [Appendix A: Glossary](#appendix-a-glossary)
     - [App name](#app-name-1)
@@ -8575,7 +8580,46 @@ At the moment, the app doesn't have any link to the source code repository, cont
 
 #### Starting point of the map
 
+At the moment, the app is hardcoded to start with the map at a location that makes for convenient debugging. However, this is not appropriate for general usage.
+
+If the app remains only for UK users, it would make sense for the app to start with a relatively zoomed-out view of the UK.
+
+If the app's scope is expanded for worldwide usage, the app could start with a very zoomed-out view showing many countries, or it could use some very course geolocation to automatically zoom the map to the user's country. Attempting to zoom the map to the current GPS location would be unhelpful, because it requires explicit permission, takes some time (resulting in the map jumping around after the app loads), and is not available on all devices. Country-level geolocation could be performed server-side using the user's IP address, so that the web app immediately knows where the map should initially be.
+
 #### Legislation compliance
+
+I would need to ensure that the app and the way I operate it conforms with all applicable UK laws.
+
+##### GDPR
+
+The app contains no analytics or tracking, and no first-party processing or storage of data. However, I will need to consider the data that is sent to the APIs I use.
+
+###### Location data
+
+The app uses location data internally, but I do not store or process location data.
+
+In terms of sending location data to third parties:
+
+- The Nominatim API is _not_ called when the current location is used for a route's start point
+- An Overpass API request is sent that includes a bounding box that is derived from the current location (if the start point is set to the current location), but this is quite far removed from the actual location of the user. Only one API request is sent per route calculation, so the data shared with Overpass is minimised.
+
+###### Addresses for geocoding
+
+The user may enter their home address or place of work into the start/end inputs. This is not stored or processed by me or the app, but it is sent to Nominatim for geocoding. This data is not linked to any user IDs or other PII, apart from perhaps IP addresses or fingerprinting performed on HTTP headers.
+
+Usage of the Nominatim API falls under the OSMF privacy policy (<https://osmfoundation.org/wiki/Privacy_Policy>). The primary relevant section to the users of the app is "personal data we receive automatically". It details what kinds of information might be collected, and what it is used for. Its note on sharing with third parties is included below.
+
+> No personal information or information that is linked to an individual will be released to third parties, except except to the extent the third party is a service provider or as required by law. — <https://osmfoundation.org/wiki/Privacy_Policy>
+
+In terms of the navigation app, it would be good to have a privacy policy that mentions that geocoding data is sent to Nominatim, and/or a hint in the UI that addresses entered into the start/end inputs are sent to a third party (Nominatim).
+
+###### OSMF tile server
+
+The map tiles that a user's browser requests (in order to render the base map) could potentially provide information on a user's home location. However, this is quite far removed from the user's actual location (because tiles cover an area and a number of tiles would be requested), making this a low risk. This service is also subject to the OSMF privacy policy (see section above).
+
+##### Online Safety Act 2023
+
+The Online Safety Act does not apply to my app, as it does not provide a user-to-user service, nor does it provide a search service. Therefore, I will not need to do any work to comply with it.
 
 ## Appendix
 
@@ -8607,6 +8651,10 @@ The name for the source code repository for the frontend and backend. In slug fo
 <dd>A global project to build a crowdsourced would map that can be used by anyone. Like Wikipedia, but a world map.</dd>
 <dt>OSM</dt>
 <dd>Stands for OpenStreetMap.</dd>
+<dt>OpenStreetMap Foundation</dt>
+<dd>The organisation that runs the online OSM services, and manages the OSM project.</dd>
+<dt>OSMF</dt>
+<dd>Stands for OpenStreetMap Foundation.</dd>
 <dt>Feature</dt>
 <dd>A physical element in the landscape that can be mapped, e.g. a building, shop, or lamppost.</dd>
 <dt>Tag</dt>
