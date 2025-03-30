@@ -395,6 +395,7 @@ A-level Computer Science programming project
   - [Bringing the app to market](#bringing-the-app-to-market)
     - [Localisation](#localisation)
     - [Routing support for other countries](#routing-support-for-other-countries)
+    - [Customisable walking speed](#customisable-walking-speed)
     - [About screen](#about-screen)
     - [Starting point of the map](#starting-point-of-the-map)
     - [Legislation compliance](#legislation-compliance)
@@ -8578,6 +8579,14 @@ At the moment, the app is only intended to work in the UK. While it will technic
 - The routing engine prefers public rights of way by default. This classification is specific to the UK, and to my knowledge, there is no equivalent in other countries
   - This could make the "public rights of way" option confusing for non-UK users
 - Routing between countries would be a possibility, so I would need to decide how to handle ferry routes
+
+#### Customisable walking speed
+
+At the moment, the app uses a hardcoded speed of 0.92 meters per second (around 2 mph) to estimate walking time. Different users have different walking paces, so it would be helpful if this could be set within the app.
+
+Another possible feature would be for the app to (optionally and with consent) record your walking pace, to get a personalised average walking speed. It could also determine maximum and minimum speeds using statistics.
+
+Another current limitation of the walking time estimation is that it doesn't take path attributes into account. In reality, an unpaved path with poor surface will be slower to walk along than a wide, paved path, so if more accurate ETAs are desired, an algorithm should be created to take path attributes into account. This will be separate from weight calculation, as the desirability of a path does not fully correlate with the speed at which it will be walked.
 
 #### About screen
 
