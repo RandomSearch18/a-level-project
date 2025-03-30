@@ -8634,6 +8634,8 @@ It would be sensible to add a terms of service to the app, or simply a disclaime
 
 ### Appendix A: Glossary
 
+<div class="appendix">
+
 This appendix contains a brief glossary to act as a central place for defining some specific or uncommon terms.
 
 #### App name
@@ -12108,6 +12110,7 @@ export function setRoutingOption<T extends keyof RoutingOptions>(
 }
 ```
 
+</div>
 </div>
 
 <div>

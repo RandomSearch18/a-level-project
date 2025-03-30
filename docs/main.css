@@ -77,3 +77,8 @@ pre > code {
     color: #0076d1;
   }
 }
+
+/* Each appendix starts on a separate page */
+.appendix h3 {
+  page-break-before: always;
+}
