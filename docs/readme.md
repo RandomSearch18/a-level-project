@@ -8571,6 +8571,8 @@ At the moment, the app is only intended to work in the UK. While it will technic
 
 #### About screen
 
+At the moment, the app doesn't have any link to the source code repository, contact information for issues with the app, or a user-accessible description of the app. This would be important to have if I was to share the app with people who don't already know me, so that users know it's open source and can access the source code, as well as notify me of any issues. A good place to put this would be an "about" screen.
+
 #### Starting point of the map
 
 #### Legislation compliance
