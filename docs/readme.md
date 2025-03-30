@@ -422,6 +422,7 @@ A-level Computer Science programming project
   - [Appendix C: Copyright notices](#appendix-c-copyright-notices)
     - [Copyright for this document](#copyright-for-this-document)
     - [Copyright for source code](#copyright-for-source-code)
+    - [Contact for copyright queries](#contact-for-copyright-queries)
   - [Appendix D: Source code listings](#appendix-d-source-code-listings)
     - [Backend code listings](#backend-code-listings)
       - [`requirements.txt`](#requirementstxt)
@@ -8802,6 +8803,10 @@ This document (excluding all code extracts and code listings) is &copy; 2025 Ran
 The source code for Marvellous Mapping Machine, which includes all code extracts and listings in this document, is &copy; 2025 RandomSearch (Mish) and licenced under the [GNU Affero General Public License (AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html) version 3 or later.
 
 ![AGPL logo](assets/eval/agplv3-logo.png)
+
+#### Contact for copyright queries
+
+Any questions about the copyright status of this document or the source code, or other queries or requests, can be sent by email to [mapping-machine@slevel.xyz](mailto:mapping-machine@slevel.xyz).
 
 ### Appendix D: Source code listings
 
