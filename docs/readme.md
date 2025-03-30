@@ -398,6 +398,8 @@ A-level Computer Science programming project
     - [Customisable walking speed](#customisable-walking-speed)
     - [About screen](#about-screen)
     - [Starting point of the map](#starting-point-of-the-map)
+    - [Automated testing](#automated-testing)
+    - [Contribution guidelines](#contribution-guidelines)
     - [Legislation compliance](#legislation-compliance)
       - [GDPR](#gdpr)
         - [Location data](#location-data)
@@ -8599,6 +8601,16 @@ At the moment, the app is hardcoded to start with the map at a location that mak
 If the app remains only for UK users, it would make sense for the app to start with a relatively zoomed-out view of the UK.
 
 If the app's scope is expanded for worldwide usage, the app could start with a very zoomed-out view showing many countries, or it could use some very course geolocation to automatically zoom the map to the user's country. Attempting to zoom the map to the current GPS location would be unhelpful, because it requires explicit permission, takes some time (resulting in the map jumping around after the app loads), and is not available on all devices. Country-level geolocation could be performed server-side using the user's IP address, so that the web app immediately knows where the map should initially be.
+
+#### Automated testing
+
+While extensive manual testing has been performed on the app, if the app continues to be developed, getting more complex with more features, automated unit tests (white-box testing for both the frontend and the backend), integration tests (to test interactions between the frontend and the backend), and end-to-end tests (black-box testing for the web app) would become very helpful, and a useful tool to reduce bugs in the app.
+
+#### Contribution guidelines
+
+As an open-source project, it is possible that other developers may wish to contribute to the project. This process can be made easier by expending on the development instructions that already exist, and writing a contribution guide to document the code practices used within the project.
+
+This could help make the project useful to a wider range of users, as other people (perhaps with more knowledge of specific OSM tagging systems, for example) could add support for more OSM tags, especially those used in other countries.
 
 #### Legislation compliance
 
