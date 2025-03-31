@@ -5153,7 +5153,7 @@ Despite these challenges and the current implementation limitations, I managed t
 
 ##### Sprint 2 post-development test table
 
-I tested the routing engine as per my [A\* algorithm test plan](#a-algorithm-test-plan).
+I tested the routing engine as per my [A\* algorithm test data](#a-algorithm-test-data).
 
 <!-- prettier-ignore -->
 | Test | Reason for test | Type | Test data | Expected outcome | Actual outcome | Pass? |
