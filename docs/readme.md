@@ -3786,8 +3786,6 @@ I then migrated the `CurrentLocationButton.tsx` component to use the new `leafle
 
 ![Diff for CurrentLocationButton.tsx](assets/2/leaflet-big-l.png)
 
-I committed this work in commit [`4b2816c`](https://github.com/RandomSearch18/marvellous-mapping-machine/commit/4b2816c0978e5bbffa58e9ca2ab47fda24c1f71e).
-
 ##### Disabling `CurrentLocationButton.tsx` when Leaflet hasn't loaded yet
 
 As a final touch, I decided to disable the "show current location" button during the time between the UI rendering and Leaflet being loaded. This will give a visual indication that the button isn't ready to be clicked on yet, just in case the user wants to interact with that part of the page before Leaflet has loaded.
