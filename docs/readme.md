@@ -425,7 +425,6 @@ A-level Computer Science programming project
   - [Appendix C: Copyright notices](#appendix-c-copyright-notices)
     - [Copyright for this document](#copyright-for-this-document)
     - [Copyright for source code](#copyright-for-source-code)
-    - [Contact for copyright queries](#contact-for-copyright-queries)
   - [Appendix D: Source code listings](#appendix-d-source-code-listings)
     - [Backend code listings](#backend-code-listings)
       - [`requirements.txt`](#requirementstxt)
@@ -8817,19 +8816,11 @@ These libaries are sourced from the Python Package Index (<https://pypi.org/>). 
 
 #### Copyright for this document
 
-This document (excluding all code extracts and code listings) is &copy; 2025 RandomSearch (Mish) and licenced under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
-
-<img src="assets/eval/cc-by-nc-sa.svg" alt="CC BY-NC-SA logo" style="width:88px;height:31px" />
+This document (excluding all code extracts and code listings) is &copy; 2025 Mish (RandomSearch) and licenced under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. It is all my own work (apart from a limited number of quotes and third-party images that have been clearly attributed) and has been fully written and completed within the period September 2024 to March 2025.
 
 #### Copyright for source code
 
-The source code for Marvellous Mapping Machine, which includes all code extracts and listings in this document, is &copy; 2025 RandomSearch (Mish) and licenced under the [GNU Affero General Public License (AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html) version 3 or later.
-
-![AGPL logo](assets/eval/agplv3-logo.png)
-
-#### Contact for copyright queries
-
-Any questions about the copyright status of this document or the source code, or other queries or requests, can be sent by email to [mapping-machine@slevel.xyz](mailto:mapping-machine@slevel.xyz).
+The source code for Marvellous Mapping Machine, which includes all code extracts and listings in this document, is &copy; 2025 Mish (RandomSearch). I have licenced it under the [GNU Affero General Public License (AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html) version 3 or later. Users of the app can contain a copy of the source code by writing to [mapping-machine@slevel.xyz](mailto:mapping-machine@slevel.xyz).
 
 ### Appendix D: Source code listings
 
@@ -8838,10 +8829,6 @@ Any questions about the copyright status of this document or the source code, or
 The rest of the document contains the full source code for the project. The only other section past this point is the citations, which are at the very end. According to the `cloc` tool, the project has 2,414 lines of source code.[^cloc]
 
 [^cloc]: `cloc` is available at <https://github.com/AlDanial/cloc>. The command used was `cloc backend/*.py frontend/src`, and the statistic is correct as of commit `d533361`
-
-The most convent way to access the project's source code (along with its Git history, and development instructions) is by visiting the public Github repository at <https://github.com/RandomSearch18/marvellous-mapping-machine>. Source code files can be accessed through the Github web UI, by downloading a ZIP file of the repository, or by using `git clone`. The repository URL can be accessed by scanning the QR code below.
-
-![https://github.com/RandomSearch18/marvellous-mapping-machine](assets/eval/gh-repo-qr.png)
 
 #### Backend code listings
 
