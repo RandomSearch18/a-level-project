@@ -16,13 +16,18 @@ node /usr/lib/node_modules/mermaid-filter/node_modules/puppeteer/install.js
 
 `mermaid-filter` seems to add quite a bit of time to the build process, unfortunately, but it seems to be the best way to include Mermaid diagrams in the output.
 
-## Converting the markdown to HTML
+## Preparation
 
-Ensure you're in the `docs` directory.
+Ensure you're in the `docs` directory. Set the `PDF_NAME` environment variable to include your personal information, so that it's printed at the top of each page. (Note that this is not the same as the file name format for the digital submission of the document.)
 
 ```bash
-mkdir -p ./dist
-pandoc --css=main.css --css=water.css --embed-resources --standalone -F mermaid-filter --number-sections --number-offset 1 --metadata-file metadata.yaml -o ./dist/readme.html ./readme.md
+export PDF_NAME="Pedestrian routing using open map data, by [Name] ([Candidate #]), centre [Centre #]"
+```
+
+## Converting the markdown to HTML
+
+```bash
+pandoc --css=main.css --css=water.css --embed-resources --standalone -F mermaid-filter --number-sections --number-offset 1 --metadata-file metadata.yaml -o "$PDF_NAME.html" ./readme.md
 ```
 
 - `--css=water.css` includes the [Water.css](https://watercss.kognise.dev/) stylesheet, which just makes the document look nice
@@ -35,7 +40,7 @@ pandoc --css=main.css --css=water.css --embed-resources --standalone -F mermaid-
 ## Converting the HTML to a PDF
 
 ```bash
-wkhtmltopdf --default-header --disable-smart-shrinking --print-media-type toc ./dist/readme.html ./dist/readme.pdf
+wkhtmltopdf --default-header --disable-smart-shrinking --print-media-type toc "$PDF_NAME.html" "$PDF_NAME.pdf"
 ```
 
 - Without `--disable-smart-shrinking`, the font size is inexplicably really small

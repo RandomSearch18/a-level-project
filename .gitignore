@@ -1,3 +1,6 @@
 /docs/dist
+/docs/*.pdf
+/docs/*.html
+
 node_modules
 *.err
