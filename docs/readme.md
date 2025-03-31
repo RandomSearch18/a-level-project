@@ -319,7 +319,7 @@ A-level Computer Science programming project
     - [Sprint 3 user story checklist](#sprint-3-user-story-checklist)
     - [Sprint 3 stakeholder feedback](#sprint-3-stakeholder-feedback)
     - [Sprint 3 post-development testing](#sprint-3-post-development-testing)
-- [Sprint 4 (2025-02-18 onwards)](#sprint-4-2025-02-18-onwards)
+- [Sprint 4 (2025-02-18 to 2025-03-21)](#sprint-4-2025-02-18-to-2025-03-21)
   - [Sprint 4 goals](#sprint-4-goals)
     - [Sprint 4 user stories](#sprint-4-user-stories)
   - [Sprint 4 design](#sprint-4-design)
@@ -1743,13 +1743,15 @@ gantt
     Sprint 2: 2024-12-05, 2025-01-14
     Sprint 3: 2025-01-14, 2025-02-14
     Sprint 4: 2025-02-14, 2025-03-14
+    Evaluation: 2025-03-21, 2025-04-01
   section Actual
     Analysis phase: 2024-09-04, 2024-10-10
     Design phase: 2024-10-10, 2024-11-15
     Sprint 1: 2024-11-17, 2024-12-05
     Sprint 2: 2024-12-09, 2025-01-14
     Sprint 3: 2025-01-14, 2025-02-14
-    Sprint 4: 2025-02-18,
+    Sprint 4: 2025-02-18, 2025-03-21
+    Evaluation: 2025-03-21, 2025-03-31
 ```
 
 #### Sprint 1 upfront plan
@@ -7706,7 +7708,7 @@ I tested the app with a difficult route to Cobham Services, M25, and it generate
 
 ![Route to Cobham Services](assets/3/5.png)
 
-## Sprint 4 (2025-02-18 onwards)
+## Sprint 4 (2025-02-18 to 2025-03-21)
 
 ### Sprint 4 goals
 
