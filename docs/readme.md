@@ -92,8 +92,8 @@ A-level Computer Science programming project
       - [Vite](#vite)
       - [Yarn](#yarn)
       - [daisyUI](#daisyui)
-      - [Python interpreter (undecided)](#python-interpreter-undecided)
         - [Stakeholder discussions about daisyUI](#stakeholder-discussions-about-daisyui)
+      - [Python interpreter (undecided)](#python-interpreter-undecided)
   - [Data structure research](#data-structure-research)
     - [Routing graph research](#routing-graph-research)
       - [Deciding between an undirected or directed graph](#deciding-between-an-undirected-or-directed-graph)
@@ -1396,13 +1396,13 @@ daisyUI ([daisyui.com](https://daisyui.com/)) is a UI library for web developmen
 
 After creating mockups of parts of the app using daisyUI, and showing them as well as the official demos to my stakeholders, I've decided to stick with daisyUI for the project.
 
-##### Python interpreter (undecided)
-
-I will decide what technique and library to use for running Python code in the browser during the design part of Sprint 2, as written in my [Sprint 2 upfront plan](#sprint-2-upfront-plan).
-
 ###### Stakeholder discussions about daisyUI
 
 I showed Andrew a demo of daisyUI and he liked the different components available, saying that they seemed easy to use.
+
+##### Python interpreter (undecided)
+
+I will decide what technique and library to use for running Python code in the browser during the design part of Sprint 2, as written in my [Sprint 2 upfront plan](#sprint-2-upfront-plan).
 
 ### Data structure research
 
