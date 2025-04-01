@@ -1962,8 +1962,6 @@ To separate frontend and backend code, I have put the files in a `frontend` dire
 
 I started setting up my development environment by installing dependencies with Yarn (as per my [frontend technologies](#frontend-technologies) decision). While ideally I would use a modern Yarn version, I've decided to stick with Yarn 1, because it's installed by default in GitHub Codespaces (which I plan to use for some of my development), and I won't be using any advanced Yarn features.
 
-I initialised a Git repository, giving it the name `marvellous-mapping-machine`, because version control will be very useful. I also published it to a GitHub repository to let me access my code from different machines, and to allow anyone interested to view my code.
-
 ##### Using unusual file extensions
 
 I made a couple of changes to the file extensions I use, away from what the Vite template used:
